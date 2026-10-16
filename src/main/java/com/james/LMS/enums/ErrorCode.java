@@ -21,7 +21,12 @@ public enum ErrorCode {
   INVALID_CREDENTIALS("1012", "Email or password is incorrect"),
   EMAIL_NOT_VERIFIED("1013", "Email has not been verified"),
   EMAIL_ALREADY_VERIFIED("1014", "Email has already been verified"),
-  SPAM_EMAIL_VERIFICATION("1015", "Please wait before requesting another verification code");
+  SPAM_EMAIL_VERIFICATION("1015", "Please wait before requesting another verification code"),
+  PAYMENT_PRODUCT_UNAVAILABLE("1016", "Product is not available for payment"),
+  PAYMENT_INVALID_GUESTS("1017", "Guest count is outside the product limits"),
+  PAYMENT_INVALID_SCHEDULE("1018", "Scheduled time must be in the future"),
+  PAYMENT_NOT_FOUND("1019", "Payment transaction not found"),
+  PAYMENT_GATEWAY_UNAVAILABLE("1020", "Payment gateway request failed");
 
   private final String code;
   private final String message;

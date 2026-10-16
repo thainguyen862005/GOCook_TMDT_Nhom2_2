@@ -26,7 +26,7 @@ public class PageController {
   @GetMapping({
       "/account", "/cart", "/cart-empty", "/cart-vegetarian", "/checkout",
       "/checkout-vegetarian", "/order-detail", "/orders", "/success",
-      "/success-vegetarian", "/tracking"
+      "/success-vegetarian", "/tracking", "/payment-result"
   })
   @PreAuthorize("isAuthenticated()")
   public String customerPages() {

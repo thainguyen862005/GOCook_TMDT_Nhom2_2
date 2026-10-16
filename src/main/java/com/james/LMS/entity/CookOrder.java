@@ -1,3 +1,4 @@
+
 package com.james.LMS.entity;
 
 import com.james.LMS.enums.OrderStatus;
@@ -24,55 +25,60 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class CookOrder extends BaseEntity {
 
-  private static final DateTimeFormatter DISPLAY_FORMAT =
-      DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter DISPLAY_FORMAT =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-  @Column(name = "order_code", nullable = false, unique = true, length = 50)
-  private String orderCode;
+    @Column(name = "order_code", nullable = false, unique = true, length = 50)
+    private String orderCode;
 
-  @Column(name = "customer_name", nullable = false, length = 255)
-  private String customerName;
+    @Column(name = "customer_name", nullable = false, length = 255)
+    private String customerName;
 
-  @Column(name = "customer_email", length = 255)
-  private String customerEmail;
+    @Column(name = "customer_email", length = 255)
+    private String customerEmail;
 
-  @Column(name = "customer_id")
-  private Long customerId;
+    @Column(name = "customer_id")
+    private Long customerId;
 
-  @Column(name = "product_name", nullable = false, length = 255)
-  private String productName;
+    @Column(name = "product_name", nullable = false, length = 255)
+    private String productName;
 
-  @Column(name = "chef_name", length = 255)
-  private String chefName;
+    @Column(name = "chef_name", length = 255)
+    private String chefName;
 
-  @Column(name = "service_address", length = 1000)
-  private String serviceAddress;
+    @Column(name = "chef_id")
+    private Long chefId;
 
-  @Column(name = "guest_count", nullable = false)
-  private Integer guestCount;
+    @Column(name = "service_address", length = 1000)
+    private String serviceAddress;
 
-  @Column(name = "scheduled_at", nullable = false)
-  private LocalDateTime scheduledAt;
+    @Column(name = "customer_phone", length = 30)
+    private String customerPhone;
 
-  @Column(name = "total_amount", nullable = false, precision = 14, scale = 2)
-  private BigDecimal totalAmount;
+    @Column(name = "guest_count", nullable = false)
+    private Integer guestCount;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "status", nullable = false, length = 30)
-  private OrderStatus status;
+    @Column(name = "scheduled_at", nullable = false)
+    private LocalDateTime scheduledAt;
 
-  @Column(name = "customer_note", columnDefinition = "TEXT")
-  private String customerNote;
+    @Column(name = "total_amount", nullable = false, precision = 14, scale = 2)
+    private BigDecimal totalAmount;
 
-  @Column(name = "internal_note", columnDefinition = "TEXT")
-  private String internalNote;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 30)
+    private OrderStatus status;
 
-  public String getScheduledAtDisplay() {
-    return scheduledAt == null ? "—" : scheduledAt.format(DISPLAY_FORMAT);
-  }
+    @Column(name = "customer_note", columnDefinition = "TEXT")
+    private String customerNote;
 
-  public String getStatusName() {
-    return status == null ? "" : status.name();
-  }
+    @Column(name = "internal_note", columnDefinition = "TEXT")
+    private String internalNote;
+
+    public String getScheduledAtDisplay() {
+        return scheduledAt == null ? "—" : scheduledAt.format(DISPLAY_FORMAT);
+    }
+
+    public String getStatusName() {
+        return status == null ? "" : status.name();
+    }
 }
-

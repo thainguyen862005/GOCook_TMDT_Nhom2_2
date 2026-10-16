@@ -42,7 +42,8 @@ public class PublicEndpointsValidatorUtil {
                   "/api/v1/users/refresh-token",
                   "/api/v1/users/verify-otp",
                   "/api/v1/users/reset-password",
-                  "/api/v2/users/login");
+                  "/api/v2/users/login",
+                  "/api/payments/vnpay-ipn");
 
   private static final List<String> PUBLIC_PREFIXES =
           List.of(

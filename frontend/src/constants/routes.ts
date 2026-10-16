@@ -42,6 +42,7 @@ export const ROUTES = {
   CHECKOUT_SUCCESS: '/success',
   CHECKOUT_VEGETARIAN_SUCCESS: '/success-vegetarian',
   TRACKING: '/tracking',
+  PAYMENT_RESULT: '/payment-result',
 
   SELLER: '/seller',
   SELLER_ORDER_DETAIL: '/seller/order-detail',

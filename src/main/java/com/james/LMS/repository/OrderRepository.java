@@ -1,3 +1,4 @@
+
 package com.james.LMS.repository;
 
 import com.james.LMS.entity.CookOrder;
@@ -16,30 +17,49 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderRepository
-    extends JpaRepository<CookOrder, Long>, JpaSpecificationExecutor<CookOrder> {
+    extends JpaRepository<CookOrder, Long>,
+            JpaSpecificationExecutor<CookOrder> {
 
-  List<CookOrder> findTop5ByOrderByCreatedAtDesc();
+    List<CookOrder> findTop5ByOrderByCreatedAtDesc();
 
-  Page<CookOrder> findByCustomerIdAndIsActiveTrue(Long customerId, Pageable pageable);
+    Page<CookOrder> findByCustomerIdAndIsActiveTrue(
+        Long customerId,
+        Pageable pageable
+    );
 
-  Page<CookOrder> findByCustomerIdAndStatusAndIsActiveTrue(
-      Long customerId, OrderStatus status, Pageable pageable);
+    Page<CookOrder> findByCustomerIdAndStatusAndIsActiveTrue(
+        Long customerId,
+        OrderStatus status,
+        Pageable pageable
+    );
 
-  Optional<CookOrder> findByIdAndCustomerIdAndIsActiveTrue(Long id, Long customerId);
+    Optional<CookOrder> findByIdAndCustomerIdAndIsActiveTrue(
+        Long id,
+        Long customerId
+    );
 
-  @Query("select coalesce(sum(o.totalAmount), 0) from CookOrder o where o.status = :status")
-  BigDecimal sumByStatus(@Param("status") OrderStatus status);
+    Optional<CookOrder> findByOrderCode(String orderCode);
 
-  @Query(
-          """
-          select coalesce(sum(o.totalAmount), 0)
-          from CookOrder o
-          where o.status = :status
-            and o.scheduledAt >= :from
-            and o.scheduledAt < :to
-          """)
-  BigDecimal sumByStatusAndScheduledAtBetween(
-          @Param("status") OrderStatus status,
-          @Param("from") LocalDateTime from,
-          @Param("to") LocalDateTime to);
+    @Query(
+        "select coalesce(sum(o.totalAmount), 0) " +
+        "from CookOrder o where o.status = :status"
+    )
+    BigDecimal sumByStatus(
+        @Param("status") OrderStatus status
+    );
+
+    @Query(
+        """
+        select coalesce(sum(o.totalAmount), 0)
+        from CookOrder o
+        where o.status = :status
+          and o.scheduledAt >= :from
+          and o.scheduledAt < :to
+        """
+    )
+    BigDecimal sumByStatusAndScheduledAtBetween(
+        @Param("status") OrderStatus status,
+        @Param("from") LocalDateTime from,
+        @Param("to") LocalDateTime to
+    );
 }

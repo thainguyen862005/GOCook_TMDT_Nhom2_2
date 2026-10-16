@@ -7,6 +7,7 @@ import { EmptyCartPage } from '../../pages/cart/EmptyCartPage';
 import { VegetarianCartPage } from '../../pages/cart/VegetarianCartPage';
 import { CheckoutPage } from '../../pages/checkout/CheckoutPage';
 import { CheckoutSuccessPage } from '../../pages/checkout/CheckoutSuccessPage';
+import { PaymentResultPage } from '../../pages/checkout/PaymentResultPage';
 import { VegetarianCheckoutPage } from '../../pages/checkout/VegetarianCheckoutPage';
 import { VegetarianCheckoutSuccessPage } from '../../pages/checkout/VegetarianCheckoutSuccessPage';
 import { OrderDetailPage } from '../../pages/order/OrderDetailPage';
@@ -50,6 +51,7 @@ export const customerRoutes: RouteObject[] = [
       { path: ROUTES.CHECKOUT_SUCCESS, element: <CheckoutSuccessPage /> },
       { path: ROUTES.CHECKOUT_VEGETARIAN_SUCCESS, element: <VegetarianCheckoutSuccessPage /> },
       { path: ROUTES.TRACKING, element: <TrackingPage /> },
+      { path: ROUTES.PAYMENT_RESULT, element: <PaymentResultPage /> },
     ],
   },
 ];
