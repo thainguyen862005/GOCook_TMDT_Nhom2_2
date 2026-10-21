@@ -7,6 +7,10 @@ public interface CloudinaryService {
 
   MenuImage uploadMenuImage(byte[] image);
 
+  MenuImage uploadSiteImage(byte[] image);
+
+  void deleteSiteImage(String publicId);
+
   void deleteMenuImage(String publicId);
 
   String uploadFile(byte[] image, FileType resourceType);

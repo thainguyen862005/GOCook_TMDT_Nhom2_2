@@ -6,6 +6,7 @@ import com.james.LMS.enums.ErrorCode;
 import com.james.LMS.enums.FileType;
 import com.james.LMS.exception.SellerProductException;
 import com.james.LMS.exception.UploadFileException;
+import com.james.LMS.media.MediaStorageUnavailableException;
 import com.james.LMS.service.CloudinaryService;
 import java.io.IOException;
 import java.net.URI;
@@ -51,6 +52,34 @@ public class CloudinaryServiceImpl implements CloudinaryService {
           "MENU_UPLOAD_FAILED",
           "Không tải được ảnh lên Cloudinary. Thực đơn chưa được lưu, vui lòng thử lại.");
     }
+  }
+
+  @Override
+  public MenuImage uploadSiteImage(byte[] image) {
+    String publicId = "gocook/site/" + UUID.randomUUID();
+    try {
+      var result = cloudinary.uploader().upload(image, ObjectUtils.asMap(
+          "public_id", publicId, "resource_type", "image", "overwrite", false));
+      String url = (String) result.get("secure_url");
+      URI uri = URI.create(url);
+      if (!"https".equals(uri.getScheme()) || !"res.cloudinary.com".equals(uri.getHost()) || url.length() > 1000)
+        throw new IOException("Invalid Cloudinary image URL");
+      return new MenuImage(url, publicId);
+    } catch (Exception error) {
+      try { deleteSiteImage(publicId); } catch (Exception ignored) { log.warn("Site media cleanup failed: {}", publicId); }
+      throw new MediaStorageUnavailableException("Không tải được ảnh lên Cloudinary. Vui lòng kiểm tra cấu hình và thử lại.", error);
+    }
+  }
+
+  @Override
+  public void deleteSiteImage(String publicId) {
+    if (publicId == null || !publicId.startsWith("gocook/site/")) return;
+    try {
+      var response = cloudinary.uploader().destroy(publicId,
+          ObjectUtils.asMap("resource_type", "image", "invalidate", true));
+      if (!"ok".equals(response.get("result")) && !"not found".equals(response.get("result")))
+        throw new IOException("Cloudinary deletion failed");
+    } catch (IOException ex) { throw new IllegalStateException("Cloudinary deletion failed", ex); }
   }
 
   @Override
