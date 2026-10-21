@@ -14,6 +14,7 @@ export interface AdminUser {
 
 export interface AdminProduct {
     id: number;
+    version?: number;
     name: string;
     category: string;
     unitPrice: number;

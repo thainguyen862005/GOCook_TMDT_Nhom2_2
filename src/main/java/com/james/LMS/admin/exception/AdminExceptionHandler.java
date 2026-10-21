@@ -17,7 +17,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
     AdminUserController.class, AdminProductController.class, AdminOrderController.class,
     AdminDashboardController.class, AdminStatisticsController.class,
     com.james.LMS.admin.operations.AdminOperationsController.class,
-    com.james.LMS.admin.operations.AdminReportController.class
+    com.james.LMS.admin.operations.AdminReportController.class,
+    com.james.LMS.site.SiteContentController.class,
+    com.james.LMS.admin.media.AdminProductGalleryController.class
 })
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class AdminExceptionHandler {
@@ -35,6 +37,16 @@ public class AdminExceptionHandler {
       MethodArgumentTypeMismatchException.class})
   public ResponseEntity<?> malformed(Exception error) {
     return error(HttpStatus.BAD_REQUEST, "ADMIN_INVALID_REQUEST", "Dữ liệu không đúng định dạng.");
+  }
+
+  @ExceptionHandler(com.james.LMS.media.MediaStorageUnavailableException.class)
+  public ResponseEntity<?> mediaStorage(com.james.LMS.media.MediaStorageUnavailableException error) {
+    return error(HttpStatus.BAD_GATEWAY, "MEDIA_STORAGE_UNAVAILABLE", error.getMessage());
+  }
+
+  @ExceptionHandler(IllegalStateException.class)
+  public ResponseEntity<?> staleEdit(IllegalStateException error) {
+    return error(HttpStatus.CONFLICT, "ADMIN_CONCURRENT_CHANGE", error.getMessage());
   }
 
   @ExceptionHandler({DataIntegrityViolationException.class,
