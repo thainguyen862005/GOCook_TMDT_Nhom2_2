@@ -5,6 +5,7 @@ export interface AdminUser {
     username: string;
     email: string;
     role: string;
+    roles?: string[];
     roleLabel?: string;
     active: boolean;
     createdAt?: number;
@@ -22,6 +23,7 @@ export interface AdminProduct {
     description?: string | null;
     imageUrl?: string | null;
     status: string;
+    sellerId?: number | null;
     displayCode?: string;
 }
 

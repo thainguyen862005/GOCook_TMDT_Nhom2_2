@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState, type FormEvent, type ReactNode} from 'react';
 import {Link, useSearchParams} from 'react-router-dom';
 import {adminClient} from '../../clients/adminClient';
+import {adminOperationsClient} from '../../clients/adminOperationsClient';
 import {Loading} from '../../components/common/Loading';
 import {Notice} from '../../components/common/Notice';
 import {ORDER_LABEL} from '../../constants/labels';
@@ -18,16 +19,28 @@ export function AdminOrderDetailPage() {
     const [note, setNote] = useState('');
     const [message, setMessage] = useState<UiMessage | null>(null);
     const [busy, setBusy] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [timeline, setTimeline] = useState<Record<string, unknown> | null>(null);
 
     const load = useCallback(async () => {
-        if (!id) return;
+        setLoading(true);
+        setData(null);
+        setMessage(null);
+        if (!id || !/^[1-9]\d*$/.test(id)) {
+            setMessage({text: 'Mã đơn hàng không hợp lệ.'});
+            setLoading(false);
+            return;
+        }
         try {
             const response = await adminClient.order(id);
             setData(response);
             setStatus(response.order.status);
             setNote(response.order.internalNote || '');
+            void adminOperationsClient.orderTimeline(Number(id)).then(setTimeline).catch(() => setTimeline(null));
         } catch (error) {
             setMessage({text: error instanceof Error ? error.message : 'Không thể tải đơn hàng.'});
+        } finally {
+            setLoading(false);
         }
     }, [id]);
 
@@ -60,6 +73,7 @@ export function AdminOrderDetailPage() {
             setData(response);
             setStatus(response.order.status);
             setMessage({type: 'success', text: response.message || 'Đã cập nhật đơn hàng.'});
+            void adminOperationsClient.orderTimeline(Number(id)).then(setTimeline).catch(() => setTimeline(null));
         } catch (error) {
             setMessage({text: error instanceof Error ? error.message : 'Không thể cập nhật đơn hàng.'});
         } finally {
@@ -67,7 +81,10 @@ export function AdminOrderDetailPage() {
         }
     }
 
-    if (!data) return <AdminLayout title="Chi tiết đơn hàng"><Notice message={message}/><Loading/></AdminLayout>;
+    if (loading) return <AdminLayout title="Chi tiết đơn hàng"><Loading/></AdminLayout>;
+    if (!data) return <AdminLayout title="Chi tiết đơn hàng"><Notice message={message}/>
+        <section className="card stack"><p>Không thể tải chi tiết đơn hàng.</p>
+            <Link className="btn secondary" to={ROUTES.ADMIN_ORDERS}>Về danh sách</Link></section></AdminLayout>;
     const order = data.order;
 
     return (
@@ -87,11 +104,27 @@ export function AdminOrderDetailPage() {
                 {order.customerNote &&
                     <div><p className="small muted">Ghi chú khách hàng</p><p>{order.customerNote}</p></div>}
             </section>
+            <section className="card stack-sm">
+              <h3>Giao dịch & nhật ký Admin liên quan</h3>
+              <p className="small muted">Nguồn payment gốc, không tự chỉnh status. Nhật ký dưới đây chỉ phản ánh các thao tác Admin đã ghi; chưa thay thế booking timeline của Thái.</p>
+              {timeline ? <div className="grid grid-2">
+                <div className="stack-sm"><h4>Giao dịch</h4>
+                  {Array.isArray(timeline.payments) && timeline.payments.length > 0 ?
+                    timeline.payments.map((item, index) => <pre className="soft admin-ops-json" key={index}>{JSON.stringify(item, null, 2)}</pre>) :
+                    <p className="muted">Chưa có giao dịch.</p>}
+                </div>
+                <div className="stack-sm"><h4>Lịch sử Admin</h4>
+                  {Array.isArray(timeline.adminHistory) && timeline.adminHistory.length > 0 ?
+                    timeline.adminHistory.map((item, index) => <pre className="soft admin-ops-json" key={index}>{JSON.stringify(item, null, 2)}</pre>) :
+                    <p className="muted">Chưa có lịch sử Admin.</p>}
+                </div>
+              </div> : <p className="muted">Chưa đọc được timeline quản trị (kiểm tra migration).</p>}
+            </section>
             <form className="card stack" onSubmit={save}>
                 <label className="field">Trạng thái<select value={status}
                                                            onChange={(e) => setStatus(e.target.value)}>{(data.allowedStatuses || []).map((value) =>
                     <option key={value} value={value}>{ORDER_LABEL[value] || value}</option>)}</select></label>
-                <label className="field">Ghi chú nội bộ<textarea value={note}
+                <label className="field">Ghi chú nội bộ<textarea maxLength={2000} value={note}
                                                                  onChange={(e) => setNote(e.target.value)}/></label>
                 <div className="row">
                     <button className="btn" disabled={busy}>{busy ? 'Đang lưu...' : 'Cập nhật đơn hàng'}</button>

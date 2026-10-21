@@ -58,6 +58,10 @@ public interface AdminUserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findByEmail(String email);
 
+  // Serialize all administrative mutations which may affect the last active admin.
+  @Query(value = "SELECT id FROM roles WHERE role_name = 'ADMIN' ORDER BY id LIMIT 1 FOR UPDATE", nativeQuery = true)
+  Long lockAdminRole();
+
   @Query(
       value =
           """

@@ -8,6 +8,8 @@ import com.james.LMS.config.SecurityUserDetails;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import com.james.LMS.admin.operations.AdminAuditService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminUserController {
 
   private final AdminUserService userService;
+  private final AdminAuditService audit;
 
   @GetMapping
   public AdminUsersResponse search(
@@ -38,19 +41,23 @@ public class AdminUserController {
   }
 
   @PutMapping("/{id}")
+  @Transactional
   public Map<String, Object> update(
       @PathVariable Long id,
       @RequestBody UpdateUserRequest request,
       @AuthenticationPrincipal SecurityUserDetails currentUser) {
-    userService.update(id, request.username(), request.role(), request.active(), currentUser.getId());
+    userService.update(id, request.username(), request.roles(), request.active(), currentUser.getId());
+    audit.record(currentUser.getId(), "USER_UPDATE", "USER", id, "Cập nhật tài khoản và quyền");
     return Map.of("message", "Đã cập nhật người dùng.", "user", userService.get(id));
   }
 
   @PatchMapping("/{id}/toggle")
+  @Transactional
   public Map<String, Object> toggle(
       @PathVariable Long id,
       @AuthenticationPrincipal SecurityUserDetails currentUser) {
     userService.toggle(id, currentUser.getId());
+    audit.record(currentUser.getId(), "USER_TOGGLE", "USER", id, "Thay đổi trạng thái tài khoản");
     return Map.of("message", "Đã cập nhật trạng thái tài khoản.", "user", userService.get(id));
   }
 }

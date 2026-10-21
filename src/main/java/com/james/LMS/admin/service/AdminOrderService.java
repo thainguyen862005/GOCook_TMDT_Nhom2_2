@@ -1,5 +1,6 @@
 package com.james.LMS.admin.service;
 
+import com.james.LMS.admin.exception.AdminResourceNotFoundException;
 import com.james.LMS.entity.CookOrder;
 import com.james.LMS.enums.OrderStatus;
 import com.james.LMS.repository.OrderRepository;
@@ -87,13 +88,17 @@ public class AdminOrderService {
   public CookOrder get(Long id) {
     return orderRepository
         .findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy đơn hàng."));
+        .orElseThrow(() -> new AdminResourceNotFoundException("Không tìm thấy đơn hàng."));
   }
 
   @Transactional(readOnly = true)
   public List<OrderStatus> allowedStatuses(Long id) {
     CookOrder order = get(id);
-    return order.getStatus().allowedTargets();
+    return order.getStatus().allowedTargets().stream()
+        .filter(target -> target == order.getStatus()
+            || (target != OrderStatus.COMPLETED
+                && target != OrderStatus.CANCELLED && target != OrderStatus.REJECTED))
+        .toList();
   }
 
   @Transactional
@@ -104,6 +109,13 @@ public class AdminOrderService {
           "Không thể chuyển đơn từ “"
               + order.getStatus().getLabel()
               + "” sang trạng thái đã chọn.");
+    }
+    if (status != order.getStatus() && (status == OrderStatus.COMPLETED
+        || status == OrderStatus.CANCELLED || status == OrderStatus.REJECTED)) {
+      throw new IllegalArgumentException("Trạng thái kết thúc cần qua Booking/Payment để đồng bộ hoàn tiền và escrow.");
+    }
+    if (internalNote != null && internalNote.length() > 2000) {
+      throw new IllegalArgumentException("Ghi chú nội bộ tối đa 2000 ký tự.");
     }
     order.setStatus(status);
     order.setInternalNote(cleanOptional(internalNote));
@@ -137,8 +149,8 @@ public class AdminOrderService {
     }
     try {
       return OrderStatus.valueOf(status.trim().toUpperCase(Locale.ROOT));
-    } catch (IllegalArgumentException ignored) {
-      return null;
+    } catch (IllegalArgumentException error) {
+      throw new IllegalArgumentException("Bộ lọc trạng thái đơn không hợp lệ.");
     }
   }
 

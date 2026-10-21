@@ -1,6 +1,7 @@
 package com.james.LMS.admin.dto;
 
 import com.james.LMS.enums.RoleEnum;
+import java.util.List;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +18,7 @@ public class AdminUserView {
   private String username;
   private String email;
   private RoleEnum role;
+  private List<RoleEnum> roles;
   private String roleLabel;
   private boolean active;
   private Long createdAt;
