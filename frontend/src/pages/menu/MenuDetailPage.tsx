@@ -58,7 +58,7 @@ function MenuDetail({ id }: { id: string | null }) {
   }
 
   const coverImage = data.images.find((img) => img.isCover);
-  const otherImages = data.images.filter((img) => !img.isCover).slice(0, 1);
+  const otherImages = data.images.filter((img) => !img.isCover);
   const dishes = data.dishItems
     .split('\n')
     .map((line) => line.trim())
@@ -81,7 +81,7 @@ function MenuDetail({ id }: { id: string | null }) {
             <p className={'lead'}>{data.description}</p>
           )}
         </div>
-        <div className={'gallery'}>
+        <div className={'gallery menu-gallery'} aria-label="Bộ ảnh chi tiết thực đơn">
           {coverImage ? (
             <img
               src={coverImage.url}
@@ -92,7 +92,7 @@ function MenuDetail({ id }: { id: string | null }) {
             <img src={data.imageUrl} alt={data.name} fetchPriority={'high'} />
           ) : null}
           {otherImages.map((img) => (
-            <img key={img.id} src={img.url} alt={img.name || data.name} fetchPriority={'high'} />
+            <img key={img.id} src={img.url} alt={img.name || data.name} loading={'lazy'} />
           ))}
         </div>
         <div className={'split'}>
