@@ -51,4 +51,16 @@ public class Proposal extends BaseEntity {
   @Column(name = "status", nullable = false, length = 30)
   @Builder.Default
   private ProposalStatus status = ProposalStatus.DRAFT;
+
+  @Column(name = "accepted_booking_id")
+  private Long acceptedBookingId;
+
+  @Column(name = "accepted_order_code", length = 50)
+  private String acceptedOrderCode;
+
+  /** Status as the customer should see it: SENT/REVISED past expiresAt count as EXPIRED. */
+  public ProposalStatus statusAt(OffsetDateTime now) {
+    boolean live = status == ProposalStatus.SENT || status == ProposalStatus.REVISED;
+    return live && expiresAt != null && expiresAt.isBefore(now) ? ProposalStatus.EXPIRED : status;
+  }
 }
