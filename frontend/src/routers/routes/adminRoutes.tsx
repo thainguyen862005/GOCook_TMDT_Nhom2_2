@@ -9,6 +9,8 @@ import { AdminProductsPage } from '../../pages/admin/ProductsPage';
 import { AdminStatisticsPage } from '../../pages/admin/StatisticsPage';
 import { AdminSiteSettingsPage } from '../../pages/admin/SiteSettingsPage';
 import { AdminOperationsPage } from '../../pages/admin/OperationsPage';
+import { FaqManagementPage } from '../../pages/admin/FaqManagementPage';
+import { AdminCookingRequestsPage } from '../../pages/admin/CookingRequestsPage';
 import { AdminUserEditPage } from '../../pages/admin/UserEditPage';
 import { AdminUsersPage } from '../../pages/admin/UsersPage';
 import { ProtectedRoute } from '../guards/ProtectedRoute';
@@ -28,6 +30,8 @@ export const adminRoutes: RouteObject[] = [
       { path: ROUTES.ADMIN_STATISTICS, element: <AdminStatisticsPage /> },
       { path: ROUTES.ADMIN_SITE_SETTINGS, element: <AdminSiteSettingsPage /> },
       { path: ROUTES.ADMIN_OPERATIONS, element: <AdminOperationsPage /> },
+      { path: ROUTES.ADMIN_FAQS, element: <FaqManagementPage /> },
+      { path: ROUTES.ADMIN_COOKING_REQUESTS, element: <AdminCookingRequestsPage /> },
     ],
   },
 ];

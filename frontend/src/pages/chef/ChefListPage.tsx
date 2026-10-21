@@ -1,224 +1,92 @@
+import { useEffect, useState, type FormEvent } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ChefCard } from '../../components/chef/ChefCard';
+import { publicContentClient } from '../../clients/publicContentClient';
+import { ROUTES } from '../../constants/routes';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
+import type { ChefSummary, PublicPage } from '../../types/publicContent';
 
-/**
- * Route: /chefs
- * Migrated from the former JSP demo markup into a dedicated React page.
- * Keep future business logic in hooks/clients for this domain, not inside the router.
- */
+function pageValue(raw: string | null) {
+  const value = Number(raw);
+  return raw && /^\d+$/.test(raw) && Number.isSafeInteger(value) && value <= 100000 ? value : 0;
+}
+
 export function ChefListPage() {
-  useDocumentTitle("Khám phá đầu bếp | GO Cook");
+  useDocumentTitle('Khám phá đầu bếp | GO Cook');
+  const [params, setParams] = useSearchParams();
+  const q = params.get('q') || '';
+  const area = params.get('area') || '';
+  const category = params.get('category') || '';
+  const sort = params.get('sort') || 'rating';
+  const page = pageValue(params.get('page'));
+  const [data, setData] = useState<PublicPage<ChefSummary> | null>(null);
+  const [areas, setAreas] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [retry, setRetry] = useState(0);
 
-  return (
-    <>
-      <div className={"container"}>
-        <div className={"page-heading"}>
-          <nav className={"breadcrumb"} aria-label={"Đường dẫn"}>
-            <a href={"/"}>
-              {"Trang chủ"}
-            </a>
-            <span>
-              {"/"}
-            </span>
-            <span>
-              {"Đầu bếp cho bữa cơm nhà bạn"}
-            </span>
-          </nav>
-          <h1>
-            {"Đầu bếp cho bữa cơm nhà bạn"}
-          </h1>
-          <p className={"lead"}>
-            {"Khám phá gian bếp, thực đơn và câu chuyện của những người yêu nấu ăn."}
-          </p>
-        </div>
-        <div className={"workspace"}>
-          <aside className={"card filter"}>
-            <h3>
-              {"Tìm đầu bếp"}
-            </h3>
-            <label className={"field"} htmlFor={"shop-search"}>
-              {"Tên gian bếp"}
-              <input id={"shop-search"} name={"shop-search"} type={"text"} defaultValue={""} placeholder={"Bếp Cô Mai..."} />
-            </label>
-            <fieldset>
-              <legend>
-                {"Khu vực"}
-              </legend>
-              <label className={"check"}>
-                <input type={"checkbox"} name={"binh-thanh"} />
-                <span>
-                  {"Bình Thạnh"}
-                </span>
-              </label>
-              <label className={"check"}>
-                <input type={"checkbox"} name={"phu-nhuan"} />
-                <span>
-                  {"Phú Nhuận"}
-                </span>
-              </label>
-              <label className={"check"}>
-                <input type={"checkbox"} name={"thu-duc"} />
-                <span>
-                  {"Thủ Đức"}
-                </span>
-              </label>
-            </fieldset>
-            <fieldset>
-              <legend>
-                {"Sở trường"}
-              </legend>
-              <label className={"check"}>
-                <input type={"checkbox"} name={"southern"} />
-                <span>
-                  {"Ẩm thực miền Nam"}
-                </span>
-              </label>
-              <label className={"check"}>
-                <input type={"checkbox"} name={"vegan"} />
-                <span>
-                  {"Món chay"}
-                </span>
-              </label>
-              <label className={"check"}>
-                <input type={"checkbox"} name={"party"} />
-                <span>
-                  {"Tiệc gia đình"}
-                </span>
-              </label>
-            </fieldset>
-            <label className={"field"} htmlFor={"price"}>
-              {"Giá phục vụ"}
-              <select id={"price"} name={"price"}>
-                <option>
-                  {"Tất cả mức giá"}
-                </option>
-                <option>
-                  {"Dưới 150.000đ/người"}
-                </option>
-                <option>
-                  {"Từ 150.000đ/người"}
-                </option>
-              </select>
-            </label>
-            <button className={"btn full"} type={"button"} data-action={"search-shop"} disabled title={"Chức năng sẽ được tích hợp ở giai đoạn tiếp theo"}>
-              {"Tìm gian bếp"}
-            </button>
-          </aside>
-          <section className={"stack"}>
-            <div className={"between"}>
-              <h3>
-                {"Đầu bếp gợi ý"}
-              </h3>
-              <span className={"badge gray"}>
-                {"TP. Hồ Chí Minh"}
-              </span>
-            </div>
-            <article className={"card chef-card"}>
-              <img className={""} src={"/assets/chef.png"} alt={"Ảnh minh họa đầu bếp nấu ăn tại nhà"} loading={"lazy"} />
-              <div className={"card-body"}>
-                <div className={"between"}>
-                  <span className={"badge"}>
-                    {"Đầu bếp nổi bật"}
-                  </span>
-                  <span className={"small amber"}>
-                    {"★ 4,9 "}
-                    <span className={"muted"}>
-                      {"(186 đánh giá)"}
-                    </span>
-                  </span>
-                </div>
-                <div>
-                  <h3>
-                    {"Bếp Cô Mai"}
-                  </h3>
-                  <p className={"small muted"}>
-                    {"Nguyễn Thị Mai · 12 năm kinh nghiệm"}
-                  </p>
-                </div>
-                <p className={"small"}>
-                  {"Chăm chút hương vị miền Nam, từ nồi cá kho đến bát canh chua quen thuộc."}
-                </p>
-                <div className={"row small muted"}>
-                  <svg className={"icon"} viewBox={"0 0 24 24"} aria-hidden={"true"}>
-                    <path d={"M19 10c0 6-7 11-7 11S5 16 5 10a7 7 0 0 1 14 0z"}></path>
-                    <circle cx={"12"} cy={"10"} r={"2"}></circle>
-                  </svg>
-                  {" Bình Thạnh · Phú Nhuận "}
-                  <span className={"badge gray"}>
-                    {"Có lịch trống"}
-                  </span>
-                </div>
-                <div className={"between"}>
-                  <span className={"price"}>
-                    {"120.000đ"}
-                    <small>
-                      {" / người"}
-                    </small>
-                  </span>
-                  <a className={"btn sm"} href={"/chef-detail"}>
-                    {"Xem gian bếp"}
-                  </a>
-                </div>
-              </div>
-            </article>
-            <article className={"card chef-card"}>
-              <div className={"initial-portrait"} aria-label={"Ảnh đầu bếp chưa cập nhật"}>
-                {"AN"}
-              </div>
-              <div className={"card-body"}>
-                <div className={"between"}>
-                  <span className={"badge"}>
-                    {"Chuyên món chay"}
-                  </span>
-                  <span className={"small amber"}>
-                    {"★ 4,8 "}
-                    <span className={"muted"}>
-                      {"(64 đánh giá)"}
-                    </span>
-                  </span>
-                </div>
-                <div>
-                  <h3>
-                    {"Bếp An Nhiên"}
-                  </h3>
-                  <p className={"small muted"}>
-                    {"Bếp chay gia đình · 6 năm kinh nghiệm"}
-                  </p>
-                </div>
-                <p className={"small"}>
-                  {"Thực đơn rau củ theo mùa, nhẹ nhàng và cân bằng."}
-                </p>
-                <div className={"row small muted"}>
-                  <svg className={"icon"} viewBox={"0 0 24 24"} aria-hidden={"true"}>
-                    <path d={"M19 10c0 6-7 11-7 11S5 16 5 10a7 7 0 0 1 14 0z"}></path>
-                    <circle cx={"12"} cy={"10"} r={"2"}></circle>
-                  </svg>
-                  {" Bình Thạnh · Phú Nhuận "}
-                  <span className={"badge gray"}>
-                    {"Có lịch trống"}
-                  </span>
-                </div>
-                <div className={"between"}>
-                  <span className={"price"}>
-                    {"105.000đ"}
-                    <small>
-                      {" / người"}
-                    </small>
-                  </span>
-                  <a className={"btn sm"} href={"/chef-an-nhien"}>
-                    {"Xem gian bếp"}
-                  </a>
-                </div>
-              </div>
-            </article>
-            <div className={"notice"}>
-              {"Chưa biết chọn ai? "}
-              <a className={"text-link"} href={"/matching"}>
-                {"Gợi ý đầu bếp theo nhu cầu →"}
-              </a>
-            </div>
-          </section>
-        </div>
-      </div>
-    </>
-  );
+  useEffect(() => {
+    const abort = new AbortController();
+    publicContentClient.areas(abort.signal).then(setAreas).catch(() => {});
+    return () => abort.abort();
+  }, []);
+  useEffect(() => {
+    const abort = new AbortController();
+    setLoading(true); setError('');
+    publicContentClient.chefs({ q, area, category, sort, page, size: 12 }, abort.signal)
+      .then(result => { if (!abort.signal.aborted) setData(result); })
+      .catch(err => { if (!abort.signal.aborted) setError(err instanceof Error ? err.message : 'Không tải được đầu bếp.'); })
+      .finally(() => { if (!abort.signal.aborted) setLoading(false); });
+    return () => abort.abort();
+  }, [q, area, category, sort, page, retry]);
+
+  function filter(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const next = new URLSearchParams();
+    for (const key of ['q', 'area', 'category', 'sort']) {
+      const value = String(form.get(key) || '').trim();
+      if (value && !(key === 'sort' && value === 'rating')) next.set(key, value);
+    }
+    next.set('page', '0'); setParams(next);
+  }
+  const navigatePage = (next: number) => {
+    const updated = new URLSearchParams(params); updated.set('page', String(next)); setParams(updated);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  return <div className="container">
+    <div className="page-heading">
+      <nav className="breadcrumb"><Link to="/">Trang chủ</Link><span>/</span><span>Khám phá đầu bếp</span></nav>
+      <h1>Đầu bếp cho bữa cơm nhà bạn</h1>
+      <p className="lead">Tìm người nấu phù hợp theo khu vực và những thực đơn đang phục vụ.</p>
+    </div>
+    <div className="workspace">
+      <form key={`${q}|${area}|${category}|${sort}`} className="card filter" onSubmit={filter}>
+        <h3>Tìm đầu bếp</h3>
+        <label className="field">Tên đầu bếp<input type="search" maxLength={100} name="q" defaultValue={q} placeholder="Tên gian bếp hoặc đầu bếp" /></label>
+        <label className="field">Khu vực phục vụ<select name="area" defaultValue={area}>
+          <option value="">Tất cả khu vực</option>
+          {[...new Set([...areas, ...(area ? [area] : [])])].map(item => <option key={item} value={item}>{item}</option>)}
+        </select></label>
+        <label className="field">Loại thực đơn<input name="category" maxLength={100} defaultValue={category} placeholder="Ví dụ: Món chay" /></label>
+        <label className="field">Sắp xếp<select name="sort" defaultValue={sort}>
+          <option value="rating">Đánh giá</option><option value="menus">Nhiều thực đơn</option><option value="name">Tên A–Z</option>
+        </select></label>
+        <button type="submit" className="btn full">Tìm đầu bếp</button>
+        <Link className="btn secondary full" to={ROUTES.CHEFS}>Xóa bộ lọc</Link>
+      </form>
+      <section className="stack" aria-live="polite">
+        <div className="between"><h2>Đầu bếp đang phục vụ</h2><span className="badge gray">{loading ? 'Đang tải…' : `${data?.totalElements ?? 0} kết quả`}</span></div>
+        {loading ? <p role="status">Đang tìm đầu bếp…</p> : error ? <div className="card stack"><p role="alert">{error}</p><button className="btn secondary" onClick={() => setRetry(x => x + 1)}>Thử lại</button></div>
+          : !data?.content.length ? <div className="card stack"><p>Chưa có đầu bếp đã xác minh phù hợp với bộ lọc.</p><Link to={ROUTES.CHEFS}>Xem tất cả</Link></div>
+            : <>{data.content.map(chef => <ChefCard key={chef.id} chef={chef} />)}
+              {data.totalPages > 1 && <div className="between">
+                <button type="button" className="btn secondary sm" disabled={page === 0} onClick={() => navigatePage(page - 1)}>← Trước</button>
+                <span className="small muted">Trang {page + 1}/{data.totalPages}</span>
+                <button type="button" className="btn secondary sm" disabled={page + 1 >= data.totalPages} onClick={() => navigatePage(page + 1)}>Sau →</button>
+              </div>}</>}
+        <div className="notice">Chưa biết chọn ai? <Link className="text-link" to={ROUTES.MATCHING}>Tìm theo nhu cầu →</Link></div>
+      </section>
+    </div>
+  </div>;
 }
