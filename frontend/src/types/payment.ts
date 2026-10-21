@@ -13,6 +13,12 @@ export interface CheckoutRequest {
   idempotencyKey: string;
 }
 
+/** Pays an order that already exists as PENDING, e.g. the booking of an accepted proposal. */
+export interface OrderCheckoutRequest {
+  orderCode: string;
+  idempotencyKey: string;
+}
+
 export interface CheckoutResult {
   orderCode: string;
   payUrl: string;

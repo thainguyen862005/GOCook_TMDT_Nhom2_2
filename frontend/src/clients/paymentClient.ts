@@ -1,9 +1,20 @@
 import { ApiError, httpRequest } from './httpClient';
-import type { CheckoutRequest, CheckoutResult, PaymentStatusResult } from '../types/payment';
+import type {
+  CheckoutRequest,
+  CheckoutResult,
+  OrderCheckoutRequest,
+  PaymentStatusResult,
+} from '../types/payment';
 
 export const paymentClient = {
   checkout: (request: CheckoutRequest) =>
     httpRequest<CheckoutResult>('/api/payments/checkout', {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }),
+
+  checkoutOrder: (request: OrderCheckoutRequest) =>
+    httpRequest<CheckoutResult>('/api/payments/checkout/order', {
       method: 'POST',
       body: JSON.stringify(request),
     }),

@@ -7,17 +7,18 @@ import com.james.LMS.config.PaymentProperties;
 import com.james.LMS.entity.CookOrder;
 import com.james.LMS.entity.PaymentTransaction;
 import com.james.LMS.entity.Product;
+import com.james.LMS.pricing.PricingService;
+import com.james.LMS.pricing.PricingService.FixedMenuQuote;
 import com.james.LMS.enums.ErrorCode;
 import com.james.LMS.enums.OrderStatus;
 import com.james.LMS.enums.PaymentProvider;
 import com.james.LMS.enums.PaymentStatus;
-import com.james.LMS.enums.ProductStatus;
 import com.james.LMS.exception.PaymentException;
 import com.james.LMS.repository.OrderRepository;
 import com.james.LMS.repository.PaymentTransactionRepository;
-import com.james.LMS.repository.ProductRepository;
 import com.james.LMS.repository.UserRepository;
 import com.james.LMS.request.PaymentCheckoutRequest;
+import com.james.LMS.request.PaymentOrderCheckoutRequest;
 import com.james.LMS.response.PaymentCheckoutResponse;
 import com.james.LMS.response.PaymentIpnResponse;
 import com.james.LMS.response.PaymentStatusResponse;
@@ -35,6 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.NestedExceptionUtils;
@@ -56,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
   private static final SecureRandom RANDOM = new SecureRandom();
 
   private final OrderRepository orders;
-  private final ProductRepository products;
+  private final PricingService pricing;
   private final UserRepository users;
   private final PaymentTransactionRepository payments;
   private final PaymentGateway gateway;
@@ -74,8 +76,8 @@ public class PaymentServiceImpl implements PaymentService {
             return replay(customerId, earlier.get(), ipAddress);
           }
 
-          Product product = payableProduct(request.productId());
-          requireGuestCount(product, request.guestCount());
+          FixedMenuQuote quote = pricing.quoteFixedMenu(request.productId(), request.guestCount());
+          Product product = quote.product();
 
           LocalDateTime now = LocalDateTime.now(PaymentGateway.GATEWAY_ZONE);
           if (!request.scheduledAt().isAfter(now)) {
@@ -85,9 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
                 "Thời gian nấu phải ở tương lai.");
           }
 
-          BigDecimal amount = product.getUnitPrice().multiply(BigDecimal.valueOf(request.guestCount()));
           String orderCode = newOrderCode(now);
-          LocalDateTime expiresAt = now.plus(PAYMENT_WINDOW);
 
           CookOrder order =
               orders.save(
@@ -103,30 +103,77 @@ public class PaymentServiceImpl implements PaymentService {
                       .serviceAddress(request.serviceAddress().trim())
                       .guestCount(request.guestCount())
                       .scheduledAt(request.scheduledAt())
-                      .totalAmount(amount)
+                      .totalAmount(quote.total())
                       .status(OrderStatus.PENDING)
                       .customerNote(request.customerNote())
                       .build());
 
-          payments.save(
-              PaymentTransaction.builder()
-                  .orderId(order.getId())
-                  .provider(PaymentProvider.VNPAY)
-                  .transactionCode(orderCode)
-                  .amount(amount)
-                  .status(PaymentStatus.PENDING)
-                  .rawReference(
-                      writeReference(
-                          Map.of(
-                              "createDate", now.format(PaymentGateway.GATEWAY_DATE),
-                              "expireDate", expiresAt.format(PaymentGateway.GATEWAY_DATE))))
-                  .idempotencyKey(request.idempotencyKey())
-                  .build());
-
-          String payUrl = payUrl(orderCode, amount, ipAddress, now, expiresAt);
-          log.info("payment created order={} amount={}", orderCode, amount.toPlainString());
-          return new PaymentCheckoutResponse(orderCode, payUrl);
+          return openPayment(order, request.idempotencyKey(), ipAddress, now);
         });
+  }
+
+  @Override
+  public PaymentCheckoutResponse checkoutOrder(
+      Long customerId, PaymentOrderCheckoutRequest request, String ipAddress) {
+    return transactions.execute(
+        status -> {
+          Optional<PaymentTransaction> earlier = payments.findByIdempotencyKey(request.idempotencyKey());
+          if (earlier.isPresent()) {
+            return replay(customerId, earlier.get(), ipAddress);
+          }
+
+          CookOrder order =
+              orders
+                  .findByOrderCode(request.orderCode().trim())
+                  .filter(found -> customerId.equals(found.getCustomerId()))
+                  .orElseThrow(this::paymentNotFound);
+          requirePayable(order);
+          return openPayment(
+              order,
+              request.idempotencyKey(),
+              ipAddress,
+              LocalDateTime.now(PaymentGateway.GATEWAY_ZONE));
+        });
+  }
+
+  private void requirePayable(CookOrder order) {
+    String reason = null;
+    if (order.getStatus() != OrderStatus.PENDING) {
+      reason = "Đơn không ở trạng thái chờ thanh toán.";
+    } else if (order.getChefId() == null) {
+      reason = "Đơn chưa có đầu bếp.";
+    } else if (payments
+        .findByProviderAndTransactionCode(PaymentProvider.VNPAY, order.getOrderCode())
+        .isPresent()) {
+      reason = "Đơn đã có giao dịch thanh toán.";
+    }
+    if (reason != null) {
+      throw new PaymentException(HttpStatus.CONFLICT, ErrorCode.PAYMENT_ORDER_NOT_PAYABLE, reason);
+    }
+  }
+
+  private PaymentCheckoutResponse openPayment(
+      CookOrder order, UUID idempotencyKey, String ipAddress, LocalDateTime now) {
+    LocalDateTime expiresAt = now.plus(PAYMENT_WINDOW);
+    BigDecimal amount = order.getTotalAmount();
+    payments.save(
+        PaymentTransaction.builder()
+            .orderId(order.getId())
+            .provider(PaymentProvider.VNPAY)
+            .transactionCode(order.getOrderCode())
+            .amount(amount)
+            .status(PaymentStatus.PENDING)
+            .rawReference(
+                writeReference(
+                    Map.of(
+                        "createDate", now.format(PaymentGateway.GATEWAY_DATE),
+                        "expireDate", expiresAt.format(PaymentGateway.GATEWAY_DATE))))
+            .idempotencyKey(idempotencyKey)
+            .build());
+
+    String payUrl = payUrl(order.getOrderCode(), amount, ipAddress, now, expiresAt);
+    log.info("payment created order={} amount={}", order.getOrderCode(), amount.toPlainString());
+    return new PaymentCheckoutResponse(order.getOrderCode(), payUrl);
   }
 
   private PaymentCheckoutResponse replay(
@@ -371,32 +418,6 @@ public class PaymentServiceImpl implements PaymentService {
     try {
       registerEscrow(payment);
     } catch (EscrowFailedException e) {
-    }
-  }
-
-  private Product payableProduct(Long productId) {
-    Product product = products.findById(productId).orElse(null);
-    boolean payable =
-        product != null
-            && product.isActive()
-            && product.getStatus() == ProductStatus.PUBLISHED
-            && product.getSellerId() != null;
-    if (!payable) {
-      throw new PaymentException(
-          HttpStatus.NOT_FOUND,
-          ErrorCode.PAYMENT_PRODUCT_UNAVAILABLE,
-          "Thực đơn không còn khả dụng.");
-    }
-    return product;
-  }
-
-  private static void requireGuestCount(Product product, int guestCount) {
-    if (guestCount < product.getMinGuests() || guestCount > product.getMaxGuests()) {
-      throw new PaymentException(
-          HttpStatus.BAD_REQUEST,
-          ErrorCode.PAYMENT_INVALID_GUESTS,
-          "Số khách phải từ %d đến %d người."
-              .formatted(product.getMinGuests(), product.getMaxGuests()));
     }
   }
 

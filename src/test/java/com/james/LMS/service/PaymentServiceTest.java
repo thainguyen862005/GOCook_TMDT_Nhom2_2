@@ -13,6 +13,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.james.LMS.config.PaymentProperties;
 import com.james.LMS.entity.CookOrder;
+import com.james.LMS.pricing.PricingProperties;
+import com.james.LMS.pricing.PricingService;
 import com.james.LMS.entity.PaymentTransaction;
 import com.james.LMS.entity.Product;
 import com.james.LMS.entity.User;
@@ -71,7 +73,7 @@ class PaymentServiceTest {
   final PaymentService service =
       new PaymentServiceImpl(
           orders,
-          products,
+          new PricingService(products, new PricingProperties()),
           users,
           payments,
           gateway,
@@ -329,6 +331,41 @@ class PaymentServiceTest {
     assertThat(retry.rspCode()).isEqualTo("00");
     verify(payments, times(2)).registerVerifiedPayment(ORDER_ID, PAYMENT_ID);
     verify(payments, times(1)).save(payment);
+  }
+
+  @Test
+  void orderWithoutChefAnswers99KeepsPaymentSuccessAndNeverRetriesInsideOneCallback() {
+    PaymentTransaction payment = payment(PaymentStatus.PENDING, Duration.ofMinutes(10));
+    given(payment, OrderStatus.PENDING);
+    gatewayAnswers(paid());
+    when(payments.registerVerifiedPayment(ORDER_ID, PAYMENT_ID))
+        .thenThrow(
+            new RuntimeException(
+                "could not execute query",
+                new IllegalStateException("ERROR: Assign chef_id and customer_id before payment escrow for order 3")));
+
+    PaymentIpnResponse reply = service.handleVnpayIpn(Map.of());
+
+    assertThat(reply.rspCode()).isEqualTo("99");
+    assertThat(payment.getStatus()).isEqualTo(PaymentStatus.SUCCESS);
+    verify(payments, times(1)).registerVerifiedPayment(ORDER_ID, PAYMENT_ID);
+  }
+
+  @Test
+  void paymentAmountMismatchInsideTheEscrowFunctionAnswers99AndHoldsNothing() {
+    PaymentTransaction payment = payment(PaymentStatus.SUCCESS, Duration.ofMinutes(10));
+    given(payment, OrderStatus.PENDING);
+    gatewayAnswers(paid());
+    when(payments.registerVerifiedPayment(ORDER_ID, PAYMENT_ID))
+        .thenThrow(
+            new RuntimeException(
+                "could not execute query",
+                new IllegalStateException("ERROR: Payment mismatch for order 3")));
+
+    assertThat(service.handleVnpayIpn(Map.of()).rspCode()).isEqualTo("99");
+    assertThat(service.status(CUSTOMER, CODE, "127.0.0.1").paymentStatus())
+        .isEqualTo(PaymentStatus.SUCCESS);
+    verify(payments, times(2)).registerVerifiedPayment(ORDER_ID, PAYMENT_ID);
   }
 
   @Test

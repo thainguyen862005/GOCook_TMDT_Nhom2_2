@@ -10,6 +10,8 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.james.LMS.entity.CookOrder;
+import com.james.LMS.pricing.PricingProperties;
+import com.james.LMS.pricing.PricingService;
 import com.james.LMS.entity.PaymentTransaction;
 import com.james.LMS.entity.Product;
 import com.james.LMS.enums.ErrorCode;
@@ -47,7 +49,7 @@ class PaymentCheckoutIdempotencyTest {
   final PaymentService service =
       new PaymentServiceImpl(
           orders,
-          products,
+          new PricingService(products, new PricingProperties()),
           users,
           payments,
           gateway,

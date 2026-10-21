@@ -2,6 +2,7 @@ package com.james.LMS.controller;
 
 import com.james.LMS.config.SecurityUserDetails;
 import com.james.LMS.request.PaymentCheckoutRequest;
+import com.james.LMS.request.PaymentOrderCheckoutRequest;
 import com.james.LMS.response.PaymentCheckoutResponse;
 import com.james.LMS.response.PaymentStatusResponse;
 import com.james.LMS.service.PaymentService;
@@ -36,6 +37,15 @@ public class PaymentController {
       @Valid @RequestBody PaymentCheckoutRequest request,
       HttpServletRequest http) {
     return service.checkout(actor.getId(), actor.getUsername(), request, clientIp(http));
+  }
+
+  @PostMapping("/checkout/order")
+  @ResponseStatus(HttpStatus.CREATED)
+  public PaymentCheckoutResponse checkoutOrder(
+      @AuthenticationPrincipal SecurityUserDetails actor,
+      @Valid @RequestBody PaymentOrderCheckoutRequest request,
+      HttpServletRequest http) {
+    return service.checkoutOrder(actor.getId(), request, clientIp(http));
   }
 
   @GetMapping("/status")
