@@ -12,6 +12,7 @@ export interface MenuSearchParams {
   sort?: string;
   page?: number;
   size?: number;
+  chef?: string;
 }
 
 export const menuClient = {

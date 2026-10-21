@@ -13,5 +13,9 @@ public interface ProductService {
       String query, String category, BigDecimal minPrice, BigDecimal maxPrice,
       int page, int size, String sort);
 
+  Page<PublicMenuCardResponse> listPublishedForChef(
+      Long chefId, String query, String category, BigDecimal minPrice, BigDecimal maxPrice,
+      int page, int size, String sort);
+
   List<String> publicCategories();
 }

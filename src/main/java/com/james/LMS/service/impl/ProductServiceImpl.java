@@ -46,6 +46,21 @@ public class ProductServiceImpl implements ProductService {
   public Page<PublicMenuCardResponse> listPublished(
       String query, String category, BigDecimal minPrice, BigDecimal maxPrice,
       int page, int size, String sort) {
+    return listPublishedInternal(null, query, category, minPrice, maxPrice, page, size, sort);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Page<PublicMenuCardResponse> listPublishedForChef(
+      Long chefId, String query, String category, BigDecimal minPrice, BigDecimal maxPrice,
+      int page, int size, String sort) {
+    if (chefId == null || chefId <= 0) throw new IllegalArgumentException("ID đầu bếp không hợp lệ.");
+    return listPublishedInternal(chefId, query, category, minPrice, maxPrice, page, size, sort);
+  }
+
+  private Page<PublicMenuCardResponse> listPublishedInternal(
+      Long chefId, String query, String category, BigDecimal minPrice, BigDecimal maxPrice,
+      int page, int size, String sort) {
     if (page < 0 || size < 1 || size > 48) {
       throw new IllegalArgumentException("Trang hoặc số thực đơn mỗi trang không hợp lệ.");
     }
@@ -68,9 +83,11 @@ public class ProductServiceImpl implements ProductService {
       default -> Sort.by(Sort.Order.desc("updatedAt"), Sort.Order.desc("id"));
     };
 
-    var result = products.findPublicMenus(
-        ProductStatus.PUBLISHED, search, selectedCategory, minPrice, maxPrice,
-        PageRequest.of(page, size, ordering));
+    var result = chefId == null
+        ? products.findPublicMenus(ProductStatus.PUBLISHED, search, selectedCategory,
+            minPrice, maxPrice, PageRequest.of(page, size, ordering))
+        : products.findPublicMenusForChef(ProductStatus.PUBLISHED, chefId, search,
+            selectedCategory, minPrice, maxPrice, PageRequest.of(page, size, ordering));
     if (result.isEmpty()) {
       return result.map(p -> new PublicMenuCardResponse(p.getId(), p.getName(), p.getCategory(),
           p.getUnitPrice().toPlainString(), p.getMinGuests(), p.getMaxGuests(),

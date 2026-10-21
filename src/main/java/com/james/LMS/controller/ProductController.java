@@ -31,8 +31,10 @@ public class ProductController {
       @RequestParam(required = false) BigDecimal maxPrice,
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "12") int size,
-      @RequestParam(defaultValue = "newest") String sort) {
-    return service.listPublished(q, category, minPrice, maxPrice, page, size, sort);
+      @RequestParam(defaultValue = "newest") String sort,
+      @RequestParam(required = false) Long chef) {
+    return chef == null ? service.listPublished(q, category, minPrice, maxPrice, page, size, sort)
+        : service.listPublishedForChef(chef, q, category, minPrice, maxPrice, page, size, sort);
   }
 
   @ExceptionHandler(IllegalArgumentException.class)

@@ -90,6 +90,31 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       @Param("maxPrice") BigDecimal maxPrice,
       Pageable pageable);
 
+  @Query(value = """
+      select p from Product p
+      where p.isActive = true and p.status = :status and p.sellerId = :sellerId
+        and (:query = '' or lower(p.name) like lower(concat('%', :query, '%'))
+             or lower(coalesce(p.dishItems, '')) like lower(concat('%', :query, '%'))
+             or lower(coalesce(p.description, '')) like lower(concat('%', :query, '%')))
+        and (:category = '' or lower(p.category) = lower(:category))
+        and (:minPrice is null or p.unitPrice >= :minPrice)
+        and (:maxPrice is null or p.unitPrice <= :maxPrice)
+      """, countQuery = """
+      select count(p) from Product p
+      where p.isActive = true and p.status = :status and p.sellerId = :sellerId
+        and (:query = '' or lower(p.name) like lower(concat('%', :query, '%'))
+             or lower(coalesce(p.dishItems, '')) like lower(concat('%', :query, '%'))
+             or lower(coalesce(p.description, '')) like lower(concat('%', :query, '%')))
+        and (:category = '' or lower(p.category) = lower(:category))
+        and (:minPrice is null or p.unitPrice >= :minPrice)
+        and (:maxPrice is null or p.unitPrice <= :maxPrice)
+      """)
+  Page<Product> findPublicMenusForChef(
+      @Param("status") ProductStatus status, @Param("sellerId") Long sellerId,
+      @Param("query") String query, @Param("category") String category,
+      @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice,
+      Pageable pageable);
+
   @Query("""
       select distinct p.category from Product p
       where p.isActive = true and p.status = :status

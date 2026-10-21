@@ -39,6 +39,7 @@ export function MenuListPage() {
   const minPrice = params.get('minPrice') || '';
   const maxPrice = params.get('maxPrice') || '';
   const sort = params.get('sort') || 'newest';
+  const chef = params.get('chef') || '';
   const page = parsePage(params.get('page'));
   const [menus, setMenus] = useState<PageResponse<MenuSummary> | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
@@ -58,7 +59,7 @@ export function MenuListPage() {
     const controller = new AbortController();
     setLoading(true);
     setError('');
-    menuClient.list({ q, category, minPrice, maxPrice, sort, page, size: 12 }, controller.signal)
+    menuClient.list({ q, category, minPrice, maxPrice, sort, chef, page, size: 12 }, controller.signal)
       .then((result) => {
         if (!controller.signal.aborted) {
           setMenus(result);
@@ -72,7 +73,7 @@ export function MenuListPage() {
         }
       });
     return () => controller.abort();
-  }, [q, category, minPrice, maxPrice, sort, page, retry]);
+  }, [q, category, minPrice, maxPrice, sort, chef, page, retry]);
 
   useEffect(() => {
     if (!menus || loading || error || page === 0) return;
@@ -87,6 +88,7 @@ export function MenuListPage() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const next = new URLSearchParams();
+    if (chef) next.set('chef', chef);
     for (const key of ['q', 'category', 'minPrice', 'maxPrice', 'sort']) {
       const value = String(form.get(key) || '').trim();
       if (value && !(key === 'sort' && value === 'newest')) next.set(key, value);
@@ -108,7 +110,7 @@ export function MenuListPage() {
         <nav className="breadcrumb" aria-label="Đường dẫn">
           <Link to={ROUTES.HOME}>Trang chủ</Link><span>/</span><span>Thực đơn</span>
         </nav>
-        <h1>Thực đơn cho mọi bữa sum vầy</h1>
+        <h1>{chef ? 'Thực đơn của đầu bếp' : 'Thực đơn cho mọi bữa sum vầy'}</h1>
         <p className="lead">Chọn vị quen thuộc. Để đầu bếp lo phần còn lại.</p>
       </div>
       <div className="notice row">Giá theo người · Bao gồm nguyên liệu, công nấu và dọn dẹp</div>
