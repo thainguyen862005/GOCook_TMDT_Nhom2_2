@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SiteSettingsProvider, useSiteSettings } from "../contexts/SiteSettingsContext";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Brand } from "../components/common/Brand";
 import { ROUTES } from "../constants/routes";
@@ -78,6 +79,7 @@ function SiteHeader() {
 }
 
 function SiteFooter() {
+  const site = useSiteSettings();
   const { profile } = useAuth();
   const accountUrl = profile
     ? accountDestination(profile.roles ?? [])
@@ -90,8 +92,7 @@ function SiteFooter() {
             <div>
               <Brand />
               <p>
-                Kết nối đầu bếp và gia đình Việt. Bữa cơm tươi ngon, được chăm
-                chút ngay trong gian bếp của bạn.
+                {site.description}
               </p>
             </div>
             <div>
@@ -110,6 +111,8 @@ function SiteFooter() {
             </div>
             <div>
               <h4>Hỗ trợ & thông tin</h4>
+              {site.facebookUrl && <a href={site.facebookUrl} target="_blank" rel="noopener noreferrer">Facebook</a>}
+              {site.instagramUrl && <a href={site.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>}
               <Link to={ROUTES.HELP}>Câu hỏi thường gặp</Link>
               <Link to={ROUTES.CHAT}>Liên hệ hỗ trợ</Link>
               <Link to={ROUTES.ADMIN}>Kênh quản trị</Link>
@@ -117,8 +120,8 @@ function SiteFooter() {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© 2026 GO Cook · Nhóm 2-1</span>
-            <span>Frontend React · Backend Spring Boot</span>
+            <span>{site.footerCopyright}</span>
+            <span>{site.contactEmail && <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>} {site.contactPhone && <a href={`tel:${site.contactPhone}`}>{site.contactPhone}</a>}</span>
           </div>
         </div>
       </footer>
@@ -137,6 +140,10 @@ function SiteFooter() {
  * without children it renders the nested React Router <Outlet />.
  */
 export function SiteLayout({ children }: { children?: ReactNode }) {
+  return <SiteSettingsProvider><SiteLayoutInner>{children}</SiteLayoutInner></SiteSettingsProvider>;
+}
+
+function SiteLayoutInner({ children }: { children?: ReactNode }) {
   return (
     <>
       <a className="skip" href="#main">
