@@ -1,242 +1,88 @@
+import { useEffect, useState, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
+import { publicContentClient } from '../../clients/publicContentClient';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
+import type { CookingRequestInput } from '../../types/publicContent';
 
-/**
- * Route: /request
- * Migrated from the former JSP demo markup into a dedicated React page.
- * Keep future business logic in hooks/clients for this domain, not inside the router.
- */
 export function CookingRequestPage() {
-  useDocumentTitle("Tạo yêu cầu nấu ăn | GO Cook");
-
-  return (
-    <>
-      <div className={"container"}>
-        <div className={"page-heading"}>
-          <nav className={"breadcrumb"} aria-label={"Đường dẫn"}>
-            <a href={"/"}>
-              {"Trang chủ"}
-            </a>
-            <span>
-              {"/"}
-            </span>
-            <span>
-              {"Một bữa ăn đúng ý bạn"}
-            </span>
-          </nav>
-          <h1>
-            {"Một bữa ăn đúng ý bạn"}
-          </h1>
-          <p className={"lead"}>
-            {"Chia sẻ khẩu vị, số người và ngân sách. Đầu bếp sẽ lên thực đơn phù hợp."}
-          </p>
-        </div>
-        <div className={"split"}>
-          <form className={"stack"}>
-            <section className={"card stack"}>
-              <div>
-                <p className={"eyebrow"}>
-                  {"Bước 01"}
-                </p>
-                <h3>
-                  {"Bạn muốn ăn gì?"}
-                </h3>
-              </div>
-              <label className={"field"} htmlFor={"desired-dishes"}>
-                {"Món ăn mong muốn"}
-                <textarea id={"desired-dishes"} name={"desired-dishes"} placeholder={""}>
-                  {"Cá kho tộ, canh chua tôm, rau muống xào tỏi, thịt luộc."}
-                </textarea>
-              </label>
-              <fieldset>
-                <legend>
-                  {"Phong cách ẩm thực"}
-                </legend>
-                <div className={"choices"}>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"cuisine"} defaultValue={"0"} defaultChecked />
-                    <span>
-                      {"Miền Nam"}
-                    </span>
-                  </label>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"cuisine"} defaultValue={"1"} />
-                    <span>
-                      {"Miền Bắc"}
-                    </span>
-                  </label>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"cuisine"} defaultValue={"2"} />
-                    <span>
-                      {"Miền Trung"}
-                    </span>
-                  </label>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"cuisine"} defaultValue={"3"} />
-                    <span>
-                      {"Món chay"}
-                    </span>
-                  </label>
-                </div>
-              </fieldset>
-            </section>
-            <section className={"card stack"}>
-              <div>
-                <p className={"eyebrow"}>
-                  {"Bước 02"}
-                </p>
-                <h3>
-                  {"Khẩu phần & khẩu vị"}
-                </h3>
-              </div>
-              <div className={"grid grid-2"}>
-                <label className={"field"} htmlFor={"adults"}>
-                  {"Số người lớn"}
-                  <input id={"adults"} name={"adults"} type={"number"} defaultValue={"4"} placeholder={""} min={"1"} />
-                </label>
-                <label className={"field"} htmlFor={"children"}>
-                  {"Số trẻ em"}
-                  <input id={"children"} name={"children"} type={"number"} defaultValue={"0"} placeholder={""} min={"0"} />
-                </label>
-              </div>
-              <label className={"field"} htmlFor={"avoid"}>
-                {"Dị ứng hoặc thực phẩm cần tránh"}
-                <textarea id={"avoid"} name={"avoid"} placeholder={"Ví dụ: dị ứng đậu phộng, không dùng hải sản..."}></textarea>
-              </label>
-              <fieldset>
-                <legend>
-                  {"Mức độ cay"}
-                </legend>
-                <div className={"choices"}>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"spice"} defaultValue={"0"} defaultChecked />
-                    <span>
-                      {"Không cay"}
-                    </span>
-                  </label>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"spice"} defaultValue={"1"} />
-                    <span>
-                      {"Ít cay"}
-                    </span>
-                  </label>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"spice"} defaultValue={"2"} />
-                    <span>
-                      {"Vừa"}
-                    </span>
-                  </label>
-                  <label className={"choice"}>
-                    <input type={"radio"} name={"spice"} defaultValue={"3"} />
-                    <span>
-                      {"Cay"}
-                    </span>
-                  </label>
-                </div>
-              </fieldset>
-            </section>
-            <section className={"card stack"}>
-              <div>
-                <p className={"eyebrow"}>
-                  {"Bước 03"}
-                </p>
-                <h3>
-                  {"Thời gian & gian bếp"}
-                </h3>
-              </div>
-              <div className={"grid grid-2"}>
-                <label className={"field"} htmlFor={"request-date"}>
-                  {"Ngày dùng bữa"}
-                  <input id={"request-date"} name={"request-date"} type={"date"} defaultValue={""} placeholder={""} />
-                </label>
-                <label className={"field"} htmlFor={"meal-time"}>
-                  {"Bữa ăn"}
-                  <select id={"meal-time"} name={"meal-time"}>
-                    <option>
-                      {"Bữa tối"}
-                    </option>
-                    <option>
-                      {"Bữa trưa"}
-                    </option>
-                  </select>
-                </label>
-              </div>
-              <label className={"field"} htmlFor={"kitchen-address"}>
-                {"Địa chỉ"}
-                <input id={"kitchen-address"} name={"kitchen-address"} type={"text"} defaultValue={""} placeholder={"Địa chỉ nơi đầu bếp sẽ đến nấu"} />
-              </label>
-              <label className={"check"}>
-                <input type={"checkbox"} name={"equipment"} />
-                <span>
-                  {"Gian bếp có bếp nấu, nồi chảo và dụng cụ cơ bản."}
-                </span>
-              </label>
-            </section>
-            <section className={"card stack"}>
-              <div>
-                <p className={"eyebrow"}>
-                  {"Bước 04"}
-                </p>
-                <h3>
-                  {"Ngân sách của bạn"}
-                </h3>
-              </div>
-              <div className={"grid grid-2"}>
-                <label className={"field"} htmlFor={"budget-min"}>
-                  {"Tối thiểu (đ)"}
-                  <input id={"budget-min"} name={"budget-min"} type={"number"} defaultValue={"400000"} placeholder={""} min={"0"} step={"50000"} />
-                </label>
-                <label className={"field"} htmlFor={"budget-max"}>
-                  {"Tối đa (đ)"}
-                  <input id={"budget-max"} name={"budget-max"} type={"number"} defaultValue={"600000"} placeholder={""} min={"0"} step={"50000"} />
-                </label>
-              </div>
-              <p className={"notice"}>
-                {"Ngân sách cho toàn bộ bữa ăn, bao gồm nguyên liệu và công nấu."}
-              </p>
-              <div className={"upload"}>
-                <label className={"field"} htmlFor={"reference-photo"}>
-                  {"Ảnh tham khảo món ăn"}
-                  <input id={"reference-photo"} name={"reference-photo"} type={"file"} defaultValue={""} placeholder={""} accept={"image/*"} />
-                </label>
-              </div>
-            </section>
-          </form>
-          <aside className={"card summary stack"}>
-            <span className={"icon-box"}>
-              <svg className={"icon"} viewBox={"0 0 24 24"} aria-hidden={"true"}>
-                <path d={"M7 14a4 4 0 0 1-2-7 4 4 0 0 1 7-2 4 4 0 0 1 7 2 4 4 0 0 1-2 7v6H7z"}></path>
-                <path d={"M7 16h10M10 11v2m4-2v2"}></path>
-              </svg>
-            </span>
-            <h3>
-              {"Bữa cơm riêng của gia đình"}
-            </h3>
-            <ul className={"check-list"}>
-              <li>
-                {"Tự chọn món mong muốn"}
-              </li>
-              <li>
-                {"Điều chỉnh theo dị ứng, khẩu vị"}
-              </li>
-              <li>
-                {"Xem báo giá trước khi quyết định"}
-              </li>
-            </ul>
-            <button className={"btn"} type={"button"} data-action={"create-request"} disabled title={"Chức năng sẽ được tích hợp ở giai đoạn tiếp theo"}>
-              {"Gửi yêu cầu nấu ăn"}
-            </button>
-            <a className={"btn secondary full"} href={"/quotes"}>
-              {"Xem báo giá mẫu"}
-            </a>
-            <a className={"text-link"} href={"/matching"}>
-              {"Xem gợi ý đầu bếp bằng AI"}
-            </a>
-            <p className={"small muted"}>
-              {"Thông tin trên form chưa được gửi đi."}
-            </p>
-          </aside>
-        </div>
+  useDocumentTitle('Tạo yêu cầu nấu ăn | GO Cook');
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState('');
+  const [error, setError] = useState('');
+  const [code, setCode] = useState('');
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    if (!file) { setPreview(''); return; }
+    const url = URL.createObjectURL(file); setPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+  function chooseFile(next: File | null) {
+    setError('');
+    if (next && (!['image/jpeg', 'image/png', 'image/webp'].includes(next.type) || next.size > 5 * 1024 * 1024)) {
+      setError('Ảnh JPG, PNG, WebP tối đa 5 MB.'); setFile(null); return;
+    }
+    setFile(next);
+  }
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault(); if (busy) return;
+    const formElement = event.currentTarget;
+    const f = new FormData(event.currentTarget);
+    const input: CookingRequestInput = {
+      desiredDishes: String(f.get('desiredDishes') || '').trim(), cuisine: String(f.get('cuisine') || ''),
+      adults: Number(f.get('adults')), children: Number(f.get('children')),
+      avoid: String(f.get('avoid') || '').trim(), spice: String(f.get('spice') || ''),
+      mealDate: String(f.get('mealDate') || ''), mealTime: String(f.get('mealTime') || ''),
+      address: String(f.get('address') || '').trim(), equipment: f.get('equipment') === 'on',
+      budgetMin: Number(f.get('budgetMin')), budgetMax: Number(f.get('budgetMax')),
+    };
+    if (input.budgetMin > input.budgetMax || input.adults < 1 || input.children < 0) {
+      setError('Vui lòng kiểm tra số người và khoảng ngân sách.'); return;
+    }
+    setBusy(true); setError(''); setCode('');
+    try { const saved = await publicContentClient.request(input, file); setCode(saved.requestCode); setFile(null); formElement.reset(); }
+    catch (reason) { setError(reason instanceof Error ? reason.message : 'Không gửi được yêu cầu.'); }
+    finally { setBusy(false); }
+  }
+  return <div className="container">
+    <div className="page-heading"><nav className="breadcrumb"><Link to="/">Trang chủ</Link><span>/</span><span>Tạo yêu cầu</span></nav>
+      <h1>Một bữa ăn đúng ý bạn</h1><p className="lead">Gửi mong muốn của gia đình; yêu cầu sẽ được lưu để Admin tiếp nhận, chưa phải đơn hàng hay thanh toán.</p></div>
+    {code ? <section className="card stack"><h2>Đã tiếp nhận yêu cầu</h2>
+      <p role="status">Mã yêu cầu: <strong>{code}</strong>. Bộ phận vận hành sẽ xử lý trong hệ thống.</p>
+      <p>Yêu cầu chưa phải là báo giá, đặt lịch hay xác nhận đầu bếp.</p><button className="btn secondary" onClick={() => setCode('')}>Tạo yêu cầu khác</button>
+    </section> : <form className="split" onSubmit={submit}>
+      <div className="stack">
+        <section className="card stack"><h2>1. Mong muốn của gia đình</h2>
+          <label className="field">Món ăn mong muốn<textarea name="desiredDishes" required maxLength={3000} rows={4} placeholder="Ví dụ: cá kho, canh chua và rau xào…" /></label>
+          <label className="field">Phong cách<select name="cuisine" required>
+            <option>Miền Nam</option><option>Miền Bắc</option><option>Miền Trung</option><option>Món chay</option><option>Khác</option>
+          </select></label>
+          <div className="grid grid-2">
+            <label className="field">Người lớn<input type="number" name="adults" min={1} max={100} defaultValue={4} required /></label>
+            <label className="field">Trẻ em<input type="number" name="children" min={0} max={100} defaultValue={0} required /></label>
+          </div>
+          <label className="field">Dị ứng hoặc thực phẩm cần tránh<textarea name="avoid" maxLength={2000} rows={3} placeholder="Ghi rõ nếu có" /></label>
+          <label className="field">Mức độ cay<select name="spice"><option>Không cay</option><option>Ít cay</option><option>Vừa</option><option>Cay</option></select></label>
+        </section>
+        <section className="card stack"><h2>2. Thời gian và địa chỉ</h2>
+          <label className="field">Ngày dùng bữa<input type="date" name="mealDate" required min={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)} /></label>
+          <label className="field">Bữa ăn<select name="mealTime"><option>Bữa trưa</option><option>Bữa tối</option></select></label>
+          <label className="field">Địa chỉ nấu ăn<input type="text" name="address" required minLength={8} maxLength={500} placeholder="Số nhà, đường, quận/huyện…" /></label>
+          <label className="check"><input type="checkbox" name="equipment" />Gian bếp có bếp, nồi chảo và dụng cụ cơ bản</label>
+        </section>
+        <section className="card stack"><h2>3. Ngân sách và ảnh tham khảo</h2>
+          <div className="grid grid-2"><label className="field">Ngân sách tối thiểu (đ)<input type="number" name="budgetMin" min={1} max={1000000000} required defaultValue={400000} /></label>
+            <label className="field">Ngân sách tối đa (đ)<input type="number" name="budgetMax" min={1} max={1000000000} required defaultValue={600000} /></label></div>
+          <label className="field">Ảnh món ăn tham khảo (không bắt buộc)<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event => chooseFile(event.currentTarget.files?.[0] || null)} /></label>
+          {preview && <div className="stack-sm"><img className="admin-media-preview" src={preview} alt="Ảnh món ăn đã chọn" /><button className="btn secondary sm" type="button" onClick={() => setFile(null)}>Bỏ ảnh đã chọn</button></div>}
+          <p className="small muted">Ảnh tham khảo, nếu có, được upload lên Cloudinary qua backend. Không tải ảnh chứa tài liệu hoặc thông tin cá nhân.</p>
+        </section>
       </div>
-    </>
-  );
+      <aside className="card summary stack"><h2>Tóm tắt yêu cầu</h2>
+        <p>Gửi thông tin để đội ngũ GO Cook kiểm tra và tiếp nhận.</p>
+        <ul className="check-list"><li>Chưa phát sinh đơn hàng</li><li>Chưa thu tiền</li><li>Chưa xác nhận lịch của đầu bếp</li></ul>
+        <button className="btn full" type="submit" disabled={busy}>{busy ? 'Đang gửi…' : 'Gửi yêu cầu nấu ăn'}</button>
+        {error && <p role="alert" className="notice warm">{error}</p>}
+      </aside>
+    </form>}
+  </div>;
 }
