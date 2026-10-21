@@ -1,134 +1,31 @@
+import { useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
+import { ROUTES } from '../../constants/routes';
 
-/**
- * Route: /matching
- * Migrated from the former JSP demo markup into a dedicated React page.
- * Keep future business logic in hooks/clients for this domain, not inside the router.
- */
+/** Search based on actual public Chef records; does not claim an unimplemented AI model. */
 export function MatchingPage() {
-  useDocumentTitle("Gợi ý đầu bếp bằng AI | GO Cook");
-
-  return (
-    <>
-      <div className={"container"}>
-        <div className={"page-heading"}>
-          <nav className={"breadcrumb"} aria-label={"Đường dẫn"}>
-            <a href={"/"}>
-              {"Trang chủ"}
-            </a>
-            <span>
-              {"/"}
-            </span>
-            <span>
-              {"Tìm người hợp vị với gia đình"}
-            </span>
-          </nav>
-          <h1>
-            {"Tìm người hợp vị với gia đình"}
-          </h1>
-          <p className={"lead"}>
-            {"Khung tìm kiếm bằng AI — kết quả bên dưới là dữ liệu minh họa."}
-          </p>
-        </div>
-        <form className={"card stack"}>
-          <p className={"eyebrow"}>
-            {"Bạn kể chuyện bữa ăn, GO Cook gợi ý"}
-          </p>
-          <label className={"field"} htmlFor={"ai-prompt"}>
-            {"Mô tả bữa ăn bạn muốn"}
-            <textarea id={"ai-prompt"} name={"ai-prompt"} placeholder={""}>
-              {"Tôi cần bữa tối miền Nam cho 4 người tại Bình Thạnh, ít cay, khoảng 500.000đ."}
-            </textarea>
-          </label>
-          <button className={"btn"} type={"button"} data-action={"ai-search"} disabled title={"Chức năng sẽ được tích hợp ở giai đoạn tiếp theo"}>
-            {"Tìm đầu bếp phù hợp"}
-          </button>
-        </form>
-        <section className={"section stack"}>
-          <div className={"between"}>
-            <h2>
-              {"Gợi ý phù hợp"}
-            </h2>
-            <span className={"badge"}>
-              {"Minh họa kết quả AI"}
-            </span>
-          </div>
-          <article className={"card chef-card"}>
-            <img className={""} src={"/assets/chef.png"} alt={"Ảnh minh họa đầu bếp nấu ăn tại nhà"} loading={"lazy"} />
-            <div className={"card-body"}>
-              <div className={"between"}>
-                <span className={"badge"}>
-                  {"Đầu bếp nổi bật"}
-                </span>
-                <span className={"small amber"}>
-                  {"★ 4,9 "}
-                  <span className={"muted"}>
-                    {"(186 đánh giá)"}
-                  </span>
-                </span>
-              </div>
-              <div>
-                <h3>
-                  {"Bếp Cô Mai"}
-                </h3>
-                <p className={"small muted"}>
-                  {"Nguyễn Thị Mai · 12 năm kinh nghiệm"}
-                </p>
-              </div>
-              <p className={"small"}>
-                {"Chăm chút hương vị miền Nam, từ nồi cá kho đến bát canh chua quen thuộc."}
-              </p>
-              <div className={"row small muted"}>
-                <svg className={"icon"} viewBox={"0 0 24 24"} aria-hidden={"true"}>
-                  <path d={"M19 10c0 6-7 11-7 11S5 16 5 10a7 7 0 0 1 14 0z"}></path>
-                  <circle cx={"12"} cy={"10"} r={"2"}></circle>
-                </svg>
-                {" Bình Thạnh · Phú Nhuận "}
-                <span className={"badge gray"}>
-                  {"Có lịch trống"}
-                </span>
-              </div>
-              <div className={"between"}>
-                <span className={"price"}>
-                  {"120.000đ"}
-                  <small>
-                    {" / người"}
-                  </small>
-                </span>
-                <a className={"btn sm"} href={"/chef-detail"}>
-                  {"Xem gian bếp"}
-                </a>
-              </div>
-            </div>
-          </article>
-          <div className={"grid grid-3"}>
-            <div className={"soft"}>
-              <strong>
-                {"Đúng khu vực"}
-              </strong>
-              <p className={"small muted"}>
-                {"Bình Thạnh, TP. Hồ Chí Minh"}
-              </p>
-            </div>
-            <div className={"soft"}>
-              <strong>
-                {"Đúng khẩu vị"}
-              </strong>
-              <p className={"small muted"}>
-                {"Ẩm thực miền Nam, ít cay"}
-              </p>
-            </div>
-            <div className={"soft"}>
-              <strong>
-                {"Trong ngân sách"}
-              </strong>
-              <p className={"small muted"}>
-                {"480.000đ cho 4 người"}
-              </p>
-            </div>
-          </div>
-        </section>
-      </div>
-    </>
-  );
+  useDocumentTitle('Tìm đầu bếp phù hợp | GO Cook');
+  const navigate = useNavigate();
+  const [area, setArea] = useState('');
+  const [style, setStyle] = useState('');
+  const [name, setName] = useState('');
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const qs = new URLSearchParams();
+    if (area.trim()) qs.set('area', area.trim());
+    if (style.trim()) qs.set('category', style.trim());
+    if (name.trim()) qs.set('q', name.trim());
+    navigate(`${ROUTES.CHEFS}?${qs}`);
+  }
+  return <div className="container">
+    <div className="page-heading"><nav className="breadcrumb"><Link to="/">Trang chủ</Link><span>/</span><span>Tìm theo nhu cầu</span></nav>
+      <h1>Tìm đầu bếp phù hợp</h1><p className="lead">Lọc đầu bếp đã xác minh theo dữ liệu phục vụ thật; chức năng ghép cặp AI sẽ được tích hợp sau.</p></div>
+    <form className="card stack" onSubmit={submit}>
+      <label className="field">Khu vực<input value={area} onChange={event => setArea(event.target.value)} maxLength={100} placeholder="Ví dụ: Bình Thạnh" /></label>
+      <label className="field">Phong cách / danh mục thực đơn<input value={style} onChange={event => setStyle(event.target.value)} maxLength={100} placeholder="Ví dụ: Món chay" /></label>
+      <label className="field">Tên đầu bếp (tùy chọn)<input value={name} onChange={event => setName(event.target.value)} maxLength={100} /></label>
+      <button className="btn" type="submit">Xem đầu bếp phù hợp</button>
+    </form>
+  </div>;
 }
