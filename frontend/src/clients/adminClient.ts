@@ -19,6 +19,27 @@ function query(params: Record<string, string | number | undefined | null>): stri
     return search.toString();
 }
 
+export interface AdminGalleryImage { key: string; url: string; alt: string; cover: boolean; order: number; }
+export interface AdminGalleryPayload {
+  product: Omit<AdminProduct, 'id'>;
+  version?: number;
+  imageKeys: string[];
+  imageAlts: string[];
+  coverKey: string;
+}
+
+export const adminGalleryClient = {
+  images: (id: string) => httpRequest<AdminGalleryImage[]>(`/api/admin/product-gallery/${encodeURIComponent(id)}`),
+  save(id: string | undefined, data: AdminGalleryPayload, files: File[]) {
+    const form = new FormData();
+    form.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    files.forEach(file => form.append('files', file));
+    return httpRequest<{ product: AdminProduct; images: AdminGalleryImage[] }>(
+      id === undefined ? '/api/admin/product-gallery' : `/api/admin/product-gallery/${encodeURIComponent(id)}`,
+      { method: id === undefined ? 'POST' : 'PUT', body: form });
+  },
+};
+
 export const adminClient = {
     dashboard: () => httpRequest<DashboardResponse>('/api/admin/dashboard'),
 

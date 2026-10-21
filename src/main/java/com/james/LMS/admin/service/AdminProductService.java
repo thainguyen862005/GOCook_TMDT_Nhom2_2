@@ -126,6 +126,7 @@ public class AdminProductService {
         product.setDescription(cleanOptional(description));
         product.setImageUrl(cleanOptional(imageUrl));
         product.setStatus(status);
+        product.touch();
         productRepository.save(product);
     }
 
@@ -141,8 +142,10 @@ public class AdminProductService {
         if (product.getStatus() == ProductStatus.PUBLISHED) {
             product.setStatus(ProductStatus.HIDDEN);
         } else {
-            if (product.getImageUrl() == null || product.getImageUrl().isBlank()) {
-                throw new IllegalArgumentException("Không thể hiển thị thực đơn chưa có ảnh đại diện.");
+            if (product.getUnitPrice() == null || product.getUnitPrice().signum() <= 0 ||
+                product.getDishItems() == null || product.getDishItems().isBlank() ||
+                product.getImageUrl() == null || product.getImageUrl().isBlank()) {
+                throw new IllegalArgumentException("Cần giá, danh sách món và ảnh đại diện hợp lệ để công khai.");
             }
             product.setStatus(ProductStatus.PUBLISHED);
         }
