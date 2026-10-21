@@ -78,7 +78,11 @@ public class SecurityConfig implements WebMvcConfigurer {
       "/actuator/**",
       "/api/v1/users/demo",
       "/api/products/**",
-      "/api/public/site-settings"
+      "/api/public/site-settings",
+      "/api/public/chefs",
+      "/api/public/chefs/**",
+      "/api/public/offers",
+      "/api/public/faqs"
   };
   @Bean
   public PasswordEncoder passwordEncoder() {
