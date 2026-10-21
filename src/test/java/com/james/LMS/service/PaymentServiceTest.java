@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -425,7 +426,7 @@ class PaymentServiceTest {
 
   PaymentCheckoutRequest checkoutRequest(int guests, LocalDateTime at) {
     return new PaymentCheckoutRequest(
-        11L, guests, at, "Ngoc Anh", "0901234567", "12 Nguyen Hue, Quan 1", null);
+        11L, guests, at, "Ngoc Anh", "0901234567", "12 Nguyen Hue, Quan 1", null, UUID.randomUUID());
   }
 
   LocalDateTime nextWeek() {
@@ -454,6 +455,7 @@ class PaymentServiceTest {
         """
         {"productId":11,"guestCount":3,"scheduledAt":"%s","customerName":"Ngoc Anh",
          "customerPhone":"0901234567","serviceAddress":"12 Nguyen Hue",
+         "idempotencyKey":"0f8fad5b-d9cb-469f-a165-70867728950e",
          "amount":1,"totalAmount":1,"price":1,"unitPrice":1,"total":1}
         """
             .formatted(nextWeek().withNano(0));

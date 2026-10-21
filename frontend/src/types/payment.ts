@@ -10,6 +10,7 @@ export interface CheckoutRequest {
   customerPhone: string;
   serviceAddress: string;
   customerNote?: string;
+  idempotencyKey: string;
 }
 
 export interface CheckoutResult {

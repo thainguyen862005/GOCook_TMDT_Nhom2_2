@@ -69,6 +69,11 @@ public class PaymentServiceImpl implements PaymentService {
       Long customerId, String customerEmail, PaymentCheckoutRequest request, String ipAddress) {
     return transactions.execute(
         status -> {
+          Optional<PaymentTransaction> earlier = payments.findByIdempotencyKey(request.idempotencyKey());
+          if (earlier.isPresent()) {
+            return replay(customerId, earlier.get(), ipAddress);
+          }
+
           Product product = payableProduct(request.productId());
           requireGuestCount(product, request.guestCount());
 
@@ -115,21 +120,52 @@ public class PaymentServiceImpl implements PaymentService {
                           Map.of(
                               "createDate", now.format(PaymentGateway.GATEWAY_DATE),
                               "expireDate", expiresAt.format(PaymentGateway.GATEWAY_DATE))))
+                  .idempotencyKey(request.idempotencyKey())
                   .build());
 
-          String payUrl =
-              gateway.createPaymentUrl(
-                  new PaymentRequest(
-                      orderCode,
-                      amount,
-                      "Thanh toan don hang " + orderCode,
-                      returnUrl(),
-                      ipAddress,
-                      now,
-                      expiresAt));
+          String payUrl = payUrl(orderCode, amount, ipAddress, now, expiresAt);
           log.info("payment created order={} amount={}", orderCode, amount.toPlainString());
           return new PaymentCheckoutResponse(orderCode, payUrl);
         });
+  }
+
+  private PaymentCheckoutResponse replay(
+      Long customerId, PaymentTransaction payment, String ipAddress) {
+    CookOrder order = orders.findById(payment.getOrderId()).orElseThrow();
+    if (!customerId.equals(order.getCustomerId())) {
+      throw new PaymentException(
+          HttpStatus.CONFLICT,
+          ErrorCode.PAYMENT_IDEMPOTENCY_CONFLICT,
+          "Khóa chống gửi trùng đã được dùng cho giao dịch khác.");
+    }
+    Map<String, String> reference = readReference(payment);
+    String orderCode = payment.getTransactionCode();
+    String payUrl =
+        payUrl(
+            orderCode,
+            payment.getAmount(),
+            ipAddress,
+            LocalDateTime.parse(reference.get("createDate"), PaymentGateway.GATEWAY_DATE),
+            LocalDateTime.parse(reference.get("expireDate"), PaymentGateway.GATEWAY_DATE));
+    log.info("payment replayed order={}", orderCode);
+    return new PaymentCheckoutResponse(orderCode, payUrl);
+  }
+
+  private String payUrl(
+      String orderCode,
+      BigDecimal amount,
+      String ipAddress,
+      LocalDateTime createdAt,
+      LocalDateTime expiresAt) {
+    return gateway.createPaymentUrl(
+        new PaymentRequest(
+            orderCode,
+            amount,
+            "Thanh toan don hang " + orderCode,
+            returnUrl(),
+            ipAddress,
+            createdAt,
+            expiresAt));
   }
 
   @Override

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { menuClient } from '../../clients/menuClient';
 import { paymentClient, paymentError } from '../../clients/paymentClient';
@@ -21,6 +21,7 @@ export function useCheckout() {
   const [loading, setLoading] = useState(hasProductId);
   const [message, setMessage] = useState<UiMessage | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const idempotencyKey = useRef<string | null>(null);
 
   const [guests, setGuests] = useState<number | null>(() => {
     const requested = Number(params.get('guests'));
@@ -70,6 +71,7 @@ export function useCheckout() {
     if (!product || !canSubmit) return;
     setSubmitting(true);
     setMessage(null);
+    idempotencyKey.current ??= crypto.randomUUID();
     try {
       const result = await paymentClient.checkout({
         productId: product.id,
@@ -79,10 +81,12 @@ export function useCheckout() {
         customerPhone: customerPhone.trim(),
         serviceAddress: serviceAddress.trim(),
         customerNote: customerNote.trim() || undefined,
+        idempotencyKey: idempotencyKey.current,
       });
       rememberCheckout(result.orderCode, { path: location.pathname, search: location.search });
       window.location.assign(result.payUrl);
     } catch (error) {
+      idempotencyKey.current = null;
       setMessage({ type: 'error', text: paymentError(error) });
       setSubmitting(false);
     }

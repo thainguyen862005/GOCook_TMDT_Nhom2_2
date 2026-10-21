@@ -26,7 +26,8 @@ public enum ErrorCode {
   PAYMENT_INVALID_GUESTS("1017", "Guest count is outside the product limits"),
   PAYMENT_INVALID_SCHEDULE("1018", "Scheduled time must be in the future"),
   PAYMENT_NOT_FOUND("1019", "Payment transaction not found"),
-  PAYMENT_GATEWAY_UNAVAILABLE("1020", "Payment gateway request failed");
+  PAYMENT_GATEWAY_UNAVAILABLE("1020", "Payment gateway request failed"),
+  PAYMENT_IDEMPOTENCY_CONFLICT("1021", "Idempotency key belongs to another customer");
 
   private final String code;
   private final String message;

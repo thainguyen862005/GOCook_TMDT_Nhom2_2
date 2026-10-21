@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,4 +47,7 @@ public class PaymentTransaction extends BaseEntity {
 
   @Column(name = "raw_reference", columnDefinition = "TEXT")
   private String rawReference;
+
+  @Column(name = "idempotency_key")
+  private UUID idempotencyKey;
 }
