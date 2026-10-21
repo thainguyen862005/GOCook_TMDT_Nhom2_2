@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { userClient } from '../../clients/userClient';
 import { AccountSidebar } from '../../components/account/AccountSidebar';
 import { Notice } from '../../components/common/Notice';
+import { SingleImageField } from '../../components/common/SingleImageField';
 import { ROUTES } from '../../constants/routes';
 import { useAuth } from '../../hooks/auth/useAuth';
 import type { UiMessage } from '../../types/api';
@@ -14,6 +15,7 @@ export function AccountPage() {
   const [username, setUsername] = useState(profile?.username || '');
   const [message, setMessage] = useState<UiMessage | null>(null);
   const [busy, setBusy] = useState(false);
+  const [avatar, setAvatar] = useState<File | null>(null);
 
   useEffect(() => {
     setUsername(profile?.username || '');
@@ -34,6 +36,19 @@ export function AccountPage() {
     }
   }
 
+  async function uploadAvatar() {
+    if (!avatar || busy) return;
+    setBusy(true); setMessage(null);
+    try {
+      await userClient.uploadAvatar(avatar);
+      await refreshProfile();
+      setAvatar(null);
+      setMessage({ type: 'success', text: 'Ảnh đại diện đã được lưu trên Cloudinary.' });
+    } catch (error) {
+      setMessage({ text: error instanceof Error ? error.message : 'Không thể tải ảnh lên.' });
+    } finally { setBusy(false); }
+  }
+
   return (
     <div className="container">
       <div className="page-heading">
@@ -52,13 +67,18 @@ export function AccountPage() {
         <form className="stack" onSubmit={save}>
           <section className="card stack">
             <div className="row">
-              <span className="avatar large">{initials(profile?.username)}</span>
+              {profile?.avatarUrl ? <img className="avatar large" src={profile.avatarUrl} alt="Ảnh đại diện hiện tại" />
+                : <span className="avatar large">{initials(profile?.username)}</span>}
               <div>
                 <h3>{profile?.username}</h3>
                 <p className="small muted">{profile?.email}</p>
               </div>
             </div>
             <Notice message={message} />
+            <SingleImageField title="Ảnh đại diện mới" value={avatar} onChange={setAvatar} disabled={busy} />
+            <div><button type="button" className="btn secondary sm" disabled={busy || !avatar} onClick={uploadAvatar}>
+              {busy ? 'Đang tải ảnh...' : 'Tải ảnh đại diện lên Cloudinary'}
+            </button></div>
             <div className="grid grid-2">
               <label className="field">
                 Họ và tên

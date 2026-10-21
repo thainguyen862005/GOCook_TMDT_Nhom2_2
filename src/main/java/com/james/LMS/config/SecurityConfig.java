@@ -77,7 +77,8 @@ public class SecurityConfig implements WebMvcConfigurer {
       "/api/payments/vnpay-ipn",
       "/actuator/**",
       "/api/v1/users/demo",
-      "/api/products/**"
+      "/api/products/**",
+      "/api/public/site-settings"
   };
   @Bean
   public PasswordEncoder passwordEncoder() {

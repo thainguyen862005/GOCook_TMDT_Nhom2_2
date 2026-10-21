@@ -5,6 +5,7 @@ import com.james.LMS.entity.ProductImage;
 import com.james.LMS.enums.ProductStatus;
 import com.james.LMS.exception.SellerProductException;
 import com.james.LMS.repository.ProductImageRepository;
+import com.james.LMS.media.ImageFileValidator;
 import com.james.LMS.repository.ProductRepository;
 import com.james.LMS.repository.UserRepository;
 import com.james.LMS.request.SellerProductRequest;
@@ -157,7 +158,10 @@ public class SellerProductServiceImpl implements SellerProductService {
       throw invalid("Vui lòng chọn đúng một ảnh bìa.");
     if (request.status() == ProductStatus.PUBLISHED && keys.isEmpty())
       throw invalid("Thực đơn hiển thị phải có ít nhất một ảnh.");
-    List<byte[]> content = files.stream().map(this::validatedBytes).toList();
+    List<byte[]> content = files.stream().map(file -> {
+      try { return ImageFileValidator.validate(file); }
+      catch (IllegalArgumentException error) { throw invalid(error.getMessage()); }
+    }).toList();
     List<String> uploaded = new ArrayList<>();
     Consumer<String> deleteUploaded = this::tryDelete;
     ProductImageCleanupService cleanupService = this.cleanup;
@@ -234,47 +238,6 @@ public class SellerProductServiceImpl implements SellerProductService {
   private boolean isNewKey(String key, int count) {
     for (int i = 0; i < count; i++) if (("new:" + i).equals(key)) return true;
     return false;
-  }
-
-  private byte[] validatedBytes(MultipartFile file) {
-    if (file.isEmpty() || file.getSize() > 5L * 1024 * 1024)
-      throw invalid("Mỗi ảnh phải có dữ liệu và không quá 5 MB.");
-    try {
-      byte[] data = file.getBytes();
-      boolean jpeg =
-          data.length > 3
-              && (data[0] & 255) == 255
-              && (data[1] & 255) == 216
-              && (data[2] & 255) == 255;
-      boolean png =
-          data.length >= 8
-              && data[0] == (byte) 137
-              && data[1] == 80
-              && data[2] == 78
-              && data[3] == 71
-              && data[4] == 13
-              && data[5] == 10
-              && data[6] == 26
-              && data[7] == 10;
-      boolean webp =
-          data.length >= 16
-              && data[0] == 'R'
-              && data[1] == 'I'
-              && data[2] == 'F'
-              && data[3] == 'F'
-              && data[8] == 'W'
-              && data[9] == 'E'
-              && data[10] == 'B'
-              && data[11] == 'P';
-      if (!jpeg && !png && !webp)
-        throw new SellerProductException(
-            HttpStatus.UNSUPPORTED_MEDIA_TYPE,
-            "MENU_IMAGE_TYPE",
-            "Chỉ chấp nhận nội dung ảnh JPG, PNG hoặc WebP.");
-      return data;
-    } catch (IOException error) {
-      throw invalid("Không đọc được file ảnh.");
-    }
   }
 
   private void requireActive(Long sellerId) {

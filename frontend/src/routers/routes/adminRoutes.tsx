@@ -7,6 +7,7 @@ import { AdminOrdersPage } from '../../pages/admin/OrdersPage';
 import { AdminProductEditPage, AdminProductNewPage } from '../../pages/admin/ProductFormPage';
 import { AdminProductsPage } from '../../pages/admin/ProductsPage';
 import { AdminStatisticsPage } from '../../pages/admin/StatisticsPage';
+import { AdminSiteSettingsPage } from '../../pages/admin/SiteSettingsPage';
 import { AdminOperationsPage } from '../../pages/admin/OperationsPage';
 import { AdminUserEditPage } from '../../pages/admin/UserEditPage';
 import { AdminUsersPage } from '../../pages/admin/UsersPage';
@@ -25,6 +26,7 @@ export const adminRoutes: RouteObject[] = [
       { path: ROUTES.ADMIN_ORDERS, element: <AdminOrdersPage /> },
       { path: ROUTES.ADMIN_ORDER_DETAIL, element: <AdminOrderDetailPage /> },
       { path: ROUTES.ADMIN_STATISTICS, element: <AdminStatisticsPage /> },
+      { path: ROUTES.ADMIN_SITE_SETTINGS, element: <AdminSiteSettingsPage /> },
       { path: ROUTES.ADMIN_OPERATIONS, element: <AdminOperationsPage /> },
     ],
   },

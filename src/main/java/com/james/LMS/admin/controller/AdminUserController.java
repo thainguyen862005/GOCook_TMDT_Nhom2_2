@@ -5,7 +5,6 @@ import com.james.LMS.admin.dto.request.UpdateUserRequest;
 import com.james.LMS.admin.dto.response.AdminUsersResponse;
 import com.james.LMS.admin.service.AdminUserService;
 import com.james.LMS.config.SecurityUserDetails;
-import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import com.james.LMS.admin.operations.AdminAuditService;

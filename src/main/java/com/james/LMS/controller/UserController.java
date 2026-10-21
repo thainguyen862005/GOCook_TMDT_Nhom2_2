@@ -1,6 +1,8 @@
 package com.james.LMS.controller;
 
 import com.james.LMS.config.SecurityConfig;
+import com.james.LMS.media.ImageFileValidator;
+import org.springframework.web.server.ResponseStatusException;
 import com.james.LMS.facade.UserFacade;
 import com.james.LMS.request.*;
 import com.james.LMS.response.*;
@@ -148,7 +150,11 @@ public class UserController {
   @PreAuthorize("isAuthenticated()")
   @SneakyThrows
   public BaseResponse<String> uploadImage(@RequestPart("image") MultipartFile image) {
-    return this.userFacade.uploadFile(image.getBytes());
+    try {
+      return this.userFacade.uploadFile(ImageFileValidator.validate(image));
+    } catch (IllegalArgumentException error) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, error.getMessage(), error);
+    }
   }
 
   @PutMapping("/profile")

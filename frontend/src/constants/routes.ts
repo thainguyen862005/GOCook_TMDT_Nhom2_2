@@ -62,5 +62,6 @@ export const ROUTES = {
   ADMIN_ORDERS: '/admin/orders',
   ADMIN_ORDER_DETAIL: '/admin/order-detail',
   ADMIN_STATISTICS: '/admin/statistics',
+  ADMIN_SITE_SETTINGS: '/admin/site-settings',
   ADMIN_OPERATIONS: '/admin/manage/:resource',
 } as const;

@@ -1,7 +1,9 @@
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
+import { useSiteSettings } from '../../contexts/SiteSettingsContext';
 
 export function HomePage() {
-  useDocumentTitle("Đầu bếp tại gia | GO Cook");
+  const site = useSiteSettings();
+  useDocumentTitle(`${site.tagline} | ${site.siteName}`);
 
   return (
     <>
@@ -14,18 +16,8 @@ export function HomePage() {
                   {"BỮA CƠM NHÀ · TRỌN VẸN YÊU THƯƠNG"}
                 </span>
               </div>
-              <h1>
-                {"Đầu bếp bạn chọn."}
-                <br />
-                <span>
-                  {"Bữa ăn bạn muốn."}
-                </span>
-                <br />
-                {"Ngay tại nhà."}
-              </h1>
-              <p className={"lead"}>
-                {"Một bữa cơm ngon, một buổi tối thảnh thơi. GO Cook kết nối bạn với đầu bếp tận tâm, mang nguyên liệu tươi đến và nấu ngay trong gian bếp của bạn."}
-              </p>
+              <h1>{site.heroTitle}</h1>
+              <p className={"lead"}>{site.heroSubtitle}</p>
               <div className={"row soft"}>
                 <svg className={"icon"} viewBox={"0 0 24 24"} aria-hidden={"true"}>
                   <path d={"M7 14a4 4 0 0 1-2-7 4 4 0 0 1 7-2 4 4 0 0 1 7 2 4 4 0 0 1-2 7v6H7z"}></path>
@@ -74,7 +66,7 @@ export function HomePage() {
               </div>
             </div>
             <div className={"hero-photo"}>
-              <img className={""} src={"/assets/hero.png"} alt={"Đầu bếp nấu ăn trong gian bếp gia đình"} fetchPriority={"high"} />
+              <img className={""} src={site.heroImageUrl} alt={site.heroImageAlt} fetchPriority={"high"} />
               <div className={"float-card top"}>
                 <img className={"avatar"} src={"/assets/chef.png"} alt={"Ảnh minh họa đầu bếp nấu ăn tại nhà"} loading={"lazy"} />
                 <div>
@@ -408,7 +400,7 @@ export function HomePage() {
         <div className={"grid grid-3"}>
           <article className={"card media-card"}>
             <a href={"/menu-detail"} className={"media"}>
-              <img className={""} src={"/assets/meal.png"} alt={"Mâm cơm Việt với cá kho, canh chua, rau xào và thịt luộc"} loading={"lazy"} />
+              <img className={""} src={site.promoImageUrl || "/assets/meal.png"} alt={"Mâm cơm Việt với cá kho, canh chua, rau xào và thịt luộc"} loading={"lazy"} />
               <span className={"badge"}>
                 {"Món miền Nam"}
               </span>
