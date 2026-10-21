@@ -414,3 +414,14 @@ button.text-link:disabled { opacity: .55; cursor: not-allowed; }
 .admin-revenue-chart .chart-col {
   min-width: 54px;
 }
+/* Admin Operations: independent, responsive back-office tables and forms. */
+.admin-ops-filter { align-items: end; }
+.admin-ops-filter .field { flex: 1 1 210px; }
+.admin-ops-json { font: 12px/1.55 Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 320px; overflow-y: auto; }
+.side-nav a { overflow-wrap: anywhere; }
+.admin-top-nav { max-width: 560px; overflow-x: auto; white-space: nowrap; }
+@media (max-width: 760px) {
+  .admin-ops-filter { align-items: stretch; }
+  .admin-ops-filter .field, .admin-ops-filter button { width: 100%; }
+  .admin-top-nav { display: none; }
+}

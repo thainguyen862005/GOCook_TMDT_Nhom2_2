@@ -6,7 +6,11 @@ import com.james.LMS.entity.CookOrder;
 import com.james.LMS.admin.service.AdminOrderService;
 import java.time.LocalDate;
 import java.util.Map;
+import com.james.LMS.config.SecurityUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import lombok.RequiredArgsConstructor;
+import com.james.LMS.admin.operations.AdminAuditService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminOrderController {
 
   private final AdminOrderService orderService;
+  private final AdminAuditService audit;
 
   @GetMapping
   public AdminOrdersResponse search(
@@ -38,8 +43,10 @@ public class AdminOrderController {
   }
 
   @PutMapping("/{id}")
-  public Map<String, Object> update(@PathVariable Long id, @RequestBody UpdateOrderRequest request) {
+  @Transactional
+  public Map<String, Object> update(@PathVariable Long id, @RequestBody UpdateOrderRequest request, @AuthenticationPrincipal SecurityUserDetails actor) {
     orderService.update(id, request.status(), request.internalNote());
+    audit.record(actor.getId(), "ORDER_ADMIN_EDIT", "ORDER", id, "Cập nhật ghi chú/trạng thái theo rule Admin");
     return Map.of(
         "message", "Đã cập nhật đơn hàng.",
         "order", orderService.get(id),

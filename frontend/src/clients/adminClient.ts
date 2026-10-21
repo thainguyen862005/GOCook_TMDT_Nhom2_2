@@ -28,7 +28,7 @@ export const adminClient = {
     user: (id: string | number) =>
         httpRequest<{ user: AdminUser; roles: string[] }>(`/api/admin/users/${id}`),
 
-    updateUser: (id: string | number, payload: { username: string; role: string; active: boolean }) =>
+    updateUser: (id: string | number, payload: { username: string; roles: string[]; active: boolean }) =>
         httpRequest<{ message: string; user: AdminUser }>(`/api/admin/users/${id}`, {
             method: 'PUT',
             body: JSON.stringify(payload),

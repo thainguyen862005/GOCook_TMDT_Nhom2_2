@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useMemo, useState, type FormEvent,} from 'react';
 
 import {adminClient} from '../../clients/adminClient';
+import {appConfig} from '../../config/appConfig';
 import {Loading} from '../../components/common/Loading';
 import {MetricCard} from '../../components/common/MetricCard';
 import {Notice} from '../../components/common/Notice';
@@ -170,6 +171,8 @@ export function AdminStatisticsPage() {
                 </div>
 
                 <div className="row">
+                    <a className="btn secondary sm" href={`${appConfig.apiBaseUrl}/api/admin/reports/csv?type=bookings&from=${from}&to=${to}`} download>Xuất CSV đơn hàng</a>
+                    <a className="btn secondary sm" href={`${appConfig.apiBaseUrl}/api/admin/reports/csv?type=payments&from=${from}&to=${to}`} download>Xuất CSV giao dịch</a>
                     <button className="btn secondary sm" type="button" onClick={() => changeGrouping('DAY')}>30 ngày
                     </button>
                     <button className="btn secondary sm" type="button" onClick={() => changeGrouping('MONTH')}>6 tháng

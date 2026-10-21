@@ -1,5 +1,6 @@
 package com.james.LMS.admin.service;
 
+import com.james.LMS.admin.exception.AdminResourceNotFoundException;
 import com.james.LMS.entity.Product;
 import com.james.LMS.enums.ProductStatus;
 import com.james.LMS.repository.ProductRepository;
@@ -38,7 +39,7 @@ public class AdminProductService {
     public Product get(Long id) {
         return productRepository
                 .findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy sản phẩm."));
+                .orElseThrow(() -> new AdminResourceNotFoundException("Không tìm thấy sản phẩm."));
     }
 
     @Transactional(readOnly = true)
@@ -71,7 +72,9 @@ public class AdminProductService {
                 maxGuests,
                 imageUrl,
                 status);
-        ;
+        if (status == ProductStatus.PUBLISHED) {
+            throw new IllegalArgumentException("Thực đơn mới phải gắn Chef; hãy lưu bản nháp trước.");
+        }
 
         return productRepository.save(
                 Product.builder()
@@ -107,9 +110,13 @@ public class AdminProductService {
                 maxGuests,
                 imageUrl,
                 status);
-        ;
-
         Product product = get(id);
+        if (!product.isActive()) {
+            throw new IllegalArgumentException("Thực đơn đã bị vô hiệu hóa.");
+        }
+        if (status == ProductStatus.PUBLISHED && product.getSellerId() == null) {
+            throw new IllegalArgumentException("Không thể công khai thực đơn chưa gắn Chef.");
+        }
         product.setName(name.trim());
         product.setCategory(category.trim());
         product.setUnitPrice(unitPrice);
@@ -125,7 +132,12 @@ public class AdminProductService {
     @Transactional
     public void toggleVisibility(Long id) {
         Product product = get(id);
-
+        if (!product.isActive()) {
+            throw new IllegalArgumentException("Thực đơn đã bị vô hiệu hóa.");
+        }
+        if (product.getStatus() != ProductStatus.PUBLISHED && product.getSellerId() == null) {
+            throw new IllegalArgumentException("Thực đơn cần được gắn Chef trước khi công khai.");
+        }
         if (product.getStatus() == ProductStatus.PUBLISHED) {
             product.setStatus(ProductStatus.HIDDEN);
         } else {
@@ -148,8 +160,8 @@ public class AdminProductService {
         }
         try {
             return ProductStatus.valueOf(status.trim().toUpperCase(Locale.ROOT));
-        } catch (IllegalArgumentException ignored) {
-            return null;
+        } catch (IllegalArgumentException error) {
+            throw new IllegalArgumentException("Bộ lọc trạng thái thực đơn không hợp lệ.");
         }
     }
 
@@ -164,11 +176,18 @@ public class AdminProductService {
 
         requireText(name, "Tên thực đơn không được để trống.");
         requireText(category, "Danh mục không được để trống.");
+        if (name.trim().length() > 255 || category.trim().length() > 100) {
+            throw new IllegalArgumentException("Tên hoặc danh mục vượt quá độ dài cho phép.");
+        }
 
         if (unitPrice == null || unitPrice.signum() < 0) {
             throw new IllegalArgumentException("Giá mỗi người phải lớn hơn hoặc bằng 0.");
         }
 
+        if (unitPrice != null && (unitPrice.compareTo(new BigDecimal("999999999999.99")) > 0
+                || unitPrice.scale() > 2)) {
+            throw new IllegalArgumentException("Giá vượt giới hạn hoặc có quá 2 chữ số thập phân.");
+        }
         if (minGuests == null || maxGuests == null || minGuests < 1 || maxGuests < 1) {
             throw new IllegalArgumentException("Số khách phải lớn hơn 0.");
         }
@@ -181,6 +200,17 @@ public class AdminProductService {
             throw new IllegalArgumentException("Trạng thái sản phẩm không hợp lệ.");
         }
 
+        if (imageUrl != null && !imageUrl.isBlank()) {
+            String trimmed = imageUrl.trim();
+            // Existing local assets are valid URLs for the built-in sample menus.
+            if (trimmed.length() > 1000 || !(trimmed.startsWith("/assets/")
+                    || trimmed.matches("(?i)^https?://[^\\s/]+(?:/.*)?$"))) {
+                throw new IllegalArgumentException("URL ảnh phải là HTTPS/HTTP hoặc /assets/ hợp lệ.");
+            }
+        }
+        if (status == ProductStatus.PUBLISHED && unitPrice.signum() <= 0) {
+            throw new IllegalArgumentException("Thực đơn hiển thị phải có giá lớn hơn 0.");
+        }
         if (status == ProductStatus.PUBLISHED && (imageUrl == null || imageUrl.isBlank())) {
             throw new IllegalArgumentException("Thực đơn đang hiển thị phải có ảnh đại diện.");
         }

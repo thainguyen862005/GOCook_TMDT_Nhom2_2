@@ -9,6 +9,15 @@ const adminLinks = [
   [ROUTES.ADMIN_PRODUCTS, 'Sản phẩm'],
   [ROUTES.ADMIN_ORDERS, 'Đơn hàng'],
   [ROUTES.ADMIN_STATISTICS, 'Thống kê'],
+  ['/admin/manage/customers', 'Hồ sơ khách hàng'],
+  ['/admin/manage/chefs', 'Đầu bếp & xác minh'],
+  ['/admin/manage/payments', 'Giao dịch'],
+  ['/admin/manage/refunds', 'Yêu cầu hoàn tiền'],
+  ['/admin/manage/vouchers', 'Voucher'],
+  ['/admin/manage/cases', 'Khiếu nại'],
+  ['/admin/manage/reviews', 'Kiểm duyệt đánh giá'],
+  ['/admin/manage/tickets', 'Hỗ trợ'],
+  ['/admin/manage/audit', 'Nhật ký thao tác'],
 ] as const;
 
 export function AdminLayout({ title, lead, children }: { title: string; lead?: string; children: ReactNode }) {
@@ -17,8 +26,8 @@ export function AdminLayout({ title, lead, children }: { title: string; lead?: s
       <header className="site-header">
         <div className="container header-inner">
           <Brand admin />
-          <nav className="nav" aria-label="Điều hướng quản trị">
-            {adminLinks.map(([to, label]) => <NavLink key={to} end={to === ROUTES.ADMIN} to={to}>{label}</NavLink>)}
+          <nav className="nav admin-top-nav" aria-label="Điều hướng quản trị">
+            {adminLinks.slice(0, 5).map(([to, label]) => <NavLink key={to} end={to === ROUTES.ADMIN} to={to}>{label}</NavLink>)}
           </nav>
           <div className="header-actions"><Link className="btn secondary sm" to="/">Về trang chủ</Link></div>
         </div>
