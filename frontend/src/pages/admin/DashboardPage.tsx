@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {adminClient} from '../../clients/adminClient';
+import {adminOperationsClient} from '../../clients/adminOperationsClient';
 import {Loading} from '../../components/common/Loading';
 import {MetricCard} from '../../components/common/MetricCard';
 import {Notice} from '../../components/common/Notice';
@@ -15,12 +16,15 @@ import {statusClass} from '../../util/status';
 export function AdminDashboardPage() {
     const [data, setData] = useState<DashboardResponse | null>(null);
     const [message, setMessage] = useState<UiMessage | null>(null);
+    const [operations, setOperations] = useState<Array<{metric: string; value: number}>>([]);
 
     const load = useCallback(async () => {
         setMessage(null);
 
         try {
             setData(await adminClient.dashboard());
+            // Operations counters fail independently if a migration has not yet been applied.
+            void adminOperationsClient.summary().then(setOperations).catch(() => setOperations([]));
         } catch (error) {
             setMessage({
                 text: error instanceof Error
@@ -120,6 +124,25 @@ export function AdminDashboardPage() {
                                 value={money(data.completedRevenue)}
                             />
                         </div>
+                    </section>
+
+                    <section className="stack-sm">
+                        <div><p className="eyebrow">Trung tâm điều hành</p><h3>Công việc cần xử lý</h3></div>
+                        {operations.length ? <div className="grid grid-4">
+                            {operations.filter((item) => item.metric !== 'successful_payment_amount').map((item) =>
+                                <MetricCard key={item.metric} title={{
+                                    pending_verifications: 'Chef chờ xác minh',
+                                    open_cases: 'Khiếu nại chưa đóng',
+                                    pending_refunds: 'Yêu cầu hoàn tiền',
+                                    open_tickets: 'Ticket chưa đóng',
+                                    pending_review_reports: 'Đánh giá bị báo cáo',
+                                }[item.metric] || item.metric} value={item.value} />)}
+                        </div> : <p className="muted small">Vui lòng chạy migration Admin Operations để xem tác vụ đang chờ.</p>}
+                        <p className="small muted">Giá trị đơn hoàn thành được tính theo lịch nấu; tổng thanh toán thành công từ gateway là KPI riêng và không đồng nghĩa lợi nhuận.</p>
+                        {operations.some((item) => item.metric === 'successful_payment_amount') &&
+                          <MetricCard title="Tổng giao dịch SUCCESS (gross, chưa trừ refund)" value={money(
+                            operations.find((item) => item.metric === 'successful_payment_amount')?.value || 0
+                          )} />}
                     </section>
 
                     <section className="card stack">
