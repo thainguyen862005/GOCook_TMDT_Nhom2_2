@@ -236,4 +236,16 @@ class VoucherServiceTest {
         .contains("status = 'RESERVED'")
         .contains("GREATEST(v.used_count - 1, 0)");
   }
+
+  @Test
+  void aRefundedOrderGetsItsVoucherUseBackEvenWhenTheUseWasAlreadyConsumed() {
+    service.returnAfterRefund(77L);
+
+    ArgumentCaptor<String> sql = ArgumentCaptor.forClass(String.class);
+    verify(jdbc).update(sql.capture(), any(MapSqlParameterSource.class));
+    assertThat(sql.getValue())
+        .contains("status IN ('RESERVED', 'CONSUMED')")
+        .contains("'RELEASED'")
+        .contains("GREATEST(v.used_count - 1, 0)");
+  }
 }

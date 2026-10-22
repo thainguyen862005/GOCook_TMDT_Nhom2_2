@@ -113,6 +113,23 @@ public class VoucherService {
         new MapSqlParameterSource("order", orderId));
   }
 
+  /**
+   * The whole order was refunded: give the use back even if it was already consumed (release only
+   * undoes a reservation). Never below zero. Safe to repeat.
+   */
+  public void returnAfterRefund(Long orderId) {
+    jdbc.update(
+        """
+        WITH returned AS (
+          UPDATE voucher_redemptions SET status = 'RELEASED', updated_at = now()
+          WHERE order_id = :order AND status IN ('RESERVED', 'CONSUMED')
+          RETURNING voucher_id)
+        UPDATE admin_vouchers v SET used_count = GREATEST(v.used_count - 1, 0)
+        FROM returned WHERE v.id = returned.voucher_id
+        """,
+        new MapSqlParameterSource("order", orderId));
+  }
+
   Voucher find(String rawCode, boolean lock) {
     String code = rawCode.trim().toUpperCase(Locale.ROOT);
     List<Voucher> found =
