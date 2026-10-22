@@ -64,7 +64,27 @@ public enum ErrorCode {
 
   // Return-URL cancel (Sprint 2). Codes from 1129.
   PAYMENT_RETURN_INVALID_SIGNATURE("1129", "Return parameters are not signed by the gateway"),
-  PAYMENT_RETURN_MISMATCH("1130", "Return parameters do not match the payment");
+  PAYMENT_RETURN_MISMATCH("1130", "Return parameters do not match the payment"),
+
+  // Escrow release, refunds, seller finance, admin payment read model (Sprint 2 part 2). Codes 1140-1169.
+  ESCROW_ORDER_NOT_FOUND("1140", "Order not found"),
+  ESCROW_NOT_OWNER("1141", "Only the customer of the order can confirm it"),
+  ESCROW_DISPUTE_OPEN("1142", "The order has an open dispute"),
+  ESCROW_ORDER_NOT_AWAITING("1143", "The order is not waiting for acceptance"),
+  ESCROW_NOT_HELD("1144", "There is no held escrow for this order"),
+  REFUND_NOT_FOUND("1145", "Refund not found"),
+  REFUND_ESCROW_RELEASED("1146", "The money was already released to the chef"),
+  REFUND_NO_ESCROW("1147", "A successful payment has no escrow to refund from"),
+  REFUND_NOT_RETRYABLE("1148", "Only a failed refund can be retried"),
+  REFUND_ADMIN_REQUEST_INVALID("1149", "The admin refund request cannot be executed"),
+  REFUND_AMOUNT_EXCEEDS("1150", "Refund amount is above what was paid"),
+  REFUND_NOT_DUPLICATE("1151", "The payment is not a duplicate payment"),
+  REFUND_ALREADY_EXISTS("1152", "The payment already has a refund"),
+  REFUND_ORDER_NOT_FOUND("1153", "Order not found"),
+  FINANCE_INVALID_RANGE("1155", "From date is after to date"),
+  FINANCE_INVALID_PARAM("1156", "A finance query parameter is invalid"),
+  ADMIN_PAYMENT_NOT_FOUND("1160", "Payment not found"),
+  ADMIN_PAYMENT_INVALID_PARAM("1161", "A payment query parameter is invalid");
 
   private final String code;
   private final String message;
