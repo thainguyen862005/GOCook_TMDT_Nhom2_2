@@ -1,11 +1,29 @@
 import { ApiError, httpRequest } from './httpClient';
-import type { CheckoutRequest, CheckoutResult, PaymentStatusResult } from '../types/payment';
+import type {
+  CheckoutRequest,
+  CheckoutResult,
+  OrderCheckoutRequest,
+  PaymentStatusResult,
+} from '../types/payment';
 
 export const paymentClient = {
   checkout: (request: CheckoutRequest) =>
     httpRequest<CheckoutResult>('/api/payments/checkout', {
       method: 'POST',
       body: JSON.stringify(request),
+    }),
+
+  checkoutOrder: (request: OrderCheckoutRequest) =>
+    httpRequest<CheckoutResult>('/api/payments/checkout/order', {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }),
+
+  /** Sends the signed vnp_* parameters VNPay put on the return URL; only a cancel (24) changes anything. */
+  vnpayReturn: (params: Record<string, string>) =>
+    httpRequest<PaymentStatusResult>('/api/payments/vnpay-return', {
+      method: 'POST',
+      body: JSON.stringify(params),
     }),
 
   status: (txnRef: string, signal?: AbortSignal) =>

@@ -1,5 +1,6 @@
 package com.james.LMS.entity;
 
+import com.james.LMS.enums.PaymentCloseReason;
 import com.james.LMS.enums.PaymentProvider;
 import com.james.LMS.enums.PaymentStatus;
 import jakarta.persistence.Column;
@@ -9,7 +10,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,4 +49,18 @@ public class PaymentTransaction extends BaseEntity {
 
   @Column(name = "raw_reference", columnDefinition = "TEXT")
   private String rawReference;
+
+  @Column(name = "idempotency_key")
+  private UUID idempotencyKey;
+
+  @Column(name = "attempt_no", nullable = false)
+  @Builder.Default
+  private Integer attemptNo = 1;
+
+  @Column(name = "expires_at")
+  private OffsetDateTime expiresAt;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "close_reason", length = 30)
+  private PaymentCloseReason closeReason;
 }

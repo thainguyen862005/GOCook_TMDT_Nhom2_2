@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.james.LMS.config.PaymentProperties;
 import com.james.LMS.service.PaymentGateway.GatewayTransaction;
@@ -16,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 
 class PaymentGatewaySignatureTest {
   static final String SECRET = "TEST_SECRET_NOT_REAL_0123456789";
@@ -264,5 +268,102 @@ class PaymentGatewaySignatureTest {
   void unreadableQueryResponseIsUndecided() {
     assertThat(gateway.parseQueryResponse("GC2610147K3QX9", "<html>502</html>").outcome())
         .isEqualTo(Outcome.UNKNOWN);
+  }
+
+  @Test
+  void signatureMismatchLogsOnlyKeysCodesAndMessageNeverHashOrSecret() throws Exception {
+    Logger logger = (Logger) LoggerFactory.getLogger(VnpayPaymentGateway.class);
+    ListAppender<ILoggingEvent> logs = new ListAppender<>();
+    logs.start();
+    logger.addAppender(logs);
+    try {
+      Map<String, String> fields = new LinkedHashMap<>();
+      fields.put("vnp_ResponseCode", "03");
+      fields.put("vnp_Message", "Data format is wrong");
+      fields.put("vnp_SecureHash", "deadbeefcafe");
+
+      GatewayTransaction tx =
+          gateway.parseQueryResponse("GC2610147K3QX9", mapper.writeValueAsString(fields));
+
+      assertThat(tx.outcome()).isEqualTo(Outcome.UNKNOWN);
+      assertThat(logs.list).hasSize(1);
+      String line = logs.list.get(0).getFormattedMessage();
+      assertThat(line)
+          .contains("keys=vnp_ResponseCode,vnp_Message,vnp_SecureHash")
+          .contains("responseCode=03")
+          .contains("message=Data format is wrong");
+      assertThat(line).doesNotContain("deadbeefcafe").doesNotContain(SECRET);
+    } finally {
+      logger.detachAppender(logs);
+    }
+  }
+
+  @Test
+  void aThrottledQuerydrIsLoggedAsThrottledAndStillUndecided() throws Exception {
+    Logger logger = (Logger) LoggerFactory.getLogger(VnpayPaymentGateway.class);
+    ListAppender<ILoggingEvent> logs = new ListAppender<>();
+    logs.start();
+    logger.addAppender(logs);
+    try {
+      Map<String, String> fields = new LinkedHashMap<>();
+      fields.put("vnp_ResponseCode", "94");
+      fields.put("vnp_Message", "Request is duplicated");
+
+      GatewayTransaction tx =
+          gateway.parseQueryResponse("GC2610147K3QX9", mapper.writeValueAsString(fields));
+
+      assertThat(tx.outcome()).isEqualTo(Outcome.UNKNOWN);
+      assertThat(logs.list).hasSize(1);
+      assertThat(logs.list.get(0).getLevel()).isEqualTo(ch.qos.logback.classic.Level.INFO);
+      assertThat(logs.list.get(0).getFormattedMessage())
+          .contains("vnpay querydr throttled (94 duplicate request)")
+          .doesNotContain("signature mismatch");
+    } finally {
+      logger.detachAppender(logs);
+    }
+  }
+
+  @Test
+  void theReturnUrlOfACancelledPaymentIsVerifiedByTheSameVerifierAsCancelled() throws Exception {
+    // Shape copied from a real sandbox return URL after pressing "Huy thanh toan" (hash replaced).
+    Map<String, String> params = new LinkedHashMap<>();
+    params.put("vnp_Amount", "60000000");
+    params.put("vnp_BankCode", "VNPAY");
+    params.put("vnp_CardType", "QRCODE");
+    params.put("vnp_OrderInfo", "Thanh toan don hang GC261022IESSQK");
+    params.put("vnp_PayDate", "20261022062540");
+    params.put("vnp_ResponseCode", "24");
+    params.put("vnp_TmnCode", TMN);
+    params.put("vnp_TransactionNo", "0");
+    params.put("vnp_TransactionStatus", "02");
+    params.put("vnp_TxnRef", "GC261022IESSQK");
+
+    java.util.TreeMap<String, String> sorted = new java.util.TreeMap<>(params);
+    StringBuilder data = new StringBuilder();
+    sorted.forEach(
+        (name, value) -> {
+          if (data.length() > 0) {
+            data.append('&');
+          }
+          data.append(java.net.URLEncoder.encode(name, java.nio.charset.StandardCharsets.US_ASCII))
+              .append('=')
+              .append(java.net.URLEncoder.encode(value, java.nio.charset.StandardCharsets.US_ASCII));
+        });
+    javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA512");
+    mac.init(new javax.crypto.spec.SecretKeySpec(SECRET.getBytes(java.nio.charset.StandardCharsets.UTF_8), "HmacSHA512"));
+    params.put(
+        "vnp_SecureHash",
+        java.util.HexFormat.of().formatHex(mac.doFinal(data.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8))));
+
+    Optional<GatewayTransaction> verified = gateway.verifyCallback(params);
+
+    assertThat(verified).isPresent();
+    assertThat(verified.get().outcome()).isEqualTo(Outcome.CANCELLED);
+    assertThat(verified.get().txnRef()).isEqualTo("GC261022IESSQK");
+    assertThat(verified.get().amount()).isEqualByComparingTo("600000");
+    assertThat(verified.get().responseCode()).isEqualTo("24");
+
+    params.put("vnp_ResponseCode", "00");
+    assertThat(gateway.verifyCallback(params)).isEmpty();
   }
 }

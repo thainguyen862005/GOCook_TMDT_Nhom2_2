@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { paymentClient, paymentError } from '../../clients/paymentClient';
 import type { PaymentStatusResult } from '../../types/payment';
 
@@ -7,11 +7,21 @@ const MAX_POLLS = 10;
 
 export type PaymentView = 'missing' | 'confirming' | 'waiting' | 'success' | 'failed' | 'error';
 
-export function usePaymentStatus(txnRef: string | null) {
+/**
+ * returnParams are the vnp_* query parameters of the return URL (null when there is none). When
+ * present they are sent to the backend once per transaction before polling starts.
+ */
+export function usePaymentStatus(
+  txnRef: string | null,
+  returnParams: Record<string, string> | null,
+) {
   const [result, setResult] = useState<PaymentStatusResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [waiting, setWaiting] = useState(false);
   const [round, setRound] = useState(0);
+  const returnRef = useRef(returnParams);
+  returnRef.current = returnParams;
+  const returnSent = useRef<string | null>(null);
 
   useEffect(() => {
     if (!txnRef) return;
@@ -19,6 +29,15 @@ export function usePaymentStatus(txnRef: string | null) {
     const controller = new AbortController();
 
     async function poll(reference: string) {
+      if (returnRef.current && returnSent.current !== reference) {
+        returnSent.current = reference;
+        try {
+          await paymentClient.vnpayReturn(returnRef.current);
+        } catch (failure) {
+          if (!cancelled) setError(paymentError(failure));
+          return;
+        }
+      }
       for (let attempt = 0; attempt < MAX_POLLS && !cancelled; attempt += 1) {
         try {
           const latest = await paymentClient.status(reference, controller.signal);

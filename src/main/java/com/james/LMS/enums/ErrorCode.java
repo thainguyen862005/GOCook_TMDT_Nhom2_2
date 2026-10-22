@@ -26,7 +26,65 @@ public enum ErrorCode {
   PAYMENT_INVALID_GUESTS("1017", "Guest count is outside the product limits"),
   PAYMENT_INVALID_SCHEDULE("1018", "Scheduled time must be in the future"),
   PAYMENT_NOT_FOUND("1019", "Payment transaction not found"),
-  PAYMENT_GATEWAY_UNAVAILABLE("1020", "Payment gateway request failed");
+  PAYMENT_GATEWAY_UNAVAILABLE("1020", "Payment gateway request failed"),
+  PAYMENT_IDEMPOTENCY_CONFLICT("1021", "Idempotency key belongs to another customer"),
+
+  // Pricing / proposal (Sprint 1). Block 1100-1199 belongs to the payment/proposal group.
+  PRICING_VOUCHER_NOT_SUPPORTED("1100", "Vouchers are not supported yet"),
+  PROPOSAL_REQUEST_NOT_FOUND("1101", "Custom request not found"),
+  PROPOSAL_NOT_FOUND("1102", "Proposal not found"),
+  PROPOSAL_CHEF_NOT_MATCHED("1103", "Chef is not matched to this request"),
+  PROPOSAL_REQUEST_CLOSED("1104", "Request is not accepting proposals"),
+  PROPOSAL_INVALID_PRICE("1105", "Proposed price must be greater than zero"),
+  PROPOSAL_INVALID_EXPIRY("1106", "Proposal expiry is outside the allowed window"),
+  PROPOSAL_ALREADY_EXISTS("1107", "Chef already has a live proposal for this request"),
+  PROPOSAL_VERSION_CONFLICT("1108", "Proposal was changed by someone else"),
+  PROPOSAL_INVALID_TRANSITION("1109", "Proposal status change is not allowed"),
+  PROPOSAL_EXPIRED("1110", "Proposal has expired"),
+  PROPOSAL_FORBIDDEN("1111", "Not allowed to access this proposal"),
+  PROPOSAL_CHEF_INACTIVE("1112", "Chef is not active"),
+  PROPOSAL_ALREADY_RESOLVED("1113", "Another proposal was already accepted"),
+  PROPOSAL_BOOKING_UNAVAILABLE("1114", "Booking slot is no longer available"),
+  PROPOSAL_PORT_NOT_INTEGRATED("1115", "Required integration port is not implemented yet"),
+  PROPOSAL_VALIDATION("1116", "Proposal data is invalid"),
+  PROPOSAL_CONFLICT("1117", "Proposal conflicts with existing data"),
+  PAYMENT_ORDER_NOT_PAYABLE("1118", "Order cannot be paid right now"),
+  PAYMENT_ORDER_WINDOW_PASSED("1119", "The time allowed to pay this order has passed"),
+
+  // Vouchers (Sprint 2). Codes 1120-1129 are reserved for them.
+  VOUCHER_NOT_FOUND("1120", "Voucher does not exist"),
+  VOUCHER_INACTIVE("1121", "Voucher is not active"),
+  VOUCHER_NOT_STARTED("1122", "Voucher is not valid yet"),
+  VOUCHER_EXPIRED("1123", "Voucher has expired"),
+  VOUCHER_MIN_ORDER("1124", "Order is below the voucher minimum"),
+  VOUCHER_EXHAUSTED("1125", "Voucher usage limit has been reached"),
+  VOUCHER_CUSTOMER_LIMIT("1126", "Customer already used this voucher the allowed number of times"),
+  VOUCHER_COVERS_ORDER("1127", "Voucher would cover the whole order"),
+  VOUCHER_CHANGED("1128", "Voucher changed while the order was being created"),
+
+  // Return-URL cancel (Sprint 2). Codes from 1129.
+  PAYMENT_RETURN_INVALID_SIGNATURE("1129", "Return parameters are not signed by the gateway"),
+  PAYMENT_RETURN_MISMATCH("1130", "Return parameters do not match the payment"),
+
+  // Escrow release, refunds, seller finance, admin payment read model (Sprint 2 part 2). Codes 1140-1169.
+  ESCROW_ORDER_NOT_FOUND("1140", "Order not found"),
+  ESCROW_NOT_OWNER("1141", "Only the customer of the order can confirm it"),
+  ESCROW_DISPUTE_OPEN("1142", "The order has an open dispute"),
+  ESCROW_ORDER_NOT_AWAITING("1143", "The order is not waiting for acceptance"),
+  ESCROW_NOT_HELD("1144", "There is no held escrow for this order"),
+  REFUND_NOT_FOUND("1145", "Refund not found"),
+  REFUND_ESCROW_RELEASED("1146", "The money was already released to the chef"),
+  REFUND_NO_ESCROW("1147", "A successful payment has no escrow to refund from"),
+  REFUND_NOT_RETRYABLE("1148", "Only a failed refund can be retried"),
+  REFUND_ADMIN_REQUEST_INVALID("1149", "The admin refund request cannot be executed"),
+  REFUND_AMOUNT_EXCEEDS("1150", "Refund amount is above what was paid"),
+  REFUND_NOT_DUPLICATE("1151", "The payment is not a duplicate payment"),
+  REFUND_ALREADY_EXISTS("1152", "The payment already has a refund"),
+  REFUND_ORDER_NOT_FOUND("1153", "Order not found"),
+  FINANCE_INVALID_RANGE("1155", "From date is after to date"),
+  FINANCE_INVALID_PARAM("1156", "A finance query parameter is invalid"),
+  ADMIN_PAYMENT_NOT_FOUND("1160", "Payment not found"),
+  ADMIN_PAYMENT_INVALID_PARAM("1161", "A payment query parameter is invalid");
 
   private final String code;
   private final String message;
