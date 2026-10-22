@@ -11,6 +11,8 @@ export interface CheckoutRequest {
   serviceAddress: string;
   customerNote?: string;
   idempotencyKey: string;
+  /** Optional; the server re-checks every rule and prices the order itself. */
+  voucherCode?: string;
 }
 
 /** Pays an order that already exists as PENDING, e.g. the booking of an accepted proposal. */
@@ -24,6 +26,9 @@ export interface CheckoutResult {
   payUrl: string;
 }
 
+/** Why a payment attempt ended without success. */
+export type PaymentCloseReason = 'USER_CANCELLED' | 'GATEWAY_FAILED' | 'EXPIRED';
+
 export interface PaymentStatusResult {
   orderCode: string;
   paymentStatus: PaymentStatus;
@@ -34,4 +39,6 @@ export interface PaymentStatusResult {
   scheduledAt: string;
   amount: number;
   paidAt: string | null;
+  closeReason: PaymentCloseReason | null;
+  attemptNo: number;
 }

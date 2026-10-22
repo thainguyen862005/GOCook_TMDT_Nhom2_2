@@ -8,6 +8,7 @@ import com.james.LMS.response.PaymentStatusResponse;
 import com.james.LMS.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.Map;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,12 @@ public class PaymentController {
       @Valid @RequestBody PaymentOrderCheckoutRequest request,
       HttpServletRequest http) {
     return service.checkoutOrder(actor.getId(), request, clientIp(http));
+  }
+
+  @PostMapping("/vnpay-return")
+  public PaymentStatusResponse vnpayReturn(
+      @AuthenticationPrincipal SecurityUserDetails actor, @RequestBody Map<String, String> params) {
+    return service.handleVnpayReturn(actor.getId(), params);
   }
 
   @GetMapping("/status")

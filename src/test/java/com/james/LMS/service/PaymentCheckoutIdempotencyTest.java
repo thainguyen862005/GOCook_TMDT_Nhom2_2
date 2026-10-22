@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.james.LMS.config.PaymentLifecycleProperties;
 import com.james.LMS.entity.CookOrder;
 import com.james.LMS.pricing.PricingProperties;
 import com.james.LMS.pricing.PricingService;
@@ -18,6 +19,7 @@ import com.james.LMS.enums.ErrorCode;
 import com.james.LMS.enums.ProductStatus;
 import com.james.LMS.exception.PaymentException;
 import com.james.LMS.repository.OrderRepository;
+import com.james.LMS.repository.PendingOrderRepository;
 import com.james.LMS.repository.PaymentTransactionRepository;
 import com.james.LMS.repository.ProductRepository;
 import com.james.LMS.repository.UserRepository;
@@ -25,6 +27,7 @@ import com.james.LMS.request.PaymentCheckoutRequest;
 import com.james.LMS.response.PaymentCheckoutResponse;
 import com.james.LMS.service.PaymentGateway.PaymentRequest;
 import com.james.LMS.service.impl.PaymentServiceImpl;
+import com.james.LMS.voucher.VoucherService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -46,16 +49,20 @@ class PaymentCheckoutIdempotencyTest {
   final UserRepository users = mock(UserRepository.class);
   final PaymentTransactionRepository payments = mock(PaymentTransactionRepository.class);
   final PaymentGateway gateway = mock(PaymentGateway.class);
+  final VoucherService vouchers = mock(VoucherService.class);
   final PaymentService service =
       new PaymentServiceImpl(
           orders,
-          new PricingService(products, new PricingProperties()),
+          new PricingService(products, new PricingProperties(), vouchers),
           users,
           payments,
           gateway,
           PaymentServiceTest.properties(),
           new ObjectMapper(),
-          new TransactionTemplate(mock(PlatformTransactionManager.class)));
+          new TransactionTemplate(mock(PlatformTransactionManager.class)),
+          new PaymentLifecycleProperties(),
+          vouchers,
+          mock(PendingOrderRepository.class));
 
   CookOrder savedOrder;
   PaymentTransaction savedPayment;
@@ -106,7 +113,8 @@ class PaymentCheckoutIdempotencyTest {
         "0901234567",
         "12 Nguyen Hue, Quan 1",
         null,
-        key);
+        key,
+        null);
   }
 
   @Test

@@ -1,7 +1,7 @@
 export interface FixedPreviewRequest {
   productId: number;
   guestCount: number;
-  /** Not supported yet: any value (even empty) is rejected with error 1100. Leave it out. */
+  /** Optional. The server checks every voucher rule and returns the discount; do not compute it here. */
   voucherCode?: string;
 }
 
@@ -16,6 +16,8 @@ export interface FixedMenuPreview {
   currency: 'VND';
   /** ISO-8601 with offset. After this moment the shown price must be fetched again. */
   priceExpiresAt: string;
+  /** The voucher that was applied, or null. */
+  voucherCode: string | null;
 }
 
 export type GuidanceStatus = 'OK' | 'INSUFFICIENT_DATA';

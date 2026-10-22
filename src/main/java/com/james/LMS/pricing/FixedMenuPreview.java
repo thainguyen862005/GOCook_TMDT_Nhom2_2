@@ -12,4 +12,5 @@ public record FixedMenuPreview(
     BigDecimal discount,
     BigDecimal total,
     String currency,
-    OffsetDateTime priceExpiresAt) {}
+    OffsetDateTime priceExpiresAt,
+    String voucherCode) {}

@@ -16,4 +16,5 @@ public record PaymentCheckoutRequest(
     @NotBlank @Pattern(regexp = "^[0-9+\\-\\s]{8,30}$") String customerPhone,
     @NotBlank @Size(max = 1000) String serviceAddress,
     @Size(max = 2000) String customerNote,
-    @NotNull UUID idempotencyKey) {}
+    @NotNull UUID idempotencyKey,
+    @Size(max = 40) String voucherCode) {}

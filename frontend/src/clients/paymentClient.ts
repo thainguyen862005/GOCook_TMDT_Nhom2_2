@@ -19,6 +19,13 @@ export const paymentClient = {
       body: JSON.stringify(request),
     }),
 
+  /** Sends the signed vnp_* parameters VNPay put on the return URL; only a cancel (24) changes anything. */
+  vnpayReturn: (params: Record<string, string>) =>
+    httpRequest<PaymentStatusResult>('/api/payments/vnpay-return', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    }),
+
   status: (txnRef: string, signal?: AbortSignal) =>
     httpRequest<PaymentStatusResult>(`/api/payments/status?${new URLSearchParams({ txnRef })}`, {
       signal,

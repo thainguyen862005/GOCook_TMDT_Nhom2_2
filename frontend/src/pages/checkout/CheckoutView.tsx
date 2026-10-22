@@ -213,8 +213,10 @@ export function CheckoutView({ title }: { title: string }) {
                   <span className="green">Đã bao gồm</span>
                 </div>
                 <div className="summary-line">
-                  <span>Ưu đãi</span>
-                  <span>0đ</span>
+                  <span>Ưu đãi{checkout.voucher.applied ? ` (${checkout.voucher.applied.voucherCode})` : ''}</span>
+                  <span className={checkout.discount > 0 ? 'green' : undefined}>
+                    {checkout.discount > 0 ? `-${money(checkout.discount)}` : '0đ'}
+                  </span>
                 </div>
                 <div className="summary-line total">
                   <span>Tổng cộng</span>
@@ -223,16 +225,35 @@ export function CheckoutView({ title }: { title: string }) {
               </div>
               <label className="field" htmlFor="voucher">
                 Mã ưu đãi
-                <input id="voucher" name="voucher" type="text" placeholder="Nhập mã ưu đãi" disabled />
+                <input
+                  id="voucher"
+                  name="voucher"
+                  type="text"
+                  placeholder="Nhập mã ưu đãi"
+                  value={checkout.voucher.code}
+                  onChange={(event) => checkout.voucher.setCode(event.target.value)}
+                  maxLength={40}
+                />
               </label>
-              <button
-                className="btn secondary"
-                type="button"
-                disabled
-                title="Chức năng sẽ được tích hợp ở giai đoạn tiếp theo"
-              >
-                Áp dụng
-              </button>
+              <div className="row">
+                <button
+                  className="btn secondary"
+                  type="button"
+                  disabled={
+                    checkout.voucher.applying ||
+                    !checkout.guestsInRange ||
+                    checkout.voucher.code.trim() === ''
+                  }
+                  onClick={() => void checkout.voucher.apply()}
+                >
+                  {checkout.voucher.applying ? 'Đang kiểm tra...' : 'Áp dụng'}
+                </button>
+                {checkout.voucher.applied && (
+                  <button className="btn secondary" type="button" onClick={checkout.voucher.clear}>
+                    Bỏ mã
+                  </button>
+                )}
+              </div>
               <label className="check">
                 <input
                   type="checkbox"

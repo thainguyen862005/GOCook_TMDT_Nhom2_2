@@ -1,6 +1,7 @@
 package com.james.LMS.response;
 
 import com.james.LMS.enums.OrderStatus;
+import com.james.LMS.enums.PaymentCloseReason;
 import com.james.LMS.enums.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,4 +16,6 @@ public record PaymentStatusResponse(
     Integer guestCount,
     LocalDateTime scheduledAt,
     BigDecimal amount,
-    OffsetDateTime paidAt) {}
+    OffsetDateTime paidAt,
+    PaymentCloseReason closeReason,
+    Integer attemptNo) {}

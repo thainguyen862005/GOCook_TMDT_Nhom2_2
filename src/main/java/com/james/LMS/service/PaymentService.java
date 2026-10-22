@@ -19,4 +19,16 @@ public interface PaymentService {
   PaymentStatusResponse status(Long customerId, String txnRef, String ipAddress);
 
   PaymentIpnResponse handleVnpayIpn(Map<String, String> params);
+
+  /**
+   * The customer's browser comes back from VNPay with signed vnp_* parameters. Only a signed
+   * cancel (vnp_ResponseCode 24) acts: it closes the attempt. Anything else is ignored here,
+   * success is settled only by IPN or querydr.
+   */
+  PaymentStatusResponse handleVnpayReturn(Long customerId, Map<String, String> params);
+
+  /** Closes abandoned attempts and orders (at most {@code max} of each); returns what it did. */
+  SweepResult sweepExpired(int max);
+
+  record SweepResult(int attempts, int orders) {}
 }

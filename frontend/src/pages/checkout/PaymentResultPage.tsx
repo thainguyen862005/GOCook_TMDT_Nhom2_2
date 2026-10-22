@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { recallCheckoutLink } from '../../hooks/checkout/checkoutRetry';
 import { usePaymentStatus } from '../../hooks/checkout/usePaymentStatus';
+import { useRetryPayment } from '../../hooks/checkout/useRetryPayment';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import type { PaymentStatusResult } from '../../types/payment';
 import { dateTime, money } from '../../util/format';
@@ -10,7 +11,8 @@ import { dateTime, money } from '../../util/format';
 export function PaymentResultPage() {
   useDocumentTitle('Kết quả thanh toán | GO Cook');
   const [params] = useSearchParams();
-  const { view, result, error, recheck } = usePaymentStatus(params.get('vnp_TxnRef'));
+  const returnParams = params.has('vnp_ResponseCode') ? vnpayParams(params) : null;
+  const { view, result, error, recheck } = usePaymentStatus(params.get('vnp_TxnRef'), returnParams);
 
   return (
     <>
@@ -93,21 +95,21 @@ export function PaymentResultPage() {
           {view === 'failed' && result && (
             <Panel
               icon={<path d="M6 6l12 12M18 6 6 18" />}
-              heading={
-                result.paymentStatus === 'CANCELLED'
-                  ? 'Bạn đã hủy thanh toán'
-                  : 'Thanh toán chưa thành công'
-              }
-              text="Đơn hàng này đã được hủy và bạn không bị trừ tiền. Hãy đặt lại để tiếp tục."
+              heading={failedCopy(result).heading}
+              text={failedCopy(result).text}
             >
               <Summary result={result} paid={false} />
               <div className="row">
-                <Link
-                  className="btn"
-                  to={recallCheckoutLink(result.orderCode) ?? ROUTES.MENUS}
-                >
-                  Thử lại
-                </Link>
+                {result.orderStatus === 'PENDING' ? (
+                  <RetryPayment orderCode={result.orderCode} />
+                ) : (
+                  <Link
+                    className="btn"
+                    to={recallCheckoutLink(result.orderCode) ?? ROUTES.MENUS}
+                  >
+                    Đặt lại
+                  </Link>
+                )}
                 <Link className="btn secondary" to={ROUTES.HOME}>
                   Về trang chủ
                 </Link>
@@ -133,6 +135,56 @@ export function PaymentResultPage() {
           )}
         </section>
       </div>
+    </>
+  );
+}
+
+function vnpayParams(params: URLSearchParams): Record<string, string> {
+  const collected: Record<string, string> = {};
+  params.forEach((value, name) => {
+    if (name.startsWith('vnp_')) collected[name] = value;
+  });
+  return collected;
+}
+
+function failedCopy(result: PaymentStatusResult): { heading: string; text: string } {
+  if (result.orderStatus !== 'PENDING') {
+    return {
+      heading: 'Đơn hàng đã hết thời hạn thanh toán',
+      text: 'Đơn hàng đã được hủy và bạn không bị trừ tiền. Hãy đặt lại để tiếp tục.',
+    };
+  }
+  switch (result.closeReason) {
+    case 'USER_CANCELLED':
+      return {
+        heading: 'Bạn đã hủy thanh toán',
+        text: 'Bạn chưa bị trừ tiền. Đơn hàng vẫn được giữ trong ít phút, hãy thanh toán lại để tiếp tục.',
+      };
+    case 'EXPIRED':
+      return {
+        heading: 'Phiên thanh toán đã hết hạn',
+        text: 'Bạn chưa bị trừ tiền. Hãy thanh toán lại để tiếp tục.',
+      };
+    default:
+      return {
+        heading: 'Thanh toán chưa thành công',
+        text: 'Bạn chưa bị trừ tiền. Hãy thanh toán lại hoặc dùng thẻ khác.',
+      };
+  }
+}
+
+function RetryPayment({ orderCode }: { orderCode: string }) {
+  const { retry, retrying, error } = useRetryPayment(orderCode);
+  return (
+    <>
+      <button className="btn" type="button" disabled={retrying} onClick={() => void retry()}>
+        {retrying ? 'Đang chuyển sang VNPay...' : 'Thanh toán lại'}
+      </button>
+      {error && (
+        <p className="small muted" role="alert">
+          {error}
+        </p>
+      )}
     </>
   );
 }

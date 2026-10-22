@@ -6,6 +6,8 @@ import com.james.LMS.enums.ProductStatus;
 import com.james.LMS.exception.PaymentException;
 import com.james.LMS.repository.ProductRepository;
 import com.james.LMS.service.PaymentGateway;
+import com.james.LMS.voucher.VoucherQuote;
+import com.james.LMS.voucher.VoucherService;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +23,20 @@ public class PricingService {
 
   private final ProductRepository products;
   private final PricingProperties properties;
+  private final VoucherService vouchers;
 
+  /** voucher is null when no voucher code was given; the redemption is reserved by the checkout. */
   public record FixedMenuQuote(
-      Product product, int guestCount, BigDecimal subtotal, BigDecimal discount, BigDecimal total) {}
+      Product product,
+      int guestCount,
+      BigDecimal subtotal,
+      BigDecimal discount,
+      BigDecimal total,
+      VoucherQuote voucher) {}
 
-  public FixedMenuPreview previewFixedMenu(Long productId, int guests, String voucherCode) {
-    if (voucherCode != null) {
-      throw new PaymentException(
-          HttpStatus.BAD_REQUEST,
-          ErrorCode.PRICING_VOUCHER_NOT_SUPPORTED,
-          "Voucher chưa được hỗ trợ.");
-    }
-    FixedMenuQuote quote = quoteFixedMenu(productId, guests);
+  public FixedMenuPreview previewFixedMenu(
+      Long productId, int guests, String voucherCode, Long customerId) {
+    FixedMenuQuote quote = quoteFixedMenu(productId, guests, voucherCode, customerId);
     Product product = quote.product();
     return new FixedMenuPreview(
         product.getId(),
@@ -43,14 +47,30 @@ public class PricingService {
         quote.discount(),
         quote.total(),
         CURRENCY,
-        OffsetDateTime.now(PaymentGateway.GATEWAY_ZONE).plus(properties.getPreviewTtl()));
+        OffsetDateTime.now(PaymentGateway.GATEWAY_ZONE).plus(properties.getPreviewTtl()),
+        quote.voucher() == null ? null : quote.voucher().code());
   }
 
-  public FixedMenuQuote quoteFixedMenu(Long productId, int guests) {
+  public FixedMenuQuote quoteFixedMenu(
+      Long productId, int guests, String voucherCode, Long customerId) {
     Product product = payableProduct(productId);
     requireGuestCount(product, guests);
     BigDecimal subtotal = product.getUnitPrice().multiply(BigDecimal.valueOf(guests));
-    return new FixedMenuQuote(product, guests, subtotal, BigDecimal.ZERO, subtotal);
+    if (voucherCode == null || voucherCode.isBlank()) {
+      return new FixedMenuQuote(product, guests, subtotal, BigDecimal.ZERO, subtotal, null);
+    }
+
+    VoucherQuote voucher =
+        vouchers.validateAndCalculate(
+            voucherCode, customerId, subtotal, OffsetDateTime.now(PaymentGateway.GATEWAY_ZONE));
+    BigDecimal total = subtotal.subtract(voucher.discountAmount());
+    if (total.signum() <= 0) {
+      throw new PaymentException(
+          HttpStatus.BAD_REQUEST,
+          ErrorCode.VOUCHER_COVERS_ORDER,
+          "Mã ưu đãi không được giảm hết giá trị đơn hàng.");
+    }
+    return new FixedMenuQuote(product, guests, subtotal, voucher.discountAmount(), total, voucher);
   }
 
   private Product payableProduct(Long productId) {
