@@ -5,9 +5,9 @@ spring:
     import: optional:file:.env[.properties],optional:file:../.env[.properties]
 
   datasource:
-    url: ${URL_DB:jdbc:postgresql://localhost:5432/db_user_service_lms}
-    username: ${USER_NAME_DB:postgres}
-    password: ${PASSWORD_DB}
+    url: ${URL_DB:jdbc:postgresql://localhost:5432/app_db}
+    username: ${USER_NAME_DB:app_user}
+    password: ${PASSWORD_DB:app_password} 
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -35,8 +35,8 @@ spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${MAIL_USERNAME:minhminh231200@gmail.com}
+    password: ${MAIL_PASSWORD:gcvlxiovnicdjbht}
     properties:
       mail:
         smtp:
@@ -49,7 +49,7 @@ spring:
       enabled: true
 
 jwt:
-  secretKey: ${JWT_SECRET_KEY}
+  secretKey: ${JWT_SECRET_KEY:gi4HLIpqT2E+Dk8axm3vHpIKZMi9nRqdha2v7dQ9zy1bvhRwpbJxP1iSD1bFbNUchMMDwwWL9oSDMIe7f29wr0g==}
   accessTokenExpirationTime: ${JWT_ACCESS_TOKEN_EXPIRATION:259200000}
   refreshTokenExpirationTime: ${JWT_REFRESH_TOKEN_EXPIRATION:2419200000}
   resetPasswordTokenExpirationTime: ${JWT_RESET_PASSWORD_TOKEN_EXPIRATION:900000}
@@ -64,14 +64,14 @@ server:
   port: ${USER_SERVICE_PORT:8083}
 
 cloudinary:
-  cloudinary-name: ${USER_SERVICE_CLOUDINARY_NAME:}
-  api-key: ${USER_SERVICE_CLOUDINARY_API_KEY:}
-  api-secret: ${USER_SERVICE_CLOUDINARY_API_SECRET:}
+  cloudinary-name: ${USER_SERVICE_CLOUDINARY_NAME:vujtj8mx}
+  api-key: ${USER_SERVICE_CLOUDINARY_API_KEY:781666463774733}
+  api-secret: ${USER_SERVICE_CLOUDINARY_API_SECRET:IMYB8cFSdzJCIA1ghsRe8R9Ms_0}
 
 payment:
-  frontend-base-url: ${PAYMENT_FRONTEND_BASE_URL}
+  frontend-base-url: ${PAYMENT_FRONTEND_BASE_URL:http://localhost:5173}
   vnpay:
-    tmn-code: ${VNPAY_TMN_CODE}
-    hash-secret: ${VNPAY_HASH_SECRET}
-    pay-url: ${VNPAY_PAY_URL}
-    api-url: ${VNPAY_API_URL}
+    tmn-code: ${VNPAY_TMN_CODE:MaCuaBan}
+    hash-secret: ${VNPAY_HASH_SECRET:SecretCuaBan}
+    pay-url: ${VNPAY_PAY_URL:https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}
+    api-url: ${VNPAY_API_URL:https://sandbox.vnpayment.vn/merchant_webapi/api/transaction}

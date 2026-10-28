@@ -10,6 +10,7 @@ import type { CustomerOrder } from '../../types/customerOrder';
 import type { UiMessage } from '../../types/api';
 import { dateTime, money } from '../../util/format';
 import { statusClass } from '../../util/status';
+import { PAYMENT_LABEL } from '../../constants/labels';
 
 export function OrderDetailPage() {
   useDocumentTitle('Chi tiết đơn đặt nấu | GO Cook');
@@ -67,6 +68,18 @@ export function OrderDetailPage() {
             <p><strong>Lịch phục vụ:</strong> {dateTime(order.scheduledAt)}</p>
             <p><strong>Địa chỉ nấu:</strong> {order.serviceAddress || 'Chưa có thông tin'}</p>
             <p><strong>Ghi chú:</strong> {order.customerNote || 'Không có'}</p>
+
+            <p>
+              <strong>Trạng thái thanh toán:</strong>{' '}
+              {order.paymentStatus ? PAYMENT_LABEL[order.paymentStatus] : 'Chưa có thông tin'}
+            </p>
+
+            {order.paidAt && (
+              <p>
+                <strong>Thời điểm thanh toán:</strong>{' '}  {dateTime(order.paidAt)}
+              </p>
+            )}
+
             <Link className="btn secondary" to={ROUTES.ORDERS}>← Quay lại danh sách</Link>
           </section>
           <aside className="card summary stack">

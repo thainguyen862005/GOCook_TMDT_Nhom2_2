@@ -74,6 +74,9 @@ public class CookOrder extends BaseEntity {
     @Column(name = "internal_note", columnDefinition = "TEXT")
     private String internalNote;
 
+    @Column(name = "service_type",insertable = false,updatable = false)
+    private String serviceType;
+
     public String getScheduledAtDisplay() {
         return scheduledAt == null ? "—" : scheduledAt.format(DISPLAY_FORMAT);
     }

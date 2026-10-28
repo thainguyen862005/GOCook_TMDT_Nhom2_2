@@ -1,11 +1,14 @@
+
 package com.james.LMS.response;
 
 import com.james.LMS.entity.CookOrder;
+import com.james.LMS.entity.PaymentTransaction;
 import com.james.LMS.enums.OrderStatus;
+import com.james.LMS.enums.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
-/** Public customer-facing fields only. Do not expose internalNote or JPA entities. */
 public record CustomerOrderResponse(
     Long id,
     String orderCode,
@@ -17,20 +20,29 @@ public record CustomerOrderResponse(
     OrderStatus status,
     Long createdAt,
     String serviceAddress,
-    String customerNote) {
+    String customerNote,
+    PaymentStatus paymentStatus,
+    OffsetDateTime paidAt
+) {
 
-  public static CustomerOrderResponse from(CookOrder order) {
-    return new CustomerOrderResponse(
-        order.getId(), 
-        order.getOrderCode(), 
-        order.getProductName(),
-        order.getChefName(), 
-        order.getGuestCount(), 
-        order.getScheduledAt(),
-        order.getTotalAmount(),
-        order.getStatus(), 
-        order.getCreatedAt(),
-        order.getServiceAddress(),
-        order.getCustomerNote());
-  }
+    public static CustomerOrderResponse from(
+        CookOrder order,
+        PaymentTransaction payment
+    ) {
+        return new CustomerOrderResponse(
+            order.getId(),
+            order.getOrderCode(),
+            order.getProductName(),
+            order.getChefName(),
+            order.getGuestCount(),
+            order.getScheduledAt(),
+            order.getTotalAmount(),
+            order.getStatus(),
+            order.getCreatedAt(),
+            order.getServiceAddress(),
+            order.getCustomerNote(),
+            payment == null ? null : payment.getStatus(),
+            payment == null ? null : payment.getPaidAt()
+        );
+    }
 }

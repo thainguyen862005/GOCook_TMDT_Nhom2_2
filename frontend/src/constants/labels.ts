@@ -21,3 +21,11 @@ export const ROLE_LABEL: Record<string, string> = {
   ADMIN: 'Quản trị viên',
   COMPANY_ADMIN: 'Quản trị công ty',
 };
+
+export const PAYMENT_LABEL: Record<string, string> = {
+  PENDING: 'Chờ thanh toán',
+  SUCCESS: 'Đã thanh toán',
+  FAILED: 'Thanh toán thất bại',
+  CANCELLED: 'Đã hủy thanh toán',
+  REFUNDED: 'Đã hoàn tiền',
+};

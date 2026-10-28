@@ -84,24 +84,23 @@ public class PaymentServiceImpl implements PaymentService {
           String orderCode = newOrderCode(now);
           LocalDateTime expiresAt = now.plus(PAYMENT_WINDOW);
 
-          CookOrder order =
-              orders.save(
-                  CookOrder.builder()
-                      .orderCode(orderCode)
-                      .customerName(request.customerName().trim())
-                      .customerEmail(customerEmail)
-                      .customerPhone(request.customerPhone().trim())
-                      .customerId(customerId)
-                      .productName(product.getName())
-                      .chefName(chefName(product))
-                      .chefId(product.getSellerId())
-                      .serviceAddress(request.serviceAddress().trim())
-                      .guestCount(request.guestCount())
-                      .scheduledAt(request.scheduledAt())
-                      .totalAmount(amount)
-                      .status(OrderStatus.PENDING)
-                      .customerNote(request.customerNote())
-                      .build());
+          CookOrder order = orders.save(
+              CookOrder.builder()
+                  .orderCode(orderCode)
+                  .customerName(request.customerName().trim())
+                  .customerEmail(customerEmail)
+                  .customerPhone(request.customerPhone().trim())
+                  .customerId(customerId)
+                  .productName(product.getName())
+                  .chefName(chefName(product))
+                  .chefId(product.getSellerId())
+                  .serviceAddress(request.serviceAddress().trim())
+                  .guestCount(request.guestCount())
+                  .scheduledAt(request.scheduledAt())
+                  .totalAmount(amount)
+                  .status(OrderStatus.PENDING)
+                  .customerNote(request.customerNote())
+                  .build());
 
           payments.save(
               PaymentTransaction.builder()
@@ -117,16 +116,15 @@ public class PaymentServiceImpl implements PaymentService {
                               "expireDate", expiresAt.format(PaymentGateway.GATEWAY_DATE))))
                   .build());
 
-          String payUrl =
-              gateway.createPaymentUrl(
-                  new PaymentRequest(
-                      orderCode,
-                      amount,
-                      "Thanh toan don hang " + orderCode,
-                      returnUrl(),
-                      ipAddress,
-                      now,
-                      expiresAt));
+          String payUrl = gateway.createPaymentUrl(
+              new PaymentRequest(
+                  orderCode,
+                  amount,
+                  "Thanh toan don hang " + orderCode,
+                  returnUrl(),
+                  ipAddress,
+                  now,
+                  expiresAt));
           log.info("payment created order={} amount={}", orderCode, amount.toPlainString());
           return new PaymentCheckoutResponse(orderCode, payUrl);
         });
@@ -139,17 +137,15 @@ public class PaymentServiceImpl implements PaymentService {
     if (payment.getStatus() == PaymentStatus.PENDING) {
       Map<String, String> reference = readReference(payment);
       boolean expired = isExpired(reference);
-      GatewayTransaction answer =
-          gateway.query(txnRef, reference.get("createDate"), ipAddress);
+      GatewayTransaction answer = gateway.query(txnRef, reference.get("createDate"), ipAddress);
 
-      Optional<GatewayTransaction> decisive =
-          switch (answer.outcome()) {
-            case SUCCESS -> Optional.of(answer);
-            case FAILED -> expired ? Optional.of(answer) : Optional.empty();
-            case NOT_FOUND ->
-                expired ? Optional.of(answer.withOutcome(Outcome.CANCELLED)) : Optional.empty();
-            default -> Optional.empty();
-          };
+      Optional<GatewayTransaction> decisive = switch (answer.outcome()) {
+        case SUCCESS -> Optional.of(answer);
+        case FAILED -> expired ? Optional.of(answer) : Optional.empty();
+        case NOT_FOUND ->
+          expired ? Optional.of(answer.withOutcome(Outcome.CANCELLED)) : Optional.empty();
+        default -> Optional.empty();
+      };
       decisive.ifPresent(this::applyQuietly);
     } else if (payment.getStatus() == PaymentStatus.SUCCESS) {
       healEscrowQuietly(payment);
@@ -216,7 +212,8 @@ public class PaymentServiceImpl implements PaymentService {
     AMOUNT_MISMATCH
   }
 
-  private record Settled(Settlement result, PaymentTransaction payment) {}
+  private record Settled(Settlement result, PaymentTransaction payment) {
+  }
 
   private static class EscrowFailedException extends RuntimeException {
     EscrowFailedException(Throwable cause) {
@@ -225,17 +222,15 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   private Settled recordResult(GatewayTransaction tx) {
-    Optional<PaymentTransaction> found =
-        payments.lockByProviderAndTransactionCode(PaymentProvider.VNPAY, tx.txnRef());
+    Optional<PaymentTransaction> found = payments.lockByProviderAndTransactionCode(PaymentProvider.VNPAY, tx.txnRef());
     if (found.isEmpty()) {
       return new Settled(Settlement.NOT_FOUND, null);
     }
     PaymentTransaction payment = found.get();
 
-    boolean foreign =
-        tx.merchantCode() != null
-            && !tx.merchantCode().isBlank()
-            && !tx.merchantCode().equals(gateway.merchantCode());
+    boolean foreign = tx.merchantCode() != null
+        && !tx.merchantCode().isBlank()
+        && !tx.merchantCode().equals(gateway.merchantCode());
     if (foreign) {
       return new Settled(Settlement.FOREIGN_MERCHANT, payment);
     }
@@ -292,9 +287,8 @@ public class PaymentServiceImpl implements PaymentService {
 
   private boolean registerEscrow(PaymentTransaction payment) {
     try {
-      Boolean created =
-          transactions.execute(
-              status -> payments.registerVerifiedPayment(payment.getOrderId(), payment.getId()));
+      Boolean created = transactions.execute(
+          status -> payments.registerVerifiedPayment(payment.getOrderId(), payment.getId()));
       return Boolean.TRUE.equals(created);
     } catch (RuntimeException e) {
       String detail = String.valueOf(NestedExceptionUtils.getMostSpecificCause(e).getMessage());
@@ -340,11 +334,10 @@ public class PaymentServiceImpl implements PaymentService {
 
   private Product payableProduct(Long productId) {
     Product product = products.findById(productId).orElse(null);
-    boolean payable =
-        product != null
-            && product.isActive()
-            && product.getStatus() == ProductStatus.PUBLISHED
-            && product.getSellerId() != null;
+    boolean payable = product != null
+        && product.isActive()
+        && product.getStatus() == ProductStatus.PUBLISHED
+        && product.getSellerId() != null;
     if (!payable) {
       throw new PaymentException(
           HttpStatus.NOT_FOUND,
@@ -369,10 +362,9 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   private PaymentTransaction ownedPayment(Long customerId, String txnRef) {
-    PaymentTransaction payment =
-        payments
-            .findByProviderAndTransactionCode(PaymentProvider.VNPAY, txnRef)
-            .orElseThrow(this::paymentNotFound);
+    PaymentTransaction payment = payments
+        .findByProviderAndTransactionCode(PaymentProvider.VNPAY, txnRef)
+        .orElseThrow(this::paymentNotFound);
     CookOrder order = orders.findById(payment.getOrderId()).orElseThrow(this::paymentNotFound);
     if (!customerId.equals(order.getCustomerId())) {
       throw paymentNotFound();
@@ -428,8 +420,7 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   private boolean isExpired(Map<String, String> reference) {
-    LocalDateTime expireDate =
-        LocalDateTime.parse(reference.get("expireDate"), PaymentGateway.GATEWAY_DATE);
+    LocalDateTime expireDate = LocalDateTime.parse(reference.get("expireDate"), PaymentGateway.GATEWAY_DATE);
     return expireDate.isBefore(LocalDateTime.now(PaymentGateway.GATEWAY_ZONE));
   }
 
@@ -446,7 +437,8 @@ public class PaymentServiceImpl implements PaymentService {
 
   private Map<String, String> readReference(PaymentTransaction payment) {
     try {
-      return mapper.readValue(payment.getRawReference(), new TypeReference<>() {});
+      return mapper.readValue(payment.getRawReference(), new TypeReference<>() {
+      });
     } catch (JsonProcessingException e) {
       throw new IllegalStateException("Unreadable payment reference", e);
     }

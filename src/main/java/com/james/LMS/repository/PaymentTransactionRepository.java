@@ -9,24 +9,28 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface PaymentTransactionRepository extends JpaRepository<PaymentTransaction, Long> {
 
-  Optional<PaymentTransaction> findByProviderAndTransactionCode(
-      PaymentProvider provider, String transactionCode);
+    List<PaymentTransaction> findByOrderIdInAndIsActiveTrueOrderByCreatedAtDescIdDesc(
+            Collection<Long> orderIds);
 
-  @Lock(LockModeType.PESSIMISTIC_WRITE)
-  @Query(
-      "select p from PaymentTransaction p"
-          + " where p.provider = :provider and p.transactionCode = :transactionCode")
-  Optional<PaymentTransaction> lockByProviderAndTransactionCode(
-      @Param("provider") PaymentProvider provider,
-      @Param("transactionCode") String transactionCode);
+    Optional<PaymentTransaction> findFirstByOrderIdAndIsActiveTrueOrderByCreatedAtDescIdDesc(
+            Long orderId);
 
-  @Query(
-      value = "select gocook_register_verified_payment(:orderId, :paymentId)",
-      nativeQuery = true)
-  Boolean registerVerifiedPayment(
-      @Param("orderId") Long orderId, @Param("paymentId") Long paymentId);
+    Optional<PaymentTransaction> findByProviderAndTransactionCode(
+            PaymentProvider provider, String transactionCode);
+
+    @Query("select p from PaymentTransaction p"
+            + " where p.provider = :provider and p.transactionCode = :transactionCode")
+    Optional<PaymentTransaction> lockByProviderAndTransactionCode(
+            @Param("provider") PaymentProvider provider,
+            @Param("transactionCode") String transactionCode);
+
+    @Query(value = "select gocook_register_verified_payment(:orderId, :paymentId)", nativeQuery = true)
+    Boolean registerVerifiedPayment(
+            @Param("orderId") Long orderId, @Param("paymentId") Long paymentId);
 }

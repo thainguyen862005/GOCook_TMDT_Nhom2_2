@@ -5,22 +5,27 @@ import { AccountSidebar } from '../../components/account/AccountSidebar';
 import { Loading } from '../../components/common/Loading';
 import { Notice } from '../../components/common/Notice';
 import { Pager } from '../../components/common/Pager';
-import { ORDER_LABEL } from '../../constants/labels';
-import { ROUTES } from '../../constants/routes';
+import { ORDER_LABEL, PAYMENT_LABEL } from '../../constants/labels'; import { ROUTES } from '../../constants/routes';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import type { CustomerOrdersResponse } from '../../types/customerOrder';
 import type { UiMessage } from '../../types/api';
 import { dateTime, money } from '../../util/format';
 import { statusClass } from '../../util/status';
 
+
+
 const filters = [
   { value: '', label: 'Tất cả' },
   { value: 'PENDING', label: 'Chờ xác nhận' },
   { value: 'CONFIRMED', label: 'Đã xác nhận' },
+  { value: 'PREPARING', label: 'Đang chuẩn bị' },
   { value: 'COOKING', label: 'Đang nấu' },
+  { value: 'AWAITING_ACCEPTANCE', label: 'Chờ nghiệm thu' },
   { value: 'COMPLETED', label: 'Hoàn thành' },
   { value: 'CANCELLED', label: 'Đã hủy' },
+  { value: 'REJECTED', label: 'Đã từ chối' },
 ];
+
 
 export function OrdersPage() {
   useDocumentTitle('Lịch sử mua hàng | GO Cook');
@@ -83,6 +88,7 @@ export function OrdersPage() {
                     <p className="muted small">Đầu bếp: {order.chefName || 'Đang cập nhật'} · {order.guestCount} người</p>
                     <p className="muted small">Ngày đặt: {dateTime(order.createdAt)}</p>
                     <p className="muted small">Ngày phục vụ: {dateTime(order.scheduledAt)}</p>
+                    <p className="muted small">Thanh toán:{' '}<strong>{order.paymentStatus ? PAYMENT_LABEL[order.paymentStatus] : 'Chưa có thông tin'}</strong></p>
                   </div>
                   <div className="between">
                     <strong className="price">{money(order.totalAmount)}</strong>
@@ -93,7 +99,25 @@ export function OrdersPage() {
                 </article>
               ))}
               <Pager data={data} onPage={(nextPage) => setParams({ status, page: String(nextPage) })} />
+
             </>
+
+          ) : !message && data && data.totalElements > 0 ? (
+            <div className="card empty">
+              <h3>Trang này không có đơn hàng</h3>
+              <p className="muted">
+                Trang yêu cầu vượt quá số trang hiện có.
+              </p>
+              <button
+                type="button"
+                className="btn secondary"
+                onClick={() =>
+                  setParams({ status, page: '0' })
+                }
+              >
+                Về trang đầu
+              </button>
+            </div>
           ) : !message ? (
             <div className="card empty">
               <h3>Chưa có đơn hàng</h3>
@@ -101,6 +125,7 @@ export function OrdersPage() {
               <Link className="btn" to={ROUTES.MENUS}>Xem thực đơn</Link>
             </div>
           ) : null}
+
         </div>
       </div>
     </div>
