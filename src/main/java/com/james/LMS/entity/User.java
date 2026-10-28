@@ -26,8 +26,18 @@ public class User extends BaseEntity {
   @Column(name = "email", nullable = false)
   private String email;
 
+  @Column(name = "phone", length = 20)
+  private String phone;
+
+  @Column(name = "default_address", length = 500)
+  private String defaultAddress;
+
   @Column(name = "avatar_url")
   private String avatarUrl;
+
+  @Column(name = "password_login_enabled", nullable = false)
+  @Builder.Default
+  private boolean passwordLoginEnabled = true;
 
   @Column(name = "email_verified", nullable = false)
   @Builder.Default
@@ -49,6 +59,8 @@ public class User extends BaseEntity {
     this.emailVerified = true;
   }
 
+  public void enablePasswordLogin() { this.passwordLoginEnabled = true; }
+
   public void addRole(Role role) {
     this.roles.add(role);
   }
@@ -56,6 +68,10 @@ public class User extends BaseEntity {
   public void addAvatarUrl(String avatarUrl) {
     this.avatarUrl = avatarUrl;
   }
+
+  public void changePhone(String phone) { this.phone = phone; }
+
+  public void changeDefaultAddress(String defaultAddress) { this.defaultAddress = defaultAddress; }
 
   public void changeUsername(String username) {
     this.username = username;
