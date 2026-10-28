@@ -5,6 +5,7 @@ import com.james.LMS.exception.InvalidTokenException;
 import com.james.LMS.service.JwtService;
 import io.jsonwebtoken.*;
 import java.util.Date;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class JwtServiceImpl implements JwtService {
   public String generateAccessToken(String email) {
     return Jwts.builder()
         .setSubject(email)
+        .claim("token_use", "access")
+        .setId(UUID.randomUUID().toString())
         .setIssuedAt(new Date())
         .setExpiration(
             new Date(System.currentTimeMillis() + Long.parseLong(ACCESS_TOKEN_EXPIRATION_TIME)))
@@ -39,6 +42,8 @@ public class JwtServiceImpl implements JwtService {
   public String generateRefreshToken(String email) {
     return Jwts.builder()
         .setSubject(email)
+        .claim("token_use", "refresh")
+        .setId(UUID.randomUUID().toString())
         .setIssuedAt(new Date())
         .setExpiration(
             new Date(System.currentTimeMillis() + Long.parseLong(REFRESH_TOKEN_EXPIRATION_TIME)))
@@ -50,6 +55,8 @@ public class JwtServiceImpl implements JwtService {
   public String generateResetPasswordToken(String email) {
     return Jwts.builder()
         .setSubject(email)
+        .claim("token_use", "reset")
+        .setId(UUID.randomUUID().toString())
         .setIssuedAt(new Date())
         .setExpiration(
             new Date(
@@ -58,16 +65,26 @@ public class JwtServiceImpl implements JwtService {
         .compact();
   }
 
+  private Claims parseClaims(String token) {
+    if (token == null || token.isBlank()) throw new InvalidTokenException(ErrorCode.JWT_INVALID);
+    try {
+      return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build()
+          .parseClaimsJws(token).getBody();
+    } catch (JwtException | IllegalArgumentException error) {
+      throw new InvalidTokenException(ErrorCode.JWT_INVALID);
+    }
+  }
+
   @Override
   public Boolean validateToken(String token) {
-    if (null == token) return false;
-    try {
-      Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parse(token);
-    } catch (MalformedJwtException
-        | ExpiredJwtException
-        | UnsupportedJwtException
-        | IllegalArgumentException
-        | SignatureException exception) {
+    parseClaims(token);
+    return true;
+  }
+
+  @Override
+  public Boolean validateTokenForPurpose(String token, String purpose) {
+    Claims claims = parseClaims(token);
+    if (!purpose.equals(claims.get("token_use", String.class))) {
       throw new InvalidTokenException(ErrorCode.JWT_INVALID);
     }
     return true;
@@ -75,14 +92,8 @@ public class JwtServiceImpl implements JwtService {
 
   @Override
   public String getEmailFromJwtToken(String token) {
-    try {
-      return Jwts.parser()
-          .setSigningKey(SECRET_KEY)
-          .parseClaimsJws(token)
-          .getBody()
-          .get("sub", String.class);
-    } catch (Exception e) {
-      throw new InvalidTokenException(ErrorCode.JWT_INVALID);
-    }
+    String email = parseClaims(token).getSubject();
+    if (email == null || email.isBlank()) throw new InvalidTokenException(ErrorCode.JWT_INVALID);
+    return email;
   }
 }

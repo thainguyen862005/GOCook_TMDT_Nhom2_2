@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { authClient } from '../clients/authClient';
 import { ApiError } from '../clients/httpClient';
 import { ROLES } from '../constants/roles';
@@ -22,13 +22,19 @@ export const AuthContext = createContext<AuthContextValue | undefined>(undefined
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  // Prevent an earlier in-flight profile lookup from restoring a stale UI
+  // after logout or overwriting a more recent authentication result.
+  const authRequestEpoch = useRef(0);
 
   const refreshProfile = useCallback(async () => {
+    const epoch = ++authRequestEpoch.current;
     try {
       const next = await authClient.profile();
+      if (epoch !== authRequestEpoch.current) return null;
       setProfile(next);
       return next;
     } catch (error) {
+      if (epoch !== authRequestEpoch.current) return null;
       if (error instanceof ApiError && (error.status === 401 || error.status === 403)) {
         setProfile(null);
         return null;
@@ -36,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile(null);
       return null;
     } finally {
-      setLoading(false);
+      if (epoch === authRequestEpoch.current) setLoading(false);
     }
   }, []);
 
@@ -50,11 +56,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [refreshProfile]);
 
   const logout = useCallback(async () => {
-    try {
-      await authClient.logout();
-    } finally {
-      setProfile(null);
-    }
+    // The browser still holds a valid HttpOnly cookie when a network request
+    // fails. Only mark the UI as signed out after the server confirms logout.
+    await authClient.logout();
+    authRequestEpoch.current += 1;
+    setProfile(null);
+    setLoading(false);
   }, []);
 
   const roles = profile?.roles ?? [];
