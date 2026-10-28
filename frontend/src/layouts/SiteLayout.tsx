@@ -47,6 +47,7 @@ function SiteHeader() {
           <Link className="login-link text-link small" to={accountUrl}>
             {profile?.username || "Đăng nhập"}
           </Link>
+          {profile && <Link className="session-logout-link text-link small" to={ROUTES.LOGOUT}>Đăng xuất</Link>}
           <Link className="btn sm" to={ROUTES.CHEFS}>
             Đặt đầu bếp
           </Link>

@@ -94,7 +94,7 @@ export function AdminOrderDetailPage() {
                 <div className="grid grid-2">
                     <Info label="Khách hàng" value={order.customerName}/><Info label="Email"
                                                                                value={order.customerEmail || '—'}/>
-                    <Info label="Thực đơn" value={order.productName}/><Info label="Đầu bếp"
+                    <Info label="Thực đơn" value={order.productName}/><Info label="Loại dịch vụ" value={order.serviceType === 'BUDGET' ? 'Theo ngân sách' : 'Thực đơn'}/><Info label="Đầu bếp"
                                                                             value={order.chefName || '—'}/>
                     <Info label="Ngày nấu" value={order.scheduledAtDisplay || dateTime(order.scheduledAt)}/><Info
                     label="Số khách" value={order.guestCount}/>

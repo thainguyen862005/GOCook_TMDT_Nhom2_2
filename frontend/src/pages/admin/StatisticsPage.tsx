@@ -127,7 +127,7 @@ export function AdminStatisticsPage() {
 
             <Notice message={message}/>
 
-            <form className="card stack-sm" onSubmit={submit}>
+            <form className="card stack-sm admin-statistics-filter" onSubmit={submit}>
                 <div className="grid grid-4">
                     <label className="field">
                         Nhóm doanh thu
@@ -184,21 +184,21 @@ export function AdminStatisticsPage() {
             </form>
             {!data ? <Loading/> : (
                 <>
-                    <div className="grid grid-4">
+                    <div className="grid grid-4 admin-stats-metrics">
                         <MetricCard title="Doanh thu hoàn thành" value={money(data.revenue)}/>
                         <MetricCard title="Tổng đơn trong kỳ" value={data.orderCount}/>
                         <MetricCard title="Đầu bếp hoạt động" value={data.chefCount}/>
                         <MetricCard title="Người dùng" value={data.userCount}/>
                     </div>
 
-                    <div className="grid grid-2">
+                    <div className="grid grid-2 admin-stats-charts">
                         <figure className="card stack-sm">
                             <figcaption>
                                 <h3>Biểu đồ doanh thu</h3>
                                 <p className="small muted">Chỉ tính đơn có trạng thái Hoàn thành</p>
                             </figcaption>
 
-                            <div className="admin-chart-scroll">
+                            <div className="admin-chart-scroll" role="region" aria-label="Biểu đồ doanh thu, cuộn ngang để xem tất cả kỳ" tabIndex={0}>
                                 <div className="chart admin-revenue-chart">
                                     {data.revenueSeries.map(
                                         (item) => (
@@ -285,8 +285,8 @@ export function AdminStatisticsPage() {
                             <span className="small muted">{data.from} → {data.to}</span>
                         </div>
 
-                        <div className="table-wrap">
-                            <table>
+                        <div className="table-wrap admin-table-scroll" role="region" aria-label="Bảng thống kê doanh thu" tabIndex={0}>
+                            <table className="admin-statistics-table">
                                 <thead>
                                 <tr>
                                     <th>Kỳ</th>

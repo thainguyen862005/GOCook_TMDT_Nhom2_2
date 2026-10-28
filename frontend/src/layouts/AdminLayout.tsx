@@ -32,7 +32,10 @@ export function AdminLayout({ title, lead, children }: { title: string; lead?: s
           <nav className="nav admin-top-nav" aria-label="Điều hướng quản trị">
             {adminLinks.slice(0, 5).map(([to, label]) => <NavLink key={to} end={to === ROUTES.ADMIN} to={to}>{label}</NavLink>)}
           </nav>
-          <div className="header-actions"><Link className="btn secondary sm" to="/">Về trang chủ</Link></div>
+          <div className="header-actions admin-header-actions">
+            <Link className="btn secondary sm" to="/">Về trang chủ</Link>
+            <Link className="btn sm admin-logout-action" to={ROUTES.LOGOUT} aria-label="Đăng xuất tài khoản quản trị">Đăng xuất</Link>
+          </div>
         </div>
       </header>
 
@@ -43,12 +46,13 @@ export function AdminLayout({ title, lead, children }: { title: string; lead?: s
             <h1>{title}</h1>
             {lead && <p className="lead">{lead}</p>}
           </div>
-          <div className="workspace">
-            <nav className="card side-nav" aria-label="Quản lý">
+          <div className="workspace admin-workspace">
+            <nav className="card side-nav admin-side-nav" aria-label="Quản lý">
               <p className="eyebrow">Quản trị hệ thống</p>
               {adminLinks.map(([to, label]) => <NavLink key={to} end={to === ROUTES.ADMIN} to={to}>{label}</NavLink>)}
+              <Link className="admin-side-logout" to={ROUTES.LOGOUT}>Đăng xuất</Link>
             </nav>
-            <div className="stack">{children}</div>
+            <div className="stack admin-main">{children}</div>
           </div>
         </div>
       </main>
