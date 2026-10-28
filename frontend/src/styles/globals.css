@@ -502,3 +502,39 @@ button.text-link:disabled { opacity: .55; cursor: not-allowed; }
   .admin-header-actions .admin-logout-action { padding-inline: 10px; }
   .session-logout-link { display: none; }
 }
+
+/* Shared notifications inbox: customer, chef and admin. */
+.notice-bell-wrapper { position: relative; flex: 0 0 auto; }
+.notice-bell-button { display: inline-flex; position: relative; width: 42px; height: 42px; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: transparent; color: var(--brand); cursor: pointer; }
+.notice-bell-button:hover, .notice-bell-button[aria-expanded="true"] { background: var(--brand-soft); }
+.notice-unread-badge { position: absolute; top: -4px; right: -5px; border-radius: 12px; background: #a51e1e; color: #fff; padding: 2px 5px; min-width: 18px; font-size: 10px; line-height: 14px; }
+.notice-popover { position: absolute; right: 0; top: 52px; width: min(380px, calc(100vw - 24px)); max-height: 75vh; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); color: var(--ink); z-index: 60; }
+.notice-popover-header, .notice-popover-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px; border-bottom:1px solid var(--line); }
+.notice-popover-header button, .notice-popover-footer button { cursor:pointer; border:0; background:transparent; color:var(--brand); }
+.notice-popover-footer { border-top:1px solid var(--line); border-bottom:0; flex-wrap:wrap; font-size:12px; }
+.notice-popover-footer a { color:var(--brand); font-weight:700; }
+.notice-list { overflow-y:auto; min-height:0; }
+.notice-item { padding:12px 14px; display:flex; gap:10px; border-bottom:1px solid var(--line); font-size:13px; }
+.notice-item.is-unread, .notice-center-item.is-unread { background: #f0f8ec; }
+.notice-item a { flex:1; min-width:0; display:grid; gap:5px; }
+.notice-item span { overflow-wrap:anywhere; }
+.notice-item small, .notice-center-item small { color:var(--muted); }
+.notice-item button { align-self:start; border:0; color:var(--brand); background:transparent; cursor:pointer; font-size:11px; white-space:nowrap; }
+.notice-error { color:#a51e1e; padding:10px 0; }
+.notice-empty { padding:20px 14px; color:var(--muted); }
+.notice-center { max-width:960px; margin-inline:auto; }
+.notice-controls { display:flex; align-items:center; flex-wrap:wrap; justify-content:space-between; gap:12px; margin-block:18px; }
+.notice-controls button { cursor:pointer; }
+.notice-center-list { border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+.notice-center-item { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:20px; border-bottom:1px solid var(--line); }
+.notice-center-item h3 { margin-block:6px; }
+.notice-center-item p { overflow-wrap:anywhere; margin-bottom:8px; }
+.notice-center-item a { color:var(--brand); font-weight:650; }
+.notice-preferences { padding:20px; margin-top:24px; }
+.notice-preferences label { display:flex; gap:8px; margin-block:14px; }
+.notice-preferences p { color:var(--muted); font-size:13px; }
+.admin-notice-form { padding:24px; display:grid; gap:16px; max-width:760px; }
+.admin-notice-form label { display:grid; gap:8px; }
+.admin-notice-form input, .admin-notice-form textarea, .admin-notice-form select { width:100%; padding:12px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+.admin-notice-form p { color:var(--muted); }
+@media (max-width:600px) { .notice-popover { right:0; } .notice-center-item { flex-direction:column; align-items:stretch; } }

@@ -1,6 +1,7 @@
 package com.james.LMS.facade.impl;
 
 import com.james.LMS.config.SecurityUserDetails;
+import com.james.LMS.notification.NotificationService;
 import com.james.LMS.entity.Role;
 import com.james.LMS.entity.User;
 import com.james.LMS.repository.UserAuthIdentityRepository;
@@ -37,6 +38,7 @@ public class UserFacadeImpl implements UserFacade {
   private final AuthChallengeService challenges;
   private final AuthSessionService sessions;
   private final UserAuthIdentityRepository identities;
+  private final NotificationService notifications;
 
   @Override
   @Transactional
@@ -85,8 +87,8 @@ public class UserFacadeImpl implements UserFacade {
 
     user.verifyEmail();
     userService.save(user);
-
-
+    notifications.sendToUser(user.getId(), "email-verified:"+user.getId(), "ACCOUNT", "Email đã được xác thực",
+        "Tài khoản GO Cook của bạn đã xác thực email thành công.", "/account");
     return BaseResponse.ok();
   }
 
@@ -148,6 +150,8 @@ public class UserFacadeImpl implements UserFacade {
 
     challenges.invalidateChallenge("reset", email);
     sessions.revokeAll(email);
+    notifications.sendToUser(user.getId(), "password-reset:"+java.util.UUID.randomUUID(),"ACCOUNT",
+        "Mật khẩu đã được thay đổi", "Mật khẩu của bạn vừa được đặt lại. Nếu không phải bạn, hãy liên hệ hỗ trợ ngay.", "/account");
 
     return BaseResponse.ok();
   }

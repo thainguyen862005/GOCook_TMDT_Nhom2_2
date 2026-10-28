@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Brand } from '../components/common/Brand';
+import { NotificationBell } from '../components/notifications/NotificationBell';
 import { ROUTES } from '../constants/routes';
 
 const adminLinks = [
@@ -10,6 +11,7 @@ const adminLinks = [
   [ROUTES.ADMIN_ORDERS, 'Đơn hàng'],
   [ROUTES.ADMIN_STATISTICS, 'Thống kê'],
   [ROUTES.ADMIN_SITE_SETTINGS, 'Giao diện & nội dung website'],
+  [ROUTES.ADMIN_NOTIFICATIONS, 'Gửi thông báo'],
   [ROUTES.ADMIN_FAQS, 'Câu hỏi thường gặp'],
   [ROUTES.ADMIN_COOKING_REQUESTS, 'Yêu cầu nấu ăn riêng'],
   ['/admin/manage/customers', 'Hồ sơ khách hàng'],
@@ -33,6 +35,7 @@ export function AdminLayout({ title, lead, children }: { title: string; lead?: s
             {adminLinks.slice(0, 5).map(([to, label]) => <NavLink key={to} end={to === ROUTES.ADMIN} to={to}>{label}</NavLink>)}
           </nav>
           <div className="header-actions admin-header-actions">
+            <NotificationBell />
             <Link className="btn secondary sm" to="/">Về trang chủ</Link>
             <Link className="btn sm admin-logout-action" to={ROUTES.LOGOUT} aria-label="Đăng xuất tài khoản quản trị">Đăng xuất</Link>
           </div>
