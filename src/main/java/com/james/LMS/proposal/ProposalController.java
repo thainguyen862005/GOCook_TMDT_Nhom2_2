@@ -1,6 +1,7 @@
 package com.james.LMS.proposal;
 
 import com.james.LMS.config.SecurityUserDetails;
+import com.james.LMS.service.EmailVerificationGuard;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class ProposalController {
   private final ProposalService commands;
   private final ProposalReadService reads;
   private final ProposalAcceptService acceptance;
+  private final EmailVerificationGuard emailVerification;
 
   @PostMapping("/api/custom-requests/{requestId}/proposals")
   @PreAuthorize("hasAuthority('ROLE_INSTRUCTOR')")
@@ -61,6 +63,7 @@ public class ProposalController {
   @PreAuthorize("hasAuthority('ROLE_USER')")
   public AcceptResult accept(
       @AuthenticationPrincipal SecurityUserDetails actor, @PathVariable Long id) {
+    emailVerification.requireVerifiedCurrentUser();
     return acceptance.accept(actor.getId(), id);
   }
 }

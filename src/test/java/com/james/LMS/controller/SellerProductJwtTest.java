@@ -115,14 +115,14 @@ class SellerProductJwtTest {
                 .replace(",\"sellerId\":999", "")
                 .getBytes(StandardCharsets.UTF_8));
     var created =
-        mvc.perform(multipart("/api/seller/products").file(request).cookie(chef))
+        mvc.perform(multipart("/api/seller/products").file(request).cookie(chef).header("Origin", "http://localhost:5173"))
             .andExpect(status().isCreated())
             .andReturn();
     long id = mapper.readTree(created.getResponse().getContentAsString()).get("id").asLong();
     assertThat(products.findById(id).orElseThrow().getSellerId()).isEqualTo(chefId);
-    mvc.perform(get("/api/seller/products/" + id).cookie(chef)).andExpect(status().isOk());
-    mvc.perform(get("/api/seller/products/" + id).cookie(other)).andExpect(status().isNotFound());
-    mvc.perform(get("/api/seller/products/" + id).cookie(customer))
+    mvc.perform(get("/api/seller/products/" + id).cookie(chef).header("Origin", "http://localhost:5173")).andExpect(status().isOk());
+    mvc.perform(get("/api/seller/products/" + id).cookie(other).header("Origin", "http://localhost:5173")).andExpect(status().isNotFound());
+    mvc.perform(get("/api/seller/products/" + id).cookie(customer).header("Origin", "http://localhost:5173"))
         .andExpect(status().isForbidden());
     mvc.perform(get("/api/seller/products/" + id)).andExpect(status().isUnauthorized());
     mvc.perform(get("/api/seller/products/" + id).cookie(new Cookie("access-token", "invalid")))
@@ -132,7 +132,7 @@ class SellerProductJwtTest {
   @Test
   void revokedJwtDoesNotPassEvenWhenSignatureIsValid() throws Exception {
     tokens.clear();
-    mvc.perform(get("/api/seller/products").cookie(chef)).andExpect(status().isUnauthorized());
+    mvc.perform(get("/api/seller/products").cookie(chef).header("Origin", "http://localhost:5173")).andExpect(status().isUnauthorized());
   }
 
   @Test
@@ -152,7 +152,7 @@ class SellerProductJwtTest {
                             "menu", "", "application/json", body.getBytes(StandardCharsets.UTF_8)))
                     .file(new MockMultipartFile("files", "a.png", "image/png", png))
                     .file(new MockMultipartFile("files", "b.png", "image/png", png))
-                    .cookie(chef))
+                    .cookie(chef).header("Origin", "http://localhost:5173"))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.images.length()").value(2))
             .andExpect(jsonPath("$.images[0].isCover").value(true))
@@ -174,11 +174,11 @@ class SellerProductJwtTest {
                 .file(
                     new MockMultipartFile(
                         "menu", "", "application/json", update.getBytes(StandardCharsets.UTF_8)))
-                .cookie(chef))
+                .cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.images.length()").value(1))
         .andExpect(jsonPath("$.name").value("Changed"));
-    mvc.perform(get("/api/seller/products/" + id).cookie(chef))
+    mvc.perform(get("/api/seller/products/" + id).cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.images[0].isCover").value(true));
   }
