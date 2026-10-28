@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { AuthShell } from "../../components/auth/AuthShell";
+import { GoogleAuthButton } from "../../components/auth/GoogleAuthButton";
+import { useCallback } from "react";
 import { Notice } from "../../components/common/Notice";
 import { loginDestination } from "../../util/loginDestination";
 import { ROUTES } from "../../constants/routes";
@@ -10,9 +12,10 @@ import { authErrorMessage } from "../../util/authError";
 import { normalizeEmail } from "../../validations/authValidation";
 
 export function LoginPage() {
-  const { login } = useAuth();
+  const { login, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [params] = useSearchParams();
   const [form, setForm] = useState({ email: "", password: "" });
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<UiMessage | null>(null);
@@ -39,6 +42,12 @@ export function LoginPage() {
     }
   }
 
+  const googleSuccess = useCallback(async () => {
+    const profile = await refreshProfile();
+    if (!profile) throw new Error('Không thể tải hồ sơ sau khi đăng nhập Google.');
+    navigate(loginDestination(profile.roles ?? [], (location.state as { from?: string } | null)?.from), { replace: true });
+  }, [refreshProfile, navigate, location.state]);
+
   return (
     <AuthShell title="Đăng nhập">
       <nav className="tabs">
@@ -51,6 +60,8 @@ export function LoginPage() {
         <h1>Chào bạn trở lại!</h1>
         <p className="muted">Bữa cơm ngon tiếp theo đang chờ bạn.</p>
       </div>
+      {params.get("passwordSet") === "1" && <Notice message={{ type: "success", text: "Đã tạo mật khẩu. Bây giờ bạn có thể đăng nhập thủ công bằng email." }} />}
+      {params.get("verified") === "1" && <Notice message={{ type: "success", text: "Email đã được xác thực. Vui lòng đăng nhập." }} />}
       <Notice message={message} />
       <form className="stack" onSubmit={submit}>
         <label className="field">
@@ -85,7 +96,10 @@ export function LoginPage() {
           {busy ? "Đang đăng nhập..." : "Đăng nhập"}
         </button>
       </form>
-      <p className="small muted">
+      <div className="stack">
+        <GoogleAuthButton mode="signin" onSuccess={googleSuccess} />
+      </div>
+      <p style={{textAlign: "center"}} className="small muted">
         Bạn mới đến?{" "}
         <Link className="text-link" to={ROUTES.REGISTER}>
           Tạo tài khoản
