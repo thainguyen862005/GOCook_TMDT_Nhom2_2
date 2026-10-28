@@ -16,9 +16,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("select u from User u where u.id=:id and u.isActive=true")
   Optional<User> lockScheduleOwner(@Param("id") Long id);
 
-  Optional<User> findByEmail(String email);
+  @Query("select u from User u where lower(trim(u.email)) = lower(trim(:email))")
+  Optional<User> findByEmail(@Param("email") String email);
 
-  Boolean existsUserByEmail(String email);
+  @Query("select case when count(u) > 0 then true else false end from User u where lower(trim(u.email)) = lower(trim(:email))")
+  Boolean existsUserByEmail(@Param("email") String email);
 
   @Query(value = "select u " + "from User u " + "where u.id = :id")
   Optional<User> findUserAndInstructorById(@Param("id") Long id);

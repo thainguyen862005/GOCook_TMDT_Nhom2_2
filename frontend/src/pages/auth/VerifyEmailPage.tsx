@@ -13,9 +13,11 @@ export function VerifyEmailPage() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const { profile, refreshProfile } = useAuth();
-  const returnTo = params.get('returnTo') || ROUTES.HOME;
+  const requested = params.get('returnTo') || ROUTES.HOME;
+  const returnTo = requested.startsWith('/') && !requested.startsWith('//') && !requested.includes('\\') ? requested : ROUTES.HOME;
   const autoSend = params.get('autoSend') === '1';
   const isTransactionalVerification = params.get('reason') === 'transaction';
+  const isSignup = params.get('reason') === 'signup';
 
   const [email, setEmail] = useState(params.get('email') || profile?.email || '');
   const [otp, setOtp] = useState('');
@@ -38,7 +40,7 @@ export function VerifyEmailPage() {
         await authClient.requestEmailVerification(cleanEmail);
         setMessage({
           type: 'success',
-          text: `Mã xác thực đã được gửi tới ${cleanEmail}.`,
+          text: `Nếu tài khoản đang chờ xác thực, mã sẽ được gửi tới ${cleanEmail}.`,
         });
       } catch (error) {
         setMessage({ text: authErrorMessage(error, 'Không thể gửi mã xác thực.') });
@@ -54,9 +56,9 @@ export function VerifyEmailPage() {
     setMessage(null);
     try {
       await authClient.verifyEmail({ email: normalizeEmail(email), otp });
-      await refreshProfile();
+      const current = await refreshProfile();
       setMessage({ type: 'success', text: 'Xác thực email thành công. Bạn có thể tiếp tục.' });
-      window.setTimeout(() => navigate(returnTo, { replace: true }), 350);
+      window.setTimeout(() => navigate(current ? returnTo : `${ROUTES.LOGIN}?verified=1`, { replace: true }), 350);
     } catch (error) {
       setMessage({ text: authErrorMessage(error, 'Không thể xác thực email.') });
     } finally {
@@ -70,7 +72,7 @@ export function VerifyEmailPage() {
     try {
       const cleanEmail = normalizeEmail(email);
       await authClient.requestEmailVerification(cleanEmail);
-      setMessage({ type: 'success', text: `OTP mới đã được gửi tới ${cleanEmail}.` });
+      setMessage({ type: 'success', text: `Nếu tài khoản đang chờ xác thực, mã mới sẽ được gửi tới ${cleanEmail}.` });
     } catch (error) {
       setMessage({ text: authErrorMessage(error, 'Không thể gửi lại OTP.') });
     } finally {
@@ -82,11 +84,13 @@ export function VerifyEmailPage() {
     <AuthShell title="Xác thực email">
       <div>
         <span className="badge">Xác thực email</span>
-        <h1>{isTransactionalVerification ? 'Xác thực trước khi đặt dịch vụ' : 'Nhập mã xác thực'}</h1>
+        <h1>{isSignup ? 'Đăng ký thành công — xác thực email' : isTransactionalVerification ? 'Xác thực trước khi đặt dịch vụ' : 'Nhập mã xác thực'}</h1>
         <p className="muted">
-          {isTransactionalVerification
-            ? 'Bạn vẫn có thể xem GO Cook bình thường. Bước này chỉ cần trước khi đặt đầu bếp hoặc thanh toán.'
-            : 'Mã OTP 6 chữ số có hiệu lực trong 10 phút.'}
+          {isSignup
+            ? 'Chúng tôi đã gửi mã OTP tới email vừa đăng ký (nếu tài khoản mới). Mã có hiệu lực 10 phút. Bạn cũng có thể xác thực sau; tài khoản không bị xóa khi OTP hết hạn.'
+            : isTransactionalVerification
+              ? 'Bạn có thể xem GO Cook bình thường, nhưng phải xác thực email trước khi thanh toán.'
+              : 'Mã OTP có hiệu lực trong 10 phút. Hết hạn hãy chọn Gửi lại mã.'}
         </p>
       </div>
       <Notice message={message} />
@@ -119,6 +123,7 @@ export function VerifyEmailPage() {
       <button className="text-link" type="button" onClick={() => void resend()} disabled={busy}>
         Gửi lại mã xác thực
       </button>
+      {isSignup && <Link className="text-link" to={ROUTES.LOGIN}>Xác thực sau — đăng nhập</Link>}
       <Link className="text-link" to={ROUTES.HOME}>Về trang chủ</Link>
     </AuthShell>
   );
