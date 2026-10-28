@@ -76,11 +76,12 @@ export function ResetPasswordPage() {
         </form>
       ) : (
         <form className="stack" onSubmit={reset}>
-          <label className="field">Mật khẩu mới<input type="password" minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
-          <label className="field">Xác nhận mật khẩu<input type="password" minLength={8} value={confirm} onChange={(e) => setConfirm(e.target.value)} required /></label>
+          <label className="field">Mật khẩu mới<input type="password" minLength={12} maxLength={128} value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
+          <label className="field">Xác nhận mật khẩu<input type="password" minLength={12} maxLength={128} value={confirm} onChange={(e) => setConfirm(e.target.value)} required /></label>
           <button className="btn" disabled={busy}>{busy ? 'Đang lưu...' : 'Lưu mật khẩu mới'}</button>
         </form>
       )}
+      <Link className="text-link" to={ROUTES.FORGOT_PASSWORD}>Không nhận được mã hoặc mã đã hết hạn? Gửi yêu cầu mới</Link>
       <Link className="text-link" to={ROUTES.LOGIN}>Về đăng nhập</Link>
     </AuthShell>
   );

@@ -10,6 +10,7 @@ import com.james.LMS.entity.PaymentTransaction;
 import com.james.LMS.entity.Product;
 import com.james.LMS.enums.ErrorCode;
 import com.james.LMS.enums.OrderStatus;
+import com.james.LMS.enums.OrderServiceType;
 import com.james.LMS.enums.PaymentCloseReason;
 import com.james.LMS.enums.PaymentProvider;
 import com.james.LMS.enums.PaymentStatus;
@@ -117,6 +118,7 @@ public class PaymentServiceImpl implements PaymentService {
                       .scheduledAt(request.scheduledAt())
                       .totalAmount(quote.total())
                       .status(OrderStatus.PENDING)
+                      .serviceType(OrderServiceType.MENU)
                       .customerNote(request.customerNote())
                       .build());
 

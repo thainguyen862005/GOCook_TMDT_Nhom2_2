@@ -4,6 +4,20 @@ import type { LoginPayload, RegisterPayload, ResetPasswordPayload, VerifyOtpPayl
 import type { UserProfile } from '../types/user';
 
 export const authClient = {
+  async googleNonce(): Promise<string> {
+    const result = await httpRequest<BaseResponse<{ nonce: string }>>('/api/v2/users/google/nonce');
+    return unwrap(result).nonce;
+  },
+  async googleSignIn(credential: string): Promise<void> {
+    await httpRequest('/api/v2/users/google/sign-in', { method: 'POST', body: JSON.stringify({ credential }) });
+  },
+  async linkGoogle(credential: string): Promise<void> {
+    await httpRequest('/api/v2/users/google/link', { method: 'POST', body: JSON.stringify({ credential }) });
+  },
+  async setInitialPassword(password: string, confirmPassword: string): Promise<void> {
+    await httpRequest('/api/v2/users/google/set-password', { method: 'POST', body: JSON.stringify({ password, confirmPassword }) });
+  },
+
   async login(payload: LoginPayload): Promise<void> {
     await httpRequest('/api/v2/users/login', { method: 'POST', body: JSON.stringify(payload) });
   },

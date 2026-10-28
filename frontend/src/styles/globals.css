@@ -437,3 +437,68 @@ button.text-link:disabled { opacity: .55; cursor: not-allowed; }
 .menu-gallery img { width: 100%; height: 260px; object-fit: cover; border-radius: 14px; }
 .menu-gallery img:first-child { grid-column: span 1; }
 @media (max-width: 600px) { .menu-gallery img { height: 210px; } }
+
+
+/* Admin layout: sidebar remains visible without forcing the whole page to overflow. */
+.admin-workspace { align-items: start; }
+.admin-workspace .admin-side-nav {
+  position: sticky;
+  top: 96px; /* 80px sticky header + breathing room */
+  max-height: calc(100dvh - 112px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.admin-workspace .admin-main {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+.admin-main > *, .admin-main .grid > *, .admin-main .card,
+.admin-stats-charts figure, .admin-stats-metrics > * { min-width: 0; max-width: 100%; }
+.admin-main .admin-data-section, .admin-main .admin-stats-charts { min-width: 0; }
+.admin-main .admin-table-scroll, .admin-main .admin-chart-scroll {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.admin-main .admin-table-scroll:focus-visible,
+.admin-main .admin-chart-scroll:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.admin-orders-table { min-width: 840px; }
+.admin-orders-table .admin-menu-name { max-width: 270px; white-space: normal; overflow-wrap: anywhere; }
+.admin-orders-table td:first-child { overflow-wrap: anywhere; }
+.admin-statistics-table { min-width: 420px; }
+.admin-stats-charts .admin-revenue-chart { min-width: 620px; }
+.admin-stats-charts .chart-col { min-width: 44px; }
+.admin-statistics-filter .row { min-width: 0; }
+.admin-statistics-filter .row > * { max-width: 100%; }
+@media (max-width: 760px) {
+  .admin-workspace .admin-side-nav {
+    position: static;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  .admin-workspace .admin-main { min-width: 0; }
+  .admin-stats-charts .admin-revenue-chart { min-width: 500px; }
+}
+
+/* Account actions always remain discoverable in the Admin navigation. */
+.admin-header-actions { gap: 10px; flex-wrap: wrap; }
+.admin-side-nav .admin-side-logout { margin-top: 12px; padding-top: 13px; border-top: 1px solid var(--line); font-weight: 700; }
+.google-auth-block { display: grid; gap: 10px; min-width: 0; }
+.google-auth-heading { display: flex; align-items: center; gap: 9px; font-weight: 600; }
+.google-auth-mark { height: 22px; width: 22px; flex: none; }
+.google-auth-button-slot { text-align: center; align-items: center; justify-content: center; display: flex; width: 100%; min-width: 0; max-width: 100%; overflow: hidden; }
+.google-auth-error { color: #9d2323; overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+  .admin-header-actions .admin-logout-action { display: inline-flex; }
+}
+@media (max-width: 600px) {
+  .admin-header-actions .admin-logout-action { padding-inline: 10px; }
+  .session-logout-link { display: none; }
+}

@@ -24,7 +24,7 @@ export function ForgotPasswordPage() {
       const cleanEmail = normalizeEmail(email);
       await authClient.forgotPassword(cleanEmail);
       startOtpVerification(cleanEmail);
-      setMessage({ type: 'success', text: `OTP đã được gửi tới ${cleanEmail}.` });
+      setMessage({ type: 'success', text: `Nếu tài khoản tồn tại và đủ điều kiện, mã khôi phục sẽ được gửi tới ${cleanEmail}.` });
       window.setTimeout(() => navigate(`${ROUTES.RESET_PASSWORD}?email=${encodeURIComponent(cleanEmail)}`), 400);
     } catch (error) {
       setMessage({ text: authErrorMessage(error, 'Không thể gửi mã khôi phục.') });

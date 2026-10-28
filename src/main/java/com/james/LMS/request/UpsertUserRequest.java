@@ -12,17 +12,19 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+
 public class UpsertUserRequest {
   @Hidden private Long id;
 
-  @NotBlank private String username;
+  @NotBlank
+  @Size(min = 2, max = 80) private String username;
 
   @Email(message = "Email invalid")
   @NotBlank
+  @Size(max = 254)
   private String email;
 
   @NotBlank
-  @Size(min = 8, message = "Password must be at least 8 characters")
+  @Size(min = 12, max = 128, message = "Password must be between 12 and 128 characters")
   private String password;
 }

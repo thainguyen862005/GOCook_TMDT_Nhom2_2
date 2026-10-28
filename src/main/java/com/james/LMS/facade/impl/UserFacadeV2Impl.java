@@ -1,146 +1,43 @@
 package com.james.LMS.facade.impl;
 
-import com.james.LMS.config.SecurityConfig;
-import com.james.LMS.config.SecurityUserDetails;
-import com.james.LMS.entity.Role;
+import com.james.LMS.entity.User;
 import com.james.LMS.enums.ErrorCode;
-import com.james.LMS.enums.TokenType;
 import com.james.LMS.facade.UserFacadeV2;
 import com.james.LMS.request.LoginRequest;
 import com.james.LMS.response.BaseResponse;
-import com.james.LMS.service.CacheService;
-import com.james.LMS.service.JwtService;
-import com.james.LMS.service.RoleService;
+import com.james.LMS.service.AuthChallengeService;
+import com.james.LMS.service.AuthSessionService;
 import com.james.LMS.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserFacadeV2Impl implements UserFacadeV2 {
-  private final UserService userService;
-  private final JwtService jwtService;
-  private final CacheService cacheService;
-  private final PasswordEncoder passwordEncoder;
-  private final RoleService roleService;
-
-  private static final int COOKIE_ACCESS_TOKEN_TTL = 60 * 60;
-  private static final int COOKIE_REFRESH_TOKEN_TTL = 60 * 60 * 24 * 14;
-  private static final int COOKIE_REMEMBER_ME_TTL = 60 * 60 * 24 * 30;
-  private static final String REMEMBER_ME_KEY = "remember_me";
-
-  @Value("${security.cookie.secure:false}")
-  private boolean cookieSecure;
-
-  @Value("${security.cookie.same-site:Lax}")
-  private String cookieSameSite;
+  private final UserService users;
+  private final PasswordEncoder encoder;
+  private final AuthChallengeService challenges;
+  private final AuthSessionService sessions;
 
   @Override
-  public BaseResponse<Void> login(LoginRequest loginRequest, HttpServletResponse response) {
-    log.info("Login v2");
-
-    // Keep e-mail handling identical to sign-up. This also avoids failures caused by
-    // accidental leading/trailing spaces or upper-case characters in the e-mail.
-    String email = loginRequest.getEmail().trim().toLowerCase(Locale.ROOT);
-
-    var user =
-        userService
-            .findByEmail(email)
-            .orElseThrow(
-                () -> new BadCredentialsException(ErrorCode.INVALID_CREDENTIALS.getMessage()));
-
-    if (!user.isActive()) {
+  public BaseResponse<Void> login(LoginRequest request, HttpServletResponse response) {
+    String email = request.getEmail().trim().toLowerCase(Locale.ROOT);
+    challenges.requireLoginAllowed(email);
+    User user = users.findByEmail(email).orElse(null);
+    // Timing noise is reduced by verifying against a valid fallback bcrypt hash.
+    String hash = user == null ?
+        "$2a$10$N9qo8uLOickgx2ZMRZoMye1X6v3lmT4HBkFfGHwuFROpS4dF7S3K2" : user.getPassword();
+    boolean matches = encoder.matches(request.getPassword(), hash);
+    if (user == null || !user.isActive() || !user.isPasswordLoginEnabled() || !matches) {
+      challenges.failedLogin(email);
       throw new BadCredentialsException(ErrorCode.INVALID_CREDENTIALS.getMessage());
     }
-
-    if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-      throw new BadCredentialsException(ErrorCode.INVALID_CREDENTIALS.getMessage());
-    }
-
-    List<Role> roles = roleService.findAllByUserId(user.getId());
-    List<GrantedAuthority> authorities =
-        roles.stream()
-            .map(role -> new SimpleGrantedAuthority(role.getRoleName().getContent()))
-            .collect(Collectors.toList());
-
-    SecurityUserDetails principal = SecurityUserDetails.build(user, authorities);
-
-    UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken(principal, null, authorities);
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    String accessToken = jwtService.generateAccessToken(email);
-    String refreshToken = jwtService.generateRefreshToken(email);
-
-    String refreshTokenCacheKey =
-        String.format(TokenType.REFRESH_TOKEN.getCacheKeyTemplate(), email);
-    String accessTokenCacheKey =
-        String.format(TokenType.ACCESS_TOKEN.getCacheKeyTemplate(), email);
-
-    cacheService.store(accessTokenCacheKey, accessToken, 1, TimeUnit.HOURS);
-    cacheService.store(refreshTokenCacheKey, refreshToken, 14, TimeUnit.DAYS);
-
-    ResponseCookie accessTokenCookie =
-        ResponseCookie.from(SecurityConfig.COOKIE_SECURITY_NAME, accessToken)
-            .httpOnly(true)
-            .secure(cookieSecure)
-            .sameSite(cookieSameSite)
-            .path("/")
-            .maxAge(COOKIE_ACCESS_TOKEN_TTL)
-            .build();
-
-    ResponseCookie refreshTokenCookie =
-        ResponseCookie.from(SecurityConfig.COOKIE_REFRESH_TOKEN_NAME, refreshToken)
-            .httpOnly(true)
-            .secure(cookieSecure)
-            .sameSite(cookieSameSite)
-            .path("/")
-            .maxAge(COOKIE_REFRESH_TOKEN_TTL)
-            .build();
-
-    String rememberInfo = URLEncoder.encode(principal.getRememberInfo(), StandardCharsets.UTF_8);
-
-    ResponseCookie rememberMeCookie =
-        ResponseCookie.from(REMEMBER_ME_KEY, rememberInfo)
-            .httpOnly(false)
-            .secure(cookieSecure)
-            .sameSite(cookieSameSite)
-            .path("/")
-            .maxAge(COOKIE_REMEMBER_ME_TTL)
-            .build();
-
-    ResponseCookie validateLoginCookie =
-        ResponseCookie.from(SecurityConfig.VALIDATE_LOGIN, "true")
-            .httpOnly(false)
-            .secure(cookieSecure)
-            .sameSite(cookieSameSite)
-            .path("/")
-            .maxAge(COOKIE_REFRESH_TOKEN_TTL)
-            .build();
-
-    response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, validateLoginCookie.toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, rememberMeCookie.toString());
-
+    challenges.clearLoginFailures(email);
+    sessions.create(email, response);
     return BaseResponse.ok();
   }
 }

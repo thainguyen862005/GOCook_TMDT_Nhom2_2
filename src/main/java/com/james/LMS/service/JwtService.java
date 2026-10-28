@@ -10,4 +10,6 @@ public interface JwtService {
   String getEmailFromJwtToken(String token);
 
   String generateResetPasswordToken(String email);
+
+  Boolean validateTokenForPurpose(String token, String purpose);
 }

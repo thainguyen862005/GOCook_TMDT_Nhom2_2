@@ -67,12 +67,13 @@ export function AdminOrdersPage() {
     </form>
     {loading ? <Loading /> : error ? <section className="card stack"><p role="alert">{error}</p>
       <button className="btn secondary" type="button" onClick={refresh}>Thử lại</button></section> : data && (
-      <section className="card stack"><div className="table-wrap"><table>
+      <section className="card stack admin-data-section"><div className="table-wrap admin-table-scroll" role="region" aria-label="Bảng đơn hàng" tabIndex={0}><table className="admin-orders-table">
         <caption>Hiển thị {data.numberOfElements} / {data.totalElements} đơn hàng</caption>
-        <thead><tr><th>Mã</th><th>Khách hàng</th><th>Thực đơn</th><th>Ngày nấu</th><th>Tổng tiền</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
-        <tbody>{data.content.length === 0 && <tr><td colSpan={7}>Không có đơn hàng phù hợp.</td></tr>}
+        <thead><tr><th>Mã</th><th>Khách hàng</th><th>Thực đơn</th><th>Loại dịch vụ</th><th>Ngày nấu</th><th>Tổng tiền</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+        <tbody>{data.content.length === 0 && <tr><td colSpan={8}>Không có đơn hàng phù hợp.</td></tr>}
           {data.content.map((order) => <tr key={order.id}>
-            <td><strong>{order.orderCode}</strong></td><td>{order.customerName}</td><td>{order.productName}</td>
+            <td><strong>{order.orderCode}</strong></td><td>{order.customerName}</td><td className="admin-menu-name">{order.productName}</td>
+            <td>{order.serviceType === 'BUDGET' ? 'Theo ngân sách' : 'Thực đơn'}</td>
             <td>{order.scheduledAtDisplay || dateTime(order.scheduledAt)}</td><td>{money(order.totalAmount)}</td>
             <td><span className={`badge ${statusClass(order.status)}`}>{ORDER_LABEL[order.status] || order.status}</span></td>
             <td><Link className="text-link" to={`${ROUTES.ADMIN_ORDER_DETAIL}?id=${order.id}`}>Chi tiết</Link></td>

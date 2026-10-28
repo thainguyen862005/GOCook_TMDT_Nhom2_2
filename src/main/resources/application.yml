@@ -21,3 +21,7 @@ server:
 logging:
   pattern:
     console: ${LOG_PATTERN:%d{yyyy-MM-dd HH:mm:ss.SSS} %clr([%thread]){faint} %clr(%-5level) %clr(%logger{1}){cyan} %clr(%X{requestId}){yellow} - %clr(%X{email}){green} - %msg%n}
+# Google Identity Services web client; the same public Client ID is used in Vite.
+auth:
+  google:
+    client-id: ${GOOGLE_OAUTH_CLIENT_ID:}

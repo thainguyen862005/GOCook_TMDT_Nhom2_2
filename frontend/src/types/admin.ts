@@ -34,6 +34,7 @@ export interface AdminOrder {
     customerName: string;
     customerEmail?: string;
     productName: string;
+    serviceType?: 'MENU' | 'BUDGET';
     chefName?: string;
     serviceAddress?: string;
     guestCount: number;

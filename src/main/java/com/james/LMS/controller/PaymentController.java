@@ -6,6 +6,7 @@ import com.james.LMS.request.PaymentOrderCheckoutRequest;
 import com.james.LMS.response.PaymentCheckoutResponse;
 import com.james.LMS.response.PaymentStatusResponse;
 import com.james.LMS.service.PaymentService;
+import com.james.LMS.service.EmailVerificationGuard;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class PaymentController {
   private final PaymentService service;
+  private final EmailVerificationGuard emailVerification;
 
   @PostMapping("/checkout")
   @ResponseStatus(HttpStatus.CREATED)
@@ -37,6 +39,7 @@ public class PaymentController {
       @AuthenticationPrincipal SecurityUserDetails actor,
       @Valid @RequestBody PaymentCheckoutRequest request,
       HttpServletRequest http) {
+    emailVerification.requireVerifiedCurrentUser();
     return service.checkout(actor.getId(), actor.getUsername(), request, clientIp(http));
   }
 
@@ -46,6 +49,7 @@ public class PaymentController {
       @AuthenticationPrincipal SecurityUserDetails actor,
       @Valid @RequestBody PaymentOrderCheckoutRequest request,
       HttpServletRequest http) {
+    emailVerification.requireVerifiedCurrentUser();
     return service.checkoutOrder(actor.getId(), request, clientIp(http));
   }
 

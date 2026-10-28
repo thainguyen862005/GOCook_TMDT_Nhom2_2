@@ -2,6 +2,7 @@
 package com.james.LMS.entity;
 
 import com.james.LMS.enums.OrderStatus;
+import com.james.LMS.enums.OrderServiceType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -67,6 +69,14 @@ public class CookOrder extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
     private OrderStatus status;
+
+    /** Existing orders and current fixed-menu checkout default to MENU.
+     * The future budget-booking integration must explicitly set BUDGET.
+     */
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service_type", nullable = false, length = 15)
+    private OrderServiceType serviceType = OrderServiceType.MENU;
 
     @Column(name = "customer_note", columnDefinition = "TEXT")
     private String customerNote;
