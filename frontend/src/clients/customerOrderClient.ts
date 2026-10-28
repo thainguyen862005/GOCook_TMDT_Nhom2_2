@@ -6,6 +6,7 @@ import type {
 } from '../types/customerOrder';
 
 export const customerOrderClient = {
+  accept: (id:number) => httpRequest<{status:string}>(`/api/customer/orders/${id}/accept`,{method:"POST"}),
   list(
     params: { status?: string; page?: number; size?: number },
     signal?: AbortSignal,

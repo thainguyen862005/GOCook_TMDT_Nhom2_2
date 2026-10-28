@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 import { ROLES } from '../../constants/roles';
 import { ROUTES } from '../../constants/routes';
 import { AdminDashboardPage } from '../../pages/admin/DashboardPage';
+import { AdminNotificationCampaignPage } from '../../pages/admin/AdminNotificationCampaignPage';
 import { AdminOrderDetailPage } from '../../pages/admin/OrderDetailPage';
 import { AdminOrdersPage } from '../../pages/admin/OrdersPage';
 import { AdminProductEditPage, AdminProductNewPage } from '../../pages/admin/ProductFormPage';
@@ -20,6 +21,7 @@ export const adminRoutes: RouteObject[] = [
     element: <ProtectedRoute role={ROLES.ADMIN} />,
     children: [
       { path: ROUTES.ADMIN, element: <AdminDashboardPage /> },
+      { path: ROUTES.ADMIN_NOTIFICATIONS, element: <AdminNotificationCampaignPage /> },
       { path: ROUTES.ADMIN_USERS, element: <AdminUsersPage /> },
       { path: ROUTES.ADMIN_USER_EDIT, element: <AdminUserEditPage /> },
       { path: ROUTES.ADMIN_PRODUCTS, element: <AdminProductsPage /> },

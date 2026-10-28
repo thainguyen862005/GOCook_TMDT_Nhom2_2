@@ -1,6 +1,8 @@
 package com.james.LMS.publiccontent;
 
 import com.james.LMS.config.SecurityUserDetails;
+import com.james.LMS.notification.NotificationService;
+import org.springframework.transaction.support.TransactionTemplate;
 import com.james.LMS.media.ImageFileValidator;
 import com.james.LMS.service.CloudinaryService;
 import jakarta.validation.Valid;
@@ -24,8 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class CookingRequestController {
   private final NamedParameterJdbcTemplate jdbc;
   private final CloudinaryService cloudinary;
-  public CookingRequestController(NamedParameterJdbcTemplate jdbc, CloudinaryService cloudinary) {
-    this.jdbc = jdbc; this.cloudinary = cloudinary;
+  private final NotificationService notifications;
+  private final TransactionTemplate transactions;
+  public CookingRequestController(NamedParameterJdbcTemplate jdbc, CloudinaryService cloudinary,
+                                  NotificationService notifications, TransactionTemplate transactions) {
+    this.jdbc = jdbc; this.cloudinary = cloudinary; this.notifications = notifications;
+    this.transactions = transactions;
   }
 
   public record RequestInput(
@@ -67,7 +73,10 @@ public class CookingRequestController {
     // Upload first; delete on failed INSERT to avoid orphaned media.
     if (imageBytes != null) uploaded = cloudinary.uploadMenuImage(imageBytes);
     String code = "REQ-" + UUID.randomUUID().toString().replace("-", "").substring(0, 18).toUpperCase();
+    final String uploadedUrl = uploaded == null ? null : uploaded.url();
     try {
+      // TransactionTemplate makes commit errors observable here, allowing Cloudinary cleanup.
+      transactions.executeWithoutResult(tx -> {
       jdbc.update("""
           INSERT INTO public_cooking_requests(request_code,customer_id,desired_dishes,cuisine,
             adults,children,avoid_ingredients,spice_level,meal_date,meal_time,
@@ -81,7 +90,12 @@ public class CookingRequestController {
           .addValue("mealDate", data.mealDate()).addValue("mealTime", data.mealTime())
           .addValue("address", data.address().trim()).addValue("equipment", data.equipment())
           .addValue("budgetMin", data.budgetMin()).addValue("budgetMax", data.budgetMax())
-          .addValue("image", uploaded == null ? null : uploaded.url()));
+          .addValue("image", uploadedUrl));
+      notifications.sendToUser(actor.getId(), "request-created:"+code, "REQUEST", "Đã nhận yêu cầu nấu ăn",
+          "Yêu cầu " + code + " đang chờ xử lý.", "/request");
+      notifications.sendToAdmins("request-new:"+code, "REQUEST", "Yêu cầu nấu ăn mới",
+          "Khách hàng vừa gửi yêu cầu " + code + ".", "/admin/cooking-requests");
+      });
     } catch (RuntimeException error) {
       if (uploaded != null) {
         try { cloudinary.deleteMenuImage(uploaded.publicId()); }

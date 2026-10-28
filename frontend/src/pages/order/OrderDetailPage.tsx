@@ -20,6 +20,17 @@ export function OrderDetailPage() {
   const [order, setOrder] = useState<CustomerOrder | null>(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<UiMessage | null>(null);
+  const [busy, setBusy] = useState(false);
+  async function accept() {
+    if (!order || busy || order.status !== 'AWAITING_ACCEPTANCE') return;
+    setBusy(true);setMessage(null);
+    try {
+      await customerOrderClient.accept(order.id);
+      setOrder(await customerOrderClient.detail(order.id));
+      setMessage({type:'success',text:'Đã nghiệm thu dịch vụ. Hệ thống ghi nhận giải ngân theo quy trình escrow.'});
+    } catch(error) { setMessage({type:'error',text:error instanceof Error?error.message:'Không thể nghiệm thu.'}); }
+    finally { setBusy(false); }
+  }
 
   useEffect(() => {
     if (!validId) {
@@ -67,6 +78,7 @@ export function OrderDetailPage() {
             <p><strong>Lịch phục vụ:</strong> {dateTime(order.scheduledAt)}</p>
             <p><strong>Địa chỉ nấu:</strong> {order.serviceAddress || 'Chưa có thông tin'}</p>
             <p><strong>Ghi chú:</strong> {order.customerNote || 'Không có'}</p>
+            {order.status === 'AWAITING_ACCEPTANCE' && <div className="soft stack"><strong>Đầu bếp đã báo hoàn thành.</strong><p>Chỉ xác nhận sau khi bạn kiểm tra dịch vụ. Hành động này sẽ giải ngân tiền đang tạm giữ cho Chef.</p><button className="btn" disabled={busy} onClick={() => void accept()}>{busy?'Đang xác nhận…':'Xác nhận nghiệm thu & giải ngân'}</button></div>}
             <Link className="btn secondary" to={ROUTES.ORDERS}>← Quay lại danh sách</Link>
           </section>
           <aside className="card summary stack">

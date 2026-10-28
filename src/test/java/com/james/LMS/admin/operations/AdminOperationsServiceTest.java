@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 class AdminOperationsServiceTest {
     @Mock NamedParameterJdbcTemplate jdbc;
     @Mock AdminAuditService audit;
+    @Mock com.james.LMS.notification.NotificationService notifications;
     @InjectMocks AdminOperationsService service;
 
     @Test

@@ -4,7 +4,10 @@ import type { PageResponse } from './api';
 export type CustomerOrderStatus =
   | 'PENDING'
   | 'CONFIRMED'
+  | 'PREPARING'
   | 'COOKING'
+  | 'AWAITING_ACCEPTANCE'
+  | 'REJECTED'
   | 'COMPLETED'
   | 'CANCELLED';
 
