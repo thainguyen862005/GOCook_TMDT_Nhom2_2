@@ -140,6 +140,7 @@ export function GoogleAuthButton({mode, onSuccess}: {
 
     return <section className="google-auth-block"
                     aria-label={mode === 'link' ? 'Liên kết Google' : 'Đăng nhập với Google'}>
+        {(!configured || state === 'error') && <div className="google-provider-identity"><GoogleMark /> <span>Google</span></div>}
         {!configured ? (
             <p className="small muted" role="status">
                 Đăng nhập Google chưa được cấu hình. Thêm VITE_GOOGLE_CLIENT_ID vào frontend/.env.local rồi khởi động
@@ -151,8 +152,7 @@ export function GoogleAuthButton({mode, onSuccess}: {
             <div ref={container} className="google-auth-button-slot"/>
             {error && <p className="small google-auth-error" role="alert">{error}</p>}
             {error &&
-                <button className="btn secondary sm" type="button" onClick={() => setAttempt((old) => old + 1)}>Lấy mã
-                    mới và thử lại bằng Google</button>}
+                <button className="btn secondary sm" type="button" onClick={() => setAttempt((old) => old + 1)}>Lấy mã mới và thử lại bằng Google</button>}
         </>}
     </section>;
 }

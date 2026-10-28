@@ -26,8 +26,9 @@ class RegistrationOtpStateTest {
   private final AuthChallengeService challenges = mock(AuthChallengeService.class);
   private final AuthSessionService sessions = mock(AuthSessionService.class);
   private final UserAuthIdentityRepository identities = mock(UserAuthIdentityRepository.class);
+  private final com.james.LMS.notification.NotificationService notifications = mock(com.james.LMS.notification.NotificationService.class);
   private final UserFacadeImpl facade = new UserFacadeImpl(users, jwt, cache, encoder, roles, mail,
-      images, challenges, sessions, identities);
+      images, challenges, sessions, identities, notifications);
 
   @Test void newRegistrationCreatesPendingUserAndSendsOtp() {
     when(encoder.encode("long-enough-password")).thenReturn("hash");
