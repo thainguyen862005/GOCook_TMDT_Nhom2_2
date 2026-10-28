@@ -22,6 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import jakarta.servlet.DispatcherType;
+
 @Slf4j
 @Configuration
 @EnableMethodSecurity
@@ -84,6 +85,7 @@ public class SecurityConfig implements WebMvcConfigurer {
       "/api/public/offers",
       "/api/public/faqs"
   };
+
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -96,8 +98,7 @@ public class SecurityConfig implements WebMvcConfigurer {
   }
 
   @Bean
-  public UserDetailsAuthenticationProviderInterceptor
-      userDetailsAuthenticationProviderInterceptor() {
+  public UserDetailsAuthenticationProviderInterceptor userDetailsAuthenticationProviderInterceptor() {
     return new UserDetailsAuthenticationProviderInterceptor(
         this.userService, this.passwordEncoder(), this.roleService);
   }
@@ -111,28 +112,26 @@ public class SecurityConfig implements WebMvcConfigurer {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
-            .formLogin(AbstractHttpConfigurer::disable)
-            .logout(AbstractHttpConfigurer::disable)
-            .sessionManagement(
-                    session ->
-                            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(
-                    request ->
-                            request
-                                    .dispatcherTypeMatchers(
-                                            DispatcherType.FORWARD,
-                                            DispatcherType.ERROR)
-                                    .permitAll()
-                                    .requestMatchers(WHITE_LISTS)
-                                    .permitAll()
-                                    .anyRequest()
-                                    .authenticated());
+        .formLogin(AbstractHttpConfigurer::disable)
+        .logout(AbstractHttpConfigurer::disable)
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            request -> request
+                .dispatcherTypeMatchers(
+                    DispatcherType.FORWARD,
+                    DispatcherType.ERROR)
+                .permitAll()
+                .requestMatchers(WHITE_LISTS)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
 
     http.authenticationProvider(this.userDetailsAuthenticationProviderInterceptor());
 
     http.addFilterBefore(
-            authTokenProviderInterceptor(),
-            UsernamePasswordAuthenticationFilter.class);
+        authTokenProviderInterceptor(),
+        UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
