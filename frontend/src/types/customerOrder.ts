@@ -8,6 +8,7 @@ export type CustomerOrderStatus =
   | 'PREPARING'
   | 'COOKING'
   | 'AWAITING_ACCEPTANCE'
+  | 'REJECTED'
   | 'COMPLETED'
   | 'CANCELLED'
   | 'REJECTED';

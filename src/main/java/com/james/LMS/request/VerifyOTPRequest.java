@@ -2,6 +2,7 @@ package com.james.LMS.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +18,6 @@ public class VerifyOTPRequest {
 
   @Email(message = "Email invalid")
   @NotBlank
+  @Size(max = 254)
   private String email;
 }

@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ public class VnpayPaymentGateway implements PaymentGateway {
   private static final String VERSION = "2.1.0";
   private static final Duration TIMEOUT = Duration.ofSeconds(10);
   private static final BigDecimal HUNDRED = BigDecimal.valueOf(100);
+  private static final String DUPLICATE_REQUEST = "94";
 
   private static final Set<String> FAILURE_CODES =
       Set.of("09", "10", "11", "12", "13", "51", "65", "75", "79", "99");
@@ -201,7 +203,17 @@ public class VnpayPaymentGateway implements PaymentGateway {
 
     String signedData = String.join("|", fields.values());
     if (!sameHash(sign(signedData), node.path("vnp_SecureHash").asText(""))) {
-      log.warn("vnpay querydr txnRef={} response signature mismatch", txnRef);
+      if (DUPLICATE_REQUEST.equals(node.path("vnp_ResponseCode").asText(""))) {
+        log.info("vnpay querydr throttled (94 duplicate request) txnRef={}", txnRef);
+      } else {
+        log.warn(
+            "vnpay querydr txnRef={} response signature mismatch keys={} responseCode={} transactionStatus={} message={}",
+            txnRef,
+            fieldNames(node),
+            node.path("vnp_ResponseCode").asText(""),
+            node.path("vnp_TransactionStatus").asText(""),
+            node.path("vnp_Message").asText("").replaceAll("\\p{Cntrl}", " "));
+      }
       return unknown(txnRef);
     }
 
@@ -227,6 +239,12 @@ public class VnpayPaymentGateway implements PaymentGateway {
         fields.get("vnp_PayDate"),
         responseCode,
         transactionStatus);
+  }
+
+  private static String fieldNames(JsonNode node) {
+    List<String> names = new ArrayList<>();
+    node.fieldNames().forEachRemaining(names::add);
+    return String.join(",", names);
   }
 
   static Outcome callbackOutcome(String responseCode, String transactionStatus) {

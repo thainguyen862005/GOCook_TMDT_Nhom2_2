@@ -33,7 +33,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class AuthTokenProviderInterceptor extends OncePerRequestFilter {
 
-  private static final String RESET_PASSWORD_URL = "/api/v1/users/reset-password";  private final UserService userService;
+  private final UserService userService;
   private final CacheService cacheService;
   private final JwtService jwtService;
   private final RoleService roleService;
@@ -67,7 +67,7 @@ public class AuthTokenProviderInterceptor extends OncePerRequestFilter {
     String token = this.getJwtTokenFromCookie(request);
 
     try {
-      boolean isValidToken = jwtService.validateToken(token);
+      boolean isValidToken = jwtService.validateTokenForPurpose(token, "access");
       if (!isValidToken) throw new InvalidTokenException(ErrorCode.JWT_INVALID);
 
       String email = jwtService.getEmailFromJwtToken(token);
@@ -85,7 +85,7 @@ public class AuthTokenProviderInterceptor extends OncePerRequestFilter {
       SecurityContextHolder.getContext().setAuthentication(authentication);
       filterChain.doFilter(request, response);
 
-    } catch (InvalidTokenException invalidTokenException) {
+    } catch (InvalidTokenException | EntityNotFoundException invalidTokenException) {
       log.info("request unauthorized");
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
@@ -96,6 +96,7 @@ public class AuthTokenProviderInterceptor extends OncePerRequestFilter {
         userService
             .findByEmail(email)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+    if (!user.isActive()) throw new InvalidTokenException(ErrorCode.JWT_INVALID);
     List<Role> roles = this.roleService.findAllByUserId(user.getId());
     List<GrantedAuthority> authorityList =
         roles.stream()
@@ -107,8 +108,6 @@ public class AuthTokenProviderInterceptor extends OncePerRequestFilter {
 
   private Boolean validateTokenFromCache(String email, String token, String path) {
     if (token == null) return false;
-
-    if (path.startsWith(RESET_PASSWORD_URL)) return true;
 
     var accessTokenCacheKey = String.format(TokenType.ACCESS_TOKEN.getCacheKeyTemplate(), email);
 

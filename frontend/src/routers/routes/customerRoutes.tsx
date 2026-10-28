@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { SiteLayout } from '../../layouts/SiteLayout';
 import { AccountPage } from '../../pages/account/AccountPage';
+import { NotificationCenterPage } from '../../pages/notifications/NotificationCenterPage';
 import { CartPage } from '../../pages/cart/CartPage';
 import { EmptyCartPage } from '../../pages/cart/EmptyCartPage';
 import { VegetarianCartPage } from '../../pages/cart/VegetarianCartPage';
@@ -27,6 +28,7 @@ export const customerRoutes: RouteObject[] = [
     ),
     children: [
       { path: ROUTES.ACCOUNT, element: <AccountPage /> },
+      { path: ROUTES.NOTIFICATIONS, element: <NotificationCenterPage /> },
       { path: ROUTES.CART, element: <CartPage /> },
       { path: ROUTES.CART_EMPTY, element: <EmptyCartPage /> },
       { path: ROUTES.CART_VEGETARIAN, element: <VegetarianCartPage /> },

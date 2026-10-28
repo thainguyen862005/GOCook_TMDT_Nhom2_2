@@ -97,17 +97,17 @@ class SellerScheduleJwtTest {
   @Test
   void realJwtAndRoleGuardsProtectAllOperations() throws Exception {
     for (var actor : new Cookie[] {customer, admin}) {
-      mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(actor))
+      mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(actor).header("Origin", "http://localhost:5173"))
           .andExpect(status().isForbidden());
-      mvc.perform(post(path).cookie(actor).contentType(MediaType.APPLICATION_JSON).content(valid))
+      mvc.perform(post(path).cookie(actor).header("Origin", "http://localhost:5173").contentType(MediaType.APPLICATION_JSON).content(valid))
           .andExpect(status().isForbidden());
       mvc.perform(
               patch(path + "/1/availability")
-                  .cookie(actor)
+                  .cookie(actor).header("Origin", "http://localhost:5173")
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("{\"available\":false,\"version\":0}"))
           .andExpect(status().isForbidden());
-      mvc.perform(delete(path + "/1?version=0").cookie(actor)).andExpect(status().isForbidden());
+      mvc.perform(delete(path + "/1?version=0").cookie(actor).header("Origin", "http://localhost:5173")).andExpect(status().isForbidden());
     }
     mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11")).andExpect(status().isUnauthorized());
     mvc.perform(
@@ -117,14 +117,14 @@ class SellerScheduleJwtTest {
                 .content(valid))
         .andExpect(status().isUnauthorized());
     tokens.clear();
-    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(chef))
+    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isUnauthorized());
   }
 
   @Test
   void roundTripMatchesFrontendStringsAndOwnershipAndVersionContract() throws Exception {
     var response =
-        mvc.perform(post(path).cookie(chef).contentType(MediaType.APPLICATION_JSON).content(valid))
+        mvc.perform(post(path).cookie(chef).header("Origin", "http://localhost:5173").contentType(MediaType.APPLICATION_JSON).content(valid))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.serviceDate").value("2027-01-05"))
             .andExpect(jsonPath("$.startTime").value("09:00:00"))
@@ -132,18 +132,18 @@ class SellerScheduleJwtTest {
     var slot = mapper.readTree(response.getResponse().getContentAsString());
     long id = slot.get("id").asLong();
     long version = slot.get("version").asLong();
-    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(chef))
+    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.slots.length()").value(1))
         .andExpect(jsonPath("$.bookings.length()").value(0));
-    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(other))
+    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-11").cookie(other).header("Origin", "http://localhost:5173"))
         .andExpect(jsonPath("$.slots.length()").value(0));
-    mvc.perform(delete(path + "/" + id + "?version=" + version).cookie(other))
+    mvc.perform(delete(path + "/" + id + "?version=" + version).cookie(other).header("Origin", "http://localhost:5173"))
         .andExpect(status().isNotFound());
     var updated =
         mvc.perform(
                 patch(path + "/" + id + "/availability")
-                    .cookie(chef)
+                    .cookie(chef).header("Origin", "http://localhost:5173")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{\"available\":false,\"version\":" + version + "}"))
             .andExpect(status().isOk())
@@ -152,16 +152,16 @@ class SellerScheduleJwtTest {
     long newVersion =
         mapper.readTree(updated.getResponse().getContentAsString()).get("version").asLong();
     assertThat(newVersion).isGreaterThan(version);
-    mvc.perform(delete(path + "/" + id + "?version=" + version).cookie(chef))
+    mvc.perform(delete(path + "/" + id + "?version=" + version).cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isConflict());
-    mvc.perform(delete(path + "/" + id + "?version=" + newVersion).cookie(chef))
+    mvc.perform(delete(path + "/" + id + "?version=" + newVersion).cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isNoContent());
   }
 
   @Test
   void realBookingTimesAreStringsAndPreventClosingTheSlot() throws Exception {
     var response =
-        mvc.perform(post(path).cookie(chef).contentType(MediaType.APPLICATION_JSON).content(valid))
+        mvc.perform(post(path).cookie(chef).header("Origin", "http://localhost:5173").contentType(MediaType.APPLICATION_JSON).content(valid))
             .andExpect(status().isCreated())
             .andReturn();
     var slot = mapper.readTree(response.getResponse().getContentAsString());
@@ -184,13 +184,13 @@ class SellerScheduleJwtTest {
             + " 09:00', '2027-01-05 12:00')",
         orderId,
         chefId);
-    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-05").cookie(chef))
+    mvc.perform(get(path + "?from=2027-01-05&to=2027-01-05").cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.bookings[0].startsAt").value("2027-01-05T09:00:00"))
         .andExpect(jsonPath("$.bookings[0].orderId").value(orderId));
     mvc.perform(
             patch(path + "/" + slot.get("id").asLong() + "/availability")
-                .cookie(chef)
+                .cookie(chef).header("Origin", "http://localhost:5173")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"available\":false,\"version\":" + slot.get("version").asLong() + "}"))
         .andExpect(status().isConflict());
@@ -202,7 +202,7 @@ class SellerScheduleJwtTest {
         java.time.LocalDate.now(java.time.ZoneId.of("Asia/Ho_Chi_Minh")).minusDays(1).toString();
     mvc.perform(
             post(path)
-                .cookie(chef)
+                .cookie(chef).header("Origin", "http://localhost:5173")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(valid.replace("2027-01-05", yesterday)))
         .andExpect(status().isBadRequest());
@@ -215,33 +215,33 @@ class SellerScheduleJwtTest {
             Long.class,
             chefId,
             yesterday);
-    mvc.perform(get(path + "?from=" + yesterday + "&to=" + yesterday).cookie(chef))
+    mvc.perform(get(path + "?from=" + yesterday + "&to=" + yesterday).cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.slots[0].id").value(slotId));
     mvc.perform(
             patch(path + "/" + slotId + "/availability")
-                .cookie(chef)
+                .cookie(chef).header("Origin", "http://localhost:5173")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"available\":true,\"version\":0}"))
         .andExpect(status().isBadRequest());
-    mvc.perform(delete(path + "/" + slotId + "?version=0").cookie(chef))
+    mvc.perform(delete(path + "/" + slotId + "?version=0").cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   void validatesMalformedDatesMissingVersionAndTimes() throws Exception {
-    mvc.perform(get(path + "?from=bad&to=2027-01-05").cookie(chef))
+    mvc.perform(get(path + "?from=bad&to=2027-01-05").cookie(chef).header("Origin", "http://localhost:5173"))
         .andExpect(status().isBadRequest());
-    mvc.perform(get(path + "?from=2027-01-05").cookie(chef)).andExpect(status().isBadRequest());
-    mvc.perform(post(path).cookie(chef).contentType(MediaType.APPLICATION_JSON).content("{}"))
+    mvc.perform(get(path + "?from=2027-01-05").cookie(chef).header("Origin", "http://localhost:5173")).andExpect(status().isBadRequest());
+    mvc.perform(post(path).cookie(chef).header("Origin", "http://localhost:5173").contentType(MediaType.APPLICATION_JSON).content("{}"))
         .andExpect(status().isBadRequest());
     mvc.perform(
             post(path)
-                .cookie(chef)
+                .cookie(chef).header("Origin", "http://localhost:5173")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(valid.replace("12:00", "08:00")))
         .andExpect(status().isBadRequest());
-    mvc.perform(delete(path + "/1").cookie(chef)).andExpect(status().isBadRequest());
-    mvc.perform(delete(path + "/1?version=-1").cookie(chef)).andExpect(status().isBadRequest());
+    mvc.perform(delete(path + "/1").cookie(chef).header("Origin", "http://localhost:5173")).andExpect(status().isBadRequest());
+    mvc.perform(delete(path + "/1?version=-1").cookie(chef).header("Origin", "http://localhost:5173")).andExpect(status().isBadRequest());
   }
 }

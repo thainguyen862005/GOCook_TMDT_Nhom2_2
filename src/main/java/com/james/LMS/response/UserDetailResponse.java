@@ -14,7 +14,11 @@ public class UserDetailResponse {
   private String username;
   private String email;
   private Boolean emailVerified;
+  private Boolean passwordLoginEnabled;
+  private Boolean googleLinked;
   private String avatarUrl;
+  private String phone;
+  private String defaultAddress;
   private Boolean isInstructor;
   private String instructorName;
   private String instructorAbout;

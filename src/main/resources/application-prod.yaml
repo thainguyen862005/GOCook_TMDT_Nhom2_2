@@ -46,8 +46,8 @@ spring:
 
 jwt:
   secretKey: ${JWT_SECRET_KEY}
-  accessTokenExpirationTime: ${JWT_ACCESS_TOKEN_EXPIRATION:259200000}
-  refreshTokenExpirationTime: ${JWT_REFRESH_TOKEN_EXPIRATION:2419200000}
+  accessTokenExpirationTime: ${JWT_ACCESS_TOKEN_EXPIRATION:900000}
+  refreshTokenExpirationTime: ${JWT_REFRESH_TOKEN_EXPIRATION:1209600000}
   resetPasswordTokenExpirationTime: ${JWT_RESET_PASSWORD_TOKEN_EXPIRATION:900000}
 
 rabbitmq:
@@ -71,3 +71,9 @@ payment:
     hash-secret: ${VNPAY_HASH_SECRET}
     pay-url: ${VNPAY_PAY_URL}
     api-url: ${VNPAY_API_URL}
+
+security:
+  cookie:
+    secure: ${AUTH_COOKIE_SECURE:true}
+    same-site: ${AUTH_COOKIE_SAME_SITE:Lax}
+  allowed-origins: ${AUTH_ALLOWED_ORIGINS}

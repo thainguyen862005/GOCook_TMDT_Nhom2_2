@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { SiteSettingsProvider, useSiteSettings } from "../contexts/SiteSettingsContext";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Brand } from "../components/common/Brand";
+import { NotificationBell } from "../components/notifications/NotificationBell";
 import { ROUTES } from "../constants/routes";
 import { useAuth } from "../hooks/auth/useAuth";
 import { accountDestination } from "../util/loginDestination";
@@ -27,6 +28,7 @@ function SiteHeader() {
           <NavLink to={ROUTES.HELP}>Trợ giúp</NavLink>
         </nav>
         <div className="header-actions">
+          <NotificationBell />
           <Link className="icon-link" to={ROUTES.CART} aria-label="Giỏ hàng">
             <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3 3h2l3 12h10l3-9H6" />
@@ -47,6 +49,7 @@ function SiteHeader() {
           <Link className="login-link text-link small" to={accountUrl}>
             {profile?.username || "Đăng nhập"}
           </Link>
+          {profile && <Link className="session-logout-link text-link small" to={ROUTES.LOGOUT}>Đăng xuất</Link>}
           <Link className="btn sm" to={ROUTES.CHEFS}>
             Đặt đầu bếp
           </Link>
@@ -63,6 +66,7 @@ function SiteHeader() {
               <Link to={ROUTES.REQUEST}>Tạo yêu cầu</Link>
               <Link to={ROUTES.OFFERS}>Ưu đãi</Link>
               <Link to={ROUTES.HELP}>Trợ giúp</Link>
+              {profile && <Link to={ROUTES.NOTIFICATIONS}>Thông báo của tôi</Link>}
               <Link to={accountUrl}>
                 {isSeller ? "Kênh đầu bếp" : "Tài khoản"}
               </Link>

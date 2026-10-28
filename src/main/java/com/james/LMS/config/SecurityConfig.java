@@ -1,6 +1,8 @@
 package com.james.LMS.config;
 
 import com.james.LMS.interceptor.AuthTokenProviderInterceptor;
+import com.james.LMS.interceptor.AuthCookieOriginFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import com.james.LMS.interceptor.UserDetailsAuthenticationProviderInterceptor;
 import com.james.LMS.service.CacheService;
 import com.james.LMS.service.JwtService;
@@ -22,6 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import jakarta.servlet.DispatcherType;
+
 @Slf4j
 @Configuration
 @EnableMethodSecurity
@@ -31,6 +34,7 @@ public class SecurityConfig implements WebMvcConfigurer {
   private final JwtService jwtService;
   private final CacheService cacheService;
   private final RoleService roleService;
+  private final AuthCookieOriginFilter originFilter;
 
   public static final String SECURITY_REQUIREMENT = "Bearer Authentication";
   public static final String COOKIE_SECURITY_NAME = "access-token";
@@ -70,12 +74,15 @@ public class SecurityConfig implements WebMvcConfigurer {
       "/api/v1/users/resend-verification",
       "/api/v1/users/request-email-verification",
       "/api/v1/users/refresh-token",
+      "/api/v1/users/logout",
       "/api/v1/users/forgot-password",
       "/api/v1/users/verify-otp",
       "/api/v1/users/reset-password",
       "/api/v2/users/login",
+      "/api/v2/users/google/nonce",
+      "/api/v2/users/google/sign-in",
       "/api/payments/vnpay-ipn",
-      "/actuator/**",
+      "/actuator/health",
       "/api/v1/users/demo",
       "/api/products/**",
       "/api/public/site-settings",
@@ -84,6 +91,7 @@ public class SecurityConfig implements WebMvcConfigurer {
       "/api/public/offers",
       "/api/public/faqs"
   };
+
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -96,8 +104,7 @@ public class SecurityConfig implements WebMvcConfigurer {
   }
 
   @Bean
-  public UserDetailsAuthenticationProviderInterceptor
-      userDetailsAuthenticationProviderInterceptor() {
+  public UserDetailsAuthenticationProviderInterceptor userDetailsAuthenticationProviderInterceptor() {
     return new UserDetailsAuthenticationProviderInterceptor(
         this.userService, this.passwordEncoder(), this.roleService);
   }
@@ -108,31 +115,48 @@ public class SecurityConfig implements WebMvcConfigurer {
         this.userService, this.cacheService, this.jwtService, this.roleService);
   }
 
+  // These filters must run only inside the Spring Security chain, not twice as
+  // auto-registered servlet filters (Spring Boot registers Filter beans by default).
+  @Bean
+  public FilterRegistrationBean<AuthTokenProviderInterceptor> disableAuthServletRegistration(
+      AuthTokenProviderInterceptor filter) {
+    FilterRegistrationBean<AuthTokenProviderInterceptor> registration = new FilterRegistrationBean<>(filter);
+    registration.setEnabled(false);
+    return registration;
+  }
+
+  @Bean
+  public FilterRegistrationBean<AuthCookieOriginFilter> disableOriginServletRegistration(
+      AuthCookieOriginFilter filter) {
+    FilterRegistrationBean<AuthCookieOriginFilter> registration = new FilterRegistrationBean<>(filter);
+    registration.setEnabled(false);
+    return registration;
+  }
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
-            .formLogin(AbstractHttpConfigurer::disable)
-            .logout(AbstractHttpConfigurer::disable)
-            .sessionManagement(
-                    session ->
-                            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(
-                    request ->
-                            request
-                                    .dispatcherTypeMatchers(
-                                            DispatcherType.FORWARD,
-                                            DispatcherType.ERROR)
-                                    .permitAll()
-                                    .requestMatchers(WHITE_LISTS)
-                                    .permitAll()
-                                    .anyRequest()
-                                    .authenticated());
+        .formLogin(AbstractHttpConfigurer::disable)
+        .logout(AbstractHttpConfigurer::disable)
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            request -> request
+                .dispatcherTypeMatchers(
+                    DispatcherType.FORWARD,
+                    DispatcherType.ERROR)
+                .permitAll()
+                .requestMatchers(WHITE_LISTS)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
 
     http.authenticationProvider(this.userDetailsAuthenticationProviderInterceptor());
 
+    http.addFilterBefore(originFilter, UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(
-            authTokenProviderInterceptor(),
-            UsernamePasswordAuthenticationFilter.class);
+        authTokenProviderInterceptor(),
+        UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

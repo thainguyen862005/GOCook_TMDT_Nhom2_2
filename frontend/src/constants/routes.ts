@@ -13,6 +13,8 @@ export const ROUTES = {
   LOGOUT: '/logout',
 
   ACCOUNT: '/account',
+  NOTIFICATIONS: '/notifications',
+  ADMIN_NOTIFICATIONS: '/admin/notifications',
 
   CHEFS: '/chefs',
   CHEF_DETAIL: '/chef-detail',

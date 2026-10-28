@@ -1,6 +1,8 @@
 package com.james.LMS.publiccontent;
 
 import com.james.LMS.config.SecurityUserDetails;
+import com.james.LMS.notification.NotificationService;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class PublicHelpController {
   private final NamedParameterJdbcTemplate jdbc;
-  public PublicHelpController(NamedParameterJdbcTemplate jdbc) { this.jdbc = jdbc; }
+  private final NotificationService notifications;
+  public PublicHelpController(NamedParameterJdbcTemplate jdbc, NotificationService notifications) {
+    this.jdbc = jdbc; this.notifications = notifications;
+  }
 
   public record TicketInput(@NotBlank @Size(min=5,max=255) String subject,
       @NotBlank @Size(min=10,max=5000) String message) {}
@@ -26,6 +31,7 @@ public class PublicHelpController {
   @PostMapping("/api/customer/support-tickets")
   @PreAuthorize("isAuthenticated()")
   @ResponseStatus(HttpStatus.CREATED)
+  @Transactional
   public Map<String, String> create(@AuthenticationPrincipal SecurityUserDetails actor,
       @Valid @RequestBody TicketInput input) {
     if (actor == null) throw new org.springframework.web.server.ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -47,6 +53,10 @@ public class PublicHelpController {
         """, new MapSqlParameterSource().addValue("code", code)
         .addValue("name", account.get("username")).addValue("email", account.get("email"))
         .addValue("subject", input.subject().trim()).addValue("message", input.message().trim()));
+    notifications.sendToUser(actor.getId(), "support-open:"+code, "SUPPORT", "Đã tiếp nhận yêu cầu hỗ trợ",
+        "Mã yêu cầu " + code + ". Bộ phận hỗ trợ sẽ xử lý trong thời gian sớm nhất.", "/help");
+    notifications.sendToAdmins("support-new:"+code,"SUPPORT","Yêu cầu hỗ trợ mới",
+        "Có yêu cầu hỗ trợ mới: " + code + ".", "/admin/manage/tickets");
     return Map.of("ticketCode", code, "status", "OPEN");
   }
 

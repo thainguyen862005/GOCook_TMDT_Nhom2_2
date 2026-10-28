@@ -8,10 +8,16 @@ export const userClient = {
     const response = await httpRequest<BaseResponse<string>>('/api/v1/users/avatar', { method: 'POST', body });
     return unwrap(response);
   },
-  async updateProfile(username: string): Promise<void> {
+  async changePassword(currentPassword: string, newPassword: string, confirmPassword: string): Promise<void> {
+    await httpRequest('/api/v1/users/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
+    });
+  },
+  async updateProfile(username: string, phone: string, defaultAddress: string): Promise<void> {
     await httpRequest('/api/v1/users/profile', {
       method: 'PUT',
-      body: JSON.stringify({ username }),
+      body: JSON.stringify({ username, phone, defaultAddress }),
     });
   },
 };

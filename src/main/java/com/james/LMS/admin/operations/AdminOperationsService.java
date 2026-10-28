@@ -1,6 +1,7 @@
 package com.james.LMS.admin.operations;
 
 import com.james.LMS.admin.exception.AdminResourceNotFoundException;
+import com.james.LMS.notification.NotificationService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -60,10 +61,13 @@ public class AdminOperationsService {
 
     private final NamedParameterJdbcTemplate jdbc;
     private final AdminAuditService audit;
+    private final NotificationService notifications;
 
-    public AdminOperationsService(NamedParameterJdbcTemplate jdbc, AdminAuditService audit) {
+    public AdminOperationsService(NamedParameterJdbcTemplate jdbc, AdminAuditService audit,
+                                  NotificationService notifications) {
         this.jdbc = jdbc;
         this.audit = audit;
+        this.notifications = notifications;
     }
 
     @Transactional(readOnly = true)
@@ -186,6 +190,10 @@ public class AdminOperationsService {
                 .addValue("old",before.get("verification_status"))
                 .addValue("new",newStatus).addValue("reason",reason));
         audit.record(actorId,"CHEF_VERIFICATION","CHEF",chefId,newStatus+": "+reason);
+        if (!newStatus.equals(String.valueOf(before.get("verification_status")))) {
+            notifications.sendToUser(chefId,"chef-verification:"+chefId+":"+newStatus+":"+UUID.randomUUID(),"CHEF",
+                "Kết quả xác minh đầu bếp", "Hồ sơ xác minh của bạn: " + newStatus + ".", "/seller");
+        }
         return one("chefs",chefId);
     }
 
@@ -194,7 +202,7 @@ public class AdminOperationsService {
         required(reason,"Lý do",10,1000);
         jdbc.queryForList("SELECT user_id FROM chef_profiles WHERE user_id=:id FOR UPDATE",
                 new MapSqlParameterSource("id",chefId));
-        one("chefs",chefId);
+        Map<String,Object> currentChef = one("chefs",chefId);
         if (!active) {
             Long pending = jdbc.queryForObject("""
                     SELECT COUNT(*) FROM orders
@@ -211,6 +219,10 @@ public class AdminOperationsService {
                     updated_at=(EXTRACT(EPOCH FROM now())*1000)::bigint WHERE user_id=:id
                 """, new MapSqlParameterSource("id",chefId).addValue("active",active));
         audit.record(actorId,active?"CHEF_UNSUSPEND":"CHEF_SUSPEND","CHEF",chefId,reason);
+        if (!Boolean.valueOf(active).equals(currentChef.get("is_active"))) {
+            notifications.sendToUser(chefId,"chef-active:"+chefId+":"+active+":"+java.util.UUID.randomUUID(),"CHEF",
+                "Cập nhật trạng thái tài khoản đầu bếp",active ? "Tài khoản đầu bếp được kích hoạt trở lại." : "Tài khoản đầu bếp đã tạm ngưng.","/seller");
+        }
         return one("chefs",chefId);
     }
 
@@ -356,6 +368,20 @@ public class AdminOperationsService {
         if (changed != 1) throw new org.springframework.dao.OptimisticLockingFailureException(
                 "Bản ghi đã được người khác cập nhật.");
         audit.record(actorId,"UPDATE_"+status,"ADMIN_"+resource.toUpperCase(Locale.ROOT),id,note);
+        if ("tickets".equals(resource) && !status.equals(String.valueOf(old.get("status")))) {
+            // Only status transitions notify customers, not private note edits.
+            // The ticket table has contact_email, not necessarily a linked user account.
+            List<Map<String,Object>> recipients = jdbc.queryForList("""
+                SELECT u.id FROM users u JOIN admin_tickets t
+                  ON lower(trim(t.contact_email))=lower(trim(u.email))
+                WHERE t.id=:id AND u.is_active=true
+                """,new MapSqlParameterSource("id",id));
+            for (Map<String,Object> recipient : recipients) {
+                notifications.sendToUser(((Number)recipient.get("id")).longValue(),
+                    "ticket:"+id+":"+status+":v"+old.get("version"),"SUPPORT", "Yêu cầu hỗ trợ đã cập nhật",
+                    "Yêu cầu hỗ trợ của bạn hiện ở trạng thái " + status + ".", "/help");
+            }
+        }
         return one(resource,id);
     }
 

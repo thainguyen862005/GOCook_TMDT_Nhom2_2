@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record PaymentCheckoutRequest(
     @NotNull Long productId,
@@ -14,4 +15,6 @@ public record PaymentCheckoutRequest(
     @NotBlank @Size(max = 255) String customerName,
     @NotBlank @Pattern(regexp = "^[0-9+\\-\\s]{8,30}$") String customerPhone,
     @NotBlank @Size(max = 1000) String serviceAddress,
-    @Size(max = 2000) String customerNote) {}
+    @Size(max = 2000) String customerNote,
+    @NotNull UUID idempotencyKey,
+    @Size(max = 40) String voucherCode) {}

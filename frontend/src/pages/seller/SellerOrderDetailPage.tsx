@@ -1,49 +1,106 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { chefOrderClient } from '../../clients/chefOrderClient';
 import { SellerWorkspace } from '../../components/common/SellerWorkspace';
-import { useSellerDemo } from '../../contexts/SellerDemoContext';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
-import { displayDate, endTime, money, orderLabels, type DemoStatus } from './sellerMockData';
+import type { ChefOrderDetail, ChefOrderStatus } from '../../types/chefOrder';
+import { chefStatusLabels } from '../../types/chefOrder';
+import { dateTime, money } from '../../util/format';
 
-export function SellerOrderDetailPage() {
-  const [params] = useSearchParams();
-  return <OrderDetail key={params.get('id')} id={params.get('id')} />;
-}
-function OrderDetail({ id }: { id: string | null }) {
-  useDocumentTitle('Chi tiết đơn đặt nấu | GO Cook');
-  const { orders, transition, addReceipts, removeReceipt, readFiles } = useSellerDemo();
-  const order = orders.find(item => item.id === id);
-  const [error, setError] = useState('');
-  const [notice, setNotice] = useState('');
-  const [rejecting, setRejecting] = useState(false);
-  const [reason, setReason] = useState('');
-  const [removeId, setRemoveId] = useState('');
-  const steps: DemoStatus[] = ['PENDING', 'CONFIRMED', 'PREPARING', 'COOKING', 'AWAITING_ACCEPTANCE', 'COMPLETED'];
-  if (!order) return <SellerWorkspace title="Không tìm thấy đơn" description="Vui lòng chọn một đơn đặt nấu trong danh sách."><Link className="btn" to="/seller/orders">Về danh sách đơn</Link></SellerWorkspace>;
-  function advance(status: DemoStatus) {
-    try { transition(order!.id, status, reason); setError(''); setRejecting(false); setNotice(status === 'AWAITING_ACCEPTANCE' ? 'Đã báo hoàn thành. Đang chờ khách nghiệm thu, chưa ghi nhận thu nhập.' : `Đã cập nhật: ${orderLabels[status]}.`); }
-    catch (err) { setError((err as Error).message); }
+const next:Partial<Record<ChefOrderStatus,ChefOrderStatus>>={
+  PENDING:'CONFIRMED',CONFIRMED:'PREPARING',PREPARING:'COOKING',COOKING:'AWAITING_ACCEPTANCE',
+};
+export function SellerOrderDetailPage(){
+  useDocumentTitle('Chi tiết đơn Chef | GO Cook');
+  const [params]=useSearchParams();
+  const id=Number(params.get('id'));const valid=Number.isSafeInteger(id)&&id>0;
+  const [data,setData]=useState<ChefOrderDetail|null>(null);
+  const [loading,setLoading]=useState(true);
+  const [busy,setBusy]=useState(false);
+  const [error,setError]=useState('');const [notice,setNotice]=useState('');
+  const [reason,setReason]=useState('');
+  const [file,setFile]=useState<File|null>(null);
+  const [fileNote,setFileNote]=useState('');
+  const [reload,setReload]=useState(0);
+  useEffect(()=>{
+    if(!valid){setLoading(false);setError('Mã đơn không hợp lệ.');return;}
+    const ctrl=new AbortController();setLoading(true);setError('');
+    chefOrderClient.get(id,ctrl.signal).then(setData).catch(e=>{if(!ctrl.signal.aborted){setData(null);setError(e instanceof Error?e.message:'Không thể tải đơn.');}})
+      .finally(()=>{if(!ctrl.signal.aborted)setLoading(false);});
+    return ()=>ctrl.abort();
+  },[id,valid,reload]);
+  async function change(target:ChefOrderStatus){
+    if(!data||busy)return;
+    if(target==='REJECTED'&&(reason.trim().length<10||reason.trim().length>1000)){
+      setError('Lý do từ chối cần 10–1000 ký tự.');return;
+    }
+    setBusy(true);setError('');setNotice('');
+    try{
+      const result=await chefOrderClient.transition(data.order,target,reason.trim());
+      setData(result);setReason('');setNotice(target==='AWAITING_ACCEPTANCE'?
+        'Đã báo hoàn thành. Chỉ khách hàng mới có thể nghiệm thu và giải ngân.':`Đã cập nhật: ${chefStatusLabels[target]}.`);
+    }catch(e){setError(e instanceof Error?e.message:'Không thể cập nhật. Hãy tải lại.');}
+    finally{setBusy(false);}
   }
-  const receiptEditable = ['PREPARING', 'COOKING'].includes(order.status);
-  const currentStep = steps.indexOf(order.status);
-  return <SellerWorkspace title={`Đơn ${order.id}`} description={`${order.customer} · ${order.guests} khách · ${order.serviceType === 'MENU' ? 'Thực đơn có sẵn' : 'Đặt theo ngân sách'}`}>
-    <div className="between chef-section-heading"><Link className="text-link" to="/seller/orders">← Tất cả đơn đặt nấu</Link><span className={`badge ${order.status === 'REJECTED' ? 'red' : 'gold'}`}>{orderLabels[order.status]}</span></div>
-    <div className="chef-demo-banner"><strong>Dữ liệu mẫu</strong><span>Hóa đơn chỉ xem trước trên máy. Chưa kết nối API.</span></div>
-    {error && <p role="alert" className="notice warm">{error}</p>}{notice && <p role="status" className="notice">{notice}</p>}
-    {order.status !== 'REJECTED' && <ol className="chef-progress" aria-label="Tiến độ phục vụ">{steps.map((step, index) => <li key={step} className={index <= currentStep ? 'is-done' : ''} aria-current={step === order.status ? 'step' : undefined}><span>{index < currentStep ? '✓' : index + 1}</span><small>{orderLabels[step]}</small></li>)}</ol>}
-    <div className="chef-detail-grid"><section className="card stack"><p className="eyebrow">Thông tin phục vụ</p><h2>{order.menu}</h2><dl className="chef-definitions"><div><dt>Khách hàng</dt><dd>{order.customer}</dd></div><div><dt>Ngày nấu</dt><dd>{displayDate(order.date)}</dd></div><div><dt>Khung giờ</dt><dd>{order.time}–{endTime(order)} · {order.duration} phút</dd></div><div><dt>Số khách</dt><dd>{order.guests} người</dd></div><div><dt>Địa chỉ</dt><dd>{order.area}</dd></div></dl><div className="soft"><h4>Ghi chú của khách</h4><p className="muted">{order.note}</p></div><Link className="text-link" to={`/chat?orderId=${encodeURIComponent(order.id)}`}>Nhắn tin với khách →</Link></section>
-    <section className="card stack"><p className="eyebrow">Thanh toán online</p><h2>{money(order.total)}</h2><span className="badge">Đã thanh toán 100%</span><p className="muted">Thanh toán ngày {displayDate(order.paidAt)}</p><div className="soft"><strong>{order.status === 'COMPLETED' ? 'Đã nghiệm thu · RELEASED' : order.status === 'REJECTED' ? 'Chờ hoàn tiền · REFUND_PENDING' : 'Đang tạm giữ · HELD'}</strong><p className="small muted">GO Cook 15% · Chef 85%, đã bao gồm nguyên liệu.</p></div>{order.status === 'COMPLETED' ? <p className="green"><strong>Thu nhập được hưởng: {money(order.total * .85)}</strong></p> : <p className="small muted">{order.status === 'REJECTED' ? 'Không tính thu nhập Chef. Hoàn tiền do module Payment xử lý.' : 'Chỉ khách hàng mới được nghiệm thu. Chef không thể tự giải phóng tiền.'}</p>}
-      {order.status === 'PENDING' && <div className="row"><button className="btn" onClick={() => advance('CONFIRMED')}>Nhận đơn</button><button className="btn secondary" onClick={() => setRejecting(!rejecting)}>Từ chối</button></div>}
-      {rejecting && <form className="stack-sm" onSubmit={e => { e.preventDefault(); advance('REJECTED'); }}><label className="field">Lý do từ chối<textarea required maxLength={1000} value={reason} onChange={e => setReason(e.target.value)} /></label><button className="btn secondary" disabled={!reason.trim()}>Xác nhận từ chối</button></form>}
-      {order.status === 'CONFIRMED' && <button className="btn" onClick={() => advance('PREPARING')}>Bắt đầu chuẩn bị</button>}
-      {order.status === 'PREPARING' && <button className="btn" onClick={() => advance('COOKING')}>Bắt đầu nấu</button>}
-      {order.status === 'COOKING' && <button className="btn" onClick={() => advance('AWAITING_ACCEPTANCE')}>Đã nấu xong · Chờ nghiệm thu</button>}
+  async function upload(){
+    if(!file||!data||busy)return;
+    if(file.size===0||file.size>5*1024*1024||!['image/jpeg','image/png','image/webp'].includes(file.type)){
+      setError('Chỉ nhận ảnh JPG, PNG, WebP tối đa 5 MB.');return;
+    }
+    setBusy(true);setError('');try{
+      await chefOrderClient.uploadReceipt(id,file,fileNote);setFile(null);setFileNote('');
+      setNotice('Đã tải hóa đơn lên vùng lưu trữ riêng tư.');setReload(v=>v+1);
+    }catch(e){setError(e instanceof Error?e.message:'Không thể lưu hóa đơn.');}
+    finally{setBusy(false);}
+  }
+  async function removeReceipt(receiptId:number){
+    if(busy||!data)return;setBusy(true);setError('');
+    try{await chefOrderClient.removeReceipt(id,receiptId);setNotice('Đã ẩn hóa đơn.');setReload(v=>v+1);}
+    catch(e){setError(e instanceof Error?e.message:'Không thể xóa hóa đơn.');}
+    finally{setBusy(false);}
+  }
+  const o=data?.order;
+  return <SellerWorkspace title={o?`Đơn ${o.orderCode}`:'Chi tiết đơn đặt nấu'} description="Xử lý đơn đã được thanh toán và giữ lịch an toàn.">
+    <div className="between"><Link to="/seller/orders" className="text-link">← Về danh sách đơn</Link><button className="btn secondary sm" onClick={()=>setReload(n=>n+1)} disabled={busy}>Tải lại</button></div>
+    {loading&&<p role="status">Đang tải đơn…</p>}{error&&<p role="alert" className="notice warm">{error}</p>}{notice&&<p role="status" className="notice">{notice}</p>}
+    {o&&data&&<><div className="chef-detail-grid"><section className="card stack">
+      <div className="between"><h2>{o.productName}</h2><span className="badge">{chefStatusLabels[o.status]}</span></div>
+      <dl className="chef-definitions"><div><dt>Khách hàng</dt><dd>{o.customerName}</dd></div>
+        <div><dt>Số khách</dt><dd>{o.guestCount}</dd></div><div><dt>Ngày và giờ</dt><dd>{dateTime(o.scheduledAt)}</dd></div>
+        <div><dt>Thời lượng</dt><dd>{o.durationMinutes} phút</dd></div><div><dt>Địa chỉ</dt><dd>{o.serviceAddress||'Chưa được cung cấp'}</dd></div>
+        <div><dt>Số điện thoại</dt><dd>{o.customerPhone||'Chưa được cung cấp'}</dd></div>
+        <div><dt>Loại dịch vụ</dt><dd>{o.serviceType==='MENU'?'Thực đơn có sẵn':'Theo ngân sách'}</dd></div>
+      </dl><div className="soft"><strong>Ghi chú khách hàng</strong><p>{o.customerNote||'Không có'}</p></div>
+      <p className="small muted">Trao đổi với khách: tích hợp Chat theo mã đơn {o.orderCode} khi module Chat của nhóm sẵn sàng.</p>
+    </section><section className="card stack">
+      <h2>Thanh toán và xử lý đơn</h2><h3>{money(o.totalAmount)}</h3>
+      <p>Trạng thái tạm giữ: <strong>{o.escrowStatus==='HELD'?'Đang tạm giữ':o.escrowStatus==='RELEASED'?'Đã giải ngân':o.escrowStatus||'Chưa xác nhận'}</strong></p>
+      <p className="small muted">Chỉ nhận đơn đã được Payment ghi nhận và escrow đang HELD. Chef không được tự giải ngân hoặc xác nhận thay khách.</p>
+      {next[o.status]&&<button disabled={busy||o.escrowStatus!=='HELD'} className="btn" onClick={()=>void change(next[o.status] as ChefOrderStatus)}>
+        {o.status==='PENDING'?'Nhận đơn':o.status==='CONFIRMED'?'Bắt đầu chuẩn bị':o.status==='PREPARING'?'Bắt đầu nấu':'Báo đã phục vụ xong'}</button>}
+      {o.status==='PENDING'&&<div className="stack-sm"><label className="field">Lý do từ chối (bắt buộc)
+        <textarea rows={3} maxLength={1000} value={reason} onChange={e=>setReason(e.target.value)} placeholder="Giải thích lý do để khách hàng và bộ phận hỗ trợ nắm được"/></label>
+        <button className="btn secondary" disabled={busy||o.escrowStatus!=='HELD'||reason.trim().length<10} onClick={()=>void change('REJECTED')}>Từ chối đơn và chuyển sang quy trình hoàn tiền</button>
+      </div>}
+      {o.status==='REJECTED'&&<p className="notice warm">Đã từ chối: {o.rejectedReason||'Không rõ lý do'}. Payment/Refund phụ trách hoàn tiền.</p>}
+      {o.status==='AWAITING_ACCEPTANCE'&&<p>Đang chờ khách nghiệm thu. Khoản tạm giữ chưa được giải ngân.</p>}
     </section></div>
-    <section className="card stack"><div className="between"><div><p className="eyebrow">Minh bạch nguyên liệu</p><h2>Hóa đơn mua nguyên liệu</h2></div><span className="badge gray">{order.receipts.length}/10 file</span></div><p className="muted">Khách hàng của đơn sẽ xem được các hóa đơn này. Chi phí nguyên liệu không bị trừ thêm khỏi phần thu nhập 85%.</p>
-      {receiptEditable ? <label className="chef-upload field">+ Chọn nhiều hóa đơn<span className="small muted">JPG, PNG, WebP hoặc PDF · Tối đa 10 MB/file</span><input type="file" multiple accept="image/jpeg,image/png,image/webp,application/pdf" onChange={e => { try { const files = Array.from(e.target.files || []); if (order.receipts.length + files.length > 10) throw new Error('Tối đa 10 hóa đơn mỗi đơn.'); addReceipts(order.id, readFiles(files, true)); setError(''); setNotice('Đã thêm hóa đơn mẫu.'); } catch (err) { setError((err as Error).message); } e.target.value = ''; }} /></label> : <p className="small muted">Chỉ thêm/xóa hóa đơn ở bước chuẩn bị hoặc đang nấu. Hóa đơn được giữ nguyên khi chờ nghiệm thu.</p>}
-      {!order.receipts.length && <div className="soft">Chưa có hóa đơn nguyên liệu cho đơn này.</div>}
-      <div className="chef-image-grid">{order.receipts.map(file => <article className="chef-image-tile" key={file.id}>{file.type === 'application/pdf' ? <div className="chef-pdf-mark">PDF</div> : <a href={file.url} target="_blank" rel="noreferrer"><img src={file.url} alt={file.name} /></a>}<strong className="small chef-filename">{file.name}</strong><a className="text-link small" href={file.url} target="_blank" rel="noreferrer">Mở hóa đơn ↗</a>{receiptEditable && <button className="btn ghost sm" onClick={() => setRemoveId(file.id)}>Xóa</button>}{removeId === file.id && <div className="stack-sm"><p className="small">Xóa hóa đơn này?</p><div className="row"><button className="btn secondary sm" onClick={() => { try { removeReceipt(order.id, file.id); setRemoveId(''); } catch (err) { setError((err as Error).message); } }}>Xác nhận</button><button className="btn ghost sm" onClick={() => setRemoveId('')}>Giữ lại</button></div></div>}</article>)}</div>
+    <section className="card stack"><h2>Hóa đơn mua nguyên liệu (lưu riêng tư)</h2>
+      <p className="small muted">Chỉ Chef của đơn này có thể tải/xem hóa đơn. Hóa đơn không công khai trên Cloudinary hoặc giao diện khách hàng.</p>
+      {['PREPARING','COOKING'].includes(o.status)&&<div className="stack-sm">
+        <label className="field">Chọn ảnh JPG/PNG/WebP tối đa 5 MB<input type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>setFile(e.target.files?.[0]||null)}/></label>
+        <label className="field">Ghi chú hóa đơn<input value={fileNote} maxLength={500} onChange={e=>setFileNote(e.target.value)}/></label>
+        <button className="btn secondary sm" disabled={!file||busy||data.receipts.length>=10} onClick={()=>void upload()}>Tải hóa đơn lên</button>
+      </div>}
+      {data.receipts.length?data.receipts.map(r=><div className="between soft" key={r.id}>
+        <span><strong>{r.filename}</strong><br/><small>{r.note}</small></span><div className="row">
+          <a className="btn secondary sm" target="_blank" rel="noreferrer" href={r.fileUrl}>Xem</a>
+          {['PREPARING','COOKING'].includes(o.status)&&<button className="btn ghost sm" disabled={busy} onClick={()=>void removeReceipt(r.id)}>Ẩn</button>}
+        </div></div>):<p className="muted">Chưa có hóa đơn.</p>}
     </section>
-    <section className="card stack"><h2>Lịch sử trạng thái</h2><ol className="chef-history">{order.history.map((event, index) => <li key={index}><strong>{orderLabels[event.status]}</strong><span className="small muted">{new Date(event.at).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}</span>{event.note && <p className="small muted">{event.note}</p>}</li>)}</ol></section>
+    <section className="card stack"><h2>Lịch sử cập nhật</h2><ol className="chef-history">
+      {data.history.map((h,i)=><li key={i}><strong>{chefStatusLabels[h.newStatus]||h.newStatus}</strong> · <span>{dateTime(h.changedAt)}</span>
+        {h.note&&<p className="muted">{h.note}</p>}</li>)}
+    </ol></section></>}
   </SellerWorkspace>;
 }
