@@ -49,9 +49,9 @@ spring:
       enabled: true
 
 jwt:
-  secretKey: ${JWT_SECRET_KEY:gi4HLIpqT2E+Dk8axm3vHpIKZMi9nRqdha2v7dQ9zy1bvhRwpbJxP1iSD1bFbNUchMMDwwWL9oSDMIe7f29wr0g==}
-  accessTokenExpirationTime: ${JWT_ACCESS_TOKEN_EXPIRATION:259200000}
-  refreshTokenExpirationTime: ${JWT_REFRESH_TOKEN_EXPIRATION:2419200000}
+  secretKey: ${JWT_SECRET_KEY}
+  accessTokenExpirationTime: ${JWT_ACCESS_TOKEN_EXPIRATION:900000}
+  refreshTokenExpirationTime: ${JWT_REFRESH_TOKEN_EXPIRATION:1209600000}
   resetPasswordTokenExpirationTime: ${JWT_RESET_PASSWORD_TOKEN_EXPIRATION:900000}
 
 rabbitmq:
@@ -71,7 +71,13 @@ cloudinary:
 payment:
   frontend-base-url: ${PAYMENT_FRONTEND_BASE_URL:http://localhost:5173}
   vnpay:
-    tmn-code: ${VNPAY_TMN_CODE:MaCuaBan}
-    hash-secret: ${VNPAY_HASH_SECRET:SecretCuaBan}
-    pay-url: ${VNPAY_PAY_URL:https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}
-    api-url: ${VNPAY_API_URL:https://sandbox.vnpayment.vn/merchant_webapi/api/transaction}
+    tmn-code: ${VNPAY_TMN_CODE}
+    hash-secret: ${VNPAY_HASH_SECRET}
+    pay-url: ${VNPAY_PAY_URL}
+    api-url: ${VNPAY_API_URL}
+
+security:
+  cookie:
+    secure: ${AUTH_COOKIE_SECURE:false}
+    same-site: ${AUTH_COOKIE_SAME_SITE:Lax}
+  allowed-origins: ${AUTH_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:8083}

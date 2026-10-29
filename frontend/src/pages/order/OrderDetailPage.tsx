@@ -3,14 +3,13 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { customerOrderClient } from '../../clients/customerOrderClient';
 import { Loading } from '../../components/common/Loading';
 import { Notice } from '../../components/common/Notice';
-import { ORDER_LABEL } from '../../constants/labels';
+import { ORDER_LABEL, PAYMENT_LABEL } from '../../constants/labels';
 import { ROUTES } from '../../constants/routes';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
-import type { CustomerOrder } from '../../types/customerOrder';
 import type { UiMessage } from '../../types/api';
+import type { CustomerOrder } from '../../types/customerOrder';
 import { dateTime, money } from '../../util/format';
 import { statusClass } from '../../util/status';
-import { PAYMENT_LABEL } from '../../constants/labels';
 
 export function OrderDetailPage() {
   useDocumentTitle('Chi tiết đơn đặt nấu | GO Cook');
@@ -67,18 +66,50 @@ export function OrderDetailPage() {
         <div className="split">
           <section className="card stack">
             <div className="between">
-              <h2>{order.productName}</h2>
+              <h2>
+                {order.productName?.trim() ||
+                  (order.serviceType === 'BUDGET'
+                    ? 'Đặt nấu theo yêu cầu'
+                    : 'Thực đơn chưa có thông tin')}
+              </h2>
               <span className={`badge ${statusClass(order.status)}`}>
                 {ORDER_LABEL[order.status] || order.status}
               </span>
             </div>
             <p><strong>Mã đơn:</strong> {order.orderCode}</p>
+            <p><strong>Loại dịch vụ:</strong>{' '}{order.serviceType === 'BUDGET'? 'Nấu theo yêu cầu': 'Thực đơn có sẵn'}</p>
             <p><strong>Đầu bếp:</strong> {order.chefName || 'Đang cập nhật'}</p>
             <p><strong>Số khách:</strong> {order.guestCount} người</p>
             <p><strong>Ngày đặt:</strong> {dateTime(order.createdAt)}</p>
             <p><strong>Lịch phục vụ:</strong> {dateTime(order.scheduledAt)}</p>
             <p><strong>Địa chỉ nấu:</strong> {order.serviceAddress || 'Chưa có thông tin'}</p>
             <p><strong>Ghi chú:</strong> {order.customerNote || 'Không có'}</p>
+            <p>
+              <strong>Thanh toán:</strong>{' '}
+              {order.paymentStatus
+                ? PAYMENT_LABEL[order.paymentStatus]
+                : 'Chưa phát sinh giao dịch'}
+            </p>
+
+            {order.paidAt && (
+              <p>
+                <strong>
+                  {order.paymentStatus === 'REFUNDED'
+                    ? 'Thời điểm thanh toán ban đầu:'
+                    : 'Thời điểm thanh toán:'}
+                </strong>{' '}
+                {dateTime(order.paidAt)}
+              </p>
+            )}
+
+            {Number(order.refundedAmount ?? 0) > 0 && (
+              <p>
+                <strong>Số tiền đã hoàn:</strong>{' '}
+                {money(order.refundedAmount)}
+              </p>
+            )}
+
+
             {order.status === 'AWAITING_ACCEPTANCE' && <div className="soft stack"><strong>Đầu bếp đã báo hoàn thành.</strong><p>Chỉ xác nhận sau khi bạn kiểm tra dịch vụ. Hành động này sẽ giải ngân tiền đang tạm giữ cho Chef.</p><button className="btn" disabled={busy} onClick={() => void accept()}>{busy?'Đang xác nhận…':'Xác nhận nghiệm thu & giải ngân'}</button></div>}
             <Link className="btn secondary" to={ROUTES.ORDERS}>← Quay lại danh sách</Link>
           </section>
@@ -86,7 +117,7 @@ export function OrderDetailPage() {
             <h3>Chi phí đặt lịch</h3>
             <div className="summary-line"><span>Thực đơn</span><strong>{money(order.totalAmount)}</strong></div>
             <div className="summary-line total"><span>Tổng cộng</span><strong>{money(order.totalAmount)}</strong></div>
-            <p className="small muted">Trang này hiển thị thông tin đơn hàng; không xác nhận đã thanh toán.</p>
+          <p className="small muted">Trạng thái thanh toán:{' '}{order.paymentStatus ? PAYMENT_LABEL[order.paymentStatus] : 'Chưa phát sinh giao dịch'}.Thông tin này không phải biên lai thanh toán.</p>
           </aside>
         </div>
       ) : null}

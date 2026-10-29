@@ -84,11 +84,23 @@ export function OrdersPage() {
                     </span>
                   </div>
                   <div>
-                    <h3>{order.productName}</h3>
+                    <h3>
+                        {order.productName?.trim() ||
+                          (order.serviceType === 'BUDGET'
+                            ? 'Đặt nấu theo yêu cầu'
+                            : 'Thực đơn chưa có thông tin')}
+                      </h3>
+
+                      {order.serviceType === 'BUDGET' && (
+                        <p className="muted small">
+                          Loại dịch vụ: Nấu theo yêu cầu
+                        </p>
+                      )}
                     <p className="muted small">Đầu bếp: {order.chefName || 'Đang cập nhật'} · {order.guestCount} người</p>
                     <p className="muted small">Ngày đặt: {dateTime(order.createdAt)}</p>
                     <p className="muted small">Ngày phục vụ: {dateTime(order.scheduledAt)}</p>
-                    <p className="muted small">Thanh toán:{' '}<strong>{order.paymentStatus ? PAYMENT_LABEL[order.paymentStatus] : 'Chưa có thông tin'}</strong></p>
+                    <p className="muted small">Thanh toán:{' '}<strong>{order.paymentStatus ? PAYMENT_LABEL[order.paymentStatus]: 'Chưa có giao dịch'}</strong></p>
+                    {Number(order.refundedAmount ?? 0) > 0 && (<p className="muted small"> Đã hoàn tiền: {money(order.refundedAmount)}</p>)}
                   </div>
                   <div className="between">
                     <strong className="price">{money(order.totalAmount)}</strong>

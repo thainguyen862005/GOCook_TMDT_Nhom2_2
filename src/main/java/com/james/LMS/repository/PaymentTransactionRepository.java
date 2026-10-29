@@ -1,20 +1,22 @@
 package com.james.LMS.repository;
 
-import com.james.LMS.entity.PaymentTransaction;
-import com.james.LMS.enums.PaymentProvider;
-import jakarta.persistence.LockModeType;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import java.util.Collection;
-import java.util.List;
+
+import com.james.LMS.entity.PaymentTransaction;
+import com.james.LMS.enums.PaymentProvider;
+
+import jakarta.persistence.LockModeType;
 
 @Repository
 public interface PaymentTransactionRepository extends JpaRepository<PaymentTransaction, Long> {
@@ -24,6 +26,21 @@ public interface PaymentTransactionRepository extends JpaRepository<PaymentTrans
 
     Optional<PaymentTransaction> findFirstByOrderIdAndIsActiveTrueOrderByCreatedAtDescIdDesc(
             Long orderId);
+            /**
+ * Lấy giao dịch thanh toán chính của đơn hàng từ escrow.
+ * Tránh lấy nhầm giao dịch thử lại hoặc giao dịch trùng.
+ */
+@Query(value = """
+        SELECT p.*
+        FROM payment_transactions p
+        JOIN order_escrows e
+            ON e.payment_transaction_id = p.id
+        WHERE e.order_id IN (:orderIds)
+          AND p.is_active = true
+        """, nativeQuery = true)
+List<PaymentTransaction> findEscrowPaymentsForOrders(
+        @Param("orderIds") Collection<Long> orderIds
+);
 
     Optional<PaymentTransaction> findByProviderAndTransactionCode(
             PaymentProvider provider, String transactionCode);
