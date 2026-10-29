@@ -63,3 +63,16 @@ export function unwrap<T>(response: BaseResponse<T> | T): T {
   }
   return response as T;
 }
+
+/** Fetch protected image bytes without exposing a public object URL or sharing auth tokens. */
+export async function httpBlob(path: string, signal?: AbortSignal): Promise<Blob> {
+  if (!path.startsWith('/api/') || path.startsWith('//')) throw new Error('Đường dẫn ảnh không hợp lệ.');
+  const send = () => fetch(`${appConfig.apiBaseUrl}${path}`, { credentials: 'include', signal,
+    headers: { Accept: 'image/jpeg, image/png, image/webp' } });
+  let response = await send();
+  if (response.status === 401 && await renewSession()) response = await send();
+  if (!response.ok) throw new Error(`Không thể xem ảnh (HTTP ${response.status}).`);
+  const mime = response.headers.get('Content-Type')?.split(';')[0] ?? '';
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(mime)) throw new Error('Định dạng ảnh không hợp lệ.');
+  return response.blob();
+}
