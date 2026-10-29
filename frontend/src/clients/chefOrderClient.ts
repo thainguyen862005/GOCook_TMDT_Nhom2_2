@@ -12,8 +12,8 @@ export const chefOrderClient={
   transition:(order:ChefOrder,targetStatus:ChefOrderStatus,reason='')=>httpRequest<ChefOrderDetail>(`${path}/${order.id}/transitions`,{
     method:'POST',body:JSON.stringify({expectedStatus:order.status,targetStatus,version:order.version,reason}),
   }),
-  uploadReceipt:(id:number,file:File,note:string)=>{
-    const body=new FormData();body.append('file',file);body.append('note',note);
+  uploadReceipt:(id:number,file:File,note:string,evidenceType:'INGREDIENT_RECEIPT'|'FINISHED_MEAL')=>{
+    const body=new FormData();body.append('file',file);body.append('note',note);body.append('evidenceType',evidenceType);
     return httpRequest<ChefReceipt>(`${path}/${id}/receipts`,{method:'POST',body});
   },
   removeReceipt:(id:number,receiptId:number)=>httpRequest<void>(`${path}/${id}/receipts/${receiptId}`,{method:'DELETE'}),

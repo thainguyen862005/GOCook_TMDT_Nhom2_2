@@ -31,14 +31,17 @@ public class ChefReceiptController {
   @Transactional
   public ChefOrderService.ReceiptRow upload(@AuthenticationPrincipal SecurityUserDetails actor,
       @PathVariable long orderId, @RequestPart("file") MultipartFile file,
-      @RequestParam(defaultValue="") String note) throws java.io.IOException {
+      @RequestParam(defaultValue="") String note,
+      @RequestParam(defaultValue="INGREDIENT_RECEIPT") String evidenceType) throws java.io.IOException {
     lockOrder(actor.getId(),orderId);
     var order=orders.get(actor.getId(),orderId).order();
-    if (!List.of("PREPARING","COOKING").contains(order.status()))
-      throw new ResponseStatusException(HttpStatus.CONFLICT,"Chỉ được thêm hóa đơn khi chuẩn bị hoặc đang nấu.");
+    String type=OrderEvidencePolicy.validateType(evidenceType);
+    OrderEvidencePolicy.validateUploadStage(order.status(),type);
     if (!"HELD".equals(order.escrowStatus()))
       throw new ResponseStatusException(HttpStatus.CONFLICT,"Khoản thanh toán không còn đang được tạm giữ.");
     if (note.length()>500) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Ghi chú quá dài.");
+    if (OrderEvidencePolicy.INGREDIENT_RECEIPT.equals(type))
+      OrderEvidencePolicy.validateReceiptNote(note);
     if (file.isEmpty() || file.getSize()>MAX)
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Hóa đơn phải có dung lượng từ 1 byte đến 5 MB.");
     byte[] bytes=file.getBytes();
@@ -46,9 +49,10 @@ public class ChefReceiptController {
     if (mime==null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Chỉ nhận ảnh JPG, PNG hoặc WebP hợp lệ.");
     Long count=jdbc.queryForObject("""
         SELECT count(*) FROM order_ingredient_receipts
-        WHERE chef_id=? AND order_id=? AND is_active=true
-        """,Long.class,actor.getId(),orderId);
-    if (count!=null && count>=10) throw new ResponseStatusException(HttpStatus.CONFLICT,"Tối đa 10 hóa đơn cho mỗi đơn.");
+        WHERE chef_id=? AND order_id=? AND is_active=true AND evidence_type=?
+        """,Long.class,actor.getId(),orderId,type);
+    int limit=OrderEvidencePolicy.INGREDIENT_RECEIPT.equals(type) ? 10 : 5;
+    if (count!=null && count>=limit) throw new ResponseStatusException(HttpStatus.CONFLICT,"Đã đạt giới hạn ảnh cho loại bằng chứng này.");
     // A soft-deleted receipt still uses secure storage; cap total attempts to avoid unbounded growth.
     Long total=jdbc.queryForObject("""
         SELECT count(*) FROM order_ingredient_receipts WHERE chef_id=? AND order_id=?
@@ -59,13 +63,13 @@ public class ChefReceiptController {
     filename=filename.replaceAll("[\\r\\n\\t/\\\\]","_");
     if (filename.length()>180) filename=filename.substring(0,180);
     Long id=jdbc.queryForObject("""
-        INSERT INTO order_ingredient_receipts(order_id,chef_id,file_url,original_filename,mime_type,note)
-        VALUES (?,?,'private:pending',?,?,?) RETURNING id
-        """,Long.class,orderId,actor.getId(),filename,mime,note.strip());
+        INSERT INTO order_ingredient_receipts(order_id,chef_id,file_url,original_filename,mime_type,note,evidence_type)
+        VALUES (?,?,'private:pending',?,?,?,?) RETURNING id
+        """,Long.class,orderId,actor.getId(),filename,mime,note.strip(),type);
     String path="/api/seller/orders/"+orderId+"/receipts/"+id+"/file";
     jdbc.update("UPDATE order_ingredient_receipts SET file_url=? WHERE id=?",path,id);
     jdbc.update("INSERT INTO chef_receipt_blobs(receipt_id,content_bytes) VALUES (?,?)",id,bytes);
-    return new ChefOrderService.ReceiptRow(id,filename,mime,note.strip(),path);
+    return new ChefOrderService.ReceiptRow(id,filename,mime,note.strip(),path,type);
   }
 
   @GetMapping("/{receiptId}/file")
@@ -81,7 +85,7 @@ public class ChefReceiptController {
     var value=records.get(0);
     return ResponseEntity.ok().cacheControl(CacheControl.noStore())
         .header("X-Content-Type-Options","nosniff")
-        .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=hoa-don-"+receiptId)
+        .header(HttpHeaders.CONTENT_DISPOSITION,"inline; filename=bang-chung-"+receiptId)
         .contentType(MediaType.parseMediaType(value.mime())).body(value.content());
   }
 
@@ -92,8 +96,12 @@ public class ChefReceiptController {
       @PathVariable long orderId,@PathVariable long receiptId) {
     lockOrder(actor.getId(),orderId);
     var order=orders.get(actor.getId(),orderId).order();
-    if (!List.of("PREPARING","COOKING").contains(order.status()))
-      throw new ResponseStatusException(HttpStatus.CONFLICT,"Không thể sửa hóa đơn ở trạng thái hiện tại.");
+    var types=jdbc.query("""
+        SELECT evidence_type FROM order_ingredient_receipts
+        WHERE id=? AND chef_id=? AND order_id=? AND is_active=true
+        """,(rs,n)->rs.getString(1),receiptId,actor.getId(),orderId);
+    if (types.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Không tìm thấy bằng chứng.");
+    OrderEvidencePolicy.validateRemovalStage(order.status(),types.get(0));
     int changed=jdbc.update("""
         UPDATE order_ingredient_receipts SET is_active=false,version=version+1,
           updated_at=(extract(epoch from now())*1000)::bigint

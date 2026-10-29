@@ -1,11 +1,14 @@
 
 import { httpRequest } from './httpClient';
+import type { OrderEvidence } from '../components/common/OrderEvidenceGallery';
 import type {
   CustomerOrder,
   CustomerOrdersResponse,
 } from '../types/customerOrder';
 
 export const customerOrderClient = {
+  evidence: (id: number, signal?: AbortSignal) =>
+    httpRequest<OrderEvidence[]>(`/api/customer/orders/${id}/evidence`, { signal }),
   accept: (id:number) => httpRequest<{status:string}>(`/api/customer/orders/${id}/accept`,{method:"POST"}),
   list(
     params: { status?: string; page?: number; size?: number },

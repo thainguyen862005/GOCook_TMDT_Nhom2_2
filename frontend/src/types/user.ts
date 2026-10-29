@@ -8,6 +8,8 @@ export interface UserProfile {
   avatarUrl?: string | null;
   phone?: string | null;
   defaultAddress?: string | null;
+  dietaryPreferences?: string | null;
+  allergyInfo?: string | null;
   createdAt?: string | number | null;
   roles: string[];
 }

@@ -1,5 +1,5 @@
 export const ORDER_LABEL: Record<string, string> = {
-  PENDING: 'Chờ xác nhận',
+  PENDING: 'Chờ thanh toán / Chef nhận',
   CONFIRMED: 'Đã xác nhận',
   PREPARING: 'Đang chuẩn bị',
   COOKING: 'Đang nấu',

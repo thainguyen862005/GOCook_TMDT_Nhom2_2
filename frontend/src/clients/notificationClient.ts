@@ -19,5 +19,7 @@ export function internalNotificationPath(path: string): string {
   if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//') || path.length > 260) {
     return '/notifications';
   }
-  return Array.from(path).some(char => char === '\\' || char.charCodeAt(0) < 32) ? '/notifications' : path;
+  if (Array.from(path).some(char => char === '\\' || char.charCodeAt(0) < 32)) return '/notifications';
+  // Older request-created notifications linked to the *creation form*. Show the existing request list instead.
+  return path === '/request' ? '/my-requests' : path;
 }

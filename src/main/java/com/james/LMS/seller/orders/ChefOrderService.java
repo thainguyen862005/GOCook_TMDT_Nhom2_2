@@ -40,9 +40,9 @@ public class ChefOrderService {
   public record HistoryRow(String previousStatus, String newStatus, String note,
       LocalDateTime changedAt) {}
   public record ReceiptRow(long id, String filename, String mimeType, String note,
-      String fileUrl) {}
+      String fileUrl, String evidenceType) {}
   public record OrderDetail(OrderRow order, List<HistoryRow> history, List<ReceiptRow> receipts) {}
-  public record Summary(long pending, long active, long awaitingAcceptance,
+  public record Summary(long pending, long unpaid, long active, long awaitingAcceptance,
       long completed, long today, List<OrderRow> recent) {}
   public record Transition(String expectedStatus, String targetStatus, Long version, String reason) {}
 
@@ -100,17 +100,19 @@ public class ChefOrderService {
   public Summary summary(long chef) {
     requireVerifiedChef(chef);
     var counts = jdbc.queryForMap("""
-        SELECT COUNT(*) FILTER (WHERE status='PENDING') AS pending,
-               COUNT(*) FILTER (WHERE status IN ('CONFIRMED','PREPARING','COOKING')) AS active,
-               COUNT(*) FILTER (WHERE status='AWAITING_ACCEPTANCE') AS awaiting,
-               COUNT(*) FILTER (WHERE status='COMPLETED') AS completed,
-               COUNT(*) FILTER (WHERE status IN ('CONFIRMED','PREPARING','COOKING')
-                 AND scheduled_at >= ? AND scheduled_at < ?) AS today
-        FROM orders WHERE chef_id=? AND is_active=true
+        SELECT COUNT(*) FILTER (WHERE o.status='PENDING' AND e.status='HELD') AS pending,
+               COUNT(*) FILTER (WHERE o.status='PENDING' AND e.order_id IS NULL) AS unpaid,
+               COUNT(*) FILTER (WHERE o.status IN ('CONFIRMED','PREPARING','COOKING')) AS active,
+               COUNT(*) FILTER (WHERE o.status='AWAITING_ACCEPTANCE') AS awaiting,
+               COUNT(*) FILTER (WHERE o.status='COMPLETED') AS completed,
+               COUNT(*) FILTER (WHERE o.status IN ('CONFIRMED','PREPARING','COOKING')
+                 AND o.scheduled_at >= ? AND o.scheduled_at < ?) AS today
+        FROM orders o LEFT JOIN order_escrows e ON e.order_id=o.id
+        WHERE o.chef_id=? AND o.is_active=true
         """,Timestamp.valueOf(LocalDate.now(ZONE).atStartOfDay()),
         Timestamp.valueOf(LocalDate.now(ZONE).plusDays(1).atStartOfDay()),chef);
-    return new Summary(number(counts.get("pending")),number(counts.get("active")),
-        number(counts.get("awaiting")),number(counts.get("completed")),
+    return new Summary(number(counts.get("pending")),number(counts.get("unpaid")),
+        number(counts.get("active")),number(counts.get("awaiting")),number(counts.get("completed")),
         number(counts.get("today")),list(chef,"",0,5,null,null).content());
   }
 
@@ -136,9 +138,9 @@ public class ChefOrderService {
         """,(rs,n) -> new HistoryRow(rs.getString(1),rs.getString(2),rs.getString(3),
             rs.getTimestamp(4).toLocalDateTime()),id);
     var receipts = jdbc.query("""
-        SELECT id,original_filename,mime_type,note,file_url FROM order_ingredient_receipts
+        SELECT id,original_filename,mime_type,note,file_url,evidence_type FROM order_ingredient_receipts
         WHERE chef_id=? AND order_id=? AND is_active=true ORDER BY created_at DESC,id DESC
-        """,(rs,n) -> new ReceiptRow(rs.getLong(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)),chef,id);
+        """,(rs,n) -> new ReceiptRow(rs.getLong(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)),chef,id);
     return new OrderDetail(rows.get(0),history,receipts);
   }
 
@@ -186,6 +188,17 @@ public class ChefOrderService {
           """,Integer.class,id,chef);
       if (active == null || active == 0)
         throw error(HttpStatus.CONFLICT,"Lịch đã nhận không còn hiệu lực. Hãy liên hệ hỗ trợ.");
+    }
+    // Recheck while holding the order lock: simultaneous uploads/removals serialize on it.
+    if ((expected == OrderStatus.PREPARING && target == OrderStatus.COOKING)
+        || (expected == OrderStatus.COOKING && target == OrderStatus.AWAITING_ACCEPTANCE)) {
+      var evidenceCounts = jdbc.queryForMap("""
+          SELECT COUNT(*) FILTER (WHERE evidence_type='INGREDIENT_RECEIPT') AS receipts,
+                 COUNT(*) FILTER (WHERE evidence_type='FINISHED_MEAL') AS photos
+          FROM order_ingredient_receipts WHERE order_id=? AND chef_id=? AND is_active=true
+          """, id, chef);
+      OrderEvidencePolicy.requireBeforeTransition(expected.name(), target.name(),
+          number(evidenceCounts.get("receipts")), number(evidenceCounts.get("photos")));
     }
     int changed=jdbc.update("""
         UPDATE orders SET status=?,chef_completed_at=CASE WHEN ?='AWAITING_ACCEPTANCE'

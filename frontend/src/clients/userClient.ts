@@ -14,10 +14,10 @@ export const userClient = {
       body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
     });
   },
-  async updateProfile(username: string, phone: string, defaultAddress: string): Promise<void> {
+  async updateProfile(username: string, phone: string, defaultAddress: string, dietaryPreferences: string, allergyInfo: string): Promise<void> {
     await httpRequest('/api/v1/users/profile', {
       method: 'PUT',
-      body: JSON.stringify({ username, phone, defaultAddress }),
+      body: JSON.stringify({ username, phone, defaultAddress, dietaryPreferences, allergyInfo }),
     });
   },
 };
