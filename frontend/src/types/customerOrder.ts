@@ -23,6 +23,7 @@ export interface CustomerOrder {
   status: CustomerOrderStatus;
   serviceAddress?: string | null;
   customerNote?: string | null;
+  escrowStatus?: 'HELD' | 'RELEASED' | 'REFUND_PENDING' | 'REFUNDED' | null;
 }
 
 export type CustomerOrdersResponse = PageResponse<CustomerOrder>;

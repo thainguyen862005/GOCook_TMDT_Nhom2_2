@@ -8,6 +8,8 @@ import { SellerOrdersPage } from '../../pages/seller/SellerOrdersPage';
 import { SellerProductEditPage } from '../../pages/seller/SellerProductEditPage';
 import { SellerProductNewPage } from '../../pages/seller/SellerProductNewPage';
 import { SellerProductsPage } from '../../pages/seller/SellerProductsPage';
+import { SellerRequestsPage } from '../../pages/seller/SellerRequestsPage';
+import { SellerProfilePage } from '../../pages/seller/SellerProfilePage';
 import { SellerRevenuePage } from '../../pages/seller/SellerRevenuePage';
 import { SellerSchedulePage } from '../../pages/seller/SellerSchedulePage';
 import { ProtectedRoute } from '../guards/ProtectedRoute';
@@ -21,6 +23,8 @@ export const sellerRoutes: RouteObject[] = [
       </ProtectedRoute>
     ),
     children: [
+      { path: ROUTES.SELLER_REQUESTS, element: <SellerRequestsPage /> },
+      { path: ROUTES.SELLER_PROFILE, element: <SellerProfilePage /> },
       { path: ROUTES.SELLER, element: <SellerDashboardPage /> },
       { path: ROUTES.SELLER_ORDER_DETAIL, element: <SellerOrderDetailPage /> },
       { path: ROUTES.SELLER_ORDERS, element: <SellerOrdersPage /> },

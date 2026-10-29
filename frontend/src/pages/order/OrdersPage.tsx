@@ -75,7 +75,7 @@ export function OrdersPage() {
                   <div className="between">
                     <strong>#{order.orderCode}</strong>
                     <span className={`badge ${statusClass(order.status)}`}>
-                      {ORDER_LABEL[order.status] || order.status}
+                      {order.status==='PENDING'&&order.escrowStatus!=='HELD'?'Chờ thanh toán VNPay':ORDER_LABEL[order.status] || order.status}
                     </span>
                   </div>
                   <div>
@@ -83,11 +83,12 @@ export function OrdersPage() {
                     <p className="muted small">Đầu bếp: {order.chefName || 'Đang cập nhật'} · {order.guestCount} người</p>
                     <p className="muted small">Ngày đặt: {dateTime(order.createdAt)}</p>
                     <p className="muted small">Ngày phục vụ: {dateTime(order.scheduledAt)}</p>
+                    <p className="muted small">Thanh toán: {order.escrowStatus==='HELD'?'Đã tạm giữ':order.escrowStatus==='RELEASED'?'Đã nghiệm thu':'Chưa xác nhận'}</p>
                   </div>
                   <div className="between">
                     <strong className="price">{money(order.totalAmount)}</strong>
                     <Link className="btn secondary sm" to={`${ROUTES.ORDER_DETAIL}?id=${order.id}`}>
-                      Chi tiết đơn
+                      {order.status==='PENDING'&&order.escrowStatus!=='HELD'?'Thanh toán / Chi tiết đơn':'Chi tiết đơn'}
                     </Link>
                   </div>
                 </article>

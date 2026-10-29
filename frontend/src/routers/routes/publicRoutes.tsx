@@ -11,7 +11,6 @@ import { OffersPage } from '../../pages/offer/OffersPage';
 import { MatchingPage } from '../../pages/request/MatchingPage';
 import { ReviewPage } from '../../pages/review/ReviewPage';
 import { BecomeChefPage } from '../../pages/seller/BecomeChefPage';
-import { ChatPage } from '../../pages/support/ChatPage';
 import { HelpPage } from '../../pages/support/HelpPage';
 import { PageCatalogPage } from '../../pages/system/PageCatalogPage';
 
@@ -32,7 +31,6 @@ export const publicRoutes: RouteObject[] = [
       { path: ROUTES.REVIEW, element: <ReviewPage /> },
       { path: ROUTES.MATCHING, element: <MatchingPage /> },
       { path: ROUTES.BECOME_CHEF, element: <BecomeChefPage /> },
-      { path: ROUTES.CHAT, element: <ChatPage /> },
     ],
   },
 ];

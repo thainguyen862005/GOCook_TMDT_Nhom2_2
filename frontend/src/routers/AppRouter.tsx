@@ -1,5 +1,6 @@
-import { Navigate, useRoutes, type RouteObject } from 'react-router-dom';
-import { ROUTES } from '../constants/routes';
+import { useRoutes, type RouteObject } from 'react-router-dom';
+import { NotFoundPage } from '../pages/system/NotFoundPage';
+import { SiteLayout } from '../layouts/SiteLayout';
 import { adminRoutes } from './routes/adminRoutes';
 import { authRoutes } from './routes/authRoutes';
 import { customerRoutes } from './routes/customerRoutes';
@@ -12,7 +13,7 @@ const routes: RouteObject[] = [
   ...customerRoutes,
   ...sellerRoutes,
   ...adminRoutes,
-  { path: '*', element: <Navigate to={ROUTES.HOME} replace /> },
+  { path: '*', element: <SiteLayout><NotFoundPage /></SiteLayout> },
 ];
 
 /**
