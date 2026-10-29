@@ -17,9 +17,10 @@ public record CustomerOrderResponse(
     OrderStatus status,
     Long createdAt,
     String serviceAddress,
-    String customerNote) {
+    String customerNote,
+    String escrowStatus) {
 
-  public static CustomerOrderResponse from(CookOrder order) {
+  public static CustomerOrderResponse from(CookOrder order, String escrowStatus) {
     return new CustomerOrderResponse(
         order.getId(), 
         order.getOrderCode(), 
@@ -31,6 +32,7 @@ public record CustomerOrderResponse(
         order.getStatus(), 
         order.getCreatedAt(),
         order.getServiceAddress(),
-        order.getCustomerNote());
+        order.getCustomerNote(),
+        escrowStatus);
   }
 }

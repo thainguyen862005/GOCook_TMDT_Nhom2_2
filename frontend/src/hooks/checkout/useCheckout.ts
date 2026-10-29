@@ -8,6 +8,7 @@ import type { MenuDetail } from '../../types/menu';
 import type { FixedMenuPreview } from '../../types/pricing';
 import { useAuth } from '../auth/useAuth';
 import { rememberCheckout } from './checkoutRetry';
+import { beginOrderPayment, redirectToVnpay } from './orderPayment';
 
 const BASE_TIMES = ['11:30', '18:30'];
 
@@ -20,10 +21,12 @@ export function useCheckout() {
   const hasProductId = Number.isInteger(productId) && productId > 0;
 
   const [product, setProduct] = useState<MenuDetail | null>(null);
+  const [createdOrderCode, setCreatedOrderCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(hasProductId);
   const [message, setMessage] = useState<UiMessage | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const idempotencyKey = useRef<string | null>(null);
+  const pendingOrderCode = useRef<string | null>(null);
 
   const [guests, setGuests] = useState<number | null>(() => {
     const requested = Number(params.get('guests'));
@@ -39,6 +42,13 @@ export function useCheckout() {
   const [voucherCode, setVoucherCode] = useState('');
   const [voucher, setVoucher] = useState<FixedMenuPreview | null>(null);
   const [applyingVoucher, setApplyingVoucher] = useState(false);
+
+  useEffect(() => {
+    // Profile is loaded asynchronously. Do not overwrite any information the customer has typed.
+    if (profile?.username) setCustomerName(current => current || profile.username);
+    if (profile?.phone) setCustomerPhone(current => current || profile.phone || '');
+    if (profile?.defaultAddress) setServiceAddress(current => current || profile.defaultAddress || '');
+  }, [profile?.username, profile?.phone, profile?.defaultAddress]);
 
   useEffect(() => {
     if (!hasProductId) return;
@@ -67,6 +77,9 @@ export function useCheckout() {
       ? Number(product.unitPrice) * guestCount
       : 0;
   const times = Array.from(new Set([...BASE_TIMES, time]));
+  const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  const scheduledAt = date && time ? new Date(`${date}T${time}:00`) : null;
+  const futureSchedule = Boolean(scheduledAt && Number.isFinite(scheduledAt.getTime()) && scheduledAt.getTime() > Date.now());
 
   const canSubmit =
     product !== null &&
@@ -77,7 +90,8 @@ export function useCheckout() {
     customerName.trim() !== '' &&
     customerPhone.trim() !== '' &&
     serviceAddress.trim() !== '' &&
-    date !== '';
+    date !== '' &&
+    futureSchedule;
 
   async function applyVoucher() {
     if (!product || !guestsInRange || voucherCode.trim() === '') return;
@@ -105,11 +119,28 @@ export function useCheckout() {
   }
 
   async function submit() {
-    if (!product || !canSubmit) return;
+    if (submitting || !product) return;
+    if (!canSubmit) {
+      const missing = [
+        !guestsInRange && 'số khách hợp lệ',
+        !customerName.trim() && 'họ tên',
+        !customerPhone.trim() && 'số điện thoại',
+        !serviceAddress.trim() && 'địa chỉ',
+        !futureSchedule && 'ngày/giờ tương lai',
+        !agreed && 'đồng ý chính sách',
+      ].filter(Boolean).join(', ');
+      setMessage({type:'error', text:`Hãy hoàn tất: ${missing || 'thông tin đặt lịch'}.`});
+      return;
+    }
     setSubmitting(true);
     setMessage(null);
     idempotencyKey.current ??= crypto.randomUUID();
     try {
+      // A valid previously created order must be reused if gateway navigation failed.
+      if (pendingOrderCode.current) {
+        await beginOrderPayment(pendingOrderCode.current);
+        return;
+      }
       const result = await paymentClient.checkout({
         productId: product.id,
         guestCount,
@@ -121,10 +152,13 @@ export function useCheckout() {
         idempotencyKey: idempotencyKey.current,
         voucherCode: voucherApplies ? voucher.voucherCode ?? undefined : undefined,
       });
+      pendingOrderCode.current = result.orderCode;
+      setCreatedOrderCode(result.orderCode);
       rememberCheckout(result.orderCode, { path: location.pathname, search: location.search });
-      window.location.assign(result.payUrl);
+      redirectToVnpay(result, result.orderCode);
     } catch (error) {
-      idempotencyKey.current = null;
+      // Keep idempotency key across failures. Retrying must not charge/create another order.
+      // A transient network failure replays the same request through the backend.
       setMessage({ type: 'error', text: paymentError(error) });
       setSubmitting(false);
     }
@@ -136,6 +170,9 @@ export function useCheckout() {
     loading,
     message,
     submitting,
+    createdOrderCode,
+    today,
+    futureSchedule,
     canSubmit,
     submit,
     guestCount,

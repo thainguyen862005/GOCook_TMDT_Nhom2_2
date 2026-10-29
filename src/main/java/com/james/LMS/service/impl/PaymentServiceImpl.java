@@ -16,6 +16,7 @@ import com.james.LMS.enums.PaymentProvider;
 import com.james.LMS.enums.PaymentStatus;
 import com.james.LMS.exception.PaymentException;
 import com.james.LMS.pricing.PricingService;
+import com.james.LMS.notification.NotificationService;
 import com.james.LMS.pricing.PricingService.FixedMenuQuote;
 import com.james.LMS.repository.OrderRepository;
 import com.james.LMS.repository.PendingOrderRepository;
@@ -46,6 +47,9 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.NestedExceptionUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.dao.DataIntegrityViolationException;
+import java.sql.Timestamp;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -76,6 +80,8 @@ public class PaymentServiceImpl implements PaymentService {
   private final PaymentLifecycleProperties lifecycle;
   private final VoucherService vouchers;
   private final PendingOrderRepository pendingOrders;
+  private final NotificationService notifications;
+  private final JdbcTemplate jdbc;
 
   @Override
   public PaymentCheckoutResponse checkout(
@@ -91,6 +97,10 @@ public class PaymentServiceImpl implements PaymentService {
               pricing.quoteFixedMenu(
                   request.productId(), request.guestCount(), request.voucherCode(), customerId);
           Product product = quote.product();
+          if (product.getSellerId() == null) {
+            throw new PaymentException(HttpStatus.CONFLICT, ErrorCode.PAYMENT_ORDER_NOT_PAYABLE,
+                "Thực đơn chưa gắn với đầu bếp đang hoạt động. Vui lòng chọn thực đơn khác.");
+          }
 
           LocalDateTime now = LocalDateTime.now(PaymentGateway.GATEWAY_ZONE);
           if (!request.scheduledAt().isAfter(now)) {
@@ -103,7 +113,7 @@ public class PaymentServiceImpl implements PaymentService {
           String orderCode = newOrderCode(now);
 
           CookOrder order =
-              orders.save(
+              orders.saveAndFlush(
                   CookOrder.builder()
                       .orderCode(orderCode)
                       .customerName(request.customerName().trim())
@@ -122,6 +132,20 @@ public class PaymentServiceImpl implements PaymentService {
                       .customerNote(request.customerNote())
                       .build());
 
+          // Reserve the Chef calendar for a fixed-menu checkout as well as for a custom quote.
+          // Payment remains PENDING and the reservation is released when the order expires.
+          // PostgreSQL's exclusion constraint prevents concurrent double-booking.
+          try {
+            jdbc.update("""
+                INSERT INTO chef_bookings(order_id,chef_id,starts_at,ends_at,booking_status)
+                VALUES (?,?,?,?, 'ACTIVE')
+                """, order.getId(), product.getSellerId(),
+                Timestamp.valueOf(request.scheduledAt()),
+                Timestamp.valueOf(request.scheduledAt().plusHours(3)));
+          } catch (DataIntegrityViolationException ex) {
+            throw new PaymentException(HttpStatus.CONFLICT, ErrorCode.PAYMENT_INVALID_SCHEDULE,
+                "Đầu bếp đã có lịch vào giờ này. Vui lòng chọn ngày hoặc khung giờ khác.");
+          }
           if (quote.voucher() != null) {
             vouchers.reserve(
                 order.getId(),
@@ -360,6 +384,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     PaymentTransaction payment = settled.payment();
     if (payment.getStatus() == PaymentStatus.SUCCESS) {
+      // A repeated IPN after Chef acceptance must NOT invoke the DB settlement function again.
+      if (payments.findEscrowedPaymentId(payment.getOrderId())
+          .filter(id -> id.equals(payment.getId())).isPresent()) {
+        return PaymentIpnResponse.alreadyConfirmed();
+      }
       if (unsettleable(payment)) {
         return PaymentIpnResponse.alreadyConfirmed();
       }
@@ -397,22 +426,26 @@ public class PaymentServiceImpl implements PaymentService {
 
     GatewayTransaction tx = verified.get();
     ownedPayment(customerId, tx.txnRef());
-    transactions.executeWithoutResult(
-        status -> {
-          PaymentTransaction locked =
-              payments
-                  .lockByProviderAndTransactionCode(PaymentProvider.VNPAY, tx.txnRef())
-                  .orElseThrow(this::paymentNotFound);
-          if (mismatch(locked, tx).isPresent()) {
-            throw new PaymentException(
-                HttpStatus.BAD_REQUEST,
-                ErrorCode.PAYMENT_RETURN_MISMATCH,
-                "Dữ liệu trả về từ VNPay không khớp giao dịch.");
-          }
-          if (tx.outcome() == PaymentGateway.Outcome.CANCELLED) {
-            closeIfDead(locked, tx);
-          }
-        });
+    // The browser return is NOT trusted without a valid VNPay HMAC. After signature,
+    // merchant and amount checks, apply the same idempotent settlement logic as IPN.
+    // This is essential for localhost demos where VNPay cannot reach the server IPN.
+    Settled settled = transactions.execute(status -> recordResult(tx));
+    if (settled.result() == Settlement.NOT_FOUND || settled.result() == Settlement.FOREIGN_MERCHANT) {
+      throw new PaymentException(HttpStatus.BAD_REQUEST, ErrorCode.PAYMENT_RETURN_MISMATCH,
+          "Giao dịch không thuộc cửa hàng hoặc không tồn tại.");
+    }
+    if (settled.result() == Settlement.AMOUNT_MISMATCH) {
+      throw new PaymentException(HttpStatus.BAD_REQUEST, ErrorCode.PAYMENT_RETURN_MISMATCH,
+          "Số tiền VNPay không khớp số tiền lưu tại máy chủ.");
+    }
+    PaymentTransaction payment = settled.payment();
+    if (payment != null && payment.getStatus() == PaymentStatus.SUCCESS
+        && settled.result() != Settlement.DUPLICATE_SUCCESS) {
+      // Only a successfully verified transaction may register a HELD escrow.
+      healEscrowQuietly(payment);
+    }
+    log.info("vnpay signed return ref={} outcome={} settlement={}",
+        tx.txnRef(), tx.outcome(), settled.result());
     return toStatusResponse(ownedPayment(customerId, tx.txnRef()));
   }
 
@@ -431,6 +464,19 @@ public class PaymentServiceImpl implements PaymentService {
     long windowStart = now.minus(lifecycle.getOrderPayWindow()).toEpochMilli();
     for (Long orderId : pendingOrders.findPendingCreatedBefore(windowStart, PageRequest.of(0, max))) {
       settleDueAttempts(orderId, SWEEP_IP);
+      if (Boolean.TRUE.equals(transactions.execute(status -> expireOrderIfDue(orderId)))) {
+        ordersCancelled++;
+      }
+    }
+    // Accepted Chef quotes without a first VNPay attempt also need to free the slot
+    // after the 30-minute payment window; otherwise the chef remains blocked forever.
+    List<Long> unattemptedQuotes = jdbc.query("""
+        SELECT o.id FROM orders o JOIN public_cooking_requests r ON r.accepted_order_id=o.id
+        WHERE o.status='PENDING' AND o.created_at<?
+          AND NOT EXISTS(SELECT 1 FROM payment_transactions p WHERE p.order_id=o.id)
+        ORDER BY o.created_at LIMIT ?
+        """, (rs, row) -> rs.getLong(1), windowStart, max);
+    for (Long orderId : unattemptedQuotes) {
       if (Boolean.TRUE.equals(transactions.execute(status -> expireOrderIfDue(orderId)))) {
         ordersCancelled++;
       }
@@ -505,6 +551,15 @@ public class PaymentServiceImpl implements PaymentService {
             && !tx.merchantCode().equals(gateway.merchantCode());
     if (foreign) {
       return Optional.of(Settlement.FOREIGN_MERCHANT);
+    }
+    // A SUCCESS callback must explicitly carry the merchant and amount. A signed but
+    // incomplete callback must NEVER unlock money in escrow.
+    if (tx.outcome() == PaymentGateway.Outcome.SUCCESS
+        && (tx.merchantCode() == null || tx.merchantCode().isBlank())) {
+      return Optional.of(Settlement.FOREIGN_MERCHANT);
+    }
+    if (tx.outcome() == PaymentGateway.Outcome.SUCCESS && tx.amount() == null) {
+      return Optional.of(Settlement.AMOUNT_MISMATCH);
     }
     if (tx.amount() != null && tx.amount().compareTo(payment.getAmount()) != 0) {
       return Optional.of(Settlement.AMOUNT_MISMATCH);
@@ -625,8 +680,8 @@ public class PaymentServiceImpl implements PaymentService {
   /**
    * Lazy expiry of the order itself: once the pay window has passed with no SUCCESS attempt and no
    * attempt still inside its grace, the open attempts are closed, the order is cancelled and its
-   * voucher use is given back. An order that never entered payment (no attempt at all, such as seed
-   * data or a booking made from an accepted proposal) is left alone. Run inside a transaction.
+   * voucher use is given back. Accepted Chef bookings without a first VNPay attempt can expire;
+   * unrelated legacy seed orders without an attempt are left alone. Run inside a transaction.
    */
   private boolean expireOrderIfDue(Long orderId) {
     CookOrder order = orders.findById(orderId).orElseThrow();
@@ -635,9 +690,16 @@ public class PaymentServiceImpl implements PaymentService {
       return false;
     }
     List<PaymentTransaction> attempts = payments.findByOrderIdOrderByAttemptNoAsc(orderId);
-    if (attempts.isEmpty()
-        || attempts.stream().anyMatch(attempt -> attempt.getStatus() == PaymentStatus.SUCCESS)) {
+    if (attempts.stream().anyMatch(attempt -> attempt.getStatus() == PaymentStatus.SUCCESS)) {
       return false;
+    }
+    if (attempts.isEmpty()) {
+      // Only service requests explicitly accepted and booked by this workflow may be
+      // expired before their first gateway attempt; never cancel unrelated legacy seed data.
+      Boolean acceptedRequest = jdbc.queryForObject("""
+          SELECT EXISTS(SELECT 1 FROM public_cooking_requests WHERE accepted_order_id=?)
+          """, Boolean.class, orderId);
+      if (!Boolean.TRUE.equals(acceptedRequest)) return false;
     }
     for (PaymentTransaction attempt : attempts) {
       if (attempt.getStatus() == PaymentStatus.PENDING) {
@@ -651,6 +713,19 @@ public class PaymentServiceImpl implements PaymentService {
       order.setStatus(OrderStatus.CANCELLED);
       orders.save(order);
       vouchers.release(orderId);
+      // An unpaid booking must not permanently block the chef's calendar.
+      jdbc.update("""
+          UPDATE chef_bookings SET booking_status='RELEASED', updated_at=now()
+          WHERE order_id=? AND booking_status='ACTIVE'
+          """, orderId);
+      notifications.sendToUser(order.getCustomerId(),
+          "order:expired:" + orderId, "PAYMENT", "Đơn hết hạn thanh toán",
+          "Đơn " + order.getOrderCode() + " đã hết thời hạn thanh toán, lịch Chef được giải phóng.",
+          "/order-detail?id=" + orderId);
+      notifications.sendToUser(order.getChefId(),
+          "order:expired:" + orderId, "BOOKING", "Đơn chưa thanh toán đã hết hạn",
+          "Đơn " + order.getOrderCode() + " đã hủy giữ lịch vì chưa thanh toán.",
+          "/seller/order-detail?id=" + orderId);
       log.info("order cancelled after pay window order={}", order.getOrderCode());
       return true;
     }
@@ -665,6 +740,21 @@ public class PaymentServiceImpl implements PaymentService {
                 Boolean registered =
                     payments.registerVerifiedPayment(payment.getOrderId(), payment.getId());
                 vouchers.consume(payment.getOrderId());
+                if (Boolean.TRUE.equals(registered)) {
+                  CookOrder paidOrder = orders.findById(payment.getOrderId()).orElseThrow();
+                  String path = "/seller/order-detail?id=" + paidOrder.getId();
+                  notifications.sendToUser(paidOrder.getChefId(),
+                      "order:paid:" + paidOrder.getId(), "PAYMENT", "Đơn đã thanh toán VNPay",
+                      "Đơn " + paidOrder.getOrderCode() + " đã tạm giữ tiền. Vào nhận đơn để phục vụ.", path);
+                  notifications.sendToUser(paidOrder.getCustomerId(),
+                      "order:paid:" + paidOrder.getId(), "PAYMENT", "Thanh toán được xác nhận",
+                      "Đơn " + paidOrder.getOrderCode() + " đã được thanh toán và đang chờ Chef nhận.",
+                      "/order-detail?id=" + paidOrder.getId());
+                  notifications.sendToAdmins("order:paid:" + paidOrder.getId(), "PAYMENT",
+                      "Đơn đã thanh toán thành công", "Đơn " + paidOrder.getOrderCode()
+                          + " đã ghi nhận escrow HELD.",
+                      "/admin/order-detail?id=" + paidOrder.getId());
+                }
                 return registered;
               });
       return Boolean.TRUE.equals(created);
@@ -706,6 +796,9 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   private void healEscrowQuietly(PaymentTransaction payment) {
+    // Already settled: a repeated Return, polling querydr, or IPN is a no-op.
+    if (payments.findEscrowedPaymentId(payment.getOrderId())
+        .filter(id -> id.equals(payment.getId())).isPresent()) return;
     if (unsettleable(payment)) {
       return;
     }
@@ -749,7 +842,9 @@ public class PaymentServiceImpl implements PaymentService {
         payment.getAmount(),
         payment.getPaidAt(),
         payment.getCloseReason(),
-        payment.getAttemptNo());
+        payment.getAttemptNo(),
+        payments.findEscrowedPaymentId(payment.getOrderId())
+            .map(id -> id.equals(payment.getId())).orElse(false));
   }
 
   private String returnUrl() {

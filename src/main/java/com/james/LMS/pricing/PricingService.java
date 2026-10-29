@@ -56,6 +56,10 @@ public class PricingService {
     Product product = payableProduct(productId);
     requireGuestCount(product, guests);
     BigDecimal subtotal = product.getUnitPrice().multiply(BigDecimal.valueOf(guests));
+    if (subtotal.signum() <= 0 || subtotal.stripTrailingZeros().scale() > 0) {
+      throw new PaymentException(HttpStatus.BAD_REQUEST, ErrorCode.PAYMENT_PRODUCT_UNAVAILABLE,
+          "Giá thực đơn phải là số VND nguyên dương; vui lòng liên hệ quản trị viên cập nhật giá.");
+    }
     if (voucherCode == null || voucherCode.isBlank()) {
       return new FixedMenuQuote(product, guests, subtotal, BigDecimal.ZERO, subtotal, null);
     }

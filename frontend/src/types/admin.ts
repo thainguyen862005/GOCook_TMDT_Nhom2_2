@@ -71,6 +71,7 @@ export interface ProductsResponse extends PageResponse<AdminProduct> {
 
 export interface OrdersResponse extends PageResponse<AdminOrder> {
     statuses: string[];
+    paymentStates?: Record<string,string>;
 }
 
 export type RevenueGroupBy = | 'DAY' | 'MONTH' | 'YEAR';

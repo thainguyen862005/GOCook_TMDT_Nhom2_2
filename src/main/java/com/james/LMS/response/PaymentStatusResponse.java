@@ -18,4 +18,5 @@ public record PaymentStatusResponse(
     BigDecimal amount,
     OffsetDateTime paidAt,
     PaymentCloseReason closeReason,
-    Integer attemptNo) {}
+    Integer attemptNo,
+    boolean escrowConfirmed) {}

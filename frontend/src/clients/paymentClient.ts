@@ -19,7 +19,7 @@ export const paymentClient = {
       body: JSON.stringify(request),
     }),
 
-  /** Sends the signed vnp_* parameters VNPay put on the return URL; only a cancel (24) changes anything. */
+  /** Sends VNPay signed callback parameters for verified, idempotent settlement and escrow registration. */
   vnpayReturn: (params: Record<string, string>) =>
     httpRequest<PaymentStatusResult>('/api/payments/vnpay-return', {
       method: 'POST',

@@ -34,12 +34,12 @@ public class AdminOrderController {
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int size) {
     Page<CookOrder> result = orderService.search(q, status, from, to, page, size);
-    return AdminOrdersResponse.from(result, orderService.statuses());
+    return AdminOrdersResponse.from(result, orderService.statuses(), orderService.paymentStates(result.getContent()));
   }
 
   @GetMapping("/{id}")
   public Map<String, Object> get(@PathVariable Long id) {
-    return Map.of("order", orderService.get(id), "allowedStatuses", orderService.allowedStatuses(id));
+    return Map.of("order", orderService.get(id), "allowedStatuses", orderService.allowedStatuses(id), "paymentState", orderService.paymentState(id));
   }
 
   @PutMapping("/{id}")
@@ -50,6 +50,7 @@ public class AdminOrderController {
     return Map.of(
         "message", "Đã cập nhật đơn hàng.",
         "order", orderService.get(id),
-        "allowedStatuses", orderService.allowedStatuses(id));
+        "allowedStatuses", orderService.allowedStatuses(id),
+        "paymentState", orderService.paymentState(id));
   }
 }

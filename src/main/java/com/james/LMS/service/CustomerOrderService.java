@@ -3,6 +3,7 @@ package com.james.LMS.service;
 import com.james.LMS.entity.CookOrder;
 import com.james.LMS.enums.OrderStatus;
 import com.james.LMS.repository.OrderRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
 import com.james.LMS.response.CustomerOrderResponse;
 import com.james.LMS.response.CustomerOrdersPageResponse;
 import java.util.Locale;
@@ -19,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class CustomerOrderService {
   private final OrderRepository orderRepository;
+  private final JdbcTemplate jdbc;
 
   @Transactional(readOnly = true)
   public CustomerOrdersPageResponse list(Long customerId, String status, int page, int size) {
@@ -34,14 +36,20 @@ public class CustomerOrderService {
         ? orderRepository.findByCustomerIdAndIsActiveTrue(customerId, pageable)
         : orderRepository.findByCustomerIdAndStatusAndIsActiveTrue(customerId, parsedStatus, pageable);
 
-    return CustomerOrdersPageResponse.from(orders.map(CustomerOrderResponse::from));
+    return CustomerOrdersPageResponse.from(orders.map(o -> CustomerOrderResponse.from(o, escrowStatus(o.getId()))));
   }
 
   @Transactional(readOnly = true)
   public CustomerOrderResponse get(Long customerId, Long orderId) {
     CookOrder order = orderRepository.findByIdAndCustomerIdAndIsActiveTrue(orderId, customerId)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy đơn hàng"));
-    return CustomerOrderResponse.from(order);
+    return CustomerOrderResponse.from(order, escrowStatus(order.getId()));
+  }
+
+  private String escrowStatus(Long orderId) {
+    var statuses = jdbc.query("SELECT status FROM order_escrows WHERE order_id=?",
+        (rs, index) -> rs.getString(1), orderId);
+    return statuses.isEmpty() ? null : statuses.get(0);
   }
 
   private OrderStatus parseStatus(String status) {

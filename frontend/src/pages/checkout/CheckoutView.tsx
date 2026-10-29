@@ -18,7 +18,7 @@ export function CheckoutView({ title }: { title: string }) {
           <b>1</b>Chọn thực đơn
         </span>
         <span>
-          <b>2</b>Giỏ hàng
+          <b>2</b>Chọn lịch
         </span>
         <span className="current">
           <b>3</b>Thanh toán
@@ -70,6 +70,7 @@ export function CheckoutView({ title }: { title: string }) {
                 void checkout.submit();
               }}
             >
+              {checkout.createdOrderCode && <div className="notice warm" role="status">Đơn {checkout.createdOrderCode} đã được tạo. Nếu không mở được VNPay, hãy bấm lại thanh toán; hệ thống sẽ sử dụng chính đơn này, không tạo đơn mới. <Link to={ROUTES.ORDERS}>Xem đơn</Link>.</div>}
               <section className="card stack">
                 <h3>Thực đơn đã chọn</h3>
                 <div className="order-item">
@@ -88,7 +89,8 @@ export function CheckoutView({ title }: { title: string }) {
                 </div>
               </section>
 
-              <section className="card stack">
+              <fieldset disabled={Boolean(checkout.createdOrderCode)} className="card stack checkout-fields">
+                <legend className="sr-only">Địa chỉ và thời gian nấu</legend>
                 <h3>Địa chỉ & thời gian nấu</h3>
                 <div className="grid grid-2">
                   <label className="field" htmlFor="customer">
@@ -153,6 +155,7 @@ export function CheckoutView({ title }: { title: string }) {
                       name="order-date"
                       type="date"
                       value={form.date}
+                      min={checkout.today}
                       onChange={(event) => form.setDate(event.target.value)}
                       required
                     />
@@ -183,7 +186,7 @@ export function CheckoutView({ title }: { title: string }) {
                     maxLength={2000}
                   />
                 </label>
-              </section>
+              </fieldset>
 
               <section className="card stack">
                 <h3>Phương thức thanh toán</h3>
@@ -233,6 +236,7 @@ export function CheckoutView({ title }: { title: string }) {
                   value={checkout.voucher.code}
                   onChange={(event) => checkout.voucher.setCode(event.target.value)}
                   maxLength={40}
+                  disabled={Boolean(checkout.createdOrderCode)}
                 />
               </label>
               <div className="row">
@@ -240,6 +244,7 @@ export function CheckoutView({ title }: { title: string }) {
                   className="btn secondary"
                   type="button"
                   disabled={
+                    Boolean(checkout.createdOrderCode) ||
                     checkout.voucher.applying ||
                     !checkout.guestsInRange ||
                     checkout.voucher.code.trim() === ''
@@ -264,6 +269,8 @@ export function CheckoutView({ title }: { title: string }) {
                 <span>Tôi đã xem thông tin đặt lịch và chính sách dịch vụ.</span>
               </label>
               <Notice message={checkout.message} />
+              {!checkout.canSubmit && !checkout.submitting && <p className="small muted">Điền đủ tên, điện thoại, địa chỉ, số khách, thời gian trong tương lai và tích chọn đồng ý để thanh toán. Bấm nút để xem mục còn thiếu.</p>}
+              {form.date && !checkout.futureSchedule && <p className="notice warm" role="alert">Vui lòng chọn ngày và giờ nấu trong tương lai.</p>}
               {!checkout.guestsInRange && (
                 <p className="small muted">
                   Số người phải từ {product.minGuests} đến {product.maxGuests}.
@@ -272,7 +279,7 @@ export function CheckoutView({ title }: { title: string }) {
               <button
                 className="btn"
                 type="button"
-                disabled={!checkout.canSubmit}
+                disabled={checkout.submitting || checkout.loading}
                 onClick={() => void checkout.submit()}
               >
                 {checkout.submitting
