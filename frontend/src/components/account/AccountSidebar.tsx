@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
+import { useAuth } from '../../hooks/auth/useAuth';
 
 type AccountSection = 'account' | 'orders' | 'chat' | 'password';
 
@@ -51,6 +52,7 @@ function LogoutIcon() {
 }
 
 export function AccountSidebar({ active }: AccountSidebarProps) {
+  const { isAdmin, isSeller } = useAuth();
   return (
     <nav className="card side-nav" aria-label="Tài khoản">
       <p className="eyebrow">Góc của bạn</p>
@@ -60,20 +62,24 @@ export function AccountSidebar({ active }: AccountSidebarProps) {
         Tài khoản
       </NavLink>
 
-      <NavLink to={ROUTES.ORDERS} aria-current={active === 'orders' ? 'page' : undefined}>
+      {!isAdmin && !isSeller && <NavLink to={ROUTES.ORDERS} aria-current={active === 'orders' ? 'page' : undefined}>
         <OrderIcon />
         Đơn đặt nấu
-      </NavLink>
+      </NavLink>}
 
-      <NavLink to={ROUTES.CHAT} aria-current={active === 'chat' ? 'page' : undefined}>
+      {!isAdmin && !isSeller && <NavLink to={ROUTES.MY_REQUESTS} aria-current={active === 'chat' ? 'page' : undefined}>
         <ChatIcon />
-        Tin nhắn
-      </NavLink>
+        Yêu cầu & tin nhắn
+      </NavLink>}
 
-      <NavLink to={ROUTES.FORGOT_PASSWORD} aria-current={active === 'password' ? 'page' : undefined}>
+      {!isAdmin && <NavLink to={ROUTES.MESSAGES}><ChatIcon />Hộp thư</NavLink>}
+      {isSeller && <><NavLink to={ROUTES.SELLER}><OrderIcon />Kênh đầu bếp</NavLink><NavLink to={ROUTES.SELLER_PROFILE}><UserIcon />Hồ sơ Chef</NavLink></>}
+      {isAdmin && <NavLink to={ROUTES.ADMIN}><OrderIcon />Kênh quản trị</NavLink>}
+
+      <Link to={`${ROUTES.ACCOUNT}#account-security`}>
         <PasswordIcon />
         Đổi mật khẩu
-      </NavLink>
+      </Link>
 
       <NavLink to={ROUTES.LOGOUT}>
         <LogoutIcon />

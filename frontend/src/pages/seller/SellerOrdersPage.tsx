@@ -41,13 +41,14 @@ export function SellerOrdersPage(){
     </section>
     <section className="card stack">
       {loading?<p role="status">Đang tải đơn đặt nấu…</p>:error?<p role="alert" className="notice warm">{error}</p>:
-        <><h2>{data?.totalElements??0} đơn phù hợp</h2><div className="table-wrap"><table><thead><tr>
+        <><h2>{data?.totalElements??0} đơn phù hợp</h2>
+          <p className="muted small">Đơn PENDING chưa có escrow vẫn hiển thị để theo dõi, nhưng nút nhận đơn chỉ mở sau khi VNPay được xác thực. Các báo giá trước khi đặt lịch nằm ở mục Yêu cầu được ghép.</p><div className="table-wrap"><table><thead><tr>
           <th>Mã đơn / Khách</th><th>Thực đơn</th><th>Thời gian</th><th>Giá trị</th><th>Thanh toán</th><th>Trạng thái</th><th></th>
         </tr></thead><tbody>{data?.content.map(o=><tr key={o.id}><td><strong>{o.orderCode}</strong><div className="small muted">{o.customerName}</div></td>
           <td>{o.productName}<div className="small muted">{o.guestCount} khách · {o.serviceType==='MENU'?'Thực đơn':'Theo ngân sách'}</div></td>
           <td>{dateTime(o.scheduledAt)}</td><td>{money(o.totalAmount)}</td>
-          <td>{o.escrowStatus==='HELD'?'Đã tạm giữ':o.escrowStatus==='RELEASED'?'Đã giải ngân':'Chưa xác nhận tạm giữ'}</td>
-          <td><span className="badge">{chefStatusLabels[o.status]||o.status}</span></td>
+          <td>{o.escrowStatus==='HELD'?'Đã tạm giữ':o.escrowStatus==='RELEASED'?'Đã giải ngân':'Khách chưa thanh toán'}</td>
+          <td><span className="badge">{o.status==='PENDING'&&o.escrowStatus!=='HELD'?'Chờ khách thanh toán':chefStatusLabels[o.status]||o.status}</span></td>
           <td><Link className="btn secondary sm" to={`/seller/order-detail?id=${o.id}`}>Chi tiết</Link></td></tr>)}</tbody></table></div>
           {!data?.content.length&&<p className="muted">Chưa có đơn phù hợp. Đơn vừa thanh toán cần được hệ thống Payment ghi nhận trước khi Chef nhận.</p>}
           <div className="between"><span>Trang {page+1} / {Math.max(1,data?.totalPages??1)}</span><div className="row">

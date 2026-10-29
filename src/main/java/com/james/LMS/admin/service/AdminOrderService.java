@@ -4,6 +4,10 @@ import com.james.LMS.admin.exception.AdminResourceNotFoundException;
 import com.james.LMS.entity.CookOrder;
 import com.james.LMS.enums.OrderStatus;
 import com.james.LMS.repository.OrderRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
+import java.util.Map;
+import java.util.HashMap;
+
 import com.james.LMS.admin.util.AdminPaging;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminOrderService {
 
   private final OrderRepository orderRepository;
+  private final JdbcTemplate jdbc;
+
 
   @Transactional(readOnly = true)
   public Page<CookOrder> search(
@@ -84,6 +90,28 @@ public class AdminOrderService {
     return orderRepository.findAll(spec, pageable);
   }
 
+  /** Authoritative label: never infer payment from order.status='PENDING'. */
+  @Transactional(readOnly = true)
+  public String paymentState(Long orderId) {
+    var records = jdbc.query("""
+        SELECT CASE WHEN e.status IS NOT NULL THEN e.status
+          WHEN EXISTS(SELECT 1 FROM payment_transactions p WHERE p.order_id=o.id AND p.status='SUCCESS')
+            THEN 'VERIFYING_ESCROW'
+          WHEN EXISTS(SELECT 1 FROM payment_transactions p WHERE p.order_id=o.id AND p.status='PENDING')
+            THEN 'VNPAY_PENDING'
+          ELSE 'UNPAID' END AS payment_state
+        FROM orders o LEFT JOIN order_escrows e ON e.order_id=o.id WHERE o.id=?
+        """, (rs,n) -> rs.getString(1), orderId);
+    return records.isEmpty() ? "UNPAID" : records.get(0);
+  }
+
+  @Transactional(readOnly = true)
+  public Map<Long,String> paymentStates(List<CookOrder> orders) {
+    Map<Long,String> result = new HashMap<>();
+    for (CookOrder order: orders) result.put(order.getId(), paymentState(order.getId()));
+    return result;
+  }
+
   @Transactional(readOnly = true)
   public CookOrder get(Long id) {
     return orderRepository
@@ -94,10 +122,9 @@ public class AdminOrderService {
   @Transactional(readOnly = true)
   public List<OrderStatus> allowedStatuses(Long id) {
     CookOrder order = get(id);
+    // Booking actions belong to Chef/Customer; Admin can edit the internal note only.
     return order.getStatus().allowedTargets().stream()
-        .filter(target -> target == order.getStatus()
-            || (target != OrderStatus.COMPLETED
-                && target != OrderStatus.CANCELLED && target != OrderStatus.REJECTED))
+        .filter(target -> target == order.getStatus())
         .toList();
   }
 
@@ -110,9 +137,8 @@ public class AdminOrderService {
               + order.getStatus().getLabel()
               + "” sang trạng thái đã chọn.");
     }
-    if (status != order.getStatus() && (status == OrderStatus.COMPLETED
-        || status == OrderStatus.CANCELLED || status == OrderStatus.REJECTED)) {
-      throw new IllegalArgumentException("Trạng thái kết thúc cần qua Booking/Payment để đồng bộ hoàn tiền và escrow.");
+    if (status != order.getStatus()) {
+      throw new IllegalArgumentException("Admin chỉ được ghi chú. Chef nhận đơn sau khi có escrow HELD; các trạng thái còn lại phải đi qua workflow chuyên trách.");
     }
     if (internalNote != null && internalNote.length() > 2000) {
       throw new IllegalArgumentException("Ghi chú nội bộ tối đa 2000 ký tự.");

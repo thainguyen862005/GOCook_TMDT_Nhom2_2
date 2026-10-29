@@ -62,7 +62,9 @@ class PaymentCheckoutIdempotencyTest {
           new TransactionTemplate(mock(PlatformTransactionManager.class)),
           new PaymentLifecycleProperties(),
           vouchers,
-          mock(PendingOrderRepository.class));
+          mock(PendingOrderRepository.class),
+          mock(com.james.LMS.notification.NotificationService.class),
+          mock(org.springframework.jdbc.core.JdbcTemplate.class));
 
   CookOrder savedOrder;
   PaymentTransaction savedPayment;
@@ -83,7 +85,7 @@ class PaymentCheckoutIdempotencyTest {
                     .build()));
     when(gateway.createPaymentUrl(any()))
         .thenAnswer(call -> "https://pay.example.test/" + call.<PaymentRequest>getArgument(0).txnRef());
-    when(orders.save(any(CookOrder.class)))
+    when(orders.saveAndFlush(any(CookOrder.class)))
         .thenAnswer(
             call -> {
               savedOrder = call.getArgument(0);
@@ -126,7 +128,7 @@ class PaymentCheckoutIdempotencyTest {
 
     assertThat(second).isEqualTo(first);
     assertThat(savedPayment.getIdempotencyKey()).isEqualTo(key);
-    verify(orders, times(1)).save(any(CookOrder.class));
+    verify(orders, times(1)).saveAndFlush(any(CookOrder.class));
     verify(payments, times(1)).save(any(PaymentTransaction.class));
   }
 
@@ -152,7 +154,7 @@ class PaymentCheckoutIdempotencyTest {
     service.checkout(OWNER, "a@example.test", request(UUID.randomUUID()), "1.2.3.4");
     service.checkout(OWNER, "a@example.test", request(UUID.randomUUID()), "1.2.3.4");
 
-    verify(orders, times(2)).save(any(CookOrder.class));
+    verify(orders, times(2)).saveAndFlush(any(CookOrder.class));
     verify(payments, times(2)).save(any(PaymentTransaction.class));
   }
 
@@ -166,7 +168,7 @@ class PaymentCheckoutIdempotencyTest {
             PaymentException.class,
             error ->
                 assertThat(error.getErrorCode()).isEqualTo(ErrorCode.PAYMENT_IDEMPOTENCY_CONFLICT));
-    verify(orders, times(1)).save(any(CookOrder.class));
+    verify(orders, times(1)).saveAndFlush(any(CookOrder.class));
     verify(payments, times(1)).save(any(PaymentTransaction.class));
   }
 }

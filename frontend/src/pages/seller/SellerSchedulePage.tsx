@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SellerWorkspace } from "../../components/common/SellerWorkspace";
@@ -431,7 +432,7 @@ export function SellerSchedulePage() {
       </div>
       <section className="card stack">
         <div className="between">
-          <h2>Lịch đã được đặt</h2>
+          <h2>Lịch đang giữ chỗ</h2>
           <span className="badge gray">
             {ready ? `${bookings.length} đơn` : "—"}
           </span>
@@ -445,15 +446,15 @@ export function SellerSchedulePage() {
               {booking.endsAt.slice(11, 16)}
             </span>
             <strong>Đơn #{booking.orderId}</strong>
-            <span className="badge gold">Đã giữ lịch</span>
+            <span className="badge gold">Giữ lịch (xem trạng thái tiền trong đơn)</span>
+            <Link className="btn secondary sm" to={`/seller/order-detail?id=${booking.orderId}`}>Kiểm tra đơn</Link>
           </article>
         ))}
         {ready && !bookings.length && (
-          <p className="muted">Chưa có đơn đã nhận trong ngày này.</p>
+          <p className="muted">Chưa có lịch giữ chỗ trong ngày này.</p>
         )}
         <p className="small muted">
-          Chỉ hiển thị lịch đặt thật đã được hệ thống giữ chỗ. Luồng nhận đơn sẽ
-          được kết nối ở giai đoạn Đơn đặt nấu.
+          Lịch giữ chỗ có thể chưa thanh toán. Chỉ nhận nấu khi trạng thái VNPay đã được xác minh và escrow HELD; hãy kiểm tra trong Chi tiết đơn.
         </p>
       </section>
     </SellerWorkspace>

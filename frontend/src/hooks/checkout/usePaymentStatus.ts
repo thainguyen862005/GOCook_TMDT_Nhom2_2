@@ -43,7 +43,8 @@ export function usePaymentStatus(
           const latest = await paymentClient.status(reference, controller.signal);
           if (cancelled) return;
           setResult(latest);
-          if (latest.paymentStatus !== 'PENDING') return;
+          if (latest.paymentStatus === 'FAILED' || latest.paymentStatus === 'CANCELLED' || latest.paymentStatus === 'REFUNDED'
+            || (latest.paymentStatus === 'SUCCESS' && latest.escrowConfirmed)) return;
         } catch (failure) {
           if (!cancelled) setError(paymentError(failure));
           return;
@@ -70,7 +71,7 @@ export function usePaymentStatus(
   if (!txnRef) view = 'missing';
   else if (error) view = 'error';
   else if (!result) view = 'confirming';
-  else if (result.paymentStatus === 'SUCCESS') view = 'success';
+  else if (result.paymentStatus === 'SUCCESS') view = result.escrowConfirmed ? 'success' : 'waiting';
   else if (result.paymentStatus === 'PENDING') view = waiting ? 'waiting' : 'confirming';
   else view = 'failed';
 

@@ -23,7 +23,7 @@ export const publicContentClient = {
     const form = new FormData();
     form.append('request', new Blob([JSON.stringify(input)], { type: 'application/json' }));
     if (image) form.append('referenceImage', image);
-    return httpRequest<{ requestCode: string; status: string }>('/api/customer/cooking-requests', {
+    return httpRequest<{ id: string; requestCode: string; status: string }>('/api/customer/cooking-requests', {
       method: 'POST', body: form,
     });
   },

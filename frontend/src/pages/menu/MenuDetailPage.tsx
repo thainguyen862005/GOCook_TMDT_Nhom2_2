@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { menuClient } from '../../clients/menuClient';
+import { publicContentClient } from '../../clients/publicContentClient';
+import type { ChefSummary } from '../../types/publicContent';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import type { MenuDetail } from '../../types/menu';
 import { ROUTES } from '../../constants/routes';
@@ -19,6 +21,27 @@ export function MenuDetailPage() {
 function MenuDetail({ id }: { id: string | null }) {
   const [data, setData] = useState<MenuDetail | null>(null);
   const [error, setError] = useState('');
+  const [guests, setGuests] = useState<number | null>(null);
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('18:30');
+
+  const [bookingMode, setBookingMode] = useState<'creator'|'choose'|'match'>('creator');
+  const [serviceArea, setServiceArea] = useState('');
+  const [areas, setAreas] = useState<string[]>([]);
+  const [candidates, setCandidates] = useState<ChefSummary[]>([]);
+  const [selectedChef, setSelectedChef] = useState<number | null>(null);
+  const [searching, setSearching] = useState(false);
+  const [chefError, setChefError] = useState('');
+  useEffect(() => { publicContentClient.areas().then(setAreas).catch(()=>{}); }, []);
+  useEffect(() => {
+    if (bookingMode !== 'choose' || !data || !serviceArea.trim()) { setCandidates([]); return; }
+    const controller = new AbortController(); setSearching(true); setChefError('');
+    publicContentClient.chefs({area:serviceArea.trim(),category:data.category,page:0,size:30,sort:'rating'},controller.signal)
+      .then(result=>{ if(!controller.signal.aborted) setCandidates(result.content); })
+      .catch(err=>{ if(!controller.signal.aborted) setChefError(err instanceof Error?err.message:'Không tải được đầu bếp.'); })
+      .finally(()=>{ if(!controller.signal.aborted) setSearching(false); });
+    return ()=>controller.abort();
+  },[bookingMode, serviceArea, data?.id, data?.category]);
   useDocumentTitle(data ? `${data.name} | GO Cook` : 'Thực đơn | GO Cook');
 
   useEffect(() => {
@@ -63,7 +86,16 @@ function MenuDetail({ id }: { id: string | null }) {
     .split('\n')
     .map((line) => line.trim())
     .filter(Boolean);
+  const selectedGuests = guests ?? data.minGuests;
+  const validGuests = Number.isInteger(selectedGuests) && selectedGuests >= data.minGuests && selectedGuests <= data.maxGuests;
   const unitPrice = Number(data.unitPrice).toLocaleString('vi-VN');
+  const today = new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+  const checkoutParams = new URLSearchParams({ productId: String(data.id), guests: String(selectedGuests), date, time });
+  const requestParams = new URLSearchParams({menuId:String(data.id),guests:String(selectedGuests),date,time,area:serviceArea.trim()});
+  if (bookingMode==='choose' && selectedChef) requestParams.set('chefId',String(selectedChef));
+  const requestedStart = date && time ? new Date(`${date}T${time}:00`).getTime() : NaN;
+  const canContinue = validGuests && date >= today && Number.isFinite(requestedStart) && requestedStart > Date.now();
+  const regionValid = serviceArea.trim().length > 0;
 
   return (
     <>
@@ -121,7 +153,7 @@ function MenuDetail({ id }: { id: string | null }) {
               <section className={'card row'}>
                 <img className={'avatar large'} src={'/assets/chef.png'} alt={'Ảnh đầu bếp'} loading={'lazy'} />
                 <div>
-                  <p className={'eyebrow'}>{'Người nấu bữa cơm của bạn'}</p>
+                  <p className={'eyebrow'}>{'Đầu bếp đăng thực đơn'}</p>
                   <h3>{data.sellerName}</h3>
                   <a className={'text-link'} href={'/chefs'}>{'Xem danh sách đầu bếp →'}</a>
                 </div>
@@ -137,49 +169,73 @@ function MenuDetail({ id }: { id: string | null }) {
                 <small>{' / người'}</small>
               </div>
             </div>
-            <form className={'stack'}>
+            <div className={'stack'}>
               <label className={'field'} htmlFor={'diners'}>
                 {'Số người ăn'}
                 <input
                   id={'diners'}
                   name={'diners'}
                   type={'number'}
-                  defaultValue={String(data.minGuests)}
+                  value={selectedGuests}
+                  onChange={event => setGuests(Number(event.target.value))}
+                  required
                   min={String(data.minGuests)}
                   max={String(data.maxGuests)}
                 />
               </label>
               <label className={'field'} htmlFor={'cook-date'}>
                 {'Ngày nấu'}
-                <input id={'cook-date'} name={'cook-date'} type={'date'} defaultValue={''} placeholder={''} />
+                <input id={'cook-date'} name={'cook-date'} type={'date'} value={date} min={today} onChange={event => setDate(event.target.value)} required />
               </label>
               <label className={'field'} htmlFor={'cook-slot'}>
                 {'Khung giờ'}
-                <select id={'cook-slot'} name={'cook-slot'}>
-                  <option>{'Bữa tối · 18:30'}</option>
-                  <option>{'Bữa trưa · 11:30'}</option>
+                <select id={'cook-slot'} name={'cook-slot'} value={time} onChange={event => setTime(event.target.value)}>
+                  <option value="18:30">{'Bữa tối · 18:30'}</option>
+                  <option value="11:30">{'Bữa trưa · 11:30'}</option>
                 </select>
               </label>
               <div className={'soft'}>
                 <div className={'summary-line'}>
-                  <span>{`Khẩu phần mẫu · ${data.minGuests} người`}</span>
-                  <strong>{`${(Number(data.unitPrice) * data.minGuests).toLocaleString('vi-VN')}đ`}</strong>
+                  <span>{`Khẩu phần · ${selectedGuests} người`}</span>
+                  <strong>{`${(Number(data.unitPrice) * selectedGuests).toLocaleString('vi-VN')}đ`}</strong>
                 </div>
                 <div className={'summary-line'}>
                   <span>{'Nguyên liệu & dọn bếp'}</span>
                   <span className={'green'}>{'Đã gồm'}</span>
                 </div>
               </div>
-              <button
-                className={'btn'}
-                type={'button'}
-                data-action={'add-to-cart'}
-                disabled
-                title={'Chức năng sẽ được tích hợp ở giai đoạn tiếp theo'}
-              >
-                {'Thêm vào giỏ hàng'}
-              </button>
-            </form>
+              <section className="stack" aria-label="Lựa chọn đầu bếp">
+                <h4>Ai sẽ nấu thực đơn này?</h4>
+                <label className="check"><input type="radio" name="chef-mode" checked={bookingMode==='creator'} onChange={()=>{setBookingMode('creator');setSelectedChef(null);}} /> Đầu bếp đăng thực đơn · giá niêm yết · thanh toán ngay</label>
+                <label className="check"><input type="radio" name="chef-mode" checked={bookingMode==='choose'} onChange={()=>{setBookingMode('choose');setSelectedChef(null);}} /> Tôi muốn chọn đầu bếp khác</label>
+                <label className="check"><input type="radio" name="chef-mode" checked={bookingMode==='match'} onChange={()=>{setBookingMode('match');setSelectedChef(null);}} /> Hệ thống gợi ý đầu bếp gần khu vực của tôi</label>
+              </section>
+              {bookingMode !== 'creator' && <section className="stack">
+                <label className="field">Khu vực cần phục vụ
+                  <input list="chef-service-areas" value={serviceArea} maxLength={100}
+                    onChange={event=>{setServiceArea(event.target.value);setSelectedChef(null);}}
+                    placeholder="Ví dụ: Dĩ An, Bình Dương" required />
+                  <datalist id="chef-service-areas">{areas.map(a=><option key={a} value={a} />)}</datalist>
+                </label>
+                <p className="small muted">Giá niêm yết thuộc đầu bếp đăng thực đơn. Với đầu bếp khác, bạn sẽ nhận báo giá riêng và chỉ thanh toán sau khi chấp nhận.</p>
+                {bookingMode==='choose' && <div className="stack">
+                  {searching&&<p role="status">Đang tìm Chef có thực đơn cùng phong cách trong khu vực…</p>}
+                  {chefError&&<p role="alert" className="notice warm">{chefError}</p>}
+                  {regionValid && !searching && !candidates.length && !chefError && <p className="notice warm">Chưa thấy Chef phù hợp. Bạn có thể chọn ghép tự động để Admin hỗ trợ.</p>}
+                  {candidates.map(chef=><label key={chef.id} className="check">
+                    <input type="radio" name="chosen-chef" checked={selectedChef===chef.id}
+                      onChange={()=>setSelectedChef(chef.id)}/>
+                    {chef.displayName} · {chef.serviceArea} · {Number(chef.rating??0).toFixed(1)}/5
+                  </label>)}
+                </div>}
+              </section>}
+              {!canContinue ? <p className="notice warm">Chọn ngày, giờ nấu trong tương lai và số khách hợp lệ để tiếp tục.</p> : bookingMode==='creator'
+                ? <Link className="btn" to={`${ROUTES.CHECKOUT}?${checkoutParams}`}>Tiếp tục thanh toán với Chef đăng thực đơn</Link>
+                : !regionValid || (bookingMode==='choose'&&!selectedChef)
+                  ? <p className="notice warm">Chọn khu vực{bookingMode==='choose'?' và đầu bếp':''} để tiếp tục.</p>
+                  : <Link className="btn" to={`${ROUTES.REQUEST}?${requestParams}`}>{bookingMode==='choose'?'Gửi yêu cầu đến đầu bếp đã chọn':'Gửi yêu cầu ghép đầu bếp'}</Link>}
+              <Link className='btn secondary' to={`${ROUTES.REQUEST}?menuId=${data.id}`}>Yêu cầu chỉnh món / trao đổi riêng</Link>
+            </div>
           </aside>
         </div>
       </div>

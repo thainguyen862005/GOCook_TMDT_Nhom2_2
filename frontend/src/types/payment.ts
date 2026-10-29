@@ -41,4 +41,5 @@ export interface PaymentStatusResult {
   paidAt: string | null;
   closeReason: PaymentCloseReason | null;
   attemptNo: number;
+  escrowConfirmed: boolean;
 }

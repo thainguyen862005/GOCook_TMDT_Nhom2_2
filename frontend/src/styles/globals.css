@@ -51,6 +51,18 @@ legend { font-weight: 650; padding: 0; margin-bottom: 12px; }
 .split { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr); gap: 28px; align-items: start; }
 .workspace { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; }
 .workspace > *, .split > *, .grid > * { min-width: 0; }
+/* Account page: the workspace has exactly two children (sidebar + main).
+   Keep security/preferences in the main column instead of an implicit third grid item. */
+.account-content { display: grid; gap: 24px; min-width: 0; }
+.account-content > * { min-width: 0; }
+.account-security { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; scroll-margin-top: 100px; }
+.account-security > :first-child { grid-column: 1 / -1; }
+.account-security > * { min-width: 0; }
+@media (max-width: 1100px) {
+  .account-security { grid-template-columns: 1fr; }
+  .account-security > :first-child { grid-column: auto; }
+}
+
 .muted { color: var(--muted); }
 .green { color: var(--brand); }
 .amber { color: var(--amber); }
@@ -538,3 +550,81 @@ button.text-link:disabled { opacity: .55; cursor: not-allowed; }
 .admin-notice-form input, .admin-notice-form textarea, .admin-notice-form select { width:100%; padding:12px; border:1px solid var(--line); border-radius:8px; background:#fff; }
 .admin-notice-form p { color:var(--muted); }
 @media (max-width:600px) { .notice-popover { right:0; } .notice-center-item { flex-direction:column; align-items:stretch; } }
+
+/* Account UX: consistent content density, clear form hierarchy and mobile layout. */
+.account-workspace { grid-template-columns: minmax(220px, 240px) minmax(0, 1fr); }
+.account-workspace > .side-nav { position: sticky; top: 106px; align-self: start; }
+.account-section-heading { display: flex; align-items: end; justify-content: space-between; }
+.account-section-heading h2 { margin: 5px 0 6px; font-size: clamp(23px, 2.4vw, 29px); }
+.account-profile-card { gap: 20px; }
+.account-identity { padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.account-identity > div { min-width: 0; overflow-wrap: anywhere; }
+.account-content .field { min-width: 0; }
+.account-content textarea { min-height: 84px; }
+.account-save-actions { display: flex; justify-content: flex-end; }
+.account-security { grid-template-columns: 1fr; gap: 16px; }
+.account-security > :first-child { grid-column: auto; }
+.account-security .card { padding: 22px 24px; }
+.account-security .btn { justify-self: start; }
+.checkout-fields { min-width: 0; }
+.missing-route { max-width: 680px; margin: 0 auto; }
+@media (max-width: 900px) {
+  .account-workspace { grid-template-columns: 1fr; gap: 16px; }
+  .account-workspace > .side-nav { position: static; }
+  .account-workspace > .side-nav { display: flex; flex-wrap: wrap; gap: 5px; }
+  .account-workspace > .side-nav p { flex: 0 0 100%; }
+  .account-security .card { padding: 20px; }
+}
+@media (max-width: 680px) {
+  .account-content { gap: 18px; }
+  .account-workspace .card { padding: 18px; }
+  .account-save-actions .btn { width: 100%; }
+  .account-workspace .grid-2 { grid-template-columns: 1fr; }
+  .account-identity .avatar.large { width: 64px; height: 64px; }
+}
+
+/* Workflow UX: account navigation is role-aware; its layout must never overflow on mobile. */
+.account-workspace { width: 100%; align-items: start; }
+.account-workspace > .side-nav { display: grid; align-content: start; gap: 4px; min-width: 0; overflow: visible; }
+.account-workspace > .side-nav p { padding: 4px 12px 10px; }
+.account-workspace > .side-nav a { display: flex; min-width: 0; gap: 12px; align-items: center; line-height: 1.4; overflow-wrap: anywhere; }
+.account-workspace > .side-nav svg { width: 20px; height: 20px; flex: 0 0 20px; }
+.account-content { width: 100%; min-width: 0; }
+.account-content .card, .account-content form, .account-security > * { width: 100%; min-width: 0; }
+.account-content input, .account-content textarea { width: 100%; max-width: 100%; }
+.messages-page .card { min-width: 0; }
+.chat-stream { max-height: min(65vh, 650px); overflow-y: auto; overflow-wrap: anywhere; }
+.chat-compose { min-width: 0; }
+.chat-compose input { min-width: 0; }
+@media (max-width: 900px) {
+  .account-workspace > .side-nav { display: grid; position: static; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); padding: 12px; }
+  .account-workspace > .side-nav p { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .account-workspace > .side-nav { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .account-workspace > .side-nav a { font-size: 12px; padding: 10px 8px; }
+  .chat-compose { flex-wrap: wrap; }
+  .chat-compose input { flex: 1 1 200px; }
+}
+
+/* Order quality evidence: responsive, private image thumbnails with readable source notes. */
+.quality-customer-evidence { grid-column: 1 / -1; min-width: 0; }
+.quality-evidence-groups { display: grid; gap: 20px; }
+.quality-evidence-groups h3 { font-size: 1rem; margin: 0 0 8px; }
+.quality-evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 175px), 1fr)); gap: 12px; }
+.quality-evidence-card { border: 1px solid var(--line); border-radius: 12px; padding: 9px; min-width:0; }
+.quality-photo { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; background: var(--brand-soft); }
+.quality-evidence-card p { overflow-wrap: anywhere; margin: 8px 0 0; }
+.quality-upload { max-width: 580px; padding: 15px; border-radius: 12px; border: 1px solid var(--line); }
+.quality-upload input[type=file], .quality-upload select { max-width: 100%; }
+/* Compact notifications: preview four items; full inbox remains available. */
+.notice-popover { width: min(320px, calc(100vw - 24px)); max-height: min(480px, 75vh); }
+.notice-popover-header, .notice-popover-footer { padding: 10px 12px; }
+.notice-item { padding: 9px 12px; font-size: 12px; gap: 6px; }
+.notice-item a { gap: 2px; }
+.notice-item a strong, .notice-item a span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1; overflow: hidden; }
+.notice-item small { font-size: 11px; }
+.notice-item button { font-weight: 700; font-size: 14px; align-self:center; }
+.notice-center-item { padding: 12px 16px; gap: 12px; }
+.notice-center-item h3 { font-size: 15px; margin: 4px 0; }
+.notice-center-item p { font-size: 13px; margin: 3px 0; }

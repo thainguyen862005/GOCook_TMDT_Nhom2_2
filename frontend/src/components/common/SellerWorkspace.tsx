@@ -25,7 +25,9 @@ const links = [
     "Lịch phục vụ",
     "M4 5h16v16H4z M8 3v4 M16 3v4 M4 10h16 M8 14h2 M14 14h2",
   ],
-  ["/chat", "Tin nhắn", "M21 4H3v16l5-4h13z M7 8h10 M7 12h6"],
+  ["/messages", "Hộp thư", "M21 4H3v16l5-4h13z M7 8h10 M7 12h6"],
+  ["/seller/requests", "Yêu cầu & báo giá", "M21 4H3v16l5-4h13z M7 8h10 M7 12h6"],
+  ["/seller/profile", "Hồ sơ đầu bếp", "M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8 M4 21v-3a8 8 0 0 1 16 0v3"],
 ];
 export function SellerWorkspace({
   title,

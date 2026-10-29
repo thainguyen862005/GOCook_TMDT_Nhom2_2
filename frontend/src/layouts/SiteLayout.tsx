@@ -5,13 +5,10 @@ import { Brand } from "../components/common/Brand";
 import { NotificationBell } from "../components/notifications/NotificationBell";
 import { ROUTES } from "../constants/routes";
 import { useAuth } from "../hooks/auth/useAuth";
-import { accountDestination } from "../util/loginDestination";
 
 function SiteHeader() {
   const { profile, isAdmin, isSeller } = useAuth();
-  const accountUrl = profile
-    ? accountDestination(profile.roles ?? [])
-    : ROUTES.LOGIN;
+  const accountUrl = profile ? ROUTES.ACCOUNT : ROUTES.LOGIN;
 
   return (
     <header className="site-header">
@@ -29,19 +26,10 @@ function SiteHeader() {
         </nav>
         <div className="header-actions">
           <NotificationBell />
-          <Link className="icon-link" to={ROUTES.CART} aria-label="Giỏ hàng">
-            <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 3h2l3 12h10l3-9H6" />
-              <circle cx="9" cy="20" r="1" />
-              <circle cx="18" cy="20" r="1" />
-            </svg>
-          </Link>
-          {isAdmin && (
-            <Link className="text-link small" to={ROUTES.ADMIN}>
-              Trang quản trị
-            </Link>
-          )}
-          {isSeller && (
+          {profile && !isAdmin && <Link className="text-link small" to={ROUTES.MESSAGES}>Tin nhắn</Link>}
+          {isAdmin ? (
+            <Link className="text-link small" to={ROUTES.ADMIN}>Trang quản trị</Link>
+          ) : isSeller && (
             <Link className="text-link small" to={ROUTES.SELLER}>
               Kênh đầu bếp
             </Link>
@@ -50,9 +38,7 @@ function SiteHeader() {
             {profile?.username || "Đăng nhập"}
           </Link>
           {profile && <Link className="session-logout-link text-link small" to={ROUTES.LOGOUT}>Đăng xuất</Link>}
-          <Link className="btn sm" to={ROUTES.CHEFS}>
-            Đặt đầu bếp
-          </Link>
+          {!isAdmin && !isSeller && <Link className="btn sm" to={ROUTES.CHEFS}>Đặt đầu bếp</Link>}
           <details className="mobile-menu">
             <summary aria-label="Mở menu">
               <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -67,9 +53,9 @@ function SiteHeader() {
               <Link to={ROUTES.OFFERS}>Ưu đãi</Link>
               <Link to={ROUTES.HELP}>Trợ giúp</Link>
               {profile && <Link to={ROUTES.NOTIFICATIONS}>Thông báo của tôi</Link>}
-              <Link to={accountUrl}>
-                {isSeller ? "Kênh đầu bếp" : "Tài khoản"}
-              </Link>
+              {profile && !isAdmin && <Link to={ROUTES.MESSAGES}>Hộp thư</Link>}
+              <Link to={accountUrl}>Tài khoản</Link>
+              {isSeller && !isAdmin && <Link to={ROUTES.SELLER}>Kênh đầu bếp</Link>}
               {isAdmin && <Link to={ROUTES.ADMIN}>Trang quản trị</Link>}
               <Link to={profile ? ROUTES.LOGOUT : ROUTES.LOGIN}>
                 {profile ? "Đăng xuất" : "Đăng nhập"}
@@ -84,10 +70,8 @@ function SiteHeader() {
 
 function SiteFooter() {
   const site = useSiteSettings();
-  const { profile } = useAuth();
-  const accountUrl = profile
-    ? accountDestination(profile.roles ?? [])
-    : ROUTES.LOGIN;
+  const { profile, isSeller, isAdmin } = useAuth();
+  const accountUrl = profile ? ROUTES.ACCOUNT : ROUTES.LOGIN;
   return (
     <>
       <footer className="site-footer">
@@ -108,18 +92,21 @@ function SiteFooter() {
             </div>
             <div>
               <h4>Dành cho bạn</h4>
-              <Link to={ROUTES.ORDERS}>Đơn đặt nấu</Link>
+              {!isSeller && !isAdmin && <Link to={ROUTES.MY_REQUESTS}>Yêu cầu nấu ăn</Link>}
+              {!isSeller && !isAdmin && <Link to={ROUTES.ORDERS}>Đơn đặt nấu</Link>}
+              {isSeller && <Link to={ROUTES.SELLER_ORDERS}>Đơn Chef</Link>}
+              {profile && !isAdmin && <Link to={ROUTES.MESSAGES}>Hộp thư</Link>}
               <Link to={accountUrl}>Tài khoản của tôi</Link>
               <Link to={ROUTES.BECOME_CHEF}>Trở thành đầu bếp</Link>
-              <Link to={ROUTES.SELLER}>Kênh đầu bếp</Link>
+              {!profile || (isSeller && !isAdmin) ? <Link to={ROUTES.SELLER}>Kênh đầu bếp</Link> : null}
             </div>
             <div>
               <h4>Hỗ trợ & thông tin</h4>
               {site.facebookUrl && <a href={site.facebookUrl} target="_blank" rel="noopener noreferrer">Facebook</a>}
               {site.instagramUrl && <a href={site.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>}
               <Link to={ROUTES.HELP}>Câu hỏi thường gặp</Link>
-              <Link to={ROUTES.CHAT}>Liên hệ hỗ trợ</Link>
-              <Link to={ROUTES.ADMIN}>Kênh quản trị</Link>
+              <Link to={ROUTES.HELP}>Liên hệ hỗ trợ</Link>
+              {profile && profile.roles?.includes("ROLE_SYSTEM_ADMIN") && <Link to={ROUTES.ADMIN}>Kênh quản trị</Link>}
               <Link to={ROUTES.PAGE_CATALOG}>Danh mục màn hình</Link>
             </div>
           </div>
@@ -129,12 +116,12 @@ function SiteFooter() {
           </div>
         </div>
       </footer>
-      <Link className="help-float" to={ROUTES.CHAT} aria-label="Mở trò chuyện">
+      {profile && !isAdmin && <Link className="help-float" to={ROUTES.MESSAGES} aria-label="Mở hộp thư và tin nhắn">
         <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M20 15a3 3 0 0 1-3 3H9l-6 3V6a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3z" />
           <path d="M7 8h9M7 12h6" />
         </svg>
-      </Link>
+      </Link>}
     </>
   );
 }

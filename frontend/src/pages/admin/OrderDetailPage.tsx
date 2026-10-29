@@ -14,7 +14,7 @@ import {dateTime, money} from '../../util/format';
 export function AdminOrderDetailPage() {
     const [params] = useSearchParams();
     const id = params.get('id');
-    const [data, setData] = useState<{ order: AdminOrder; allowedStatuses: string[] } | null>(null);
+    const [data, setData] = useState<{ order: AdminOrder; allowedStatuses: string[]; paymentState:string } | null>(null);
     const [status, setStatus] = useState('');
     const [note, setNote] = useState('');
     const [message, setMessage] = useState<UiMessage | null>(null);
@@ -88,7 +88,7 @@ export function AdminOrderDetailPage() {
     const order = data.order;
 
     return (
-        <AdminLayout title={`Đơn hàng ${order.orderCode}`} lead="Chi tiết và cập nhật tiến trình đơn đặt nấu.">
+        <AdminLayout title={`Đơn hàng ${order.orderCode}`} lead="Giám sát trạng thái thật, chỉ ghi chú nội bộ. Chef/Customer điều khiển vòng đời đơn; VNPay và escrow là nguồn xác nhận tiền.">
             <Notice message={message}/>
             <section className="card stack">
                 <div className="grid grid-2">
@@ -98,7 +98,8 @@ export function AdminOrderDetailPage() {
                                                                             value={order.chefName || '—'}/>
                     <Info label="Ngày nấu" value={order.scheduledAtDisplay || dateTime(order.scheduledAt)}/><Info
                     label="Số khách" value={order.guestCount}/>
-                    <Info label="Tổng tiền" value={money(order.totalAmount)}/><Info label="Địa chỉ"
+                    <Info label="Tổng tiền" value={money(order.totalAmount)}/>
+                    <Info label="Thanh toán" value={data.paymentState==='HELD'?'Đã tạm giữ':data.paymentState==='RELEASED'?'Đã giải ngân':data.paymentState==='VERIFYING_ESCROW'?'VNPay thành công, cần đối soát escrow':data.paymentState==='VNPAY_PENDING'?'Đang chờ VNPay':'Chưa thanh toán'}/><Info label="Địa chỉ"
                                                                                     value={order.serviceAddress || '—'}/>
                 </div>
                 {order.customerNote &&
@@ -121,13 +122,13 @@ export function AdminOrderDetailPage() {
               </div> : <p className="muted">Chưa đọc được timeline quản trị (kiểm tra migration).</p>}
             </section>
             <form className="card stack" onSubmit={save}>
-                <label className="field">Trạng thái<select value={status}
+                <label className="field">Trạng thái (chỉ xem)<select disabled value={status}
                                                            onChange={(e) => setStatus(e.target.value)}>{(data.allowedStatuses || []).map((value) =>
                     <option key={value} value={value}>{ORDER_LABEL[value] || value}</option>)}</select></label>
                 <label className="field">Ghi chú nội bộ<textarea maxLength={2000} value={note}
                                                                  onChange={(e) => setNote(e.target.value)}/></label>
                 <div className="row">
-                    <button className="btn" disabled={busy}>{busy ? 'Đang lưu...' : 'Cập nhật đơn hàng'}</button>
+                    <button className="btn" disabled={busy}>{busy ? 'Đang lưu...' : 'Lưu ghi chú nội bộ'}</button>
                     <Link className="btn secondary" to={ROUTES.ADMIN_ORDERS}>Quay lại</Link></div>
             </form>
         </AdminLayout>

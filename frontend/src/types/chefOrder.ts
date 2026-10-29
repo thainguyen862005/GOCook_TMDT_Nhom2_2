@@ -17,14 +17,14 @@ export interface ChefOrderPage {
   content:ChefOrder[]; page:number; size:number; totalElements:number; totalPages:number;
 }
 export interface ChefOrderSummary {
-  pending:number; active:number; awaitingAcceptance:number; completed:number;
+  pending:number; unpaid:number; active:number; awaitingAcceptance:number; completed:number;
   today:number; recent:ChefOrder[];
 }
 export interface ChefHistory {
   previousStatus:string|null; newStatus:ChefOrderStatus; note:string|null; changedAt:string;
 }
 export interface ChefReceipt {
-  id:number; filename:string; mimeType:string; note:string; fileUrl:string;
+  id:number; filename:string; mimeType:string; note:string; fileUrl:string; evidenceType: 'INGREDIENT_RECEIPT' | 'FINISHED_MEAL';
 }
 export interface ChefOrderDetail {
   order:ChefOrder; history:ChefHistory[]; receipts:ChefReceipt[];

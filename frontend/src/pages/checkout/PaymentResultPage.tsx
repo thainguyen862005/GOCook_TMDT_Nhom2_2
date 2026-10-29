@@ -21,7 +21,7 @@ export function PaymentResultPage() {
           <b>1</b>Chọn thực đơn
         </span>
         <span>
-          <b>2</b>Giỏ hàng
+          <b>2</b>Chọn lịch
         </span>
         <span>
           <b>3</b>Thanh toán
@@ -56,7 +56,7 @@ export function PaymentResultPage() {
             <Panel
               icon={<path d="M12 7v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" />}
               heading="Chưa nhận được kết quả từ VNPay"
-              text="Nếu bạn đã thanh toán, kết quả có thể về chậm vài phút. Bạn có thể kiểm tra lại hoặc xem đơn hàng sau."
+              text={result?.paymentStatus === 'SUCCESS' ? 'VNPay đã xác nhận tiền nhưng khoản tạm giữ đang được đối soát. Không thanh toán lần hai. Hãy kiểm tra lại hoặc liên hệ Admin.' : 'Nếu bạn đã thanh toán, kết quả có thể về chậm. Không trả tiền lần hai khi chưa xác minh được trạng thái giao dịch.'}
             >
               <div className="row">
                 <button className="btn" type="button" onClick={recheck}>
@@ -151,24 +151,24 @@ function failedCopy(result: PaymentStatusResult): { heading: string; text: strin
   if (result.orderStatus !== 'PENDING') {
     return {
       heading: 'Đơn hàng đã hết thời hạn thanh toán',
-      text: 'Đơn hàng đã được hủy và bạn không bị trừ tiền. Hãy đặt lại để tiếp tục.',
+      text: 'Đơn đã hết hiệu lực. Nếu tài khoản có phát sinh giao dịch, hãy liên hệ hỗ trợ để đối soát trước khi đặt lại.',
     };
   }
   switch (result.closeReason) {
     case 'USER_CANCELLED':
       return {
         heading: 'Bạn đã hủy thanh toán',
-        text: 'Bạn chưa bị trừ tiền. Đơn hàng vẫn được giữ trong ít phút, hãy thanh toán lại để tiếp tục.',
+        text: 'Phiên VNPay đã được ghi nhận hủy. Bạn có thể thanh toán lại nếu chưa bị trừ tiền.',
       };
     case 'EXPIRED':
       return {
         heading: 'Phiên thanh toán đã hết hạn',
-        text: 'Bạn chưa bị trừ tiền. Hãy thanh toán lại để tiếp tục.',
+        text: 'Phiên hết hạn. Kiểm tra lịch sử ngân hàng trước khi thanh toán lại.',
       };
     default:
       return {
         heading: 'Thanh toán chưa thành công',
-        text: 'Bạn chưa bị trừ tiền. Hãy thanh toán lại hoặc dùng thẻ khác.',
+        text: 'Giao dịch chưa được xác nhận thành công. Kiểm tra lịch sử ngân hàng trước khi thử lại.',
       };
   }
 }

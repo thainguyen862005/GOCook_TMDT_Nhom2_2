@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class AdminOrderServiceTest {
   @Mock OrderRepository orders;
+  @Mock org.springframework.jdbc.core.JdbcTemplate jdbc;
   @InjectMocks AdminOrderService service;
 
   @Test

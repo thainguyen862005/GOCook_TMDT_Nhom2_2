@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { userClient } from '../../clients/userClient';
 import { AccountSidebar } from '../../components/account/AccountSidebar';
 import { Notice } from '../../components/common/Notice';
@@ -17,9 +17,12 @@ import { validatePasswordPair } from '../../validations/authValidation';
 export function AccountPage() {
   const { profile, refreshProfile } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [username, setUsername] = useState(profile?.username || '');
   const [phone, setPhone] = useState(profile?.phone || '');
   const [defaultAddress, setDefaultAddress] = useState(profile?.defaultAddress || '');
+  const [dietaryPreferences, setDietaryPreferences] = useState(profile?.dietaryPreferences || '');
+  const [allergyInfo, setAllergyInfo] = useState(profile?.allergyInfo || '');
   const [message, setMessage] = useState<UiMessage | null>(null);
   const [busy, setBusy] = useState(false);
   const [avatar, setAvatar] = useState<File | null>(null);
@@ -32,14 +35,22 @@ export function AccountPage() {
     setUsername(profile?.username || '');
     setPhone(profile?.phone || '');
     setDefaultAddress(profile?.defaultAddress || '');
-  }, [profile?.username, profile?.phone, profile?.defaultAddress]);
+    setDietaryPreferences(profile?.dietaryPreferences || '');
+    setAllergyInfo(profile?.allergyInfo || '');
+  }, [profile?.username, profile?.phone, profile?.defaultAddress, profile?.dietaryPreferences, profile?.allergyInfo]);
+
+  useEffect(() => {
+    if (location.hash === '#account-security') {
+      document.getElementById('account-security')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [location.hash]);
 
   async function save(event: FormEvent) {
     event.preventDefault();
     setBusy(true);
     setMessage(null);
     try {
-      await userClient.updateProfile(username.trim(), phone.trim(), defaultAddress.trim());
+      await userClient.updateProfile(username.trim(), phone.trim(), defaultAddress.trim(), dietaryPreferences.trim(), allergyInfo.trim());
       await refreshProfile();
       setMessage({ type: 'success', text: 'Đã cập nhật hồ sơ cá nhân.' });
     } catch (error) {
@@ -111,12 +122,14 @@ export function AccountPage() {
         <p className="lead">Quản lý thông tin tài khoản GO Cook.</p>
       </div>
 
-      <div className="workspace">
+      <div className="workspace account-workspace">
         <AccountSidebar active="account" />
 
+        <div className="account-content">
+        <div className="account-section-heading"><div><p className="eyebrow">Hồ sơ cá nhân</p><h2>Thông tin của bạn</h2><p className="muted">Thông tin liên hệ được dùng khi đặt lịch nấu tại nhà.</p></div></div>
         <form className="stack" onSubmit={save}>
-          <section className="card stack">
-            <div className="row">
+          <section className="card stack account-profile-card">
+            <div className="row account-identity">
               {profile?.avatarUrl ? <img className="avatar large" src={profile.avatarUrl} alt="Ảnh đại diện hiện tại" />
                 : <span className="avatar large">{initials(profile?.username)}</span>}
               <div>
@@ -125,14 +138,14 @@ export function AccountPage() {
               </div>
             </div>
             <Notice message={message} />
-            <SingleImageField title="Ảnh đại diện mới" value={avatar} onChange={setAvatar} disabled={busy} />
+            <SingleImageField title="Chọn ảnh đại diện" value={avatar} onChange={setAvatar} disabled={busy} />
             <div><button type="button" className="btn secondary sm" disabled={busy || !avatar} onClick={uploadAvatar}>
               {busy ? 'Đang tải ảnh...' : 'Tải ảnh đại diện lên Cloudinary'}
             </button></div>
             <div className="grid grid-2">
               <label className="field">
                 Họ và tên
-                <input value={username} onChange={(event) => setUsername(event.target.value)} required />
+                <input value={username} minLength={2} maxLength={80} onChange={(event) => setUsername(event.target.value)} required />
               </label>
               <label className="field">
                 Email
@@ -147,12 +160,21 @@ export function AccountPage() {
               <textarea maxLength={500} value={defaultAddress} autoComplete="street-address"
                 onChange={(event) => setDefaultAddress(event.target.value)} />
             </label>
+            <label className="field">Chế độ ăn (không bắt buộc)
+              <textarea maxLength={500} value={dietaryPreferences} placeholder="Ví dụ: ăn chay, ít đường..."
+                onChange={(event) => setDietaryPreferences(event.target.value)} />
+            </label>
+            <label className="field">Dị ứng thực phẩm (không bắt buộc)
+              <textarea maxLength={500} value={allergyInfo} placeholder="Ví dụ: đậu phộng, hải sản..."
+                onChange={(event) => setAllergyInfo(event.target.value)} />
+            </label>
           </section>
-          <button className="btn" disabled={busy}>{busy ? 'Đang lưu...' : 'Lưu thay đổi'}</button>
+          <div className="account-save-actions"><button className="btn" disabled={busy}>{busy ? 'Đang lưu...' : 'Lưu thông tin'}</button></div>
         </form>
-        <div className="stack">
+        <div className="account-section-heading"><div><p className="eyebrow">Riêng tư và bảo mật</p><h2>Bảo mật tài khoản</h2><p className="muted">Xác minh email, liên kết Google và cập nhật mật khẩu.</p></div></div>
+        <div className="account-security" id="account-security">
           <section className="card stack">
-            <h2>Bảo mật tài khoản</h2>
+            <h3>Trạng thái email</h3>
             <p className="muted">{profile?.emailVerified
               ? 'Email đã xác thực. Tài khoản có thể tiếp tục quy trình đặt dịch vụ.'
               : 'Email đang chờ xác thực. Bạn có thể xem thực đơn; cần nhập OTP khi đặt dịch vụ.'}</p>
@@ -163,7 +185,7 @@ export function AccountPage() {
             )}
           </section>
           <section className="card stack">
-            <h2>Đăng nhập Google</h2>
+            <h3>Đăng nhập Google</h3>
             <p className="muted">{profile?.googleLinked
               ? 'Tài khoản này đã được liên kết Google.'
               : 'Có thể liên kết Google sau khi đã đăng nhập bằng mật khẩu. Email Google phải trùng email tài khoản.'}</p>
@@ -171,7 +193,7 @@ export function AccountPage() {
             {!profile?.googleLinked && <GoogleAuthButton mode="link" onSuccess={googleLinked} />}
           </section>
           <form className="card stack" onSubmit={profile?.passwordLoginEnabled === false ? setInitialPassword : changePassword}>
-            <h2>{profile?.passwordLoginEnabled === false ? 'Tạo mật khẩu đăng nhập thủ công' : 'Đổi mật khẩu'}</h2>
+            <h3>{profile?.passwordLoginEnabled === false ? 'Tạo mật khẩu đăng nhập thủ công' : 'Đổi mật khẩu'}</h3>
             <Notice message={passwordMessage} />
             {profile?.passwordLoginEnabled !== false && <label className="field">Mật khẩu hiện tại
               <input type="password" autoComplete="current-password" required value={passwords.current}
@@ -187,6 +209,7 @@ export function AccountPage() {
             </label>
             <button className="btn secondary" disabled={passwordBusy}>{passwordBusy ? 'Đang lưu...' : profile?.passwordLoginEnabled === false ? 'Tạo mật khẩu' : 'Đổi mật khẩu'}</button>
           </form>
+        </div>
         </div>
       </div>
     </div>

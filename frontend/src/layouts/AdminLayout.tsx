@@ -36,6 +36,7 @@ export function AdminLayout({ title, lead, children }: { title: string; lead?: s
           </nav>
           <div className="header-actions admin-header-actions">
             <NotificationBell />
+            <Link className="btn secondary sm" to={ROUTES.ACCOUNT}>Sửa hồ sơ</Link>
             <Link className="btn secondary sm" to="/">Về trang chủ</Link>
             <Link className="btn sm admin-logout-action" to={ROUTES.LOGOUT} aria-label="Đăng xuất tài khoản quản trị">Đăng xuất</Link>
           </div>

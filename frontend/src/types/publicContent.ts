@@ -51,4 +51,7 @@ export interface CookingRequestInput {
   equipment: boolean;
   budgetMin: number;
   budgetMax: number;
+  preferredChefId?: number;
+  preferredMenuId?: number;
+  serviceArea?: string;
 }

@@ -86,10 +86,10 @@ export const adminClient = {
         httpRequest<OrdersResponse>(`/api/admin/orders?${query(params)}`),
 
     order: (id: string | number) =>
-        httpRequest<{ order: AdminOrder; allowedStatuses: string[] }>(`/api/admin/orders/${id}`),
+        httpRequest<{ order: AdminOrder; allowedStatuses: string[]; paymentState: string }>(`/api/admin/orders/${id}`),
 
     updateOrder: (id: string | number, payload: { status: string; internalNote: string }) =>
-        httpRequest<{ message: string; order: AdminOrder; allowedStatuses: string[] }>(`/api/admin/orders/${id}`, {
+        httpRequest<{ message: string; order: AdminOrder; allowedStatuses: string[]; paymentState: string }>(`/api/admin/orders/${id}`, {
             method: 'PUT',
             body: JSON.stringify(payload),
         }),

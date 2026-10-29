@@ -33,6 +33,7 @@ export function ChefDetailPage() {
           {chef.rating != null && chef.rating > 0 && <p className="amber">★ {Number(chef.rating).toFixed(1)}</p>}
           {chef.bio && <p>{chef.bio}</p>}
           <p className="small muted">{chef.menuCount} thực đơn công khai</p>
+          <Link className="btn" to={`${ROUTES.REQUEST}?chefId=${chef.id}`}>Gửi yêu cầu đặt đầu bếp này</Link>
         </div>
       </section>
       <section className="section stack"><div className="between"><h2>Thực đơn của đầu bếp</h2><Link className="text-link" to={ROUTES.MENUS}>Xem tất cả thực đơn →</Link></div>
