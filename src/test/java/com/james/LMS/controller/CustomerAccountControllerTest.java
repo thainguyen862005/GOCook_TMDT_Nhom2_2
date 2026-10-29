@@ -26,7 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(UserController.class)
+@WebMvcTest({UserController.class, CustomerAddressController.class})
 @Import(SecurityConfig.class)
 class CustomerAccountControllerTest {
   @Autowired MockMvc mvc;
@@ -36,8 +36,13 @@ class CustomerAccountControllerTest {
   @MockitoBean JwtService jwt;
   @MockitoBean CacheService cache;
   @MockitoBean CustomerAddressService addresses;
+  // Mock new authentication collaborators required by the UserController constructor.
+  @MockitoBean AuthSessionService sessions;
+  @MockitoBean AccountPasswordService passwords;
+  @MockitoBean AuthChallengeService challenges;
   final String path = "/api/v1/users/addresses";
   final Cookie cookie = new Cookie("access-token", "c06-token");
+  final String trustedOrigin = "http://localhost:5173";
   final String valid = """
       {"userId":999,"label":"Nhà","recipientName":"Khách","phone":"0901234567",
        "addressLine":"12 Đường A","ward":"","district":"Quận 1","city":"TP.HCM",
@@ -46,7 +51,7 @@ class CustomerAccountControllerTest {
 
   @BeforeEach
   void authenticate() {
-    when(jwt.validateToken("c06-token")).thenReturn(true);
+    when(jwt.validateTokenForPurpose("c06-token", "access")).thenReturn(true);
     when(jwt.getEmailFromJwtToken("c06-token")).thenReturn("c06@example.test");
     when(cache.hasKey("ACCESS_TOKEN_c06@example.test")).thenReturn(true);
     when(cache.retrieve("ACCESS_TOKEN_c06@example.test")).thenReturn("c06-token");
@@ -70,17 +75,17 @@ class CustomerAccountControllerTest {
     var result = new CustomerAddressResponse(2L, "Nhà", "Khách", "0901234567", "12 Đường A",
         "", "Quận 1", "TP.HCM", "", true, 0L, 1L, 1L);
     when(addresses.create(eq(7L), any())).thenReturn(result);
-    mvc.perform(post(path).cookie(cookie).contentType(MediaType.APPLICATION_JSON).content(valid))
+    mvc.perform(post(path).cookie(cookie).header("Origin", trustedOrigin).contentType(MediaType.APPLICATION_JSON).content(valid))
         .andExpect(status().isCreated()).andExpect(jsonPath("$.metadata.id").value(2))
         .andExpect(jsonPath("$.metadata.isDefault").value(true));
     verify(addresses).create(eq(7L), any(CustomerAddressRequest.class));
     when(addresses.list(7L)).thenReturn(List.of(result));
     mvc.perform(get(path).cookie(cookie)).andExpect(status().isOk())
         .andExpect(jsonPath("$.metadata[0].isDefault").value(true));
-    mvc.perform(put(path + "/2").cookie(cookie).contentType(MediaType.APPLICATION_JSON).content(valid))
+    mvc.perform(put(path + "/2").cookie(cookie).header("Origin", trustedOrigin).contentType(MediaType.APPLICATION_JSON).content(valid))
         .andExpect(status().isOk());
-    mvc.perform(patch(path + "/2/default").cookie(cookie)).andExpect(status().isOk());
-    mvc.perform(delete(path + "/2").cookie(cookie)).andExpect(status().isOk());
+    mvc.perform(patch(path + "/2/default").cookie(cookie).header("Origin", trustedOrigin)).andExpect(status().isOk());
+    mvc.perform(delete(path + "/2").cookie(cookie).header("Origin", trustedOrigin)).andExpect(status().isOk());
     verify(addresses).update(eq(7L), eq(2L), any());
     verify(addresses).setDefault(7L, 2L);
     verify(addresses).delete(7L, 2L);
@@ -88,7 +93,7 @@ class CustomerAccountControllerTest {
 
   @Test
   void validatesBeforeCallingAddressService() throws Exception {
-    mvc.perform(post(path).cookie(cookie).contentType(MediaType.APPLICATION_JSON)
+    mvc.perform(post(path).cookie(cookie).header("Origin", trustedOrigin).contentType(MediaType.APPLICATION_JSON)
         .content(valid.replace("0901234567", "invalid")))
         .andExpect(status().isBadRequest());
     verifyNoInteractions(addresses);
@@ -97,13 +102,20 @@ class CustomerAccountControllerTest {
   @Test
   void profileValidationDoesNotBreakUsernameOnlyClients() throws Exception {
     when(facade.updateProfile(any())).thenReturn(BaseResponse.ok());
-    mvc.perform(put("/api/v1/users/profile").cookie(cookie).contentType(MediaType.APPLICATION_JSON)
+    mvc.perform(put("/api/v1/users/profile").cookie(cookie).header("Origin", trustedOrigin).contentType(MediaType.APPLICATION_JSON)
         .content("{\"username\":\"Khách\"}"))
         .andExpect(status().isOk());
-    mvc.perform(put("/api/v1/users/profile").cookie(cookie).contentType(MediaType.APPLICATION_JSON)
+    mvc.perform(put("/api/v1/users/profile").cookie(cookie).header("Origin", trustedOrigin).contentType(MediaType.APPLICATION_JSON)
         .content("{\"username\":\"  \"}"))
         .andExpect(status().isBadRequest());
     verify(facade, times(1)).updateProfile(any());
+  }
+
+  @Test
+  void rejectsAuthenticatedCookieWritesWithoutTrustedOrigin() throws Exception {
+    mvc.perform(post(path).cookie(cookie).contentType(MediaType.APPLICATION_JSON).content(valid))
+        .andExpect(status().isForbidden());
+    verifyNoInteractions(addresses);
   }
 
   @Test
