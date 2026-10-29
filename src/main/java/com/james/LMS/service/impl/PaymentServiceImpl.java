@@ -3,6 +3,7 @@ package com.james.LMS.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.james.LMS.booking.FixedBookingService;
 import com.james.LMS.config.PaymentLifecycleProperties;
 import com.james.LMS.config.PaymentProperties;
 import com.james.LMS.entity.CookOrder;
@@ -67,6 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
 
   private final OrderRepository orders;
   private final PricingService pricing;
+  private final FixedBookingService fixedBookingService;
   private final UserRepository users;
   private final PaymentTransactionRepository payments;
   private final PaymentGateway gateway;
@@ -87,9 +89,8 @@ public class PaymentServiceImpl implements PaymentService {
             return replay(customerId, earlier.get(), ipAddress);
           }
 
-          FixedMenuQuote quote =
-              pricing.quoteFixedMenu(
-                  request.productId(), request.guestCount(), request.voucherCode(), customerId);
+          FixedMenuQuote quote = pricing.quoteFixedMenu(
+              request.productId(), request.guestCount(), request.voucherCode(), customerId);
           Product product = quote.product();
 
           LocalDateTime now = LocalDateTime.now(PaymentGateway.GATEWAY_ZONE);
@@ -102,25 +103,12 @@ public class PaymentServiceImpl implements PaymentService {
 
           String orderCode = newOrderCode(now);
 
-          CookOrder order =
-              orders.save(
-                  CookOrder.builder()
-                      .orderCode(orderCode)
-                      .customerName(request.customerName().trim())
-                      .customerEmail(customerEmail)
-                      .customerPhone(request.customerPhone().trim())
-                      .customerId(customerId)
-                      .productName(product.getName())
-                      .chefName(chefName(product))
-                      .chefId(product.getSellerId())
-                      .serviceAddress(request.serviceAddress().trim())
-                      .guestCount(request.guestCount())
-                      .scheduledAt(request.scheduledAt())
-                      .totalAmount(quote.total())
-                      .status(OrderStatus.PENDING)
-                      .serviceType(OrderServiceType.MENU)
-                      .customerNote(request.customerNote())
-                      .build());
+          CookOrder order = fixedBookingService.createFixedDraft(
+              customerId,
+              customerEmail,
+              request,
+              quote,
+              orderCode);
 
           if (quote.voucher() != null) {
             vouchers.reserve(
@@ -138,8 +126,7 @@ public class PaymentServiceImpl implements PaymentService {
   @Override
   public PaymentCheckoutResponse checkoutOrder(
       Long customerId, PaymentOrderCheckoutRequest request, String ipAddress) {
-    Long orderId =
-        transactions.execute(status -> ownedOrder(customerId, request.orderCode()).getId());
+    Long orderId = transactions.execute(status -> ownedOrder(customerId, request.orderCode()).getId());
     settleDueAttempts(orderId, ipAddress);
     transactions.executeWithoutResult(status -> expireOrderIfDue(orderId));
 
@@ -155,18 +142,16 @@ public class PaymentServiceImpl implements PaymentService {
           Instant now = Instant.now();
           requirePayable(order, attempts, now);
 
-          Optional<PaymentTransaction> open =
-              attempts.stream()
-                  .filter(attempt -> attempt.getStatus() == PaymentStatus.PENDING)
-                  .filter(attempt -> attempt.getExpiresAt().toInstant().isAfter(now))
-                  .findFirst();
+          Optional<PaymentTransaction> open = attempts.stream()
+              .filter(attempt -> attempt.getStatus() == PaymentStatus.PENDING)
+              .filter(attempt -> attempt.getExpiresAt().toInstant().isAfter(now))
+              .findFirst();
           if (open.isPresent()) {
             return replay(customerId, open.get(), ipAddress);
           }
 
           LocalDateTime localNow = LocalDateTime.ofInstant(now, PaymentGateway.GATEWAY_ZONE);
-          LocalDateTime windowEnd =
-              LocalDateTime.ofInstant(payWindowEnd(order), PaymentGateway.GATEWAY_ZONE);
+          LocalDateTime windowEnd = LocalDateTime.ofInstant(payWindowEnd(order), PaymentGateway.GATEWAY_ZONE);
           LocalDateTime expiresAt = localNow.plus(PAYMENT_WINDOW);
           if (windowEnd.isBefore(expiresAt)) {
             expiresAt = windowEnd;
@@ -176,7 +161,10 @@ public class PaymentServiceImpl implements PaymentService {
         });
   }
 
-  /** Asks VNPay one last time about every attempt past expiry + grace, then settles or closes it. */
+  /**
+   * Asks VNPay one last time about every attempt past expiry + grace, then
+   * settles or closes it.
+   */
   private void settleDueAttempts(Long orderId, String ipAddress) {
     Instant now = Instant.now();
     for (PaymentTransaction attempt : payments.findByOrderIdOrderByAttemptNoAsc(orderId)) {
@@ -186,11 +174,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
   }
 
-  /** One last querydr for a due attempt: SUCCESS is settled, anything else closes it. */
+  /**
+   * One last querydr for a due attempt: SUCCESS is settled, anything else closes
+   * it.
+   */
   private boolean settleDueAttempt(PaymentTransaction attempt, String ipAddress) {
-    GatewayTransaction answer =
-        gateway.query(
-            attempt.getTransactionCode(), readReference(attempt).get("createDate"), ipAddress);
+    GatewayTransaction answer = gateway.query(
+        attempt.getTransactionCode(), readReference(attempt).get("createDate"), ipAddress);
     if (answer.outcome() == PaymentGateway.Outcome.SUCCESS) {
       applyQuietly(answer);
       return true;
@@ -272,13 +262,12 @@ public class PaymentServiceImpl implements PaymentService {
           "Khóa chống gửi trùng đã được dùng cho giao dịch khác.");
     }
     Map<String, String> reference = readReference(payment);
-    String payUrl =
-        payUrl(
-            payment.getTransactionCode(),
-            payment.getAmount(),
-            ipAddress,
-            LocalDateTime.parse(reference.get("createDate"), PaymentGateway.GATEWAY_DATE),
-            LocalDateTime.parse(reference.get("expireDate"), PaymentGateway.GATEWAY_DATE));
+    String payUrl = payUrl(
+        payment.getTransactionCode(),
+        payment.getAmount(),
+        ipAddress,
+        LocalDateTime.parse(reference.get("createDate"), PaymentGateway.GATEWAY_DATE),
+        LocalDateTime.parse(reference.get("expireDate"), PaymentGateway.GATEWAY_DATE));
     log.info("payment replayed order={} attempt={}", order.getOrderCode(), payment.getAttemptNo());
     return new PaymentCheckoutResponse(order.getOrderCode(), payUrl);
   }
@@ -307,14 +296,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     if (payment.getStatus() == PaymentStatus.PENDING) {
       Map<String, String> reference = readReference(payment);
-      GatewayTransaction answer =
-          gateway.query(txnRef, reference.get("createDate"), ipAddress);
+      GatewayTransaction answer = gateway.query(txnRef, reference.get("createDate"), ipAddress);
 
       if (answer.outcome() == PaymentGateway.Outcome.SUCCESS) {
         applyQuietly(answer);
       } else {
-        boolean failedForGood =
-            answer.outcome() == PaymentGateway.Outcome.FAILED && attemptDue(payment, Instant.now());
+        boolean failedForGood = answer.outcome() == PaymentGateway.Outcome.FAILED && attemptDue(payment, Instant.now());
         closeQuietly(txnRef, failedForGood ? answer : null);
       }
     } else if (payment.getStatus() == PaymentStatus.SUCCESS) {
@@ -399,10 +386,9 @@ public class PaymentServiceImpl implements PaymentService {
     ownedPayment(customerId, tx.txnRef());
     transactions.executeWithoutResult(
         status -> {
-          PaymentTransaction locked =
-              payments
-                  .lockByProviderAndTransactionCode(PaymentProvider.VNPAY, tx.txnRef())
-                  .orElseThrow(this::paymentNotFound);
+          PaymentTransaction locked = payments
+              .lockByProviderAndTransactionCode(PaymentProvider.VNPAY, tx.txnRef())
+              .orElseThrow(this::paymentNotFound);
           if (mismatch(locked, tx).isPresent()) {
             throw new PaymentException(
                 HttpStatus.BAD_REQUEST,
@@ -470,9 +456,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     boolean open = payment.getStatus() == PaymentStatus.PENDING;
-    boolean closed =
-        payment.getStatus() == PaymentStatus.FAILED
-            || payment.getStatus() == PaymentStatus.CANCELLED;
+    boolean closed = payment.getStatus() == PaymentStatus.FAILED
+        || payment.getStatus() == PaymentStatus.CANCELLED;
     if (tx.outcome() == PaymentGateway.Outcome.SUCCESS && (open || closed)) {
       return recordSuccess(payment, tx);
     }
@@ -497,12 +482,14 @@ public class PaymentServiceImpl implements PaymentService {
     return new Settled(Settlement.RECORDED, payment);
   }
 
-  /** The merchant and the amount a gateway callback names must be ours. Used by IPN and return. */
+  /**
+   * The merchant and the amount a gateway callback names must be ours. Used by
+   * IPN and return.
+   */
   private Optional<Settlement> mismatch(PaymentTransaction payment, GatewayTransaction tx) {
-    boolean foreign =
-        tx.merchantCode() != null
-            && !tx.merchantCode().isBlank()
-            && !tx.merchantCode().equals(gateway.merchantCode());
+    boolean foreign = tx.merchantCode() != null
+        && !tx.merchantCode().isBlank()
+        && !tx.merchantCode().equals(gateway.merchantCode());
     if (foreign) {
       return Optional.of(Settlement.FOREIGN_MERCHANT);
     }
@@ -513,8 +500,10 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   /**
-   * Stores a SUCCESS result, also for an attempt that was already closed: money the customer paid
-   * is never dropped. It is settled in escrow only when it is the order's one payment; otherwise
+   * Stores a SUCCESS result, also for an attempt that was already closed: money
+   * the customer paid
+   * is never dropped. It is settled in escrow only when it is the order's one
+   * payment; otherwise
    * it stays stored and findSuccessWithoutEscrow lists it for a refund.
    */
   private Settled recordSuccess(PaymentTransaction payment, GatewayTransaction tx) {
@@ -544,20 +533,20 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   /**
-   * True when this SUCCESS payment must not be settled: another payment already holds the order's
-   * escrow or has the earlier claim, or the order is no longer waiting for payment.
+   * True when this SUCCESS payment must not be settled: another payment already
+   * holds the order's
+   * escrow or has the earlier claim, or the order is no longer waiting for
+   * payment.
    */
   private boolean unsettleable(PaymentTransaction payment) {
     Optional<Long> held = payments.findEscrowedPaymentId(payment.getOrderId());
     if (held.isPresent()) {
       return !held.get().equals(payment.getId());
     }
-    boolean earlierSuccess =
-        payments.findByOrderIdOrderByAttemptNoAsc(payment.getOrderId()).stream()
-            .anyMatch(
-                other ->
-                    other.getStatus() == PaymentStatus.SUCCESS
-                        && other.getId() < payment.getId());
+    boolean earlierSuccess = payments.findByOrderIdOrderByAttemptNoAsc(payment.getOrderId()).stream()
+        .anyMatch(
+            other -> other.getStatus() == PaymentStatus.SUCCESS
+                && other.getId() < payment.getId());
     CookOrder order = orders.findById(payment.getOrderId()).orElseThrow();
     return earlierSuccess || order.getStatus() != OrderStatus.PENDING;
   }
@@ -565,17 +554,19 @@ public class PaymentServiceImpl implements PaymentService {
   private boolean closeQuietly(String txnRef, GatewayTransaction evidence) {
     return Boolean.TRUE.equals(
         transactions.execute(
-            status ->
-                payments
-                    .lockByProviderAndTransactionCode(PaymentProvider.VNPAY, txnRef)
-                    .map(locked -> closeIfDead(locked, evidence))
-                    .orElse(false)));
+            status -> payments
+                .lockByProviderAndTransactionCode(PaymentProvider.VNPAY, txnRef)
+                .map(locked -> closeIfDead(locked, evidence))
+                .orElse(false)));
   }
 
   /**
-   * The one place an attempt is closed without SUCCESS. Evidence from the gateway (user cancelled,
-   * gateway failed) closes it at once; without evidence it is closed only when its expiry plus the
-   * grace has passed. Must run inside a transaction that holds the payment row lock. The order is
+   * The one place an attempt is closed without SUCCESS. Evidence from the gateway
+   * (user cancelled,
+   * gateway failed) closes it at once; without evidence it is closed only when
+   * its expiry plus the
+   * grace has passed. Must run inside a transaction that holds the payment row
+   * lock. The order is
    * left alone: the customer may retry until the order pay window ends.
    */
   private boolean closeIfDead(PaymentTransaction payment, GatewayTransaction evidence) {
@@ -594,7 +585,8 @@ public class PaymentServiceImpl implements PaymentService {
           finalStatus = PaymentStatus.FAILED;
           reason = PaymentCloseReason.GATEWAY_FAILED;
         }
-        default -> {}
+        default -> {
+        }
       }
     }
     if (reason == null && attemptDue(payment, Instant.now())) {
@@ -623,10 +615,14 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   /**
-   * Lazy expiry of the order itself: once the pay window has passed with no SUCCESS attempt and no
-   * attempt still inside its grace, the open attempts are closed, the order is cancelled and its
-   * voucher use is given back. An order that never entered payment (no attempt at all, such as seed
-   * data or a booking made from an accepted proposal) is left alone. Run inside a transaction.
+   * Lazy expiry of the order itself: once the pay window has passed with no
+   * SUCCESS attempt and no
+   * attempt still inside its grace, the open attempts are closed, the order is
+   * cancelled and its
+   * voucher use is given back. An order that never entered payment (no attempt at
+   * all, such as seed
+   * data or a booking made from an accepted proposal) is left alone. Run inside a
+   * transaction.
    */
   private boolean expireOrderIfDue(Long orderId) {
     CookOrder order = orders.findById(orderId).orElseThrow();
@@ -659,14 +655,12 @@ public class PaymentServiceImpl implements PaymentService {
 
   private boolean registerEscrow(PaymentTransaction payment) {
     try {
-      Boolean created =
-          transactions.execute(
-              status -> {
-                Boolean registered =
-                    payments.registerVerifiedPayment(payment.getOrderId(), payment.getId());
-                vouchers.consume(payment.getOrderId());
-                return registered;
-              });
+      Boolean created = transactions.execute(
+          status -> {
+            Boolean registered = payments.registerVerifiedPayment(payment.getOrderId(), payment.getId());
+            vouchers.consume(payment.getOrderId());
+            return registered;
+          });
       return Boolean.TRUE.equals(created);
     } catch (RuntimeException e) {
       String detail = String.valueOf(NestedExceptionUtils.getMostSpecificCause(e).getMessage());
@@ -698,8 +692,7 @@ public class PaymentServiceImpl implements PaymentService {
   private void applyQuietly(GatewayTransaction tx) {
     Settled settled = transactions.execute(status -> recordResult(tx));
     log.info("payment pull order={} outcome={} result={}", tx.txnRef(), tx.outcome(), settled.result());
-    boolean success =
-        settled.payment() != null && settled.payment().getStatus() == PaymentStatus.SUCCESS;
+    boolean success = settled.payment() != null && settled.payment().getStatus() == PaymentStatus.SUCCESS;
     if (success && settled.result() != Settlement.DUPLICATE_SUCCESS) {
       healEscrowQuietly(settled.payment());
     }

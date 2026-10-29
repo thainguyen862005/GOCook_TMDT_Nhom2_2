@@ -44,8 +44,13 @@ public class AdminOrderController {
 
   @PutMapping("/{id}")
   @Transactional
-  public Map<String, Object> update(@PathVariable Long id, @RequestBody UpdateOrderRequest request, @AuthenticationPrincipal SecurityUserDetails actor) {
-    orderService.update(id, request.status(), request.internalNote());
+  public Map<String, Object> update(@PathVariable Long id, @RequestBody UpdateOrderRequest request,
+      @AuthenticationPrincipal SecurityUserDetails actor) {
+    orderService.update(
+        id,
+        request.status(),
+        request.internalNote(),
+        actor.getId());
     audit.record(actor.getId(), "ORDER_ADMIN_EDIT", "ORDER", id, "Cập nhật ghi chú/trạng thái theo rule Admin");
     return Map.of(
         "message", "Đã cập nhật đơn hàng.",

@@ -16,12 +16,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.james.LMS.order.OrderTransitionPolicy;
+import com.james.LMS.order.OrderTransitionPolicy.Actor;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Service
 @RequiredArgsConstructor
 public class AdminOrderService {
 
   private final OrderRepository orderRepository;
+  private final OrderTransitionPolicy transitionPolicy;
+  private final JdbcTemplate jdbc;
 
   @Transactional(readOnly = true)
   public Page<CookOrder> search(
@@ -92,35 +97,83 @@ public class AdminOrderService {
   }
 
   @Transactional(readOnly = true)
-  public List<OrderStatus> allowedStatuses(Long id) {
+public List<OrderStatus> allowedStatuses(Long id) {
     CookOrder order = get(id);
-    return order.getStatus().allowedTargets().stream()
-        .filter(target -> target == order.getStatus()
-            || (target != OrderStatus.COMPLETED
-                && target != OrderStatus.CANCELLED && target != OrderStatus.REJECTED))
-        .toList();
-  }
+
+    List<OrderStatus> allowed = new java.util.ArrayList<>();
+    allowed.add(order.getStatus());
+
+    allowed.addAll(transitionPolicy.allowedTargets(
+            order.getStatus(),
+            Actor.ADMIN
+    ));
+
+    return allowed;
+}
 
   @Transactional
-  public void update(Long id, OrderStatus status, String internalNote) {
-    CookOrder order = get(id);
-    if (status == null || !order.getStatus().canTransitionTo(status)) {
-      throw new IllegalArgumentException(
-          "Không thể chuyển đơn từ “"
-              + order.getStatus().getLabel()
-              + "” sang trạng thái đã chọn.");
+public void update(
+        Long id,
+        OrderStatus status,
+        String internalNote,
+        Long actorId
+) {
+    if (status == null) {
+        throw new IllegalArgumentException(
+                "Thiếu trạng thái đơn hàng.");
     }
-    if (status != order.getStatus() && (status == OrderStatus.COMPLETED
-        || status == OrderStatus.CANCELLED || status == OrderStatus.REJECTED)) {
-      throw new IllegalArgumentException("Trạng thái kết thúc cần qua Booking/Payment để đồng bộ hoàn tiền và escrow.");
-    }
+
     if (internalNote != null && internalNote.length() > 2000) {
-      throw new IllegalArgumentException("Ghi chú nội bộ tối đa 2000 ký tự.");
+        throw new IllegalArgumentException(
+                "Ghi chú nội bộ tối đa 2000 ký tự.");
     }
+
+    // Khóa đơn trước khi đọc, tránh hai yêu cầu
+    // cùng cập nhật từ một trạng thái cũ.
+    CookOrder order = orderRepository.findByIdForUpdate(id)
+            .orElseThrow(() ->
+                    new AdminResourceNotFoundException(
+                            "Không tìm thấy đơn hàng."));
+
+    OrderStatus previous = order.getStatus();
+
+    if (status != previous) {
+        transitionPolicy.validate(
+                previous,
+                status,
+                Actor.ADMIN,
+                internalNote
+        );
+    }
+
+    String note = cleanOptional(internalNote);
+
     order.setStatus(status);
-    order.setInternalNote(cleanOptional(internalNote));
-    orderRepository.save(order);
-  }
+    order.setInternalNote(note);
+
+    orderRepository.saveAndFlush(order);
+
+    if (status != previous) {
+        jdbc.update("""
+                INSERT INTO order_status_history(
+                    order_id,
+                    actor_user_id,
+                    previous_status,
+                    new_status,
+                    note
+                )
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                id,
+                actorId,
+                previous.name(),
+                status.name(),
+                note == null
+                    ? "Admin cập nhật trạng thái"
+                    : note
+        );
+    }
+}
 
   @Transactional(readOnly = true)
   public List<CookOrder> findForStatistics(LocalDate from, LocalDate to) {
