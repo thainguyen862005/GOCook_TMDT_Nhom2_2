@@ -88,7 +88,9 @@ class PaymentServiceTest {
           new TransactionTemplate(mock(PlatformTransactionManager.class)),
           new PaymentLifecycleProperties(),
           vouchers,
-          pendingOrders);
+          pendingOrders,
+          mock(com.james.LMS.notification.NotificationService.class),
+          mock(org.springframework.jdbc.core.JdbcTemplate.class));
 
   PaymentServiceTest() {
     when(gateway.merchantCode()).thenReturn(TMN);
@@ -649,30 +651,32 @@ class PaymentServiceTest {
   }
 
   @Test
-  void aSuccessCodeOnTheReturnUrlNeverSettlesAnything() {
+  void aSignedSuccessReturnSettlesAndAttemptsEscrowWhenIpnCannotReachLocalhost() {
     PaymentTransaction payment = payment(PaymentStatus.PENDING, Duration.ofMinutes(10));
     given(payment, OrderStatus.PENDING);
     gatewayAnswers(paid());
+    when(payments.registerVerifiedPayment(ORDER_ID, PAYMENT_ID)).thenReturn(true);
 
     PaymentStatusResponse response = service.handleVnpayReturn(CUSTOMER, returnParams());
 
-    assertThat(response.paymentStatus()).isEqualTo(PaymentStatus.PENDING);
-    assertThat(payment.getPaidAt()).isNull();
-    verify(payments, never()).save(any());
-    verify(payments, never()).registerVerifiedPayment(any(), any());
-    verify(vouchers, never()).consume(any());
+    assertThat(response.paymentStatus()).isEqualTo(PaymentStatus.SUCCESS);
+    assertThat(payment.getPaidAt()).isNotNull();
+    verify(payments).save(payment);
+    verify(payments).registerVerifiedPayment(ORDER_ID, PAYMENT_ID);
+    verify(vouchers).consume(ORDER_ID);
   }
 
   @Test
-  void otherFailureCodesOnTheReturnUrlAreLeftToIpnAndQuerydr() {
+  void signedGatewayFailureIsRecordedAsFailedWithoutEscrow() {
     PaymentTransaction payment = payment(PaymentStatus.PENDING, Duration.ofMinutes(10));
     given(payment, OrderStatus.PENDING);
     gatewayAnswers(callback(Outcome.FAILED, "240000", null, "51", "02"));
 
     PaymentStatusResponse response = service.handleVnpayReturn(CUSTOMER, returnParams());
 
-    assertThat(response.paymentStatus()).isEqualTo(PaymentStatus.PENDING);
-    verify(payments, never()).save(any());
+    assertThat(response.paymentStatus()).isEqualTo(PaymentStatus.FAILED);
+    verify(payments).save(payment);
+    verify(payments, never()).registerVerifiedPayment(any(), any());
   }
 
   @Test
@@ -866,7 +870,7 @@ class PaymentServiceTest {
   }
 
   void orderGetsAnId() {
-    when(orders.save(any(CookOrder.class)))
+    when(orders.saveAndFlush(any(CookOrder.class)))
         .thenAnswer(
             call -> {
               CookOrder saved = call.getArgument(0);
@@ -900,7 +904,7 @@ class PaymentServiceTest {
     PaymentCheckoutResponse response = service.checkout(CUSTOMER, "a@example.test", request, "1.2.3.4");
 
     ArgumentCaptor<CookOrder> savedOrder = ArgumentCaptor.forClass(CookOrder.class);
-    verify(orders).save(savedOrder.capture());
+    verify(orders).saveAndFlush(savedOrder.capture());
     ArgumentCaptor<PaymentTransaction> savedPayment =
         ArgumentCaptor.forClass(PaymentTransaction.class);
     verify(payments).save(savedPayment.capture());
@@ -938,7 +942,7 @@ class PaymentServiceTest {
               PaymentException.class,
               error -> assertThat(error.getErrorCode()).isEqualTo(ErrorCode.PAYMENT_INVALID_GUESTS));
     }
-    verify(orders, never()).save(any());
+    verify(orders, never()).saveAndFlush(any());
     verify(payments, never()).save(any());
   }
 
@@ -952,7 +956,7 @@ class PaymentServiceTest {
             PaymentException.class,
             error ->
                 assertThat(error.getErrorCode()).isEqualTo(ErrorCode.PAYMENT_PRODUCT_UNAVAILABLE));
-    verify(orders, never()).save(any());
+    verify(orders, never()).saveAndFlush(any());
   }
 
   @Test
@@ -965,6 +969,6 @@ class PaymentServiceTest {
         .isInstanceOfSatisfying(
             PaymentException.class,
             error -> assertThat(error.getErrorCode()).isEqualTo(ErrorCode.PAYMENT_INVALID_SCHEDULE));
-    verify(orders, never()).save(any());
+    verify(orders, never()).saveAndFlush(any());
   }
 }

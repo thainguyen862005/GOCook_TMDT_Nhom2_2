@@ -71,7 +71,9 @@ class PaymentOrderCheckoutTest {
           new TransactionTemplate(mock(PlatformTransactionManager.class)),
           new PaymentLifecycleProperties(),
           vouchers,
-          mock(PendingOrderRepository.class));
+          mock(PendingOrderRepository.class),
+          mock(com.james.LMS.notification.NotificationService.class),
+          mock(org.springframework.jdbc.core.JdbcTemplate.class));
 
   final List<PaymentTransaction> saved = new ArrayList<>();
 
