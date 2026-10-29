@@ -32,6 +32,12 @@ public class User extends BaseEntity {
   @Column(name = "default_address", length = 500)
   private String defaultAddress;
 
+  @Column(name = "dietary_preferences", length = 500)
+  private String dietaryPreferences;
+
+  @Column(name = "allergy_info", length = 500)
+  private String allergyInfo;
+
   @Column(name = "avatar_url")
   private String avatarUrl;
 
@@ -72,6 +78,14 @@ public class User extends BaseEntity {
   public void changePhone(String phone) { this.phone = phone; }
 
   public void changeDefaultAddress(String defaultAddress) { this.defaultAddress = defaultAddress; }
+
+  public void changeDietaryPreferences(String dietaryPreferences) {
+    this.dietaryPreferences = dietaryPreferences;
+  }
+
+  public void changeAllergyInfo(String allergyInfo) {
+    this.allergyInfo = allergyInfo;
+  }
 
   public void changeUsername(String username) {
     this.username = username;

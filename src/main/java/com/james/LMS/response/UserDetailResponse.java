@@ -19,6 +19,8 @@ public class UserDetailResponse {
   private String avatarUrl;
   private String phone;
   private String defaultAddress;
+  private String dietaryPreferences;
+  private String allergyInfo;
   private Boolean isInstructor;
   private String instructorName;
   private String instructorAbout;

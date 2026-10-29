@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import com.james.LMS.config.SecurityUserDetails;
 import com.james.LMS.entity.User;
+import com.james.LMS.repository.UserAuthIdentityRepository;
 import com.james.LMS.request.UpdateUserProfileRequest;
 import com.james.LMS.service.UserService;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @ExtendWith(MockitoExtension.class)
 class UserProfileAccountTest {
   @Mock UserService users;
+  @Mock UserAuthIdentityRepository identities;
   @InjectMocks UserFacadeImpl facade;
   User user;
 

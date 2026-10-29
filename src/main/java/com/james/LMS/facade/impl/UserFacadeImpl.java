@@ -213,6 +213,8 @@ public class UserFacadeImpl implements UserFacade {
             .avatarUrl(user.getAvatarUrl())
             .phone(user.getPhone())
             .defaultAddress(user.getDefaultAddress())
+            .dietaryPreferences(user.getDietaryPreferences())
+            .allergyInfo(user.getAllergyInfo())
             .createdAt(DateUtil.convertToLocalDate(user.getCreatedAt()))
             .roles(
                 principal.getAuthorities().stream()
@@ -277,6 +279,12 @@ public class UserFacadeImpl implements UserFacade {
     }
     if (updateUserProfileRequest.getDefaultAddress() != null) {
       user.changeDefaultAddress(updateUserProfileRequest.getDefaultAddress().trim());
+    }
+    if (updateUserProfileRequest.getDietaryPreferences() != null) {
+      user.changeDietaryPreferences(updateUserProfileRequest.getDietaryPreferences().trim());
+    }
+    if (updateUserProfileRequest.getAllergyInfo() != null) {
+      user.changeAllergyInfo(updateUserProfileRequest.getAllergyInfo().trim());
     }
     this.userService.save(user);
     return BaseResponse.ok();
