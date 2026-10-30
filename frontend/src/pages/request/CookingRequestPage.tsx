@@ -6,6 +6,10 @@ import { menuClient } from '../../clients/menuClient';
 import { publicContentClient } from '../../clients/publicContentClient';
 import { ROUTES } from '../../constants/routes';
 import { useAuth } from '../../hooks/auth/useAuth';
+import { PROVINCES } from '../../constants/provinces';
+import { LocationSearch } from '../../components/location/LocationSearch';
+import { WardSelect } from '../../components/location/WardSelect';
+import { formatPoint, type Coordinates } from '../../constants/serviceGeo';
 
 export function CookingRequestPage() {
   useDocumentTitle('Tạo yêu cầu nấu ăn | GO Cook');
@@ -14,10 +18,13 @@ export function CookingRequestPage() {
   const chefId=Number(params.get('chefId'));const menuId=Number(params.get('menuId'));
   const guestsParam=Number(params.get('guests'));const dateParam=params.get('date')||'';
   const timeParam=params.get('time')||'';const areaParam=params.get('area')||'';
+  const [province,setProvince]=useState(PROVINCES.some(p=>p.code===areaParam)?areaParam:'');
+  const [ward,setWard]=useState('');
+  const [address,setAddress]=useState('');
+  useEffect(()=>{if(profile?.defaultAddress)setAddress(current=>current||profile.defaultAddress||'');},[profile?.defaultAddress]);
+  const [coords,setCoords]=useState<Coordinates|null>(null);
   const [chosenMenu,setChosenMenu]=useState<{name:string;price:number;minGuests:number}|null>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [areas,setAreas]=useState<string[]>([]);
-  useEffect(()=>{publicContentClient.areas().then(setAreas).catch(()=>{});},[]);
   const [preview, setPreview] = useState('');
   const [error, setError] = useState('');
   const [code, setCode] = useState('');
@@ -37,6 +44,7 @@ export function CookingRequestPage() {
   }
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (busy) return;
+    if (!province||!ward||!coords?.proof||coords.wardCode!==ward) {setError('Chọn đúng tỉnh, phường/xã và xác nhận địa chỉ trước khi gửi.');return;}
     const formElement = event.currentTarget;
     const f = new FormData(event.currentTarget);
     const input: CookingRequestInput = {
@@ -44,16 +52,16 @@ export function CookingRequestPage() {
       adults: Number(f.get('adults')), children: Number(f.get('children')),
       avoid: String(f.get('avoid') || '').trim(), spice: String(f.get('spice') || ''),
       mealDate: String(f.get('mealDate') || ''), mealTime: String(f.get('mealTime') || ''),
-      address: String(f.get('address') || '').trim(), equipment: f.get('equipment') === 'on',
+      address: coords.label.trim(), equipment: f.get('equipment') === 'on',
       budgetMin: Number(f.get('budgetMin')), budgetMax: Number(f.get('budgetMax')),
       preferredChefId:chefId>0?chefId:undefined,preferredMenuId:menuId>0?menuId:undefined,
-      serviceArea:String(f.get('serviceArea')||'').trim(),
+      serviceArea:formatPoint(province,coords),
     };
     if (input.budgetMin > input.budgetMax || input.adults < 1 || input.children < 0) {
       setError('Vui lòng kiểm tra số người và khoảng ngân sách.'); return;
     }
     setBusy(true); setError(''); setCode('');
-    try { const saved = await publicContentClient.request(input, file); setCode(saved.requestCode); setFile(null); formElement.reset(); if(saved.id)navigate(`${ROUTES.REQUEST_DETAIL}?id=${saved.id}`); }
+    try { const saved = await publicContentClient.request(input, file); setCode(saved.requestCode); setFile(null); setCoords(null); setWard(''); setAddress(''); formElement.reset(); if(saved.id)navigate(`${ROUTES.REQUEST_DETAIL}?id=${saved.id}`); }
     catch (reason) { setError(reason instanceof Error ? reason.message : 'Không gửi được yêu cầu.'); }
     finally { setBusy(false); }
   }
@@ -81,13 +89,17 @@ export function CookingRequestPage() {
         <section className="card stack"><h2>2. Thời gian và địa chỉ</h2>
           <label className="field">Ngày dùng bữa<input type="date" name="mealDate" defaultValue={dateParam} required min={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)} /></label>
           <label className="field">Bữa ăn<select name="mealTime" defaultValue={timeParam==='11:30'?'Bữa trưa':'Bữa tối'}><option>Bữa trưa</option><option>Bữa tối</option></select></label>
-          <label className="field">Khu vực phục vụ mong muốn
-            <input list="request-service-areas" name="serviceArea" maxLength={100} required defaultValue={areaParam}
-              placeholder="Ví dụ: Dĩ An, Bình Dương" />
-            <datalist id="request-service-areas">{areas.map(area=><option key={area} value={area} />)}</datalist>
-            <span className="small muted">Hãy chọn khu vực có Chef được duyệt. Matching chỉ gợi ý Chef có hồ sơ phục vụ khu vực này và chưa bị giữ lịch.</span>
+          <label className="field">Tỉnh/thành nơi nấu ăn
+            <select name="serviceArea" required value={province} onChange={e=>{setProvince(e.target.value);setWard('');setCoords(null);}}>
+              <option value="">Chọn tỉnh/thành</option>
+              {PROVINCES.map(p=><option key={p.code} value={p.code}>{p.name}</option>)}
+            </select>
           </label>
-          <label className="field">Địa chỉ nấu ăn<input type="text" name="address" key={profile?.id} defaultValue={profile?.defaultAddress || ''} required minLength={8} maxLength={500} placeholder="Số nhà, đường, quận/huyện…" /></label>
+          <WardSelect province={province} ward={ward} onChange={value=>{setWard(value);setCoords(null);}}/>
+          <label className="field">Số nhà, đường hoặc địa danh gần nơi nấu<input type="text" name="address" value={address} onChange={e=>{setAddress(e.target.value);setCoords(null);}}
+            required minLength={8} maxLength={500} placeholder="Số nhà, đường, địa danh (phường/xã đã chọn ở trên)…" /></label>
+          <LocationSearch province={province} ward={ward} address={address} chosen={coords} onChoose={setCoords}/>
+          <p className="small muted">Khi xác nhận, hệ thống sẽ dùng địa chỉ từ bản đồ thay vì chuỗi bạn gõ để tránh sai địa phương. Matching sẽ xét khoảng cách từ vị trí nấu được xác nhận tới điểm xuất phát của Chef. Vui lòng kiểm tra vị trí trước khi gửi.</p>
           <label className="check"><input type="checkbox" name="equipment" />Gian bếp có bếp, nồi chảo và dụng cụ cơ bản</label>
         </section>
         <section className="card stack"><h2>3. Ngân sách và ảnh tham khảo</h2>

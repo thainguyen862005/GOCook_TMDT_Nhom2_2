@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.dao.DataIntegrityViolationException;
 import com.james.LMS.notification.NotificationService;
+import com.james.LMS.publiccontent.ServiceGeoArea;
+import com.james.LMS.publiccontent.VerifiedLocationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,8 +31,9 @@ import org.springframework.web.server.ResponseStatusException;
 public class ServiceWorkflowController {
   private final NamedParameterJdbcTemplate db;
   private final NotificationService notifications;
-  public ServiceWorkflowController(NamedParameterJdbcTemplate db, NotificationService notifications) {
-    this.db = db; this.notifications = notifications;
+  private final VerifiedLocationService verifiedLocations;
+  public ServiceWorkflowController(NamedParameterJdbcTemplate db, NotificationService notifications, VerifiedLocationService verifiedLocations) {
+    this.db = db; this.notifications = notifications; this.verifiedLocations = verifiedLocations;
   }
 
   public record OfferInput(@NotNull @DecimalMin("1") @DecimalMax("1000000000") BigDecimal price,
@@ -107,7 +110,7 @@ public class ServiceWorkflowController {
   private Map<String,Object> detail(long id) {
     var result=new java.util.LinkedHashMap<String,Object>(request(id));
     result.put("matches",db.queryForList("""
-      SELECT m.chef_id AS "chefId",cp.display_name AS "chefName",cp.service_area AS "serviceArea",
+      SELECT m.chef_id AS "chefId",cp.display_name AS "chefName",split_part(cp.service_area,'|',1) AS "serviceArea",
         cp.rating,m.match_score AS "matchScore",m.match_reason AS "matchReason"
       FROM cooking_request_matches m JOIN chef_profiles cp ON cp.user_id=m.chef_id
       WHERE m.request_id=:id ORDER BY m.match_score DESC,cp.rating DESC
@@ -255,17 +258,19 @@ public class ServiceWorkflowController {
   public Map<String,Object> assign(@PathVariable long id,@Valid @RequestBody MatchInput input) {
     var r=requestLocked(id);
     if ("CLOSED".equals(r.get("status"))) throw new ResponseStatusException(HttpStatus.CONFLICT,"Yêu cầu đã đóng.");
+    String requestArea = String.valueOf(r.get("requested_area"));
+    ServiceGeoArea.customer(requestArea); // reject old province-only requests, never guess distance
     var eligible=db.queryForList("""
-      SELECT 1 FROM chef_profiles cp JOIN users u ON u.id=cp.user_id
+      SELECT cp.service_area AS "chefArea" FROM chef_profiles cp JOIN users u ON u.id=cp.user_id
       WHERE cp.user_id=:chef AND cp.is_active=true AND cp.is_verified=true
         AND cp.verification_status='APPROVED' AND u.is_active=true
-        AND (:area='' OR COALESCE(cp.service_area,'') ILIKE '%' || :area || '%')
         AND NOT EXISTS (SELECT 1 FROM chef_bookings b WHERE b.chef_id=cp.user_id
              AND b.booking_status='ACTIVE' AND b.starts_at < :endTime AND b.ends_at > :startTime)
-    """,args("chef",input.chefId(),"area",r.get("requested_area") == null ? "" : String.valueOf(r.get("requested_area")),
+    """,args("chef",input.chefId(),
           "startTime",day(r.get("mealDate")).atTime("Bữa trưa".equals(r.get("mealTime")) ? LocalTime.of(11,30) : LocalTime.of(18,30)),
           "endTime",day(r.get("mealDate")).atTime("Bữa trưa".equals(r.get("mealTime")) ? LocalTime.of(14,30) : LocalTime.of(21,30))));
-    if (eligible.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Đầu bếp chưa được duyệt, ngoài khu vực đã chọn hoặc bận lịch.");
+    if (eligible.isEmpty() || !ServiceGeoArea.matches((String)eligible.get(0).get("chefArea"),requestArea))
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Đầu bếp chưa được duyệt, ngoài bán kính phục vụ hoặc bận lịch.");
     db.update("""
       INSERT INTO cooking_request_matches(request_id,chef_id,match_score,match_reason)
       VALUES (:id,:chef,100,'Admin đã chỉ định') ON CONFLICT (request_id,chef_id) DO NOTHING
@@ -329,6 +334,9 @@ public class ServiceWorkflowController {
     if (rows.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Không tìm thấy hồ sơ đầu bếp.");
     return rows.get(0);
   }
+  private String validatedChefArea(String area) {
+    return verifiedLocations.confirmChef(area); // verified province + ward + coordinate proof
+  }
   @PutMapping("/api/chef/profile")
   @PreAuthorize("hasAuthority('ROLE_INSTRUCTOR')")
   public Map<String,String> updateProfile(@AuthenticationPrincipal SecurityUserDetails actor,
@@ -337,7 +345,7 @@ public class ServiceWorkflowController {
       UPDATE chef_profiles SET display_name=:name,bio=:bio,service_area=:area,phone=:phone,
         updated_at=(EXTRACT(EPOCH FROM NOW())*1000)::bigint WHERE user_id=:id
     """,args("id",actor.getId(),"name",input.displayName().trim(),"bio",input.bio(),
-      "area",input.serviceArea(),"phone",input.phone()));
+      "area",validatedChefArea(input.serviceArea()),"phone",input.phone()));
     if (changed==0) throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Không tìm thấy hồ sơ đầu bếp.");
     return Map.of("status","UPDATED");
   }

@@ -29,21 +29,22 @@ public class PublicChefService {
       ) m ON true
       """;
   private static final String FIELDS = "SELECT cp.user_id AS id, cp.display_name AS \"displayName\", "
-      + "cp.bio, cp.service_area AS \"serviceArea\", cp.rating, u.avatar_url AS \"avatarUrl\", "
+      + "cp.bio, split_part(cp.service_area,'|',1) AS \"serviceArea\", cp.rating, u.avatar_url AS \"avatarUrl\", "
       + "m.menu_count AS \"menuCount\", m.from_price AS \"fromPrice\", "
       + "m.specialties AS specialties ";
 
   public Map<String, Object> search(String query, String area, String category, int page, int size, String sort) {
     if (page < 0 || page > 100000 || size < 1 || size > 30) throw new IllegalArgumentException("Phân trang đầu bếp không hợp lệ.");
     String q = safe(query, 100); String a = safe(area, 100); String c = safe(category, 100);
+    if (!a.isBlank()) ProvinceAreas.require(a);
     String filter = " WHERE " + APPROVED
         + " AND (:q = '' OR cp.display_name ILIKE :query OR COALESCE(cp.bio,'') ILIKE :query)"
-        + " AND (:area = '' OR COALESCE(cp.service_area,'') ILIKE :areaQuery)"
+        + " AND (:area = '' OR :area = ANY(string_to_array(split_part(COALESCE(cp.service_area,''),'|',1),',')))"
         + " AND (:category = '' OR EXISTS (SELECT 1 FROM products p2 WHERE p2.seller_id=cp.user_id "
         + " AND p2.is_active=true AND p2.status='PUBLISHED' AND p2.category ILIKE :categoryQuery))";
     MapSqlParameterSource args = new MapSqlParameterSource()
         .addValue("q", q).addValue("query", "%" + escapeLike(q) + "%")
-        .addValue("area", a).addValue("areaQuery", "%" + escapeLike(a) + "%")
+        .addValue("area", a)
         .addValue("category", c).addValue("categoryQuery", c)
         .addValue("limit", size).addValue("offset", (long) page * size);
     long total = jdbc.queryForObject("SELECT COUNT(*)" + FROM + filter, args, Long.class);
@@ -80,15 +81,7 @@ public class PublicChefService {
     return chef;
   }
 
-  public List<String> areas() {
-    // Areas come from active, verified Chef profiles; don't pretend regions without Chefs exist.
-    return jdbc.getJdbcTemplate().queryForList("""
-        SELECT DISTINCT cp.service_area FROM chef_profiles cp JOIN users u ON u.id=cp.user_id
-        WHERE cp.is_active=true AND cp.is_verified=true AND cp.verification_status='APPROVED'
-          AND u.is_active=true AND cp.service_area IS NOT NULL AND TRIM(cp.service_area)<>''
-        ORDER BY cp.service_area LIMIT 100
-        """, String.class);
-  }
+  public List<String> areas() { return ProvinceAreas.codes(); }
 
   private static String safe(String input, int limit) {
     String result = input == null ? "" : input.trim();

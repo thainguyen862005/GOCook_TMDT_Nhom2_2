@@ -5,6 +5,7 @@ import { publicContentClient } from '../../clients/publicContentClient';
 import { ROUTES } from '../../constants/routes';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import type { ChefSummary, PublicPage } from '../../types/publicContent';
+import { provinceName } from '../../constants/provinces';
 
 function pageValue(raw: string | null) {
   const value = Number(raw);
@@ -66,7 +67,7 @@ export function ChefListPage() {
         <label className="field">Tên đầu bếp<input type="search" maxLength={100} name="q" defaultValue={q} placeholder="Tên gian bếp hoặc đầu bếp" /></label>
         <label className="field">Khu vực phục vụ<select name="area" defaultValue={area}>
           <option value="">Tất cả khu vực</option>
-          {[...new Set([...areas, ...(area ? [area] : [])])].map(item => <option key={item} value={item}>{item}</option>)}
+          {[...new Set([...areas, ...(area ? [area] : [])])].map(item => <option key={item} value={item}>{provinceName(item)}</option>)}
         </select></label>
         <label className="field">Loại thực đơn<input name="category" maxLength={100} defaultValue={category} placeholder="Ví dụ: Món chay" /></label>
         <label className="field">Sắp xếp<select name="sort" defaultValue={sort}>

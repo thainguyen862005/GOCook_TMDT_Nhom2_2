@@ -31,10 +31,11 @@ public class CookingRequestController {
   private final CloudinaryService cloudinary;
   private final NotificationService notifications;
   private final TransactionTemplate transactions;
+  private final VerifiedLocationService verifiedLocations;
   public CookingRequestController(NamedParameterJdbcTemplate jdbc, CloudinaryService cloudinary,
-                                  NotificationService notifications, TransactionTemplate transactions) {
+                                  NotificationService notifications, TransactionTemplate transactions, VerifiedLocationService verifiedLocations) {
     this.jdbc = jdbc; this.cloudinary = cloudinary; this.notifications = notifications;
-    this.transactions = transactions;
+    this.transactions = transactions; this.verifiedLocations = verifiedLocations;
   }
 
   public record RequestInput(
@@ -97,23 +98,26 @@ public class CookingRequestController {
     // A general cooking request intentionally has no preferred chef. Avoid Long/long
     // ternary promotion, which would unbox null and throw NullPointerException.
     final Long targetChef = resolveChefId(data.preferredChefId(), chosenMenu);
-    final String region = data.serviceArea() == null ? "" : data.serviceArea().trim();
+    final String region = verifiedLocations.confirmCustomer(data.serviceArea(), data.address());
+    final var cookingPoint = ServiceGeoArea.customer(region);
     final String foodStyle = chosenMenu == null ? data.cuisine() : String.valueOf(chosenMenu.get("category"));
     final LocalTime mealHour = "Bữa trưa".equals(data.mealTime()) ? LocalTime.of(11,30) : LocalTime.of(18,30);
     final LocalDateTime begin = data.mealDate().atTime(mealHour);
     if (!begin.isAfter(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"))))
       throw new org.springframework.web.server.ResponseStatusException(HttpStatus.BAD_REQUEST,"Ngày và giờ nấu phải ở tương lai.");
-    if (targetChef!=null && jdbc.queryForList("""
-        SELECT 1 FROM chef_profiles cp JOIN users u ON u.id=cp.user_id
-        WHERE cp.user_id=:chef AND cp.is_active=true AND cp.is_verified=true
-          AND cp.verification_status='APPROVED' AND u.is_active=true
-          AND (:area='' OR COALESCE(cp.service_area,'') ILIKE '%' || :area || '%')
-          AND NOT EXISTS (SELECT 1 FROM chef_bookings b WHERE b.chef_id=cp.user_id
-            AND b.booking_status='ACTIVE' AND b.starts_at < :endTime AND b.ends_at > :startTime)
-        """,new MapSqlParameterSource("chef",targetChef).addValue("area",region)
-          .addValue("startTime",begin).addValue("endTime",begin.plusHours(3))).isEmpty())
-      throw new org.springframework.web.server.ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Đầu bếp chưa được duyệt, không phục vụ khu vực đã chọn hoặc bận lịch này.");
+    if (targetChef != null) {
+      var eligible = jdbc.queryForList("""
+          SELECT cp.service_area AS "chefArea" FROM chef_profiles cp JOIN users u ON u.id=cp.user_id
+          WHERE cp.user_id=:chef AND cp.is_active=true AND cp.is_verified=true
+            AND cp.verification_status='APPROVED' AND u.is_active=true
+            AND NOT EXISTS (SELECT 1 FROM chef_bookings b WHERE b.chef_id=cp.user_id
+              AND b.booking_status='ACTIVE' AND b.starts_at < :endTime AND b.ends_at > :startTime)
+          """,new MapSqlParameterSource("chef",targetChef)
+          .addValue("startTime",begin).addValue("endTime",begin.plusHours(3)));
+      if (eligible.isEmpty() || !ServiceGeoArea.matches((String)eligible.get(0).get("chefArea"),region))
+        throw new org.springframework.web.server.ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Đầu bếp chưa được duyệt, ngoài bán kính phục vụ hoặc bận lịch này.");
+    }
     byte[] imageBytes = image == null || image.isEmpty() ? null : ImageFileValidator.validate(image);
     CloudinaryService.MenuImage uploaded = null;
     // Upload first; delete on failed INSERT to avoid orphaned media.
@@ -143,31 +147,47 @@ public class CookingRequestController {
       // a small deterministic shortlist based on service area, cuisine/menu and rating.
       // Matching is area and schedule aware. A menu is a recipe reference, not a price promise
       // from another chef. Every matched chef must respond with their own quote.
-      jdbc.update("""
-          INSERT INTO cooking_request_matches(request_id,chef_id,match_score,match_reason)
-          SELECT :request, candidates.chef_id, candidates.score, candidates.reason
-          FROM (SELECT cp.user_id AS chef_id,
-            (CASE WHEN :area<>'' THEN 35 ELSE 0 END
-             + CASE WHEN EXISTS (SELECT 1 FROM products p WHERE p.seller_id=cp.user_id
-                AND p.is_active=true AND p.status='PUBLISHED' AND p.category ILIKE :style) THEN 45 ELSE 0 END
-             + LEAST(COALESCE(cp.rating,0)::int * 4,20)) AS score,
-            CASE WHEN CAST(:preferred AS BIGINT) IS NOT NULL THEN 'Được khách lựa chọn'
-                 ELSE 'Gợi ý theo khu vực, món ăn và lịch trống' END AS reason
+      // Load approved chefs with a configured point and an available time slot. The
+      // final radius check happens in Java to avoid unsafe SQL casts of legacy text.
+      var candidates = jdbc.queryForList("""
+          SELECT cp.user_id AS "chefId", cp.service_area AS "chefArea",cp.rating,
+            EXISTS (SELECT 1 FROM products p WHERE p.seller_id=cp.user_id AND
+              p.is_active=true AND p.status='PUBLISHED' AND p.category ILIKE :style) AS "cuisineMatch"
           FROM chef_profiles cp JOIN users u ON u.id=cp.user_id
           WHERE cp.is_active=true AND cp.is_verified=true AND cp.verification_status='APPROVED'
-            AND u.is_active=true
+            AND u.is_active=true AND cp.service_area LIKE '%|%|%|%'
             AND (CAST(:preferred AS BIGINT) IS NULL OR cp.user_id=:preferred)
-            AND (:area='' OR COALESCE(cp.service_area,'') ILIKE '%' || :area || '%')
             AND NOT EXISTS (SELECT 1 FROM chef_bookings b WHERE b.chef_id=cp.user_id
               AND b.booking_status='ACTIVE' AND b.starts_at < :endTime AND b.ends_at > :startTime)
-            AND (CAST(:preferred AS BIGINT) IS NOT NULL OR EXISTS (
-              SELECT 1 FROM products p WHERE p.seller_id=cp.user_id AND p.is_active=true
-                AND p.status='PUBLISHED' AND p.category ILIKE :style))
-          ORDER BY score DESC, cp.rating DESC, cp.user_id LIMIT 5) candidates
-          ON CONFLICT (request_id,chef_id) DO NOTHING
-          """,new MapSqlParameterSource("request",requestId).addValue("preferred",targetChef)
-             .addValue("area",region).addValue("style","%"+foodStyle+"%")
+          ORDER BY cp.rating DESC,cp.user_id LIMIT 2000
+          """,new MapSqlParameterSource("preferred",targetChef).addValue("style","%"+foodStyle+"%")
              .addValue("startTime",begin).addValue("endTime",begin.plusHours(3)));
+      record Ranked(long chefId, int score, double km, double rating, String reason) {}
+      var ranked = new java.util.ArrayList<Ranked>();
+      for (var chefRow : candidates) {
+        var zone = ServiceGeoArea.savedChef((String)chefRow.get("chefArea"));
+        if (zone.isEmpty() || !ServiceGeoArea.matches((String)chefRow.get("chefArea"), region)) continue; // verified ward required
+        var c = zone.get();
+        double km = ServiceGeoArea.distanceKm(c.center(),cookingPoint);
+        if (km > c.radiusKm()) continue;
+        boolean cuisineMatch = Boolean.TRUE.equals(chefRow.get("cuisineMatch"));
+        if (targetChef == null && !cuisineMatch) continue;
+        double rating = chefRow.get("rating") instanceof Number n ? n.doubleValue() : 0d;
+        int proximity = 35 - (int)Math.floor(15 * km / c.radiusKm());
+        int score = proximity + (cuisineMatch ? 45 : 0) + Math.min(20,Math.max(0,(int)rating)*4);
+        String reason = String.format(java.util.Locale.ROOT,
+            "Cách vị trí nấu khoảng %.1f km; Chef nhận trong bán kính %d km",km,c.radiusKm());
+        ranked.add(new Ranked(((Number)chefRow.get("chefId")).longValue(),score,km,rating,reason));
+      }
+      ranked.sort(java.util.Comparator.comparingInt(Ranked::score).reversed()
+          .thenComparingDouble(Ranked::km).thenComparing(java.util.Comparator.comparingDouble(Ranked::rating).reversed())
+          .thenComparingLong(Ranked::chefId));
+      for (var candidate : ranked.stream().limit(5).toList())
+        jdbc.update("""
+          INSERT INTO cooking_request_matches(request_id,chef_id,match_score,match_reason)
+          VALUES (:request,:chef,:score,:reason) ON CONFLICT (request_id,chef_id) DO NOTHING
+          """,new MapSqlParameterSource("request",requestId).addValue("chef",candidate.chefId())
+              .addValue("score",candidate.score()).addValue("reason",candidate.reason()));
       // Do not fabricate an offer from a chef without their consent. All menu requests
       // (including one directed to the original author) await an explicit Chef quote.
 
