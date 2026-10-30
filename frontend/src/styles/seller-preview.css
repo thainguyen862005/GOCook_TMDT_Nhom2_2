@@ -93,3 +93,62 @@
 .chef-preview .chef-save-toast button { flex-shrink: 0; min-width: 36px; padding: 6px; font-size: 20px; }
 @media (max-width: 520px) { .chef-preview .chef-save-toast { top: 82px; right: 16px; } }
 .chef-preview .chef-save-toast > div { flex: 1; min-width: 0; }
+
+/* 2026-10 Chef workspace UI polish. Scoped to avoid affecting Customer/Admin. */
+.chef-preview { --chef-tint: #f5f9f1; }
+.chef-preview .workspace { grid-template-columns: minmax(220px, 248px) minmax(0, 1fr); align-items: start; gap: 24px; }
+.chef-preview .chef-main { min-width: 0; align-content: start; }
+.chef-preview .page-heading { padding-block: 24px 22px; }
+.chef-preview .page-heading .lead { font-size: 14px; max-width: 780px; }
+.chef-preview .chef-heading-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.chef-preview .chef-sidebar { border: 1px solid var(--line); box-shadow: 0 10px 28px #2742160b; }
+.chef-preview .chef-sidebar .side-nav { gap: 4px; }
+.chef-preview .chef-sidebar .side-nav a { border-radius: 10px; line-height: 1.4; padding: 12px 13px; transition: background .15s ease, color .15s ease; }
+.chef-preview .chef-sidebar .side-nav a.active,
+.chef-preview .chef-sidebar .side-nav a[aria-current="page"] { color: var(--brand); background: var(--brand-soft); font-weight: 700; }
+.chef-preview .chef-sidebar .side-nav a:hover { background: var(--chef-tint); }
+.chef-preview .chef-panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.chef-preview .chef-panel-head h2 { margin-top: 4px; }
+.chef-preview .chef-filters { grid-template-columns: repeat(auto-fit, minmax(172px, 1fr)); gap: 12px; }
+.chef-preview .chef-filters .field { min-width: 0; }
+.chef-preview .chef-filters .field input,
+.chef-preview .chef-filters .field select { width: 100%; }
+.chef-preview .chef-summary-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.chef-preview .chef-summary-strip > div { display: grid; gap: 4px; padding: 16px 20px; border: 1px solid var(--line); background: white; border-radius: 14px; }
+.chef-preview .chef-summary-strip strong { font-size: 26px; color: var(--brand); }
+.chef-preview .chef-request-list { display: grid; gap: 16px; }
+.chef-preview .chef-request-card { display: grid; align-content: start; gap: 16px; padding: 22px; }
+.chef-preview .chef-request-card h3 { font-size: 20px; overflow-wrap: anywhere; }
+.chef-preview .chef-request-details { display: grid; grid-template-columns: repeat(2,minmax(0, 1fr)); gap: 12px; padding: 14px; background: var(--chef-tint); border-radius: 12px; }
+.chef-preview .chef-request-details > div { display: grid; align-content: start; gap: 3px; min-width: 0; }
+.chef-preview .chef-request-details strong { overflow-wrap: anywhere; font-size: 13px; }
+.chef-preview .chef-price-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-block: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 13px; }
+.chef-preview .chef-price-row strong { color: var(--brand); }
+.chef-preview .chef-offer-form { display: grid; gap: 12px; padding: 16px; border: 1px solid #e0e9d8; border-radius: 12px; background: #fbfdf9; }
+.chef-preview .chef-offer-form .btn { justify-self: start; }
+.chef-preview .chef-pagination { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.chef-preview .chef-pagination-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.chef-preview .chef-pagination-actions .btn[aria-current="page"] { pointer-events: none; }
+.chef-preview .chef-payment-label { white-space: nowrap; font-size: 12px; }
+.chef-preview .table-wrap table { min-width: 780px; }
+.chef-preview .table-wrap td { vertical-align: middle; }
+.chef-preview .chef-menu-card .chef-menu-content h2 { font-size: 20px; overflow-wrap: anywhere; }
+.chef-preview .chef-menu-card .chef-menu-content > p.muted { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; line-clamp: 3; overflow: hidden; }
+.chef-preview .chef-menu-grid { gap: 16px; }
+@media (max-width: 900px) {
+  .chef-preview .workspace { grid-template-columns: 1fr; }
+  .chef-preview .chef-sidebar { position: static; }
+  .chef-preview .chef-sidebar .side-nav { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding-bottom: 5px; }
+  .chef-preview .chef-sidebar .side-nav a { flex-shrink: 0; white-space: nowrap; }
+  .chef-preview .chef-identity, .chef-preview .chef-sidebar-note { display: none; }
+}
+@media (max-width: 600px) {
+  .chef-preview .chef-summary-strip { gap: 8px; }
+  .chef-preview .chef-summary-strip > div { padding: 12px; }
+  .chef-preview .chef-summary-strip strong { font-size: 22px; }
+  .chef-preview .chef-request-details { grid-template-columns: 1fr; }
+  .chef-preview .chef-request-card { padding: 16px; }
+  .chef-preview .chef-filters { grid-template-columns: 1fr; }
+  .chef-preview .chef-pagination { justify-content: center; }
+  .chef-preview .chef-heading-actions { width: 100%; }
+}

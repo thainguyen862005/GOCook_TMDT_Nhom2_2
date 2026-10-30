@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SellerWorkspace } from "../../components/common/SellerWorkspace";
+import { SellerPagination } from "../../components/common/SellerPagination";
 import {
   sellerMenuClient,
   sellerMenuError,
@@ -21,6 +22,7 @@ export function SellerProductsPage() {
   const [categories, setCategories] = useState<string[]>([]);
   const [result, setResult] = useState<PageResponse<SellerMenu> | null>(null);
   const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(6);
   const [reload, setReload] = useState(0);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<number | null>(null);
@@ -43,7 +45,7 @@ export function SellerProductsPage() {
     const timer = window.setTimeout(() => {
       sellerMenuClient
         .list(
-          { q: query.trim(), status, category, page, size: 6 },
+          { q: query.trim(), status, category, page, size: pageSize },
           controller.signal,
         )
         .then((data) => {
@@ -63,7 +65,7 @@ export function SellerProductsPage() {
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [query, status, category, page, reload]);
+  }, [query, status, category, page, pageSize, reload]);
   async function hide(menu: SellerMenu) {
     setBusyId(menu.id);
     setError("");
@@ -259,29 +261,14 @@ export function SellerProductsPage() {
                 )}
               </div>
             )}
-            {!!result?.totalPages && (
-              <div className="between">
-                <span className="small muted">
-                  Trang {page + 1} / {result.totalPages}
-                </span>
-                <div className="row">
-                  <button
-                    className="btn secondary sm"
-                    disabled={page === 0}
-                    onClick={() => setPage(page - 1)}
-                  >
-                    Trang trước
-                  </button>
-                  <button
-                    className="btn secondary sm"
-                    disabled={page + 1 >= result.totalPages}
-                    onClick={() => setPage(page + 1)}
-                  >
-                    Trang sau
-                  </button>
-                </div>
-              </div>
-            )}
+            <div className="chef-panel-head">
+              <label className="field small">Hiển thị mỗi trang
+                <select value={pageSize} onChange={event => { setPageSize(Number(event.target.value)); setPage(0); }}>
+                  <option value={6}>6 thực đơn</option><option value={12}>12 thực đơn</option>
+                </select>
+              </label>
+              <SellerPagination page={page} totalPages={result?.totalPages ?? 0} onPage={setPage} />
+            </div>
           </>
         )
       )}

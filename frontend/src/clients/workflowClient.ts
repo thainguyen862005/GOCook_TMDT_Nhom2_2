@@ -21,7 +21,7 @@ export const workflowClient = {
   threads: () => httpRequest<WorkflowThread[]>('/api/workflow/threads'),
   mine: () => httpRequest<WorkflowRequest[]>('/api/customer/cooking-requests'),
   detail: (id: number) => httpRequest<WorkflowRequest>(`/api/customer/cooking-requests/${id}`),
-  chefRequests: () => httpRequest<(WorkflowRequest & { myPrice?: number; myOfferStatus?: string })[]>('/api/chef/cooking-requests'),
+  chefRequests: (signal?: AbortSignal) => httpRequest<(WorkflowRequest & { myPrice?: number; myOfferStatus?: string })[]>('/api/chef/cooking-requests', { signal }),
   offer: (id: number, body: {price: number; dishes: string; note?: string}) =>
     httpRequest(`/api/chef/cooking-requests/${id}/offers`, {method:'POST',body:JSON.stringify(body)}),
   accept: (id: number, offerId: number) =>

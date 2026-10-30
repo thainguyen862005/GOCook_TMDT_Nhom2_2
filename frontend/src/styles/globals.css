@@ -628,3 +628,19 @@ button.text-link:disabled { opacity: .55; cursor: not-allowed; }
 .notice-center-item { padding: 12px 16px; gap: 12px; }
 .notice-center-item h3 { font-size: 15px; margin: 4px 0; }
 .notice-center-item p { font-size: 13px; margin: 3px 0; }
+
+/* Homepage Chef cards: dedicated vertical layout; the horizontal catalog card is intentionally unchanged. */
+.chef-card--featured { display: flex; flex-direction: column; min-width: 0; height: 100%; border-radius: var(--radius); }
+.chef-card--featured > img { display: block; height: 210px; min-height: 0; width: 100%; flex-shrink: 0; object-fit: cover; object-position: center 25%; background: var(--sand); }
+.chef-card--featured .card-body { display: flex; flex-direction: column; align-items: stretch; gap: 10px; min-width: 0; padding: 20px; }
+.chef-card--featured .card-body > .between { min-height: 28px; }
+.chef-card--featured .chef-card-footer { margin-top: auto; }
+.chef-card-title { overflow-wrap: anywhere; }
+.chef-card-area, .chef-card-meta { overflow-wrap: anywhere; }
+.chef-card-bio { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow-wrap: anywhere; }
+.chef-card-meta { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+.chef-card-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: auto; min-width: 0; }
+.chef-card-footer .price { min-width: 0; font-size: 16px; }
+.chef-card-footer .btn { flex-shrink: 0; }
+.chef-card--featured .badge { font-size: 10px; white-space: normal; }
+@media (max-width: 680px) { .chef-card--featured > img { height: 230px; } }

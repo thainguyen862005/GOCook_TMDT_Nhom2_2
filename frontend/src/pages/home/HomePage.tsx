@@ -1,3 +1,4 @@
+import { provinceList, provinceName } from '../../constants/provinces';
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChefCard } from '../../components/chef/ChefCard';
@@ -60,14 +61,14 @@ export function HomePage() {
             if (!event.currentTarget.src.endsWith('/assets/hero.png')) event.currentTarget.src = '/assets/hero.png';
           }} />
           {chefs[0] && <div className="float-card top"><img className="avatar" src={chefs[0].avatarUrl || '/assets/chef.png'} alt={chefs[0].displayName} /><div>
-            <strong>{chefs[0].displayName}</strong><p className="small muted">{chefs[0].serviceArea || 'Đầu bếp đã xác minh'}</p></div></div>}
+            <strong>{chefs[0].displayName}</strong><p className="small muted">{provinceList(chefs[0].serviceArea) || 'Đầu bếp đã xác minh'}</p></div></div>}
           {menus[0] && <div className="float-card"><div><p className="eyebrow">Thực đơn nổi bật</p><strong>{menus[0].name}</strong></div>
             <span className="price">{money(menus[0].unitPrice)}<small> / người</small></span></div>}
         </div>
       </div>
       <form className="search-bar" onSubmit={search}>
         <label className="field">Khu vực phục vụ<select name="area" defaultValue=""><option value="">Tất cả khu vực</option>
-          {areas.map(area => <option key={area} value={area}>{area}</option>)}
+          {areas.map(area => <option key={area} value={area}>{provinceName(area)}</option>)}
         </select></label>
         <div className="field"><strong>Đầu bếp tại gia</strong><p className="small muted">Tìm từ danh sách đầu bếp đã xác minh.</p></div>
         <button className="btn" type="submit">Tìm đầu bếp →</button>
@@ -76,7 +77,7 @@ export function HomePage() {
     <section className="container section stack"><div className="section-head"><div><p className="eyebrow">Gian bếp đang phục vụ</p><h2>Khám phá đầu bếp</h2></div>
       <Link className="text-link" to={ROUTES.CHEFS}>Xem tất cả →</Link></div>
       {loading ? <p role="status">Đang tải đầu bếp…</p> : chefError ? <div role="alert" className="notice">Chưa tải được đầu bếp. <button className="btn secondary sm" onClick={() => setRetry(x => x + 1)}>Tải lại</button></div>
-        : chefs.length ? <div className="grid grid-3">{chefs.map(chef => <ChefCard key={chef.id} chef={chef} />)}</div>
+        : chefs.length ? <div className="grid grid-3">{chefs.map(chef => <ChefCard key={chef.id} chef={chef} compact />)}</div>
           : <p>Chưa có đầu bếp đã xác minh để giới thiệu.</p>}
     </section>
     <section className="container section stack"><div className="section-head"><div><p className="eyebrow">Chọn bữa ăn dễ dàng</p><h2>Thực đơn mới cập nhật</h2></div>
