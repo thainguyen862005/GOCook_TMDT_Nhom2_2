@@ -17,6 +17,7 @@ export function AdminOrderDetailPage() {
     const [data, setData] = useState<{ order: AdminOrder; allowedStatuses: string[]; paymentState:string } | null>(null);
     const [status, setStatus] = useState('');
     const [note, setNote] = useState('');
+    const [cancelReason,setCancelReason]=useState('');
     const [message, setMessage] = useState<UiMessage | null>(null);
     const [busy, setBusy] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -81,6 +82,15 @@ export function AdminOrderDetailPage() {
         }
     }
 
+    async function cancelOrder() {
+      if(!id || cancelReason.trim().length<10 || busy || !window.confirm('Hủy đơn này và tạo yêu cầu hoàn tiền?'))return;
+      setBusy(true);
+      try{const result=await adminClient.cancelOrder(id,cancelReason.trim());await load();
+        setMessage({type:'success',text:result.refundStatus==='NOT_REQUIRED'?'Đã hủy đơn chưa thanh toán.':'Đã hủy và đưa hoàn tiền vào hàng đợi đối soát. Chưa chuyển tiền thật.'});
+      }catch(error){setMessage({type:'error',text:error instanceof Error?error.message:'Không hủy được đơn.'});}
+      finally{setBusy(false);}
+    }
+
     if (loading) return <AdminLayout title="Chi tiết đơn hàng"><Loading/></AdminLayout>;
     if (!data) return <AdminLayout title="Chi tiết đơn hàng"><Notice message={message}/>
         <section className="card stack"><p>Không thể tải chi tiết đơn hàng.</p>
@@ -99,7 +109,7 @@ export function AdminOrderDetailPage() {
                     <Info label="Ngày nấu" value={order.scheduledAtDisplay || dateTime(order.scheduledAt)}/><Info
                     label="Số khách" value={order.guestCount}/>
                     <Info label="Tổng tiền" value={money(order.totalAmount)}/>
-                    <Info label="Thanh toán" value={data.paymentState==='HELD'?'Đã tạm giữ':data.paymentState==='RELEASED'?'Đã giải ngân':data.paymentState==='VERIFYING_ESCROW'?'VNPay thành công, cần đối soát escrow':data.paymentState==='VNPAY_PENDING'?'Đang chờ VNPay':'Chưa thanh toán'}/><Info label="Địa chỉ"
+                    <Info label="Thanh toán" value={data.paymentState==='HELD'?'Đã tạm giữ':data.paymentState==='RELEASED'?'Đã giải ngân':data.paymentState==='REFUND_PENDING'?'Đã yêu cầu hoàn tiền, chờ đối soát':data.paymentState==='REFUNDED'?'Hoàn tiền đã xác nhận':data.paymentState==='VERIFYING_ESCROW'?'VNPay thành công, cần đối soát escrow':data.paymentState==='VNPAY_PENDING'?'Đang chờ VNPay':'Chưa thanh toán'}/><Info label="Địa chỉ"
                                                                                     value={order.serviceAddress || '—'}/>
                 </div>
                 {order.customerNote &&
@@ -121,6 +131,11 @@ export function AdminOrderDetailPage() {
                 </div>
               </div> : <p className="muted">Chưa đọc được timeline quản trị (kiểm tra migration).</p>}
             </section>
+            {['PENDING','CONFIRMED'].includes(order.status)&&<section className="card stack">
+              <h3>Hủy đơn có kiểm soát</h3><p className="small muted">Chỉ hủy trước khi thực hiện dịch vụ. Backend tạo yêu cầu hoàn tiền, không tự xác nhận VNPay đã hoàn tiền.</p>
+              <label className="field">Lý do hủy<textarea minLength={10} maxLength={500} value={cancelReason} onChange={e=>setCancelReason(e.target.value)}/></label>
+              <button type="button" className="btn secondary" disabled={busy||cancelReason.trim().length<10} onClick={()=>void cancelOrder()}>Hủy đơn & yêu cầu hoàn tiền</button>
+            </section>}
             <form className="card stack" onSubmit={save}>
                 <label className="field">Trạng thái (chỉ xem)<select disabled value={status}
                                                            onChange={(e) => setStatus(e.target.value)}>{(data.allowedStatuses || []).map((value) =>

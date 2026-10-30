@@ -7,6 +7,7 @@ import type {
 } from '../types/customerOrder';
 
 export const customerOrderClient = {
+  cancel:(id:number, reason:string)=>httpRequest<{status:string;refundStatus:string}>(`/api/customer/orders/${id}/cancel`,{method:'POST',body:JSON.stringify({reason})}),
   evidence: (id: number, signal?: AbortSignal) =>
     httpRequest<OrderEvidence[]>(`/api/customer/orders/${id}/evidence`, { signal }),
   accept: (id:number) => httpRequest<{status:string}>(`/api/customer/orders/${id}/accept`,{method:"POST"}),

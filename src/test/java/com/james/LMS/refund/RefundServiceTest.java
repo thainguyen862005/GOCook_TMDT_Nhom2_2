@@ -139,6 +139,28 @@ class RefundServiceTest {
   }
 
   @Test
+  void automaticChefCancellationQueuesRefundButNeverClaimsMoneyTransferred() {
+    escrowIs("HELD");
+    Refund refund = service.queueRefund(chefRejects()).orElseThrow();
+    assertThat(refund.status()).isEqualTo(RefundStatus.REQUESTED);
+    assertThat(refund.amount()).isEqualByComparingTo("1000000");
+    verify(store).holdForRefund(any(), anyString());
+    verify(gateway, never()).refund(any());
+    verify(store, never()).markRefunded(anyLong(), any());
+    verify(store, never()).paymentRefunded(anyLong());
+  }
+
+  @Test
+  void automaticCancellationReusesExistingRefundWithoutAnotherAttempt() {
+    escrowIs("REFUND_PENDING");
+    Refund first = service.queueRefund(chefRejects()).orElseThrow();
+    Refund second = service.queueRefund(chefRejects()).orElseThrow();
+    assertThat(second.id()).isEqualTo(first.id());
+    verify(store, times(1)).insert(any(NewRefund.class));
+    verify(gateway, never()).refund(any());
+  }
+
+  @Test
   void aChefRejectionAfterPaymentRefundsEverythingAndLocksInOrderEscrowPayment() {
     escrowIs("REFUND_PENDING");
 

@@ -2,7 +2,7 @@ import { httpRequest } from './httpClient';
 import type { ChefOrder, ChefOrderDetail, ChefOrderPage, ChefOrderStatus, ChefOrderSummary, ChefReceipt } from '../types/chefOrder';
 const path='/api/seller/orders';
 export const chefOrderClient={
-  list:(params:{status?:string;page?:number;size?:number;from?:string;to?:string},signal?:AbortSignal) => {
+  list:(params:{status?:string;q?:string;serviceType?:string;page?:number;size?:number;from?:string;to?:string},signal?:AbortSignal) => {
     const q=new URLSearchParams();
     Object.entries(params).forEach(([key,value])=>{if(value!==undefined&&value!=='')q.set(key,String(value));});
     return httpRequest<ChefOrderPage>(`${path}?${q}`,{signal});
