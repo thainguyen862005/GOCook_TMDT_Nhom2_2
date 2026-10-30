@@ -13,7 +13,7 @@ test('chat and inbox routes are registered behind authentication', () => {
 test('Customer and Chef see links to the same order chat thread', () => {
   assert.match(read('pages/order/OrderDetailPage.tsx'), /ROUTES\.CHAT\}\?orderId=\$\{order\.id\}/);
   assert.match(read('pages/seller/SellerOrderDetailPage.tsx'), /ROUTES\.CHAT\}\?orderId=\$\{o\.id\}/);
-  assert.match(read('pages/seller/SellerRequestsPage.tsx'), /ROUTES\.CHAT\}\?requestId=\$\{r\.id\}&peerId=\$\{r\.customerId\}/);
+  assert.match(read('pages/seller/SellerRequestsPage.tsx'), /ROUTES\.CHAT\}\?requestId=\$\{(\w+)\.id\}&peerId=\$\{\1\.customerId\}/);
 });
 test('backend authorizes order messages against the order owner and assigned chef', () => {
   assert.match(backend, /o\.customer_id=:actor OR o\.chef_id=:actor/);
