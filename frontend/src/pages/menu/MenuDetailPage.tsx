@@ -6,6 +6,7 @@ import type { ChefSummary } from '../../types/publicContent';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import type { MenuDetail } from '../../types/menu';
 import { ROUTES } from '../../constants/routes';
+import { PROVINCES, provinceList } from '../../constants/provinces';
 
 /**
  * Route: /menu-detail?id={productId}
@@ -27,12 +28,10 @@ function MenuDetail({ id }: { id: string | null }) {
 
   const [bookingMode, setBookingMode] = useState<'creator'|'choose'|'match'>('creator');
   const [serviceArea, setServiceArea] = useState('');
-  const [areas, setAreas] = useState<string[]>([]);
   const [candidates, setCandidates] = useState<ChefSummary[]>([]);
   const [selectedChef, setSelectedChef] = useState<number | null>(null);
   const [searching, setSearching] = useState(false);
   const [chefError, setChefError] = useState('');
-  useEffect(() => { publicContentClient.areas().then(setAreas).catch(()=>{}); }, []);
   useEffect(() => {
     if (bookingMode !== 'choose' || !data || !serviceArea.trim()) { setCandidates([]); return; }
     const controller = new AbortController(); setSearching(true); setChefError('');
@@ -212,12 +211,12 @@ function MenuDetail({ id }: { id: string | null }) {
               </section>
               {bookingMode !== 'creator' && <section className="stack">
                 <label className="field">Khu vực cần phục vụ
-                  <input list="chef-service-areas" value={serviceArea} maxLength={100}
-                    onChange={event=>{setServiceArea(event.target.value);setSelectedChef(null);}}
-                    placeholder="Ví dụ: Dĩ An, Bình Dương" required />
-                  <datalist id="chef-service-areas">{areas.map(a=><option key={a} value={a} />)}</datalist>
+                  <select value={serviceArea} onChange={event=>{setServiceArea(event.target.value);setSelectedChef(null);}} required>
+                    <option value="">Chọn tỉnh/thành</option>
+                    {PROVINCES.map(p=><option key={p.code} value={p.code}>{p.name}</option>)}
+                  </select>
                 </label>
-                <p className="small muted">Giá niêm yết thuộc đầu bếp đăng thực đơn. Với đầu bếp khác, bạn sẽ nhận báo giá riêng và chỉ thanh toán sau khi chấp nhận.</p>
+                <p className="small muted">Danh sách Chef tại đây chỉ lọc sơ bộ theo tỉnh/thành. Khi tạo yêu cầu bạn cần xác nhận vị trí nấu; backend sẽ kiểm tra bán kính phục vụ và lịch trống thực tế. Giá niêm yết chỉ áp dụng cho đầu bếp đăng thực đơn.</p>
                 {bookingMode==='choose' && <div className="stack">
                   {searching&&<p role="status">Đang tìm Chef có thực đơn cùng phong cách trong khu vực…</p>}
                   {chefError&&<p role="alert" className="notice warm">{chefError}</p>}
@@ -225,7 +224,7 @@ function MenuDetail({ id }: { id: string | null }) {
                   {candidates.map(chef=><label key={chef.id} className="check">
                     <input type="radio" name="chosen-chef" checked={selectedChef===chef.id}
                       onChange={()=>setSelectedChef(chef.id)}/>
-                    {chef.displayName} · {chef.serviceArea} · {Number(chef.rating??0).toFixed(1)}/5
+                    {chef.displayName} · {provinceList(chef.serviceArea)} · {Number(chef.rating??0).toFixed(1)}/5
                   </label>)}
                 </div>}
               </section>}

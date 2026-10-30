@@ -12,6 +12,7 @@ import { dateTime, money } from '../../util/format';
 import { statusClass } from '../../util/status';
 import { useRetryPayment } from '../../hooks/checkout/useRetryPayment';
 import { OrderEvidenceGallery, type OrderEvidence } from '../../components/common/OrderEvidenceGallery';
+import { OrderReviewForm } from '../../components/review/OrderReviewForm';
 
 function PendingPayment({orderCode}: {orderCode:string}) {
   const {retry,retrying,error} = useRetryPayment(orderCode);
@@ -33,9 +34,19 @@ export function OrderDetailPage() {
   const [message, setMessage] = useState<UiMessage | null>(null);
   const [busy, setBusy] = useState(false);
   const [reviewChecked, setReviewChecked] = useState(false);
+  const [cancelReason,setCancelReason] = useState('');
   const [evidence, setEvidence] = useState<OrderEvidence[]>([]);
   const [evidenceError, setEvidenceError] = useState('');
   const [evidenceReload, setEvidenceReload] = useState(0);
+  async function cancelOrder() {
+    if (!order || busy || cancelReason.trim().length < 10 || !window.confirm('Xác nhận hủy đơn? Chính sách hoàn tiền tùy thời điểm.')) return;
+    setBusy(true);setMessage(null);
+    try {const result=await customerOrderClient.cancel(order.id,cancelReason.trim());
+      setOrder(await customerOrderClient.detail(order.id));
+      setMessage({type:'success',text:result.refundStatus==='NOT_REQUIRED'?'Đã hủy đơn, chưa thu tiền.':'Đã hủy đơn và tạo yêu cầu hoàn tiền. Chờ đối soát, chưa xác nhận đã chuyển tiền.'});
+    } catch(e){setMessage({type:'error',text:e instanceof Error?e.message:'Không hủy được đơn.'});}
+    finally {setBusy(false);}
+  }
   async function accept() {
     if (!order || busy || order.status !== 'AWAITING_ACCEPTANCE') return;
     setBusy(true);setMessage(null);
@@ -117,6 +128,12 @@ export function OrderDetailPage() {
               <label className="row"><input type="checkbox" checked={reviewChecked} onChange={event=>setReviewChecked(event.target.checked)}/> Tôi đã kiểm tra hình ảnh và chất lượng phục vụ, đồng ý nghiệm thu.</label>
               <button className="btn" disabled={busy||!reviewChecked} onClick={() => void accept()}>{busy?'Đang xác nhận…':'Xác nhận nghiệm thu & giải ngân'}</button>
             </div>}
+            {order.status==='COMPLETED' && <OrderReviewForm orderId={order.id} />}
+            {['PENDING','CONFIRMED'].includes(order.status)&&<section className="soft stack">
+              <h3>Hủy đơn hàng</h3><p className="small muted">Đơn đã thanh toán sẽ được tạo yêu cầu hoàn tiền theo chính sách. Không đồng nghĩa tiền đã về tài khoản.</p>
+              <label className="field">Lý do hủy<textarea minLength={10} maxLength={500} value={cancelReason} onChange={e=>setCancelReason(e.target.value)} rows={2}/></label>
+              <button className="btn secondary" disabled={busy||cancelReason.trim().length<10} onClick={()=>void cancelOrder()}>Yêu cầu hủy đơn</button>
+            </section>}
             <Link className="btn" to={`${ROUTES.CHAT}?orderId=${order.id}`}>Nhắn tin với đầu bếp</Link>
             <Link className="btn secondary" to={ROUTES.ORDERS}>← Quay lại danh sách</Link>
           </section>
@@ -124,7 +141,7 @@ export function OrderDetailPage() {
             <h3>Chi phí đặt lịch</h3>
             <div className="summary-line"><span>Thực đơn</span><strong>{money(order.totalAmount)}</strong></div>
             <div className="summary-line total"><span>Tổng cộng</span><strong>{money(order.totalAmount)}</strong></div>
-            <p className="small">Thanh toán: <strong>{order.escrowStatus==='HELD'?'Đã thanh toán, đang tạm giữ':order.escrowStatus==='RELEASED'?'Đã nghiệm thu':order.escrowStatus==='REFUND_PENDING'?'Đang hoàn tiền':order.escrowStatus==='REFUNDED'?'Đã hoàn tiền':'Chưa xác nhận thanh toán'}</strong></p>
+            <p className="small">Thanh toán: <strong>{order.escrowStatus==='HELD'?'Đã thanh toán, đang tạm giữ':order.escrowStatus==='RELEASED'?'Đã nghiệm thu':order.escrowStatus==='REFUND_PENDING'?'Đã yêu cầu hoàn tiền, chờ đối soát':order.escrowStatus==='REFUNDED'?'Đã hoàn tiền':'Chưa xác nhận thanh toán'}</strong></p>
             <p className="small muted">Trang này hiển thị thông tin đơn hàng; không xác nhận đã thanh toán.</p>
           </aside>
 

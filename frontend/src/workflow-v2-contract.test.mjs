@@ -1,4 +1,4 @@
-import test from 'node:test';
+﻿import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const source=(name)=>readFileSync(new URL(name,import.meta.url),'utf8');
@@ -10,11 +10,14 @@ test('existing menu payment is distinct from other Chef quote',()=>{
  assert.match(menu,/ROUTES.CHECKOUT/);
  assert.match(menu,/ROUTES.REQUEST/);
 });
-test('request submits server-side chef preference and region',()=>{
+test('request submits Chef preference and verified service area',()=>{
  const form=source('./pages/request/CookingRequestPage.tsx');
  assert.match(form,/preferredChefId:chefId/);
  assert.match(form,/preferredMenuId:menuId/);
- assert.match(form,/serviceArea:String\(f.get\('serviceArea'\)/);
+ assert.match(form,/serviceArea:\s*formatPoint\(province,\s*coords\)/);
+ assert.match(form,/coords\?\.proof/);
+ assert.match(form,/coords\.wardCode\s*!==\s*ward/);
+ assert.match(form,/address:\s*coords\.label\.trim\(\)/);
 });
 test('one real inbox endpoint serves both roles',()=>{
  assert.match(source('./clients/workflowClient.ts'),/api\/workflow\/threads/);

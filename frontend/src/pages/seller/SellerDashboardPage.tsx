@@ -33,7 +33,7 @@ export function SellerDashboardPage(){
       .catch(err=>{if(!controller.signal.aborted)setRequestsError(err instanceof Error?err.message:'Không tải được yêu cầu.');});
     return ()=>controller.abort();
   },[reload]);
-  return <SellerWorkspace title="Tổng quan đầu bếp" description="Đơn hàng, tiến độ và lịch phục vụ được lấy từ dữ liệu thực tế.">
+  return <SellerWorkspace title="Tổng quan đầu bếp" description="">
     <div className="between"><p className="small muted">Số liệu cập nhật khi tải trang hoặc nhấn làm mới.</p><button className="btn secondary sm" onClick={()=>setReload(n=>n+1)}>Làm mới</button></div>
     {loading&&<p role="status">Đang tải tổng quan…</p>}{error&&<p role="alert" className="notice warm">{error}</p>}
     <section className="card stack">

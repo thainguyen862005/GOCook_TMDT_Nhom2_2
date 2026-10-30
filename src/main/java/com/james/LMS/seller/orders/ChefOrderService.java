@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Chef-side order commands. Only the Chef's authenticated user ID is trusted.
- * This service does not capture payments, refund money, or release escrow.
+ * This service never captures payments or settles refunds; rejection only queues a refund request.
  * The database exclusion constraint on chef_bookings is a second line of defense
  * against overlapping reservations when other modules are processing bookings.
  */
@@ -27,8 +27,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class ChefOrderService {
   private static final ZoneId ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
   private final JdbcTemplate jdbc;
+  private final com.james.LMS.refund.RefundService refunds;
 
-  public ChefOrderService(JdbcTemplate jdbc) { this.jdbc = jdbc; }
+  public ChefOrderService(JdbcTemplate jdbc, com.james.LMS.refund.RefundService refunds) {
+    this.jdbc = jdbc; this.refunds = refunds;
+  }
 
   public record OrderRow(long id, long version, String orderCode, String customerName,
       String productName, String serviceType, String customerPhone, String serviceAddress,
@@ -68,21 +71,38 @@ public class ChefOrderService {
           rs.getTimestamp("chef_completed_at") == null ? null :
               rs.getTimestamp("chef_completed_at").toLocalDateTime());
 
+  // Retain the existing signature for dashboard and callers that do not search by keyword.
   @Transactional(readOnly = true)
   public OrderPage list(long chef, String status, int page, int size, LocalDate from, LocalDate to) {
+    return list(chef, status, "", "", page, size, from, to);
+  }
+
+  @Transactional(readOnly = true)
+  public OrderPage list(long chef, String status, String query, String serviceType,
+      int page, int size, LocalDate from, LocalDate to) {
     if (page < 0 || page > 100000 || size < 1 || size > 50
         || (from != null && to != null && to.isBefore(from)))
       throw error(HttpStatus.BAD_REQUEST, "Bộ lọc hoặc phân trang không hợp lệ.");
-    // Reject malformed filters before any database lookup.
     String normalized = status == null ? "" : status.trim().toUpperCase(Locale.ROOT);
+    String type = serviceType == null ? "" : serviceType.trim().toUpperCase(Locale.ROOT);
+    String keyword = query == null ? "" : query.trim();
+    if (keyword.length() > 100 || (!type.isEmpty() && !List.of("MENU", "BUDGET").contains(type)))
+      throw error(HttpStatus.BAD_REQUEST, "Từ khóa hoặc loại dịch vụ không hợp lệ.");
     if (!normalized.isEmpty()) parse(normalized);
     requireVerifiedChef(chef);
+    // POSITION performs literal substring matching, so %, _ and backslashes never become SQL wildcards.
     String filter = (normalized.isEmpty() ? "" : " AND o.status=?")
+        + (type.isEmpty() ? "" : " AND o.service_type=?")
+        + (keyword.isEmpty() ? "" : " AND (POSITION(LOWER(?) IN LOWER(COALESCE(o.order_code,'')))>0"
+            + " OR POSITION(LOWER(?) IN LOWER(COALESCE(o.customer_name,'')))>0"
+            + " OR POSITION(LOWER(?) IN LOWER(COALESCE(o.product_name,'')))>0)")
         + (from == null ? "" : " AND o.scheduled_at >= ?")
         + (to == null ? "" : " AND o.scheduled_at < ?");
     var args = new java.util.ArrayList<Object>();
     args.add(chef);
     if (!normalized.isEmpty()) args.add(normalized);
+    if (!type.isEmpty()) args.add(type);
+    if (!keyword.isEmpty()) { args.add(keyword); args.add(keyword); args.add(keyword); }
     if (from != null) args.add(Timestamp.valueOf(from.atStartOfDay()));
     if (to != null) args.add(Timestamp.valueOf(to.plusDays(1).atStartOfDay()));
     Long total = jdbc.queryForObject("SELECT count(*) FROM orders o WHERE o.chef_id=? AND o.is_active=true"+filter,
@@ -180,6 +200,11 @@ public class ChefOrderService {
         throw error(HttpStatus.BAD_REQUEST,"Vui lòng nhập lý do từ chối (10–1000 ký tự).");
       Boolean result=jdbc.queryForObject("select gocook_chef_reject_order(?,?,?)",Boolean.class,id,chef,reason);
       if (!Boolean.TRUE.equals(result)) throw error(HttpStatus.CONFLICT,"Đơn không còn ở trạng thái chờ nhận.");
+      // SQL changes status and escrow atomically; enqueue compensation in the same transaction.
+      // No fake success: queue is REQUESTED / REFUND_PENDING, not transferred money.
+      refunds.queueRefund(new com.james.LMS.refund.CancellationContext(id,
+          com.james.LMS.refund.CancelledBy.CHEF, java.time.OffsetDateTime.now(),
+          order.scheduledAt(), reason));
       return get(chef,id);
     }
     if (target != OrderStatus.CONFIRMED) {

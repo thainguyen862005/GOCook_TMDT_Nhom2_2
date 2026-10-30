@@ -33,7 +33,7 @@ class PublicChefServiceTest {
         .thenReturn(60L);
     when(jdbc.queryForList(contains("ORDER BY"), any(MapSqlParameterSource.class)))
         .thenReturn(List.of(Map.of("id", 7L, "displayName", "Bếp Demo")));
-    var result = service.search("Bếp", "Hà Nội", "Món chay", 0, 12, "rating");
+    var result = service.search("Bếp", "01", "Món chay", 0, 12, "rating");
     assertEquals(60L, result.get("totalElements"));
     assertEquals(5L, result.get("totalPages"));
     verify(jdbc).queryForList(argThat(sql -> sql.contains("cp.is_verified = true")

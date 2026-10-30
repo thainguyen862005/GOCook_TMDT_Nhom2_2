@@ -41,6 +41,7 @@ export function SellerWorkspace({
   const { pathname } = useLocation();
   const { profile } = useAuth();
   const chefName = profile?.username || "Đầu bếp";
+  const inOrders = pathname.startsWith('/seller/orders') || pathname.startsWith('/seller/order-detail');
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
@@ -56,11 +57,12 @@ export function SellerWorkspace({
           <div>
             <p className="eyebrow">{chefName} · Kênh đầu bếp</p>
             <h1>{title}</h1>
-            <p className="lead">{description}</p>
+            {description && <p className="lead">{description}</p>}
           </div>
-          <Link className="btn secondary" to="/seller/product-new">
-            + Thêm thực đơn
-          </Link>
+          <div className="chef-heading-actions">
+            <Link className="btn secondary sm" to="/seller/requests">Yêu cầu mới</Link>
+            <Link className="btn sm" to="/seller/product-new">+ Thêm thực đơn</Link>
+          </div>
         </div>
       </div>
       <div className="workspace">
@@ -76,7 +78,7 @@ export function SellerWorkspace({
           </div>
           <nav className="side-nav" aria-label="Quản lý đầu bếp">
             {links.map(([to, label, path]) => (
-              <NavLink key={to} to={to} end={to === "/seller"}>
+              <NavLink key={to} to={to} end={to === "/seller"} className={({ isActive }) => isActive || (to === '/seller/orders' && inOrders) ? 'active' : ''}>
                 <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d={path} />
                 </svg>
@@ -95,7 +97,7 @@ export function SellerWorkspace({
             </Link>
           </div>
         </aside>
-        <div className="stack">{children}</div>
+        <main className="stack chef-main" id="chef-main-content">{children}</main>
       </div>
     </div>
   );

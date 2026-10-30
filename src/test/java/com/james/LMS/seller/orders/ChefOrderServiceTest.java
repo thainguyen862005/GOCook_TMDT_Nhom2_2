@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 class ChefOrderServiceTest {
   final JdbcTemplate jdbc=mock(JdbcTemplate.class);
-  final ChefOrderService service=new ChefOrderService(jdbc);
+  final ChefOrderService service=new ChefOrderService(jdbc, org.mockito.Mockito.mock(com.james.LMS.refund.RefundService.class));
 
   @Test void invalidTransitionsCannotTouchDatabase() {
     var bad=new ChefOrderService.Transition("PENDING","COMPLETED",1L,"");
@@ -62,4 +62,32 @@ class ChefOrderServiceTest {
     assertThrows(ResponseStatusException.class,()->service.list(5L,"NOT_A_STATUS",0,10,null,null));
     verifyNoInteractions(jdbc);
   }
+
+  @Test void orderSearchRejectsMalformedFiltersBeforeDatabaseAccess() {
+    assertThrows(ResponseStatusException.class, () ->
+        service.list(5L, "", "x".repeat(101), "", 0, 10, null, null));
+    assertThrows(ResponseStatusException.class, () ->
+        service.list(5L, "", "", "INVALID", 0, 10, null, null));
+    assertThrows(ResponseStatusException.class, () ->
+        service.list(5L, "", "", "MENU", -1, 10, null, null));
+    verifyNoInteractions(jdbc);
+  }
+
+  @Test void orderSearchIsChefScopedAndUsesLiteralParametersInCountAndPage() {
+    when(jdbc.queryForObject(contains("EXISTS(SELECT 1 FROM users"), eq(Boolean.class), eq(5L)))
+        .thenReturn(true);
+    when(jdbc.queryForObject(contains("SELECT count(*) FROM orders"), eq(Long.class), any(Object[].class)))
+        .thenReturn(0L);
+    service.list(5L, "PENDING", "50%_\\", "MENU", 0, 10, null, null);
+    var countArgs = org.mockito.ArgumentCaptor.forClass(Object[].class);
+    verify(jdbc).queryForObject(contains("POSITION(LOWER(?)"), eq(Long.class), countArgs.capture());
+    assertEquals(5L, countArgs.getValue()[0]);
+    assertEquals("PENDING", countArgs.getValue()[1]);
+    assertEquals("MENU", countArgs.getValue()[2]);
+    assertEquals("50%_\\", countArgs.getValue()[3]);
+    assertEquals("50%_\\", countArgs.getValue()[4]);
+    assertEquals("50%_\\", countArgs.getValue()[5]);
+    verify(jdbc).query(contains("ORDER BY o.scheduled_at DESC"), any(RowMapper.class), any(Object[].class));
+  }
+
 }

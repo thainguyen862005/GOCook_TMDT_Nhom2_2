@@ -85,6 +85,9 @@ export const adminClient = {
     orders: (params: { q?: string; status?: string; from?: string; to?: string; page?: number; size?: number }) =>
         httpRequest<OrdersResponse>(`/api/admin/orders?${query(params)}`),
 
+    cancelOrder: (id: string | number, reason: string) =>
+        httpRequest<{status:string;refundStatus:string}>(`/api/admin/orders/${id}/cancel`,{method:'POST',body:JSON.stringify({reason})}),
+
     order: (id: string | number) =>
         httpRequest<{ order: AdminOrder; allowedStatuses: string[]; paymentState: string }>(`/api/admin/orders/${id}`),
 

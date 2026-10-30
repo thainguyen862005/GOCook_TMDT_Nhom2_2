@@ -83,6 +83,57 @@ public class RefundService {
     return settle(refund, escrow, payment, context.reason());
   }
 
+  /**
+   * Automatically opens the refund case after an order cancellation/rejection, WITHOUT
+   * calling a payment provider. The current gateway is simulated; reporting REFUNDED
+   * automatically would be a financial misstatement. An authorized payout worker must
+   * execute a real, reconciled gateway transfer later.
+   *
+   * Transaction lock order: order -> escrow -> payment. Duplicate calls reuse the refund.
+   */
+  public Optional<Refund> queueRefund(CancellationContext context) {
+    return Optional.ofNullable(transactions.execute(status -> {
+      store.lockOrder(context.orderId()).orElseThrow(() -> orderNotFound());
+      Optional<EscrowRow> escrowFound = store.lockEscrow(context.orderId());
+      if (escrowFound.isEmpty()) {
+        if (store.hasSuccessPayment(context.orderId()))
+          throw fail(HttpStatus.CONFLICT, ErrorCode.REFUND_NO_ESCROW,
+              "Thanh toán thành công nhưng escrow chưa đồng bộ; cần Admin đối soát.");
+        return null; // Never paid: no refund to request.
+      }
+      EscrowRow escrow = escrowFound.get();
+      PaymentRow payment = store.lockPayment(escrow.paymentId()).orElseThrow();
+      Optional<Refund> existing = store.latestForPayment(payment.id());
+      if (existing.isPresent()) return existing.get();
+      requireRefundable(escrow);
+      Decision decision = policy.decide(context, escrow.gross());
+      Refund created = store.insert(new NewRefund(context.orderId(), payment.id(), decision.amount(),
+          decision.retained(), decision.percent(), reasonOf(context.cancelledBy()), null));
+      if ("HELD".equals(escrow.status())) store.holdForRefund(escrow, "Auto queued: " + context.reason());
+      log.info("refund requested automatically order={} refund={} amount={}",
+          context.orderId(),created.id(),created.amount());
+      return created;
+    }));
+  }
+
+  /** Safe automatic detection for a second SUCCESS payment when another payment is
+   * already the authoritative escrow payment. No outward money transfer is attempted. */
+  public Refund queueDuplicate(Long paymentId) {
+    Long orderId = store.paymentOrderId(paymentId)
+        .orElseThrow(() -> fail(HttpStatus.NOT_FOUND, ErrorCode.REFUND_NOT_FOUND, "Không tìm thấy giao dịch."));
+    return transactions.execute(status -> {
+      store.lockOrder(orderId).orElseThrow(() -> orderNotFound());
+      PaymentRow payment = store.lockPayment(paymentId).orElseThrow();
+      var old = store.latestForPayment(paymentId);
+      if (old.isPresent()) return old.get();
+      var heldId = store.escrowedPaymentId(orderId);
+      if (!"SUCCESS".equals(payment.status()) || heldId.isEmpty() || heldId.get().equals(paymentId))
+        throw fail(HttpStatus.CONFLICT, ErrorCode.REFUND_NOT_DUPLICATE, "Không đủ bằng chứng thanh toán trùng.");
+      return store.insert(new NewRefund(orderId,paymentId,payment.amount(),BigDecimal.ZERO,
+          100,RefundReason.DUPLICATE_PAYMENT,null));
+    });
+  }
+
   /** Runs the refund again after a gateway failure. */
   public Refund retry(Long refundId) {
     return transactions.execute(

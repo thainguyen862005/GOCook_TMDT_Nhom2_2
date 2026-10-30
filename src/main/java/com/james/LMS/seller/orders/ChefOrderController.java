@@ -19,11 +19,13 @@ public class ChefOrderController {
   @GetMapping
   public ChefOrderService.OrderPage list(@AuthenticationPrincipal SecurityUserDetails actor,
       @RequestParam(defaultValue="") String status,
+      @RequestParam(defaultValue="") String q,
+      @RequestParam(defaultValue="") String serviceType,
       @RequestParam(defaultValue="0") int page,
       @RequestParam(defaultValue="10") int size,
       @RequestParam(required=false) LocalDate from,
       @RequestParam(required=false) LocalDate to) {
-    return service.list(actor.getId(),status,page,size,from,to);
+    return service.list(actor.getId(),status,q,serviceType,page,size,from,to);
   }
 
   @GetMapping("/summary")
