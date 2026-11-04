@@ -8,6 +8,7 @@ import { ROUTES } from '../../constants/routes';
 import type { ChefOrderDetail, ChefOrderStatus } from '../../types/chefOrder';
 import { chefStatusLabels } from '../../types/chefOrder';
 import { dateTime, money } from '../../util/format';
+import { ReportButton } from '../../components/engagement/ReportButton';
 
 const next:Partial<Record<ChefOrderStatus,ChefOrderStatus>>={
   PENDING:'CONFIRMED',CONFIRMED:'PREPARING',PREPARING:'COOKING',COOKING:'AWAITING_ACCEPTANCE',
@@ -81,6 +82,7 @@ export function SellerOrderDetailPage(){
         <div><dt>Loại dịch vụ</dt><dd>{o.serviceType==='MENU'?'Thực đơn có sẵn':'Theo ngân sách'}</dd></div>
       </dl><div className="soft"><strong>Ghi chú khách hàng</strong><p>{o.customerNote||'Không có'}</p></div>
       <Link className="btn secondary" to={`${ROUTES.CHAT}?orderId=${o.id}`}>Nhắn tin với khách về đơn này</Link>
+      <ReportButton targetType="CUSTOMER" targetId={o.id} label="Báo cáo vấn đề với khách hàng" />
     </section><section className="card stack">
       <h2>Thanh toán và xử lý đơn</h2><h3>{money(o.totalAmount)}</h3>
       <p>Trạng thái tạm giữ: <strong>{o.escrowStatus==='HELD'?'Đang tạm giữ':o.escrowStatus==='RELEASED'?'Đã giải ngân':o.escrowStatus||'Khách chưa thanh toán qua VNPay'}</strong></p>

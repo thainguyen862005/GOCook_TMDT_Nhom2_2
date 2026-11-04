@@ -13,6 +13,7 @@ import { statusClass } from '../../util/status';
 import { useRetryPayment } from '../../hooks/checkout/useRetryPayment';
 import { OrderEvidenceGallery, type OrderEvidence } from '../../components/common/OrderEvidenceGallery';
 import { OrderReviewForm } from '../../components/review/OrderReviewForm';
+import { MenuReviewForm } from '../../components/review/MenuReviewForm';
 
 function PendingPayment({orderCode}: {orderCode:string}) {
   const {retry,retrying,error} = useRetryPayment(orderCode);
@@ -128,7 +129,7 @@ export function OrderDetailPage() {
               <label className="row"><input type="checkbox" checked={reviewChecked} onChange={event=>setReviewChecked(event.target.checked)}/> Tôi đã kiểm tra hình ảnh và chất lượng phục vụ, đồng ý nghiệm thu.</label>
               <button className="btn" disabled={busy||!reviewChecked} onClick={() => void accept()}>{busy?'Đang xác nhận…':'Xác nhận nghiệm thu & giải ngân'}</button>
             </div>}
-            {order.status==='COMPLETED' && <OrderReviewForm orderId={order.id} />}
+            {order.status==='COMPLETED' && <><OrderReviewForm orderId={order.id} /><MenuReviewForm orderId={order.id} /></>}
             {['PENDING','CONFIRMED'].includes(order.status)&&<section className="soft stack">
               <h3>Hủy đơn hàng</h3><p className="small muted">Đơn đã thanh toán sẽ được tạo yêu cầu hoàn tiền theo chính sách. Không đồng nghĩa tiền đã về tài khoản.</p>
               <label className="field">Lý do hủy<textarea minLength={10} maxLength={500} value={cancelReason} onChange={e=>setCancelReason(e.target.value)} rows={2}/></label>

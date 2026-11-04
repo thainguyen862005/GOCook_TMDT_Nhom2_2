@@ -12,6 +12,7 @@ import { SellerRequestsPage } from '../../pages/seller/SellerRequestsPage';
 import { SellerProfilePage } from '../../pages/seller/SellerProfilePage';
 import { SellerRevenuePage } from '../../pages/seller/SellerRevenuePage';
 import { SellerSchedulePage } from '../../pages/seller/SellerSchedulePage';
+import { SellerMenuQuestionsPage } from '../../pages/seller/SellerMenuQuestionsPage';
 import { ProtectedRoute } from '../guards/ProtectedRoute';
 import { SellerDemoProvider } from '../../contexts/SellerDemoContext';
 
@@ -33,6 +34,7 @@ export const sellerRoutes: RouteObject[] = [
       { path: ROUTES.SELLER_PRODUCTS, element: <SellerProductsPage /> },
       { path: ROUTES.SELLER_REVENUE, element: <SellerRevenuePage /> },
       { path: ROUTES.SELLER_SCHEDULE, element: <SellerSchedulePage /> },
+      { path: ROUTES.SELLER_QUESTIONS, element: <SellerMenuQuestionsPage /> },
     ],
   },
 ];
