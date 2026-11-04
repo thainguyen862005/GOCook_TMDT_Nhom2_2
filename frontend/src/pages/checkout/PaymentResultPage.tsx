@@ -1,6 +1,7 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
+import { cartClient } from '../../clients/cartClient';
 import { recallCheckoutLink } from '../../hooks/checkout/checkoutRetry';
 import { usePaymentStatus } from '../../hooks/checkout/usePaymentStatus';
 import { useRetryPayment } from '../../hooks/checkout/useRetryPayment';
@@ -13,6 +14,23 @@ export function PaymentResultPage() {
   const [params] = useSearchParams();
   const returnParams = params.has('vnp_ResponseCode') ? vnpayParams(params) : null;
   const { view, result, error, recheck } = usePaymentStatus(params.get('vnp_TxnRef'), returnParams);
+
+  useEffect(() => {
+    // A cart entry is cleared only when the server confirms successful payment AND escrow.
+    // Claim the stored key synchronously so StrictMode or repeated renders cannot double-delete.
+    if (view !== 'success' || !result?.orderCode) return;
+    const key = `gocook:cart-order:${result.orderCode}`;
+    let raw: string | null = null;
+    try { raw = sessionStorage.getItem(key); } catch { return; }
+    const itemId = Number(raw);
+    if (!raw || !Number.isSafeInteger(itemId) || itemId <= 0) return;
+    try { sessionStorage.removeItem(key); } catch { return; }
+    void cartClient.remove(itemId).catch(() => {
+      // Cart cleanup is non-critical: a network error must never reverse a paid booking.
+      // Keep the key so a later successful return can retry the cart cleanup.
+      try { sessionStorage.setItem(key, raw); } catch { /* optional */ }
+    });
+  }, [view, result?.orderCode]);
 
   return (
     <>
