@@ -7,6 +7,11 @@ import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import type { MenuDetail } from '../../types/menu';
 import { ROUTES } from '../../constants/routes';
 import { PROVINCES, provinceList } from '../../constants/provinces';
+import { cartClient } from '../../clients/cartClient';
+import { useAuth } from '../../hooks/auth/useAuth';
+import { MenuQuestions } from '../../components/engagement/MenuQuestions';
+import { ReportButton } from '../../components/engagement/ReportButton';
+import { MenuReviews } from '../../components/review/MenuReviewForm';
 
 /**
  * Route: /menu-detail?id={productId}
@@ -25,6 +30,9 @@ function MenuDetail({ id }: { id: string | null }) {
   const [guests, setGuests] = useState<number | null>(null);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('18:30');
+  const { profile, isAdmin, isSeller } = useAuth();
+  const [cartBusy,setCartBusy]=useState(false);
+  const [cartNotice,setCartNotice]=useState('');
 
   const [bookingMode, setBookingMode] = useState<'creator'|'choose'|'match'>('creator');
   const [serviceArea, setServiceArea] = useState('');
@@ -94,6 +102,13 @@ function MenuDetail({ id }: { id: string | null }) {
   if (bookingMode==='choose' && selectedChef) requestParams.set('chefId',String(selectedChef));
   const requestedStart = date && time ? new Date(`${date}T${time}:00`).getTime() : NaN;
   const canContinue = validGuests && date >= today && Number.isFinite(requestedStart) && requestedStart > Date.now();
+  async function addToCart() {
+    if (!data || cartBusy || !validGuests) return;
+    setCartBusy(true);setCartNotice('');
+    try {await cartClient.add(data.id,selectedGuests);setCartNotice('Đã lưu vào giỏ. Mở giỏ hàng để đặt lịch.');}
+    catch(e){setCartNotice(e instanceof Error?e.message:'Không lưu được vào giỏ.');}
+    finally{setCartBusy(false);}
+  }
   const regionValid = serviceArea.trim().length > 0;
 
   return (
@@ -148,6 +163,9 @@ function MenuDetail({ id }: { id: string | null }) {
               </div>
               <p className={'notice'}>{'Đã bao gồm nguyên liệu, công nấu và dọn bếp.'}</p>
             </section>
+            <MenuReviews menuId={data.id} />
+            <MenuQuestions productId={data.id} />
+            <ReportButton targetType="MENU" targetId={data.id} label="Báo cáo thực đơn này"/>
             {data.sellerName && (
               <section className={'card row'}>
                 <img className={'avatar large'} src={'/assets/chef.png'} alt={'Ảnh đầu bếp'} loading={'lazy'} />
@@ -203,6 +221,12 @@ function MenuDetail({ id }: { id: string | null }) {
                   <span className={'green'}>{'Đã gồm'}</span>
                 </div>
               </div>
+              {!isAdmin&&!isSeller&&<div className="stack-sm">
+                {profile?<button className="btn secondary full" type="button" disabled={!validGuests||cartBusy} onClick={()=>void addToCart()}>{cartBusy?'Đang thêm…':'Thêm vào giỏ hàng'}</button>
+                  :<Link className="btn secondary full" to={ROUTES.CART}>Đăng nhập để thêm vào giỏ hàng</Link>}
+                <Link className="text-link small" to={ROUTES.CART}>Xem giỏ hàng của tôi</Link>
+                {cartNotice&&<p role="status" className="notice">{cartNotice}</p>}
+              </div>}
               <section className="stack" aria-label="Lựa chọn đầu bếp">
                 <h4>Ai sẽ nấu thực đơn này?</h4>
                 <label className="check"><input type="radio" name="chef-mode" checked={bookingMode==='creator'} onChange={()=>{setBookingMode('creator');setSelectedChef(null);}} /> Đầu bếp đăng thực đơn · giá niêm yết · thanh toán ngay</label>
