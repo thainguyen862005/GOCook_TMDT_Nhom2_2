@@ -1,0 +1,26 @@
+/* Scoped to KNN — no changes to existing checkout/payment/site cards. */
+.personalized-menus .section-head { align-items: end; }
+.knn-grid { align-items: stretch; }
+.knn-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; border-radius: 18px; }
+.knn-photo { position: relative; aspect-ratio: 16 / 10; background: #e8e5dc; overflow: hidden; }
+.knn-photo img { width: 100%; height: 100%; object-fit: cover; }
+.knn-match { position: absolute; top: 12px; right: 12px; padding: 7px 12px;
+  background: #fffef4ee; border: 1px solid #c4dbc2; border-radius: 24px;
+  color: #1e5927; font-size: 12px; font-weight: 750; }
+.knn-card .card-body { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; }
+.knn-card h3 { font-size: 18px; line-height: 1.4; }
+.knn-card .badge { align-self: flex-start; }
+.knn-reason { color: #32642d; font-weight: 600; }
+.knn-footer { margin-top: auto; display: flex; gap: 10px; justify-content: space-between; align-items: end; }
+.knn-footer .btn { flex-shrink: 0; }
+.knn-empty { padding: 22px; display: flex; gap: 14px; align-items: center; justify-content: space-between; }
+@media (max-width: 720px) { .knn-footer, .knn-empty { flex-wrap: wrap; } .knn-footer .btn { width: 100%; } }
+
+/* Visitor CTA and compact catalog layout. */
+.knn-guest { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.knn-guest .stack-sm { max-width: 740px; }
+.personalized-menus--compact { padding-block: 28px 12px; }
+.personalized-menus--compact .section-head { margin-bottom: 4px; }
+.personalized-menus--compact .knn-card h3 { font-size: 16px; }
+.related-menus { border-top: 1px solid var(--line); margin-top: 36px; }
+@media (max-width: 720px) { .knn-guest { flex-direction: column; align-items: stretch; } }
