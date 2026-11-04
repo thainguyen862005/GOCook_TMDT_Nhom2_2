@@ -36,6 +36,7 @@ export const ROUTES = {
   BECOME_CHEF: '/become-chef',
   CHAT: '/chat',
   MESSAGES: '/messages',
+  MY_REPORTS: '/my-reports',
 
   CART: '/cart',
   CART_EMPTY: '/cart-empty',
@@ -59,6 +60,7 @@ export const ROUTES = {
   SELLER_PRODUCTS: '/seller/products',
   SELLER_REVENUE: '/seller/revenue',
   SELLER_SCHEDULE: '/seller/schedule',
+  SELLER_QUESTIONS: '/seller/questions',
 
   ADMIN: '/admin',
   ADMIN_USERS: '/admin/users',
@@ -72,5 +74,7 @@ export const ROUTES = {
   ADMIN_SITE_SETTINGS: '/admin/site-settings',
   ADMIN_FAQS: '/admin/faqs',
   ADMIN_COOKING_REQUESTS: '/admin/cooking-requests',
+  ADMIN_QUESTIONS: '/admin/questions',
+  ADMIN_CONTENT_REPORTS: '/admin/content-reports',
   ADMIN_OPERATIONS: '/admin/manage/:resource',
 } as const;

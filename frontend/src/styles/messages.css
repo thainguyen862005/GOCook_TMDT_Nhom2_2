@@ -1,0 +1,74 @@
+/* Hộp thư: compact, accessible conversation list; no product-style cards. */
+.messages-page { max-width: 1100px; padding-block: 36px 64px; }
+.messages-heading { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 18px; margin-bottom: 26px; }
+.messages-heading h1 { margin: 8px 0 6px; font-size: clamp(30px, 3.5vw, 40px); }
+.messages-heading p.muted { max-width: 610px; font-size: 14px; }
+.messages-refresh { min-height: 42px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 12px; padding: 8px 14px; color: var(--brand); background: #fff; font-weight: 650; font-size: 13px; }
+.messages-refresh:hover { border-color: #baccad; background: var(--brand-soft); }
+.messages-refresh svg { width: 18px; height: 18px; }
+.messages-panel { overflow: hidden; background: white; border: 1px solid #e3e8dc; border-radius: 22px; box-shadow: 0 14px 42px #2638110a; }
+.messages-controls { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.messages-control-title { display: flex; gap: 10px; align-items: center; margin-right: auto; }
+.messages-control-title h2 { font-size: 18px; letter-spacing: -.015em; }
+.messages-count { display: grid; place-items: center; min-width: 26px; padding: 3px 8px; color: var(--brand); background: var(--brand-soft); border-radius: 999px; font-size: 12px; font-weight: 700; }
+.messages-filters { display: inline-flex; gap: 3px; padding: 4px; background: #f5f7f1; border: 1px solid #e7eadd; border-radius: 12px; }
+.messages-filters button { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 7px 11px; border-radius: 9px; background: transparent; color: #68715f; font-size: 12px; font-weight: 650; white-space: nowrap; }
+.messages-filters button:hover { color: var(--brand); }
+.messages-filters button.is-active { background: white; color: var(--brand); box-shadow: 0 1px 6px #23331810; }
+.messages-filters button span { font-size: 11px; opacity: .76; }
+.messages-search { position: relative; display: flex; align-items: center; width: clamp(165px, 22vw, 240px); min-height: 42px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+.messages-search:focus-within { border-color: #8fb278; box-shadow: 0 0 0 3px #8fb27820; }
+.messages-search svg { flex-shrink: 0; width: 17px; height: 17px; margin-left: 12px; color: #839078; }
+.messages-search input { width: 100%; min-width: 0; padding: 9px 12px 9px 9px; border: 0; border-radius: 12px; background: transparent; color: var(--ink); font-size: 12px; outline: none; }
+.messages-search input:focus-visible { outline: none; }
+.messages-list { display: grid; }
+.messages-thread { display: flex; align-items: center; gap: 16px; min-width: 0; min-height: 108px; padding: 22px 24px; border-bottom: 1px solid #edf0e8; transition: background .16s ease; }
+.messages-thread:last-child { border-bottom: 0; }
+.messages-thread:hover, .messages-thread:focus-visible { background: #f7faf4; }
+.messages-thread-icon { flex: 0 0 52px; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 16px; }
+.messages-thread-icon svg { width: 25px; height: 25px; }
+.messages-thread-icon.is-request { color: #3b6e23; background: #edf5e8; }
+.messages-thread-icon.is-order { color: #8c5c18; background: #fff4df; }
+.messages-thread-main { flex: 1; display: grid; gap: 8px; min-width: 0; }
+.messages-thread-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; }
+.messages-thread-name { font-size: 15px; font-weight: 700; line-height: 1.4; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.messages-thread-time { flex-shrink: 0; color: #838c79; font-size: 11px; white-space: nowrap; }
+.messages-thread-meta { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.messages-kind { display: inline-flex; align-items: center; flex-shrink: 0; border-radius: 7px; padding: 3px 8px; font-size: 11px; font-weight: 700; }
+.messages-kind.is-request { background: #ecf4e7; color: #366523; }
+.messages-kind.is-order { background: #fff2de; color: #895c17; }
+.messages-thread-code { color: #697366; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.messages-thread-arrow { flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: #71945e; background: #f0f6eb; font-size: 20px; transition: transform .16s ease, background .16s ease; }
+.messages-thread:hover .messages-thread-arrow { transform: translateX(2px); background: #e0eed6; }
+.messages-feedback { display: grid; justify-items: center; gap: 10px; padding: 55px 20px; text-align: center; color: var(--muted); }
+.messages-feedback h3 { font-size: 19px; color: var(--ink); }
+.messages-feedback p { max-width: 470px; font-size: 13px; }
+.messages-feedback .btn { margin-top: 5px; }
+.messages-feedback--error { background: #fff7f4; color: var(--danger); }
+.messages-feedback--error strong { font-size: 17px; }
+.messages-empty-icon { width: 62px; height: 62px; border-radius: 20px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); }
+.messages-empty-icon svg { width: 30px; height: 30px; }
+@media (max-width: 850px) {
+  .messages-controls { padding: 18px; }
+  .messages-control-title { width: 100%; }
+  .messages-search { flex: 1 1 180px; width: auto; }
+}
+@media (max-width: 600px) {
+  .messages-page { padding-block: 22px 42px; }
+  .messages-heading { align-items: start; }
+  .messages-heading h1 { font-size: 30px; }
+  .messages-panel { border-radius: 16px; }
+  .messages-controls { gap: 12px; }
+  .messages-filters { width: 100%; justify-content: space-between; }
+  .messages-filters button { flex: 1; justify-content: center; padding-inline: 6px; }
+  .messages-search { flex-basis: 100%; }
+  .messages-thread { gap: 12px; padding: 17px 14px; min-height: 94px; }
+  .messages-thread-icon { flex-basis: 44px; width: 44px; height: 44px; border-radius: 13px; }
+  .messages-thread-icon svg { width: 22px; height: 22px; }
+  .messages-thread-top { display: grid; gap: 3px; }
+  .messages-thread-name { font-size: 14px; }
+  .messages-thread-time { font-size: 11px; }
+  .messages-thread-meta { gap: 7px; }
+  .messages-thread-code { font-size: 11px; }
+  .messages-thread-arrow { width: 27px; height: 27px; font-size: 17px; }
+}

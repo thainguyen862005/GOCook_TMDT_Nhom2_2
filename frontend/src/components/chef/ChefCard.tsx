@@ -13,14 +13,14 @@ export function ChefCard({ chef, compact = false }: { chef: ChefSummary; compact
   return <article className={`card chef-card ${compact ? 'chef-card--featured' : ''}`}>
     <ChefPortrait url={chef.avatarUrl} name={chef.displayName} />
     <div className="card-body stack-sm">
-      <div className="between">
-        <span className="badge">Đầu bếp đã xác minh</span>
-        {chef.rating != null && chef.rating > 0 && <span className="small amber">★ {Number(chef.rating).toFixed(1)}</span>}
+      <div className="chef-card-meta-row">
+        <span className="badge">Đã xác minh</span>
+        {chef.rating != null && chef.rating > 0 && <span className="chef-card-rating">★ {Number(chef.rating).toFixed(1)}</span>}
       </div>
       <h3 className="chef-card-title">{chef.displayName}</h3>
       <p className="small muted chef-card-area" title={provinceList(chef.serviceArea) || undefined}>{provinceList(chef.serviceArea) || 'Chưa cập nhật khu vực'}</p>
       {chef.bio && <p className="small chef-card-bio">{chef.bio}</p>}
-      <p className="small muted chef-card-meta">{chef.menuCount} thực đơn công khai {chef.specialties ? `· ${chef.specialties}` : ''}</p>
+      <p className="small muted chef-card-meta">{chef.bookingCount !== undefined ? `${chef.bookingCount} đơn hoàn thành · ` : ''}{chef.menuCount} thực đơn {chef.specialties ? `· ${chef.specialties}` : ''}</p>
       <div className="chef-card-footer">
         <span className="price">{chef.fromPrice != null ? <>{money(Number(chef.fromPrice))}<small> / người từ</small></> : 'Liên hệ để biết giá'}</span>
         <Link className="btn sm" to={`${ROUTES.CHEF_DETAIL}?id=${chef.id}`}>Xem gian bếp</Link>

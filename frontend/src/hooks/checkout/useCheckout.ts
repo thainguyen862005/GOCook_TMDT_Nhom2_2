@@ -8,6 +8,7 @@ import type { MenuDetail } from '../../types/menu';
 import type { FixedMenuPreview } from '../../types/pricing';
 import { useAuth } from '../auth/useAuth';
 import { rememberCheckout } from './checkoutRetry';
+import { cartClient } from '../../clients/cartClient';
 import { beginOrderPayment, redirectToVnpay } from './orderPayment';
 
 const BASE_TIMES = ['11:30', '18:30'];
@@ -38,6 +39,14 @@ export function useCheckout() {
   const [date, setDate] = useState(params.get('date') ?? '');
   const [time, setTime] = useState(params.get('time') ?? BASE_TIMES[1]);
   const [customerNote, setCustomerNote] = useState('');
+  const cartItemId=Number(params.get('cartItemId'));
+  useEffect(()=>{
+    if (!Number.isSafeInteger(cartItemId)||cartItemId<=0||!hasProductId) return;
+    let active=true;cartClient.list().then(items=>{
+      const row=items.find(item=>item.id===cartItemId&&item.productId===productId);
+      if(active&&row?.note) setCustomerNote(current=>current||row.note||'');
+    }).catch(()=>{});return()=>{active=false;};
+  },[cartItemId,hasProductId,productId]);
   const [agreed, setAgreed] = useState(false);
   const [voucherCode, setVoucherCode] = useState('');
   const [voucher, setVoucher] = useState<FixedMenuPreview | null>(null);
@@ -153,6 +162,12 @@ export function useCheckout() {
         voucherCode: voucherApplies ? voucher.voucherCode ?? undefined : undefined,
       });
       pendingOrderCode.current = result.orderCode;
+      // Remove a cart item only after the gateway return is VERIFIED as paid + escrow held.
+      // Session storage ties this optional cleanup to this specific order; failed payments retain the item.
+      if (Number.isSafeInteger(cartItemId) && cartItemId > 0) {
+        try { sessionStorage.setItem(`gocook:cart-order:${result.orderCode}`, String(cartItemId)); }
+        catch { /* Private browsing may block storage; checkout itself must still work. */ }
+      }
       setCreatedOrderCode(result.orderCode);
       rememberCheckout(result.orderCode, { path: location.pathname, search: location.search });
       redirectToVnpay(result, result.orderCode);

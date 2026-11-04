@@ -45,6 +45,7 @@ export function HelpPage() {
         {error && <button className="btn secondary sm" onClick={() => setRetry(x => x + 1)}>Tải lại FAQ</button>}
       </section>
       <section className="card stack"><h2>Gửi yêu cầu hỗ trợ</h2>
+        {profile&&<Link className="text-link" to={ROUTES.MY_REPORTS}>Xem báo cáo vi phạm đã gửi</Link>}
         {!profile ? <p>Đăng nhập để gửi yêu cầu hỗ trợ an toàn và nhận mã theo dõi. <Link to={ROUTES.LOGIN}>Đăng nhập</Link></p>
           : <form className="stack" onSubmit={submit}>
             <p className="small muted">Ticket được gửi bằng tài khoản đã xác minh, không thể thay email người gửi.</p>

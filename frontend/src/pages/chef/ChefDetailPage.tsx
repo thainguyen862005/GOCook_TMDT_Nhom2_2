@@ -6,6 +6,7 @@ import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import type { ChefDetail } from '../../types/publicContent';
 import { money } from '../../util/format';
 import { reviewClient, type OrderReview } from '../../clients/reviewClient';
+import { ReportButton } from '../../components/engagement/ReportButton';
 import { provinceList } from '../../constants/provinces';
 
 export function ChefDetailPage() {
@@ -33,6 +34,7 @@ export function ChefDetailPage() {
         <img className="profile-photo" src={chef.avatarUrl || '/assets/chef.png'} alt={chef.displayName}
           onError={event => { if (!event.currentTarget.src.endsWith('/assets/chef.png')) event.currentTarget.src = '/assets/chef.png'; }} />
         <div className="stack-sm"><span className="badge">Đầu bếp đã xác minh</span><h1>{chef.displayName}</h1>
+      <ReportButton targetType="CHEF" targetId={id} label="Báo cáo đầu bếp"/>
           <p className="muted">{provinceList(chef.serviceArea) || 'Chưa cập nhật khu vực'}</p>
           {chef.rating != null && chef.rating > 0 && <p className="amber">★ {Number(chef.rating).toFixed(1)}</p>}
           {chef.bio && <p>{chef.bio}</p>}

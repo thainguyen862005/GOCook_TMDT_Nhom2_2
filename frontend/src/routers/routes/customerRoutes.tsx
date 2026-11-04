@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom';
+import { CartPage } from '../../pages/cart/CartPage';
 import type { RouteObject } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { SiteLayout } from '../../layouts/SiteLayout';
@@ -15,6 +16,7 @@ import { TrackingPage } from '../../pages/order/TrackingPage';
 import { CookingRequestPage } from '../../pages/request/CookingRequestPage';
 import { ChatPage } from '../../pages/support/ChatPage';
 import { MessagesPage } from '../../pages/support/MessagesPage';
+import { MyReportsPage } from '../../pages/support/MyReportsPage';
 import { MyRequestsPage } from '../../pages/request/MyRequestsPage';
 import { RequestDetailPage } from '../../pages/request/RequestDetailPage';
 import { QuotesPage } from '../../pages/request/QuotesPage';
@@ -35,7 +37,8 @@ export const customerRoutes: RouteObject[] = [
       { path: ROUTES.REQUEST_DETAIL, element: <RequestDetailPage /> },
       { path: ROUTES.CHAT, element: <ChatPage /> },
       { path: ROUTES.MESSAGES, element: <MessagesPage /> },
-      { path: ROUTES.CART, element: <Navigate to={ROUTES.MENUS} replace /> },
+      { path: ROUTES.MY_REPORTS, element: <MyReportsPage /> },
+      { path: ROUTES.CART, element: <CartPage /> },
       { path: ROUTES.CART_EMPTY, element: <Navigate to={ROUTES.MENUS} replace /> },
       { path: ROUTES.CART_VEGETARIAN, element: <Navigate to={ROUTES.MENUS} replace /> },
       {

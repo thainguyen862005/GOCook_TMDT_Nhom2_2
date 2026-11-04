@@ -14,6 +14,7 @@ import { FaqManagementPage } from '../../pages/admin/FaqManagementPage';
 import { AdminCookingRequestsPage } from '../../pages/admin/CookingRequestsPage';
 import { AdminUserEditPage } from '../../pages/admin/UserEditPage';
 import { AdminUsersPage } from '../../pages/admin/UsersPage';
+import { EngagementModerationPage } from '../../pages/admin/EngagementModerationPage';
 import { ProtectedRoute } from '../guards/ProtectedRoute';
 
 export const adminRoutes: RouteObject[] = [
@@ -34,6 +35,8 @@ export const adminRoutes: RouteObject[] = [
       { path: ROUTES.ADMIN_OPERATIONS, element: <AdminOperationsPage /> },
       { path: ROUTES.ADMIN_FAQS, element: <FaqManagementPage /> },
       { path: ROUTES.ADMIN_COOKING_REQUESTS, element: <AdminCookingRequestsPage /> },
+      { path: ROUTES.ADMIN_QUESTIONS, element: <EngagementModerationPage kind="questions" /> },
+      { path: ROUTES.ADMIN_CONTENT_REPORTS, element: <EngagementModerationPage kind="reports" /> },
     ],
   },
 ];

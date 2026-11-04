@@ -13,6 +13,8 @@ const adminLinks = [
   [ROUTES.ADMIN_SITE_SETTINGS, 'Giao diện & nội dung website'],
   [ROUTES.ADMIN_NOTIFICATIONS, 'Gửi thông báo'],
   [ROUTES.ADMIN_FAQS, 'Câu hỏi thường gặp'],
+  [ROUTES.ADMIN_QUESTIONS, 'Kiểm duyệt hỏi đáp thực đơn'],
+  [ROUTES.ADMIN_CONTENT_REPORTS, 'Báo cáo vi phạm'],
   [ROUTES.ADMIN_COOKING_REQUESTS, 'Yêu cầu nấu ăn riêng'],
   ['/admin/manage/customers', 'Hồ sơ khách hàng'],
   ['/admin/manage/chefs', 'Đầu bếp & xác minh'],

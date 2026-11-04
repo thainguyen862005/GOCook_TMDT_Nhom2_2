@@ -19,6 +19,7 @@ const links = [
     "Đơn đặt nấu",
     "M4 5h16v16H4z M8 3v4 M16 3v4 M4 10h16 M8 14h8",
   ],
+  ["/seller/questions", "Hỏi đáp thực đơn", "M4 4h16v13H7l-3 3z M8 9h8 M8 13h5"],
   ["/seller/revenue", "Doanh thu", "M4 3v18h17 M8 17v-5 M13 17V7 M18 17V4"],
   [
     "/seller/schedule",

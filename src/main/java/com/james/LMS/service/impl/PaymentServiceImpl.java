@@ -132,6 +132,16 @@ public class PaymentServiceImpl implements PaymentService {
                       .customerNote(request.customerNote())
                       .build());
 
+          // Keep the purchased product identity in the existing order_items table.
+          // This enables verified menu reviews without guessing the product from its mutable name.
+          // The insert is in the same transaction as order creation; payment/escrow rules are unchanged.
+          jdbc.update("""
+              INSERT INTO order_items(order_id,product_id,product_name_snapshot,unit_price_snapshot,
+                                      guest_count,quantity,line_total,note)
+              VALUES (?,?,?,?,?,1,?,?)
+              """, order.getId(), product.getId(), product.getName(), product.getUnitPrice(),
+              request.guestCount(), quote.subtotal(), request.customerNote());
+
           // Reserve the Chef calendar for a fixed-menu checkout as well as for a custom quote.
           // Payment remains PENDING and the reservation is released when the order expires.
           // PostgreSQL's exclusion constraint prevents concurrent double-booking.

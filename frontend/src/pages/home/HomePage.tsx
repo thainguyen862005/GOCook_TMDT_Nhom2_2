@@ -26,14 +26,14 @@ export function HomePage() {
     const abort = new AbortController();
     setLoading(true);
     Promise.allSettled([
-      publicContentClient.chefs({ page: 0, size: 3, sort: 'rating' }, abort.signal),
-      menuClient.list({ page: 0, size: 3 }, abort.signal),
+      publicContentClient.chefs({ page: 0, size: 3, sort: 'bookings' }, abort.signal),
+      menuClient.featured(abort.signal),
       publicContentClient.areas(abort.signal),
     ]).then(([chefResult, menuResult, areaResult]) => {
       if (abort.signal.aborted) return;
       if (chefResult.status === 'fulfilled') { setChefs(chefResult.value.content); setChefError(false); }
       else setChefError(true);
-      if (menuResult.status === 'fulfilled') { setMenus(menuResult.value.content); setMenuError(false); }
+      if (menuResult.status === 'fulfilled') { setMenus(menuResult.value); setMenuError(false); }
       else setMenuError(true);
       if (areaResult.status === 'fulfilled') setAreas(areaResult.value);
       setLoading(false);
@@ -74,23 +74,25 @@ export function HomePage() {
         <button className="btn" type="submit">Tìm đầu bếp →</button>
       </form>
     </div></section>
-    <section className="container section stack"><div className="section-head"><div><p className="eyebrow">Gian bếp đang phục vụ</p><h2>Khám phá đầu bếp</h2></div>
+    <section className="container section stack"><div className="section-head"><div><p className="eyebrow">Gian bếp đang phục vụ</p><h2>Đầu bếp được đặt nhiều</h2></div>
       <Link className="text-link" to={ROUTES.CHEFS}>Xem tất cả →</Link></div>
       {loading ? <p role="status">Đang tải đầu bếp…</p> : chefError ? <div role="alert" className="notice">Chưa tải được đầu bếp. <button className="btn secondary sm" onClick={() => setRetry(x => x + 1)}>Tải lại</button></div>
         : chefs.length ? <div className="grid grid-3">{chefs.map(chef => <ChefCard key={chef.id} chef={chef} compact />)}</div>
           : <p>Chưa có đầu bếp đã xác minh để giới thiệu.</p>}
     </section>
-    <section className="container section stack"><div className="section-head"><div><p className="eyebrow">Chọn bữa ăn dễ dàng</p><h2>Thực đơn mới cập nhật</h2></div>
+    <section className="container section stack"><div className="section-head"><div><p className="eyebrow">Chọn bữa ăn dễ dàng</p><h2>Thực đơn gợi ý</h2></div>
       <Link className="text-link" to={ROUTES.MENUS}>Khám phá thực đơn →</Link></div>
       {loading ? <p role="status">Đang tải thực đơn…</p> : menuError ? <p role="alert">Chưa tải được thực đơn. Bạn có thể mở trang Thực đơn để thử lại.</p>
-        : menus.length ? <div className="grid grid-3">{menus.map(menu => <article className="card" key={menu.id}>
+        : menus.length ? <div className="grid grid-3">{menus.map(menu => <article className="card home-menu-card" key={menu.id}>
           <img src={menu.imageUrl || '/assets/meal.png'} loading="lazy" alt={menu.name} onError={event => {
             if (!event.currentTarget.src.endsWith('/assets/meal.png')) event.currentTarget.src = '/assets/meal.png';
           }} />
-          <div className="card-body stack-sm"><span className="badge gray">{menu.category}</span><h3>{menu.name}</h3>
-            <p className="small muted">{menu.minGuests}–{menu.maxGuests} người {menu.sellerName ? `· ${menu.sellerName}` : ''}</p>
-            <div className="between"><strong className="price">{money(menu.unitPrice)}<small> / người</small></strong>
-              <Link className="btn sm" to={`${ROUTES.MENU_DETAIL}?id=${menu.id}`}>Xem chi tiết</Link></div>
+          <div className="card-body stack-sm">
+            <div className="home-menu-card-top"><span className="badge gray">{menu.category}</span><span className="small muted">{menu.minGuests}–{menu.maxGuests} người</span></div>
+            <h3 title={menu.name}>{menu.name}</h3>
+            <p className="small muted home-menu-card-note" title={menu.sellerName || undefined}>{menu.featuredReason || menu.sellerName || 'Thực đơn có sẵn'}</p>
+            <div className="home-menu-card-footer"><strong className="price">{money(menu.unitPrice)}<small> / người</small></strong>
+              <Link className="btn sm" to={`${ROUTES.MENU_DETAIL}?id=${menu.id}`}>Chi tiết</Link></div>
           </div></article>)}</div> : <p>Hiện chưa có thực đơn công khai.</p>}
     </section>
     <section className="container section"><div className="dark-banner"><p className="eyebrow">Bữa cơm nhà theo cách của bạn</p>
