@@ -89,7 +89,9 @@ public class SecurityConfig implements WebMvcConfigurer {
       "/api/public/chefs",
       "/api/public/chefs/**",
       "/api/public/offers",
-      "/api/public/faqs"
+      "/api/public/faqs",
+      "/api/public/menus/**",
+      "/api/public/featured-menus"
   };
 
   @Bean

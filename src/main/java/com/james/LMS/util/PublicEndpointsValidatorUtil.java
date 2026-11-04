@@ -51,6 +51,7 @@ public class PublicEndpointsValidatorUtil {
                   "/api/public/chefs",
                   "/api/public/offers",
                   "/api/public/faqs",
+                  "/api/public/featured-menus",
                   "/api/public/site-settings",
                   "/api/products");
 
@@ -62,6 +63,7 @@ public class PublicEndpointsValidatorUtil {
                   "/swagger-ui/",
                   "/v3/api-docs/",
                   "/api/public/chefs/",
+                  "/api/public/menus/",
                   "/api/products/");
 
   public static boolean isSwaggerUrl(String path) {
