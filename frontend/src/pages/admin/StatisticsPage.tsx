@@ -70,7 +70,8 @@ export function AdminStatisticsPage() {
                     totalStatus: 1,
                     completed: 0,
                     cancelled: 0,
-                    active: 0,
+                    inProgress: 0,
+                    actualTotal: 0,
                     rejected: 0,
                 };
             }
@@ -86,7 +87,8 @@ export function AdminStatisticsPage() {
                     ),
                 );
 
-            const totalStatus = Object.values(data.statusCounts || {},).reduce((sum, value) => sum + Number(value), 0,) || 1;
+            const actualTotal = Object.values(data.statusCounts || {},).reduce((sum, value) => sum + Number(value), 0,);
+            const totalStatus = Math.max(1, actualTotal);
             const completed = Number(data.statusCounts?.COMPLETED || 0,);
             const cancelled = Number(data.statusCounts?.CANCELLED || 0,);
             const rejected = Number(data.statusCounts?.REJECTED || 0,);
@@ -96,7 +98,8 @@ export function AdminStatisticsPage() {
                 totalStatus,
                 completed,
                 cancelled,
-                active: Math.max(0, totalStatus - cancelled - rejected,),
+                inProgress: Math.max(0, actualTotal - completed - cancelled - rejected,),
+                actualTotal,
                 rejected,
             };
         }, [data]);
@@ -230,52 +233,26 @@ export function AdminStatisticsPage() {
 
                             <div
                                 className="donut"
-                                style={{
-                                    background:
-                                        `conic-gradient(
-                        var(--green, #2f6b12)
-                        0
-                        ${
-                                            chart.active
-                                            / chart.totalStatus
-                                            * 100
-                                        }%,
-                        #c88b45
-                        ${
-                                            chart.active
-                                            / chart.totalStatus
-                                            * 100
-                                        }%
-                        100%
-                      )`,
-                                }}
+                                role="img"
+                                aria-label={`Đơn hoàn thành ${chart.completed}, đang xử lý ${chart.inProgress}, đã hủy ${chart.cancelled}, từ chối ${chart.rejected}`}
+                                style={{background: chart.actualTotal===0 ? 'var(--line)' : `conic-gradient(
+                                  #2f6b12 0 ${chart.completed/chart.totalStatus*100}%,
+                                  #4b82bf ${chart.completed/chart.totalStatus*100}% ${(chart.completed+chart.inProgress)/chart.totalStatus*100}%,
+                                  #c88b45 ${(chart.completed+chart.inProgress)/chart.totalStatus*100}% ${(chart.completed+chart.inProgress+chart.cancelled)/chart.totalStatus*100}%,
+                                  #ad6262 ${(chart.completed+chart.inProgress+chart.cancelled)/chart.totalStatus*100}% 100%)`}}
                             >
-
-                                <div>
-                                    <strong>{data.orderCount}</strong>
-                                    <small>Đơn đặt nấu</small>
-                                </div>
+                                <div><strong>{chart.actualTotal}</strong><small>Đơn đặt nấu</small></div>
                             </div>
-
-                            <div className="summary-line">
-                                <span>Không hủy</span>
-                                <strong>{Math.round(chart.active / chart.totalStatus * 100,)}%</strong>
-                            </div>
-
-                            <div className="summary-line">
-                                <span>Đã hủy</span>
-                                <strong>{Math.round(chart.cancelled / chart.totalStatus * 100,)}%</strong>
-                            </div>
-
-                            <div className="summary-line">
-                                <span>Đã từ chối</span>
-                                <strong>{Math.round(chart.rejected / chart.totalStatus * 100,)}%</strong>
-                            </div>
-
-                            <div className="summary-line">
-                                <span>Hoàn thành</span>
-                                <strong>{Math.round(chart.completed / chart.totalStatus * 100,)}%</strong>
-                            </div>
+                            {([
+                              ['Hoàn thành',chart.completed,'#2f6b12'],
+                              ['Đang xử lý',chart.inProgress,'#4b82bf'],
+                              ['Đã hủy',chart.cancelled,'#c88b45'],
+                              ['Đã từ chối',chart.rejected,'#ad6262'],
+                            ] as const).map(([label,count,color])=><div className="summary-line" key={label}>
+                              <span><span aria-hidden="true" style={{display:'inline-block',width:10,height:10,background:color,borderRadius:3,marginRight:8}} />{label}</span>
+                              <strong>{count} · {chart.actualTotal?Math.round(count/chart.totalStatus*100):0}%</strong>
+                            </div>)}
+                            {!chart.actualTotal&&<p className="muted small">Không có đơn trong khoảng thời gian đã chọn.</p>}
                         </figure>
                     </div>
 
