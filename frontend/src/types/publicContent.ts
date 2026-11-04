@@ -16,6 +16,7 @@ export interface ChefSummary {
   menuCount: number;
   fromPrice: number | null;
   specialties: string | null;
+  bookingCount?: number;
 }
 export interface ChefMenu {
   id: number;

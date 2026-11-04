@@ -31,4 +31,6 @@ export interface MenuSummary {
   dishItems: string;
   imageUrl: string | null;
   sellerName: string;
+  bookingCount?: number;
+  featuredReason?: string;
 }

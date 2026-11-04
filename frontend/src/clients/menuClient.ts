@@ -25,6 +25,8 @@ export const menuClient = {
     });
     return httpRequest<PageResponse<MenuSummary>>(`${path}?${params}`, { signal });
   },
+  featured: (signal?: AbortSignal) =>
+    httpRequest<MenuSummary[]>('/api/public/featured-menus?size=3', { signal }),
   categories: (signal?: AbortSignal) =>
     httpRequest<string[]>(`${path}/categories`, { signal }),
 };

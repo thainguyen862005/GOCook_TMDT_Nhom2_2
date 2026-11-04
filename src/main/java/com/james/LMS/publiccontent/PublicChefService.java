@@ -28,6 +28,12 @@ public class PublicChefService {
           AND p.status = 'PUBLISHED'
       ) m ON true
       """;
+  private static final String BOOKING_STATS = """
+      LEFT JOIN LATERAL (
+        SELECT COUNT(*) AS booking_count FROM orders o JOIN order_escrows e ON e.order_id=o.id
+        WHERE o.chef_id=cp.user_id AND o.status='COMPLETED' AND e.status='RELEASED'
+      ) b ON true
+      """;
   private static final String FIELDS = "SELECT cp.user_id AS id, cp.display_name AS \"displayName\", "
       + "cp.bio, split_part(cp.service_area,'|',1) AS \"serviceArea\", cp.rating, u.avatar_url AS \"avatarUrl\", "
       + "m.menu_count AS \"menuCount\", m.from_price AS \"fromPrice\", "
@@ -48,12 +54,16 @@ public class PublicChefService {
         .addValue("category", c).addValue("categoryQuery", c)
         .addValue("limit", size).addValue("offset", (long) page * size);
     long total = jdbc.queryForObject("SELECT COUNT(*)" + FROM + filter, args, Long.class);
+    boolean topBooked = "bookings".equals(sort);
     String order = switch (sort == null ? "" : sort) {
       case "name" -> "cp.display_name ASC, cp.user_id ASC";
       case "menus" -> "m.menu_count DESC, cp.user_id DESC";
+      case "bookings" -> "b.booking_count DESC, cp.rating DESC, cp.user_id DESC";
       default -> "cp.rating DESC, m.menu_count DESC, cp.user_id DESC";
     };
-    List<Map<String, Object>> cards = jdbc.queryForList(FIELDS + FROM + MENU_STATS + filter
+    List<Map<String, Object>> cards = jdbc.queryForList(FIELDS
+        + (topBooked ? ",COALESCE(b.booking_count,0) AS \"bookingCount\" " : "")
+        + FROM + MENU_STATS + (topBooked ? BOOKING_STATS : "") + filter
         + " ORDER BY " + order + " LIMIT :limit OFFSET :offset", args);
     Map<String, Object> result = new LinkedHashMap<>();
     result.put("content", cards); result.put("page", page); result.put("size", size);
