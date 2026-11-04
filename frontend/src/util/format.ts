@@ -16,3 +16,14 @@ export function dateTime(value: string | number | Date | null | undefined): stri
 export function initials(name = ''): string {
   return name.trim().split(/\s+/).slice(-2).map((part) => part[0]?.toUpperCase()).join('') || '--';
 }
+
+/** Workflow API may return ISO strings or Unix timestamps encoded as strings. */
+export function requestDate(value: string | number | null | undefined): string {
+  if (value === null || value === undefined || value === '') return '—';
+  const raw = String(value).trim();
+  const numeric = /^\d{10,13}$/.test(raw) ? Number(raw) : null;
+  const input = numeric === null ? raw : numeric < 100_000_000_000 ? numeric * 1000 : numeric;
+  const date = new Date(input);
+  if (Number.isNaN(date.getTime())) return raw;
+  return new Intl.DateTimeFormat('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(date);
+}

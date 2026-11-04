@@ -54,7 +54,7 @@ export function OrdersPage() {
         <h1>Lịch sử mua hàng</h1>
         <p className="lead">Xem lại những bữa ăn bạn đã đặt và theo dõi trạng thái đơn hàng.</p>
       </div>
-      <div className="workspace">
+      <div className="workspace account-workspace">
         <AccountSidebar active="orders" />
         <div className="stack">
           <nav className="tabs" aria-label="Lọc trạng thái đơn hàng">

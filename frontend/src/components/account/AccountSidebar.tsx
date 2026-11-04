@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { useAuth } from '../../hooks/auth/useAuth';
 
-type AccountSection = 'account' | 'orders' | 'chat' | 'password';
+type AccountSection = 'account' | 'orders' | 'chat' | 'messages' | 'password';
 
 interface AccountSidebarProps {
   active?: AccountSection;
@@ -72,7 +72,7 @@ export function AccountSidebar({ active }: AccountSidebarProps) {
         Yêu cầu & tin nhắn
       </NavLink>}
 
-      {!isAdmin && <NavLink to={ROUTES.MESSAGES}><ChatIcon />Hộp thư</NavLink>}
+      {!isAdmin && <NavLink to={ROUTES.MESSAGES} aria-current={active === 'messages' ? 'page' : undefined}><ChatIcon />Hộp thư</NavLink>}
       {isSeller && <><NavLink to={ROUTES.SELLER}><OrderIcon />Kênh đầu bếp</NavLink><NavLink to={ROUTES.SELLER_PROFILE}><UserIcon />Hồ sơ Chef</NavLink></>}
       {isAdmin && <NavLink to={ROUTES.ADMIN}><OrderIcon />Kênh quản trị</NavLink>}
 

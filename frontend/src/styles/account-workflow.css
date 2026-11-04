@@ -1,0 +1,58 @@
+/* Shared account workspace: requests and messages follow the order-history layout. */
+.account-workflow-page { padding-bottom: 64px; }
+.account-workflow-page .account-content { gap: 18px; }
+.account-workflow-page .page-heading { padding-top: 28px; padding-bottom: 26px; }
+.account-workflow-page .page-heading .lead { max-width: 740px; }
+
+/* Request list: compact, scannable cards instead of wide CTA blocks. */
+.request-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.request-toolbar .row { gap: 9px; }
+.request-list { display: grid; gap: 16px; min-width: 0; }
+.request-card { display: grid; gap: 20px; min-width: 0; padding: 22px 24px; }
+.request-card-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.request-card-heading-main { min-width: 0; }
+.request-code { font-size: 12px; color: var(--muted); font-weight: 650; overflow-wrap: anywhere; margin-bottom: 8px; }
+.request-card-heading h2 { font-size: clamp(17px, 1.65vw, 20px); line-height: 1.35; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-clamp: 2; overflow: hidden; }
+.request-card-heading .badge { flex: 0 0 auto; white-space: nowrap; }
+.request-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 22px; padding: 16px;
+  background: var(--sand); border-radius: 14px; }
+.request-facts > div { display: grid; gap: 5px; min-width: 0; }
+.request-facts span { color: var(--muted); font-size: 12px; }
+.request-facts strong { font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
+.request-card-footer { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+.request-card-footer p { max-width: 340px; }
+.request-card-footer .btn { flex: 0 0 auto; }
+
+/* Inbox: match the sidebar width and avoid overly tall rows. */
+.account-workflow-page.messages-page { max-width: none; padding-top: 0; }
+.account-workflow-page .messages-content { min-width: 0; }
+.account-workflow-page .messages-heading { margin-bottom: 0; align-items: center; }
+.account-workflow-page .messages-heading h2 { font-size: clamp(21px, 2vw, 25px); margin: 4px 0 6px; }
+.account-workflow-page .messages-heading p.muted { font-size: 13px; }
+.account-workflow-page .messages-panel { min-width: 0; border-radius: 18px; box-shadow: none; }
+.account-workflow-page .messages-controls { gap: 12px; padding: 16px 18px; }
+.account-workflow-page .messages-thread { padding: 15px 18px; min-height: 82px; gap: 12px; }
+.account-workflow-page .messages-thread-icon { flex-basis: 44px; width: 44px; height: 44px; border-radius: 13px; }
+.account-workflow-page .messages-thread-icon svg { width: 22px; height: 22px; }
+.account-workflow-page .messages-thread-main { gap: 5px; }
+.account-workflow-page .messages-thread-time { white-space: normal; text-align: right; }
+.account-workflow-page .messages-thread-code { overflow-wrap: anywhere; }
+
+@media (max-width: 900px) {
+  .request-card-footer { align-items: flex-start; }
+  .account-workflow-page .messages-controls { padding: 16px; }
+}
+@media (max-width: 600px) {
+  .account-workflow-page { padding-bottom: 40px; }
+  .request-toolbar .row { width: 100%; }
+  .request-toolbar .row .btn { flex: 1; }
+  .request-card { padding: 18px; gap: 16px; }
+  .request-card-heading { flex-direction: column; gap: 10px; }
+  .request-facts { padding: 14px; gap: 14px; }
+  .request-facts strong { font-size: 13px; }
+  .request-card-footer { flex-direction: column; align-items: stretch; }
+  .request-card-footer .btn { width: 100%; }
+  .account-workflow-page .messages-thread { padding: 13px; }
+  .account-workflow-page .messages-thread-arrow { display: none; }
+}
