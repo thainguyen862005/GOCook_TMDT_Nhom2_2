@@ -12,6 +12,7 @@ import { useAuth } from '../../hooks/auth/useAuth';
 import { MenuQuestions } from '../../components/engagement/MenuQuestions';
 import { ReportButton } from '../../components/engagement/ReportButton';
 import { MenuReviews } from '../../components/review/MenuReviewForm';
+import { SimilarMenusSection } from '../../components/recommendation/SimilarMenusSection';
 
 /**
  * Route: /menu-detail?id={productId}
@@ -261,6 +262,7 @@ function MenuDetail({ id }: { id: string | null }) {
             </div>
           </aside>
         </div>
+        <SimilarMenusSection menuId={data.id} />
       </div>
     </>
   );

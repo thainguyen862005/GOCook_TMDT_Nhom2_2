@@ -6,7 +6,7 @@ import { paymentError } from '../../clients/paymentClient';
 import { beginOrderPayment } from '../../hooks/checkout/orderPayment';
 import { ROUTES } from '../../constants/routes';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
-import { money } from '../../util/format';
+import { money, requestDate } from '../../util/format';
 import { useAuth } from '../../hooks/auth/useAuth';
 
 export function RequestDetailPage() {
@@ -43,7 +43,7 @@ export function RequestDetailPage() {
     <div><button className="btn secondary sm" onClick={()=>{setError('');setLoading(true);load();}}>Làm mới matching & báo giá</button></div>
     {loading&&<p role="status">Đang tải yêu cầu…</p>}
     {error&&<p className="notice warm" role="alert">{error}</p>}
-    {data&&<><section className="card stack"><h2>Bữa ăn bạn yêu cầu</h2><p>{data.desiredDishes}</p><p>{data.adults+data.children} người · {data.mealDate} · {data.mealTime} · {data.address}</p><p>Ngân sách: {money(Number(data.budgetMin))} – {money(Number(data.budgetMax))}</p></section>
+    {data&&<><section className="card stack"><h2>Bữa ăn bạn yêu cầu</h2><p>{data.desiredDishes}</p><p>{data.adults+data.children} người · {requestDate(data.mealDate)} · {data.mealTime} · {data.address}</p><p>Ngân sách: {money(Number(data.budgetMin))} – {money(Number(data.budgetMax))}</p></section>
       <section className="stack"><h2>Đầu bếp được ghép ({data.matches?.length??0})</h2>{!data.matches?.length?<p className="notice">Chưa tìm thấy đầu bếp khả dụng. Admin có thể gán thêm đầu bếp.</p>:<div className="grid grid-2">{data.matches.map(m=><article className="card stack" key={m.chefId}><h3>{m.chefName}</h3><p>{provinceList(m.serviceArea)||'Chưa cập nhật khu vực'} · {Number(m.rating||0).toFixed(1)} / 5</p><p className="muted small">{m.matchReason}</p><div className="row"><Link className="btn secondary sm" to={`${ROUTES.CHEF_DETAIL}?id=${m.chefId}`}>Xem hồ sơ</Link>{!isAdmin && <Link className="btn sm" to={`${ROUTES.CHAT}?requestId=${id}&peerId=${m.chefId}`}>Nhắn cho đầu bếp</Link>}</div></article>)}</div>}</section>
       <section className="stack"><h2>Báo giá đã nhận ({data.offers?.length??0})</h2>{!data.offers?.length?<p className="notice">Đầu bếp chưa gửi báo giá. Bạn có thể nhắn tin để trao đổi chi tiết.</p>:data.offers.map(o=><article className="card stack" key={o.id}><div className="between"><h3>{o.chefName}</h3><strong className="price">{money(Number(o.price))}</strong></div><p>{o.dishes}</p>{o.note&&<p className="muted">{o.note}</p>}<p className="small">Trạng thái: {o.status}</p>
         {o.status==='SENT'&&Number(o.price)>Number(data.budgetMax)&&<p className="notice warm">Báo giá cao hơn ngân sách tối đa bạn nhập. Chỉ chấp nhận nếu bạn đồng ý mức giá này.</p>}

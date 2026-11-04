@@ -62,7 +62,7 @@ export function ChefListPage() {
       <p className="lead">Tìm người nấu phù hợp theo khu vực và những thực đơn đang phục vụ.</p>
     </div>
     <div className="workspace">
-      <form key={`${q}|${area}|${category}|${sort}`} className="card filter" onSubmit={filter}>
+      <form key={`${q}|${area}|${category}|${sort}`} className="card filter" onSubmit={filter} style={{position: "sticky", top: "20px"}}>
         <h3>Tìm đầu bếp</h3>
         <label className="field">Tên đầu bếp<input type="search" maxLength={100} name="q" defaultValue={q} placeholder="Tên gian bếp hoặc đầu bếp" /></label>
         <label className="field">Khu vực phục vụ<select name="area" defaultValue={area}>

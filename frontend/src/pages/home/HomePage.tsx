@@ -2,6 +2,7 @@ import { provinceList, provinceName } from '../../constants/provinces';
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChefCard } from '../../components/chef/ChefCard';
+import { PersonalizedMenuSection } from '../../components/recommendation/PersonalizedMenuSection';
 import { publicContentClient } from '../../clients/publicContentClient';
 import { menuClient } from '../../clients/menuClient';
 import { useSiteSettings } from '../../contexts/SiteSettingsContext';
@@ -80,6 +81,7 @@ export function HomePage() {
         : chefs.length ? <div className="grid grid-3">{chefs.map(chef => <ChefCard key={chef.id} chef={chef} compact />)}</div>
           : <p>Chưa có đầu bếp đã xác minh để giới thiệu.</p>}
     </section>
+    <PersonalizedMenuSection />
     <section className="container section stack"><div className="section-head"><div><p className="eyebrow">Chọn bữa ăn dễ dàng</p><h2>Thực đơn gợi ý</h2></div>
       <Link className="text-link" to={ROUTES.MENUS}>Khám phá thực đơn →</Link></div>
       {loading ? <p role="status">Đang tải thực đơn…</p> : menuError ? <p role="alert">Chưa tải được thực đơn. Bạn có thể mở trang Thực đơn để thử lại.</p>

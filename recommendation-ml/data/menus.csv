@@ -1,0 +1,736 @@
+﻿id,name,category,dishItems,description
+1,A01 - Bữa cơm Văn phòng Healthy,Món chay,"Salad mùa vụ
+Đậu hũ áp chảo
+Canh rau củ",Thực đơn ít dầu phù hợp nhóm bạn và dân văn phòng.
+2,A01 - Tiệc Gia Đình Món Bắc,Món miền Bắc,"Nem rán
+Gà hấp lá chanh
+Canh mọc
+Nộm đu đủ",Gói tiệc gia đình theo phong cách truyền thống miền Bắc.
+3,A01 - Mâm cơm Sum Vầy Miền Nam,Món miền Nam,"Cá lóc kho tộ
+Canh chua cá
+Rau luộc kho quẹt
+Trứng chiên","Mâm cơm ấm cúng dành cho gia đình, phục vụ tại nhà."
+4,A01 - Mâm chay Thanh Lành,Món chay,"Đậu hũ sốt nấm
+Canh củ sen
+Rau củ hấp
+Cơm gạo lứt",Thực đơn chay phù hợp bữa cơm thanh đạm.
+7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc kho quẹt
+Cơm trắng","Bữa trưa với cơm nhà kho tộ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,Món miền Nam,"Cá lóc hấp bầu
+Canh rau ngót
+Trứng chiên
+Gỏi xoài","Bữa trưa với mâm cơm miền tây, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,Món miền Nam,"Thịt kho trứng
+Canh bí xanh
+Đậu bắp luộc
+Cơm thơm","Bữa trưa với bữa cơm ngọt lành, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,Món miền Nam,"Sườn nướng mật ong
+Canh khổ qua
+Gỏi cuốn tôm
+Rau xào","Bữa trưa với hương vị sài gòn, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,Món miền Nam,"Gà kho gừng
+Canh chua tôm
+Cà tím nướng mỡ hành
+Cơm trắng","Bữa trưa với mâm cơm quê ngoại, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,Món miền Nam,"Lẩu mắm chay
+Gỏi ngó sen
+Chả giò
+Chè đậu","Bữa trưa với tiệc cuối tuần miền nam, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,Món miền Nam,"Cá rô kho tiêu
+Canh bầu
+Rau muống xào tỏi
+Cơm trắng","Bữa trưa với cá đồng dân dã, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,Món miền Nam,"Thịt rim nước dừa
+Bông cải xào
+Canh cải
+Cơm trắng","Bữa trưa với cơm gia đình ấm áp, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,Món miền Nam,"Cá thu sốt cà
+Canh chua
+Gỏi bưởi
+Cơm tấm","Bữa trưa với đậm vị đất phương nam, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,Món miền Nam,"Tôm rang me
+Canh mướp
+Đậu phụ chiên
+Cơm thơm","Bữa trưa với bữa cơm miền sông nước, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc kho quẹt
+Cơm trắng","Bữa tối với cơm nhà kho tộ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,Món miền Nam,"Cá lóc hấp bầu
+Canh rau ngót
+Trứng chiên
+Gỏi xoài","Bữa tối với mâm cơm miền tây, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,Món miền Nam,"Thịt kho trứng
+Canh bí xanh
+Đậu bắp luộc
+Cơm thơm","Bữa tối với bữa cơm ngọt lành, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,Món miền Nam,"Sườn nướng mật ong
+Canh khổ qua
+Gỏi cuốn tôm
+Rau xào","Bữa tối với hương vị sài gòn, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,Món miền Nam,"Gà kho gừng
+Canh chua tôm
+Cà tím nướng mỡ hành
+Cơm trắng","Bữa tối với mâm cơm quê ngoại, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,Món miền Nam,"Lẩu mắm chay
+Gỏi ngó sen
+Chả giò
+Chè đậu","Bữa tối với tiệc cuối tuần miền nam, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+23,SEED26 #017 • Cá đồng dân dã – Bữa tối,Món miền Nam,"Cá rô kho tiêu
+Canh bầu
+Rau muống xào tỏi
+Cơm trắng","Bữa tối với cá đồng dân dã, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,Món miền Nam,"Thịt rim nước dừa
+Bông cải xào
+Canh cải
+Cơm trắng","Bữa tối với cơm gia đình ấm áp, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,Món miền Nam,"Cá thu sốt cà
+Canh chua
+Gỏi bưởi
+Cơm tấm","Bữa tối với đậm vị đất phương nam, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,Món miền Nam,"Tôm rang me
+Canh mướp
+Đậu phụ chiên
+Cơm thơm","Bữa tối với bữa cơm miền sông nước, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc kho quẹt
+Cơm trắng","Cuối tuần với cơm nhà kho tộ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,Món miền Nam,"Cá lóc hấp bầu
+Canh rau ngót
+Trứng chiên
+Gỏi xoài","Cuối tuần với mâm cơm miền tây, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,Món miền Nam,"Thịt kho trứng
+Canh bí xanh
+Đậu bắp luộc
+Cơm thơm","Cuối tuần với bữa cơm ngọt lành, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,Món miền Nam,"Sườn nướng mật ong
+Canh khổ qua
+Gỏi cuốn tôm
+Rau xào","Cuối tuần với hương vị sài gòn, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,Món miền Nam,"Gà kho gừng
+Canh chua tôm
+Cà tím nướng mỡ hành
+Cơm trắng","Cuối tuần với mâm cơm quê ngoại, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,Món miền Nam,"Lẩu mắm chay
+Gỏi ngó sen
+Chả giò
+Chè đậu","Cuối tuần với tiệc cuối tuần miền nam, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,Món miền Nam,"Cá rô kho tiêu
+Canh bầu
+Rau muống xào tỏi
+Cơm trắng","Cuối tuần với cá đồng dân dã, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,Món miền Nam,"Thịt rim nước dừa
+Bông cải xào
+Canh cải
+Cơm trắng","Cuối tuần với cơm gia đình ấm áp, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,Món miền Nam,"Cá thu sốt cà
+Canh chua
+Gỏi bưởi
+Cơm tấm","Cuối tuần với đậm vị đất phương nam, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,Món miền Nam,"Tôm rang me
+Canh mướp
+Đậu phụ chiên
+Cơm thơm","Cuối tuần với bữa cơm miền sông nước, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,Món miền Bắc,"Nem rán
+Gà luộc lá chanh
+Canh mọc
+Dưa góp","Bữa trưa với mâm cơm hà nội, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,Món miền Bắc,"Thịt rang cháy cạnh
+Canh cua rau đay
+Cà pháo
+Cơm trắng","Bữa trưa với cơm bắc thanh vị, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,Món miền Bắc,"Cá rô đồng rán
+Canh cải
+Đậu sốt cà
+Dưa chua","Bữa trưa với bữa cơm đồng bằng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,Món miền Bắc,"Giò lụa
+Nem rán
+Nộm su hào
+Canh bóng","Bữa trưa với mâm cỗ phố cổ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,Món miền Bắc,"Thịt kho riềng
+Rau muống luộc
+Lạc rang
+Cơm trắng","Bữa trưa với món quê bắc bộ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,Món miền Bắc,"Gà hấp lá chanh
+Miến măng
+Nộm hoa chuối
+Xôi vò","Bữa trưa với gà hấp chuẩn bắc, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,Món miền Bắc,"Cá diêu hồng om dưa
+Canh sấu
+Đậu phụ rán
+Cơm trắng","Bữa trưa với cơm nhà ba miền vị bắc, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,Món miền Bắc,"Bún chả
+Nem cua bể
+Rau sống
+Chè sen","Bữa trưa với bữa tối xứ kinh kỳ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,Món miền Bắc,"Thịt đông
+Dưa hành
+Canh rau
+Cơm tám","Bữa trưa với món ngon ngày mưa, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,Món miền Bắc,"Chả lá lốt
+Gà luộc
+Canh bí
+Nộm đu đủ","Bữa trưa với tiệc gia đình truyền thống, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,Món miền Bắc,"Nem rán
+Gà luộc lá chanh
+Canh mọc
+Dưa góp","Bữa tối với mâm cơm hà nội, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,Món miền Bắc,"Thịt rang cháy cạnh
+Canh cua rau đay
+Cà pháo
+Cơm trắng","Bữa tối với cơm bắc thanh vị, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,Món miền Bắc,"Cá rô đồng rán
+Canh cải
+Đậu sốt cà
+Dưa chua","Bữa tối với bữa cơm đồng bằng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,Món miền Bắc,"Giò lụa
+Nem rán
+Nộm su hào
+Canh bóng","Bữa tối với mâm cỗ phố cổ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,Món miền Bắc,"Thịt kho riềng
+Rau muống luộc
+Lạc rang
+Cơm trắng","Bữa tối với món quê bắc bộ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,Món miền Bắc,"Gà hấp lá chanh
+Miến măng
+Nộm hoa chuối
+Xôi vò","Bữa tối với gà hấp chuẩn bắc, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,Món miền Bắc,"Cá diêu hồng om dưa
+Canh sấu
+Đậu phụ rán
+Cơm trắng","Bữa tối với cơm nhà ba miền vị bắc, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,Món miền Bắc,"Bún chả
+Nem cua bể
+Rau sống
+Chè sen","Bữa tối với bữa tối xứ kinh kỳ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,Món miền Bắc,"Thịt đông
+Dưa hành
+Canh rau
+Cơm tám","Bữa tối với món ngon ngày mưa, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,Món miền Bắc,"Chả lá lốt
+Gà luộc
+Canh bí
+Nộm đu đủ","Bữa tối với tiệc gia đình truyền thống, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,Món miền Bắc,"Nem rán
+Gà luộc lá chanh
+Canh mọc
+Dưa góp","Cuối tuần với mâm cơm hà nội, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,Món miền Bắc,"Thịt rang cháy cạnh
+Canh cua rau đay
+Cà pháo
+Cơm trắng","Cuối tuần với cơm bắc thanh vị, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,Món miền Bắc,"Cá rô đồng rán
+Canh cải
+Đậu sốt cà
+Dưa chua","Cuối tuần với bữa cơm đồng bằng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,Món miền Bắc,"Giò lụa
+Nem rán
+Nộm su hào
+Canh bóng","Cuối tuần với mâm cỗ phố cổ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,Món miền Bắc,"Thịt kho riềng
+Rau muống luộc
+Lạc rang
+Cơm trắng","Cuối tuần với món quê bắc bộ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,Món miền Bắc,"Gà hấp lá chanh
+Miến măng
+Nộm hoa chuối
+Xôi vò","Cuối tuần với gà hấp chuẩn bắc, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,Món miền Bắc,"Cá diêu hồng om dưa
+Canh sấu
+Đậu phụ rán
+Cơm trắng","Cuối tuần với cơm nhà ba miền vị bắc, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,Món miền Bắc,"Bún chả
+Nem cua bể
+Rau sống
+Chè sen","Cuối tuần với bữa tối xứ kinh kỳ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,Món miền Bắc,"Thịt đông
+Dưa hành
+Canh rau
+Cơm tám","Cuối tuần với món ngon ngày mưa, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,Món miền Bắc,"Chả lá lốt
+Gà luộc
+Canh bí
+Nộm đu đủ","Cuối tuần với tiệc gia đình truyền thống, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,Món miền Trung,"Thịt kho ruốc
+Canh hến
+Rau luộc
+Cơm trắng","Bữa trưa với cơm nhà xứ huế, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,Món miền Trung,"Mì Quảng
+Ram cuốn cải
+Gỏi mít
+Chè bắp","Bữa trưa với đặc sản miền trung, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,Món miền Trung,"Cá nục kho
+Canh chua lá giang
+Rau xào
+Cơm trắng","Bữa trưa với bữa cơm xứ quảng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,Món miền Trung,"Gà xé phay
+Mì Quảng
+Rau sống
+Bánh tráng","Bữa trưa với mâm cơm đà nẵng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,Món miền Trung,"Cá kho nghệ
+Canh rau tập tàng
+Lạc rang
+Cơm trắng","Bữa trưa với vị cay xứ nghệ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,Món miền Trung,"Mực hấp gừng
+Tôm nướng
+Canh nghêu
+Gỏi rong biển","Bữa trưa với tiệc biển miền trung, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,Món miền Trung,"Bún bò Huế
+Bánh bèo
+Nem lụi
+Chè hạt sen","Bữa trưa với bữa trưa cố đô, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,Món miền Trung,"Bánh xèo Bình Định
+Chả ram
+Canh bí
+Rau sống","Bữa trưa với món ngon đất võ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,Món miền Trung,"Sườn rim mặn
+Canh mướp
+Cà tím xào
+Cơm trắng","Bữa trưa với cơm nhà nắng gió, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,Món miền Trung,"Cá hấp cuốn bánh tráng
+Gỏi cá
+Canh ngót
+Rau sống","Bữa trưa với duyên hải đậm đà, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,Món miền Trung,"Thịt kho ruốc
+Canh hến
+Rau luộc
+Cơm trắng","Bữa tối với cơm nhà xứ huế, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,Món miền Trung,"Mì Quảng
+Ram cuốn cải
+Gỏi mít
+Chè bắp","Bữa tối với đặc sản miền trung, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,Món miền Trung,"Cá nục kho
+Canh chua lá giang
+Rau xào
+Cơm trắng","Bữa tối với bữa cơm xứ quảng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,Món miền Trung,"Gà xé phay
+Mì Quảng
+Rau sống
+Bánh tráng","Bữa tối với mâm cơm đà nẵng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,Món miền Trung,"Cá kho nghệ
+Canh rau tập tàng
+Lạc rang
+Cơm trắng","Bữa tối với vị cay xứ nghệ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,Món miền Trung,"Mực hấp gừng
+Tôm nướng
+Canh nghêu
+Gỏi rong biển","Bữa tối với tiệc biển miền trung, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,Món miền Trung,"Bún bò Huế
+Bánh bèo
+Nem lụi
+Chè hạt sen","Bữa tối với bữa trưa cố đô, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+84,SEED26 #078 • Món ngon đất Võ – Bữa tối,Món miền Trung,"Bánh xèo Bình Định
+Chả ram
+Canh bí
+Rau sống","Bữa tối với món ngon đất võ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,Món miền Trung,"Sườn rim mặn
+Canh mướp
+Cà tím xào
+Cơm trắng","Bữa tối với cơm nhà nắng gió, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,Món miền Trung,"Cá hấp cuốn bánh tráng
+Gỏi cá
+Canh ngót
+Rau sống","Bữa tối với duyên hải đậm đà, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,Món miền Trung,"Thịt kho ruốc
+Canh hến
+Rau luộc
+Cơm trắng","Cuối tuần với cơm nhà xứ huế, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,Món miền Trung,"Mì Quảng
+Ram cuốn cải
+Gỏi mít
+Chè bắp","Cuối tuần với đặc sản miền trung, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,Món miền Trung,"Cá nục kho
+Canh chua lá giang
+Rau xào
+Cơm trắng","Cuối tuần với bữa cơm xứ quảng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,Món miền Trung,"Gà xé phay
+Mì Quảng
+Rau sống
+Bánh tráng","Cuối tuần với mâm cơm đà nẵng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,Món miền Trung,"Cá kho nghệ
+Canh rau tập tàng
+Lạc rang
+Cơm trắng","Cuối tuần với vị cay xứ nghệ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,Món miền Trung,"Mực hấp gừng
+Tôm nướng
+Canh nghêu
+Gỏi rong biển","Cuối tuần với tiệc biển miền trung, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,Món miền Trung,"Bún bò Huế
+Bánh bèo
+Nem lụi
+Chè hạt sen","Cuối tuần với bữa trưa cố đô, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,Món miền Trung,"Bánh xèo Bình Định
+Chả ram
+Canh bí
+Rau sống","Cuối tuần với món ngon đất võ, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,Món miền Trung,"Sườn rim mặn
+Canh mướp
+Cà tím xào
+Cơm trắng","Cuối tuần với cơm nhà nắng gió, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,Món miền Trung,"Cá hấp cuốn bánh tráng
+Gỏi cá
+Canh ngót
+Rau sống","Cuối tuần với duyên hải đậm đà, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+97,SEED26 #091 • Mâm chay an lành – Bữa trưa,Món chay,"Đậu hũ sốt nấm
+Canh củ sen
+Rau củ hấp
+Cơm gạo lứt","Bữa trưa với mâm chay an lành, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,Món chay,"Nấm kho tiêu
+Canh bí đỏ
+Gỏi ngó sen
+Cơm trắng","Bữa trưa với bữa chay thanh đạm, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+99,SEED26 #093 • Chay healthy – Bữa trưa,Món chay,"Salad quinoa
+Đậu phụ áp chảo
+Súp bí đỏ
+Trái cây","Bữa trưa với chay healthy, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,Món chay,"Nem chay
+Canh nấm
+Rau cải xào
+Cơm trắng","Bữa trưa với cơm chay ngày rằm, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+101,SEED26 #095 • Món chay gia đình – Bữa trưa,Món chay,"Đậu hũ kho sả
+Canh mồng tơi
+Đậu que xào
+Cơm trắng","Bữa trưa với món chay gia đình, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,Món chay,"Cơm gạo lứt
+Nấm đùi gà áp chảo
+Rau củ nướng
+Sữa hạt","Bữa trưa với bữa chay năng lượng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,Món chay,"Lẩu nấm chay
+Gỏi cuốn chay
+Chả giò chay
+Chè sen","Bữa trưa với tiệc chay cuối tuần, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,Món chay,"Bún riêu chay
+Gỏi bưởi
+Đậu hấp
+Rau sống","Bữa trưa với chay phong vị việt, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,Món chay,"Bông cải hấp
+Đậu hũ nướng
+Cháo yến mạch
+Salad","Bữa trưa với thực đơn thuần thực vật, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,Món chay,"Miến xào nấm
+Canh rau củ
+Gỏi cuốn
+Trái cây","Bữa trưa với bữa chay thanh xuân, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+107,SEED26 #101 • Mâm chay an lành – Bữa tối,Món chay,"Đậu hũ sốt nấm
+Canh củ sen
+Rau củ hấp
+Cơm gạo lứt","Bữa tối với mâm chay an lành, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,Món chay,"Nấm kho tiêu
+Canh bí đỏ
+Gỏi ngó sen
+Cơm trắng","Bữa tối với bữa chay thanh đạm, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+109,SEED26 #103 • Chay healthy – Bữa tối,Món chay,"Salad quinoa
+Đậu phụ áp chảo
+Súp bí đỏ
+Trái cây","Bữa tối với chay healthy, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,Món chay,"Nem chay
+Canh nấm
+Rau cải xào
+Cơm trắng","Bữa tối với cơm chay ngày rằm, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+111,SEED26 #105 • Món chay gia đình – Bữa tối,Món chay,"Đậu hũ kho sả
+Canh mồng tơi
+Đậu que xào
+Cơm trắng","Bữa tối với món chay gia đình, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,Món chay,"Cơm gạo lứt
+Nấm đùi gà áp chảo
+Rau củ nướng
+Sữa hạt","Bữa tối với bữa chay năng lượng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,Món chay,"Lẩu nấm chay
+Gỏi cuốn chay
+Chả giò chay
+Chè sen","Bữa tối với tiệc chay cuối tuần, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+114,SEED26 #108 • Chay phong vị Việt – Bữa tối,Món chay,"Bún riêu chay
+Gỏi bưởi
+Đậu hấp
+Rau sống","Bữa tối với chay phong vị việt, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,Món chay,"Bông cải hấp
+Đậu hũ nướng
+Cháo yến mạch
+Salad","Bữa tối với thực đơn thuần thực vật, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,Món chay,"Miến xào nấm
+Canh rau củ
+Gỏi cuốn
+Trái cây","Bữa tối với bữa chay thanh xuân, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+117,SEED26 #111 • Mâm chay an lành – Cuối tuần,Món chay,"Đậu hũ sốt nấm
+Canh củ sen
+Rau củ hấp
+Cơm gạo lứt","Cuối tuần với mâm chay an lành, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,Món chay,"Nấm kho tiêu
+Canh bí đỏ
+Gỏi ngó sen
+Cơm trắng","Cuối tuần với bữa chay thanh đạm, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+119,SEED26 #113 • Chay healthy – Cuối tuần,Món chay,"Salad quinoa
+Đậu phụ áp chảo
+Súp bí đỏ
+Trái cây","Cuối tuần với chay healthy, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,Món chay,"Nem chay
+Canh nấm
+Rau cải xào
+Cơm trắng","Cuối tuần với cơm chay ngày rằm, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+121,SEED26 #115 • Món chay gia đình – Cuối tuần,Món chay,"Đậu hũ kho sả
+Canh mồng tơi
+Đậu que xào
+Cơm trắng","Cuối tuần với món chay gia đình, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,Món chay,"Cơm gạo lứt
+Nấm đùi gà áp chảo
+Rau củ nướng
+Sữa hạt","Cuối tuần với bữa chay năng lượng, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,Món chay,"Lẩu nấm chay
+Gỏi cuốn chay
+Chả giò chay
+Chè sen","Cuối tuần với tiệc chay cuối tuần, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,Món chay,"Bún riêu chay
+Gỏi bưởi
+Đậu hấp
+Rau sống","Cuối tuần với chay phong vị việt, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,Món chay,"Bông cải hấp
+Đậu hũ nướng
+Cháo yến mạch
+Salad","Cuối tuần với thực đơn thuần thực vật, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,Món chay,"Miến xào nấm
+Canh rau củ
+Gỏi cuốn
+Trái cây","Cuối tuần với bữa chay thanh xuân, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,Khác,"Gà quay
+Súp cua
+Salad rau
+Bánh ngọt","Bữa trưa với tiệc sinh nhật tại gia, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,Khác,"Mì Ý sốt cà
+Salad cá ngừ
+Súp bí đỏ
+Bánh mì bơ","Bữa trưa với set ăn phong cách âu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,Khác,"Cá hồi áp chảo
+Khoai tây nghiền
+Salad
+Mousse","Bữa trưa với bữa tối hẹn hò, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,Khác,"Gỏi cuốn
+Gà nướng
+Rau xào
+Chè lạnh","Bữa trưa với mâm tiệc giao lưu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,Khác,"Thịt nướng BBQ
+Bắp nướng
+Salad
+Bánh mì","Bữa trưa với tiệc bbq gia đình, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+132,SEED26 #126 • Buffet đơn giản – Bữa trưa,Khác,"Bò lúc lắc
+Mì xào
+Salad
+Trái cây","Bữa trưa với buffet đơn giản, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,Khác,"Cháo gà
+Súp rau củ
+Trứng hấp
+Trái cây mềm","Bữa trưa với thực đơn cho bé, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,Khác,"Cá hấp
+Rau củ luộc
+Súp nấm
+Cơm gạo lứt","Bữa trưa với bữa ăn ít dầu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,Khác,"Gà sốt tiêu
+Cơm chiên
+Salad
+Bánh flan","Bữa trưa với tiệc họp mặt công ty, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,Khác,"Bánh mì trứng
+Sữa chua
+Salad nhỏ
+Nước ép","Bữa trưa với bữa sáng cuối tuần, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,Khác,"Gà quay
+Súp cua
+Salad rau
+Bánh ngọt","Bữa tối với tiệc sinh nhật tại gia, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,Khác,"Mì Ý sốt cà
+Salad cá ngừ
+Súp bí đỏ
+Bánh mì bơ","Bữa tối với set ăn phong cách âu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,Khác,"Cá hồi áp chảo
+Khoai tây nghiền
+Salad
+Mousse","Bữa tối với bữa tối hẹn hò, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,Khác,"Gỏi cuốn
+Gà nướng
+Rau xào
+Chè lạnh","Bữa tối với mâm tiệc giao lưu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,Khác,"Thịt nướng BBQ
+Bắp nướng
+Salad
+Bánh mì","Bữa tối với tiệc bbq gia đình, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+142,SEED26 #136 • Buffet đơn giản – Bữa tối,Khác,"Bò lúc lắc
+Mì xào
+Salad
+Trái cây","Bữa tối với buffet đơn giản, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+143,SEED26 #137 • Thực đơn cho bé – Bữa tối,Khác,"Cháo gà
+Súp rau củ
+Trứng hấp
+Trái cây mềm","Bữa tối với thực đơn cho bé, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,Khác,"Cá hấp
+Rau củ luộc
+Súp nấm
+Cơm gạo lứt","Bữa tối với bữa ăn ít dầu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,Khác,"Gà sốt tiêu
+Cơm chiên
+Salad
+Bánh flan","Bữa tối với tiệc họp mặt công ty, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,Khác,"Bánh mì trứng
+Sữa chua
+Salad nhỏ
+Nước ép","Bữa tối với bữa sáng cuối tuần, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,Khác,"Gà quay
+Súp cua
+Salad rau
+Bánh ngọt","Cuối tuần với tiệc sinh nhật tại gia, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,Khác,"Mì Ý sốt cà
+Salad cá ngừ
+Súp bí đỏ
+Bánh mì bơ","Cuối tuần với set ăn phong cách âu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,Khác,"Cá hồi áp chảo
+Khoai tây nghiền
+Salad
+Mousse","Cuối tuần với bữa tối hẹn hò, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,Khác,"Gỏi cuốn
+Gà nướng
+Rau xào
+Chè lạnh","Cuối tuần với mâm tiệc giao lưu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,Khác,"Thịt nướng BBQ
+Bắp nướng
+Salad
+Bánh mì","Cuối tuần với tiệc bbq gia đình, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+152,SEED26 #146 • Buffet đơn giản – Cuối tuần,Khác,"Bò lúc lắc
+Mì xào
+Salad
+Trái cây","Cuối tuần với buffet đơn giản, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,Khác,"Cháo gà
+Súp rau củ
+Trứng hấp
+Trái cây mềm","Cuối tuần với thực đơn cho bé, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,Khác,"Cá hấp
+Rau củ luộc
+Súp nấm
+Cơm gạo lứt","Cuối tuần với bữa ăn ít dầu, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,Khác,"Gà sốt tiêu
+Cơm chiên
+Salad
+Bánh flan","Cuối tuần với tiệc họp mặt công ty, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,Khác,"Bánh mì trứng
+Sữa chua
+Salad nhỏ
+Nước ép","Cuối tuần với bữa sáng cuối tuần, chuẩn bị tại nhà theo khẩu vị của gia đình. Giá tính theo khách; gồm 4 món. Nội dung và hình ảnh chỉ để minh họa dữ liệu mẫu."
+157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc
+Cơm trắng","Đậm đà vị cá kho, vị chua nhẹ và rau tươi; phục vụ bữa cơm gia đình miền Nam. Phiên bản cho cuối tuần. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc
+Cơm trắng","Đậm đà vị cá kho, vị chua nhẹ và rau tươi; phục vụ bữa cơm gia đình miền Nam. Phiên bản cho bữa tối. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc
+Cơm trắng","Đậm đà vị cá kho, vị chua nhẹ và rau tươi; phục vụ bữa cơm gia đình miền Nam. Phiên bản cho tiệc đãi khách. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc
+Cơm trắng","Đậm đà vị cá kho, vị chua nhẹ và rau tươi; phục vụ bữa cơm gia đình miền Nam. Phiên bản cho gia đình. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc
+Cơm trắng","Đậm đà vị cá kho, vị chua nhẹ và rau tươi; phục vụ bữa cơm gia đình miền Nam. Phiên bản cho bữa trưa. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,Món miền Nam,"Cá kho tộ
+Canh chua cá
+Rau luộc
+Cơm trắng","Đậm đà vị cá kho, vị chua nhẹ và rau tươi; phục vụ bữa cơm gia đình miền Nam. Phiên bản cho buổi liên hoan. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,Món miền Bắc,"Nem rán
+Thịt đông
+Canh mọc
+Dưa góp","Hương vị miền Bắc thanh nhẹ; thích hợp cả gia đình ăn tại nhà. Phiên bản cho buổi liên hoan. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,Món miền Bắc,"Nem rán
+Thịt đông
+Canh mọc
+Dưa góp","Hương vị miền Bắc thanh nhẹ; thích hợp cả gia đình ăn tại nhà. Phiên bản cho bữa tối. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,Món miền Bắc,"Nem rán
+Thịt đông
+Canh mọc
+Dưa góp","Hương vị miền Bắc thanh nhẹ; thích hợp cả gia đình ăn tại nhà. Phiên bản cho bữa trưa. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,Món miền Bắc,"Nem rán
+Thịt đông
+Canh mọc
+Dưa góp","Hương vị miền Bắc thanh nhẹ; thích hợp cả gia đình ăn tại nhà. Phiên bản cho cuối tuần. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,Món miền Bắc,"Nem rán
+Thịt đông
+Canh mọc
+Dưa góp","Hương vị miền Bắc thanh nhẹ; thích hợp cả gia đình ăn tại nhà. Phiên bản cho gia đình. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,Món miền Bắc,"Nem rán
+Thịt đông
+Canh mọc
+Dưa góp","Hương vị miền Bắc thanh nhẹ; thích hợp cả gia đình ăn tại nhà. Phiên bản cho tiệc đãi khách. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,Món miền Trung,"Cá nục kho
+Mì Quảng
+Rau sống
+Bánh bèo","Gia vị đặc trưng miền Trung, hương vị đậm đà, có thể chỉnh mức cay. Phiên bản cho cuối tuần. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,Món miền Trung,"Cá nục kho
+Mì Quảng
+Rau sống
+Bánh bèo","Gia vị đặc trưng miền Trung, hương vị đậm đà, có thể chỉnh mức cay. Phiên bản cho gia đình. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,Món miền Trung,"Cá nục kho
+Mì Quảng
+Rau sống
+Bánh bèo","Gia vị đặc trưng miền Trung, hương vị đậm đà, có thể chỉnh mức cay. Phiên bản cho buổi liên hoan. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,Món miền Trung,"Cá nục kho
+Mì Quảng
+Rau sống
+Bánh bèo","Gia vị đặc trưng miền Trung, hương vị đậm đà, có thể chỉnh mức cay. Phiên bản cho bữa trưa. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,Món miền Trung,"Cá nục kho
+Mì Quảng
+Rau sống
+Bánh bèo","Gia vị đặc trưng miền Trung, hương vị đậm đà, có thể chỉnh mức cay. Phiên bản cho bữa tối. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,Món miền Trung,"Cá nục kho
+Mì Quảng
+Rau sống
+Bánh bèo","Gia vị đặc trưng miền Trung, hương vị đậm đà, có thể chỉnh mức cay. Phiên bản cho tiệc đãi khách. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,Món chay,"Đậu hũ sốt nấm
+Canh rau củ
+Salad hạt
+Cơm gạo lứt","Thực đơn chay giàu rau củ, ít dầu, phù hợp bữa tối nhẹ nhàng. Phiên bản cho cuối tuần. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,Món chay,"Đậu hũ sốt nấm
+Canh rau củ
+Salad hạt
+Cơm gạo lứt","Thực đơn chay giàu rau củ, ít dầu, phù hợp bữa tối nhẹ nhàng. Phiên bản cho bữa trưa. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,Món chay,"Đậu hũ sốt nấm
+Canh rau củ
+Salad hạt
+Cơm gạo lứt","Thực đơn chay giàu rau củ, ít dầu, phù hợp bữa tối nhẹ nhàng. Phiên bản cho tiệc đãi khách. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,Món chay,"Đậu hũ sốt nấm
+Canh rau củ
+Salad hạt
+Cơm gạo lứt","Thực đơn chay giàu rau củ, ít dầu, phù hợp bữa tối nhẹ nhàng. Phiên bản cho buổi liên hoan. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,Món chay,"Đậu hũ sốt nấm
+Canh rau củ
+Salad hạt
+Cơm gạo lứt","Thực đơn chay giàu rau củ, ít dầu, phù hợp bữa tối nhẹ nhàng. Phiên bản cho gia đình. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,Món chay,"Đậu hũ sốt nấm
+Canh rau củ
+Salad hạt
+Cơm gạo lứt","Thực đơn chay giàu rau củ, ít dầu, phù hợp bữa tối nhẹ nhàng. Phiên bản cho bữa tối. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,Khác,"Ức gà áp chảo
+Salad xanh
+Súp bí đỏ
+Khoai nướng","Bữa ăn cân bằng rau và protein, dành cho gia đình năng động. Phiên bản cho cuối tuần. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,Khác,"Ức gà áp chảo
+Salad xanh
+Súp bí đỏ
+Khoai nướng","Bữa ăn cân bằng rau và protein, dành cho gia đình năng động. Phiên bản cho tiệc đãi khách. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,Khác,"Ức gà áp chảo
+Salad xanh
+Súp bí đỏ
+Khoai nướng","Bữa ăn cân bằng rau và protein, dành cho gia đình năng động. Phiên bản cho gia đình. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,Khác,"Ức gà áp chảo
+Salad xanh
+Súp bí đỏ
+Khoai nướng","Bữa ăn cân bằng rau và protein, dành cho gia đình năng động. Phiên bản cho bữa tối. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,Khác,"Ức gà áp chảo
+Salad xanh
+Súp bí đỏ
+Khoai nướng","Bữa ăn cân bằng rau và protein, dành cho gia đình năng động. Phiên bản cho buổi liên hoan. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."
+186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,Khác,"Ức gà áp chảo
+Salad xanh
+Súp bí đỏ
+Khoai nướng","Bữa ăn cân bằng rau và protein, dành cho gia đình năng động. Phiên bản cho bữa trưa. Dữ liệu DEMO để đánh giá gợi ý KNN, không phải đơn thật."

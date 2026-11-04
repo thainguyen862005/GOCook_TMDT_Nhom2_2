@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { menuClient } from '../../clients/menuClient';
+import { PersonalizedMenuSection } from '../../components/recommendation/PersonalizedMenuSection';
 import { Pager } from '../../components/common/Pager';
 import { ROUTES } from '../../constants/routes';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
@@ -114,9 +115,10 @@ export function MenuListPage() {
         <p className="lead">Chọn vị quen thuộc. Để đầu bếp lo phần còn lại.</p>
       </div>
       <div className="notice row">Giá theo người · Bao gồm nguyên liệu, công nấu và dọn dẹp</div>
+
       <div className="section workspace">
         <form key={`${q}|${category}|${minPrice}|${maxPrice}|${sort}`}
-          className="card filter" aria-label="Tìm và lọc thực đơn" onSubmit={applyFilters}>
+          className="card filter" aria-label="Tìm và lọc thực đơn" onSubmit={applyFilters} style={{position: "sticky", top: "20px"}}>
           <h3>Bộ lọc thực đơn</h3>
           <label className="field">Tên hoặc món ăn
             <input type="search" name="q" maxLength={100} defaultValue={q} placeholder="Ví dụ: canh chua" />
@@ -207,6 +209,9 @@ export function MenuListPage() {
           </div>
         </section>
       </div>
+
+      {!chef && <PersonalizedMenuSection variant="compact" />}
+
     </div>
   );
 }

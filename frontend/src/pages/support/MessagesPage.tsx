@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { workflowClient, type WorkflowThread } from '../../clients/workflowClient';
+import { AccountSidebar } from '../../components/account/AccountSidebar';
 import { useAuth } from '../../hooks/auth/useAuth';
 import { ROUTES } from '../../constants/routes';
 import { useDocumentTitle } from '../../hooks/common/useDocumentTitle';
 import { conversationPath, sortAndFilterThreads, type ThreadFilter } from '../../util/messageThreads';
 import '../../styles/messages.css';
+import '../../styles/account-workflow.css';
 
 function ConversationIcon({ kind }: { kind: WorkflowThread['kind'] }) {
   return kind === 'ORDER' ? (
@@ -53,12 +55,22 @@ export function MessagesPage() {
   const requests = threads.filter(thread => thread.kind === 'REQUEST').length;
   const orders = threads.filter(thread => thread.kind === 'ORDER').length;
 
-  return <div className="container messages-page">
+  return <div className="container account-workflow-page messages-page">
+    <div className="page-heading">
+      <nav className="breadcrumb" aria-label="Đường dẫn">
+        <Link to={ROUTES.HOME}>Trang chủ</Link><span>/</span><span>Hộp thư</span>
+      </nav>
+      <h1>Hộp thư của tôi</h1>
+      <p className="lead">Nhắn tin với đầu bếp về đơn đặt nấu và yêu cầu của bạn.</p>
+    </div>
+    <div className="workspace account-workspace">
+      <AccountSidebar active="messages" />
+      <section className="account-content messages-content" aria-label="Danh sách hội thoại">
     <div className="messages-heading">
       <div>
         <p className="eyebrow">TRUNG TÂM TRAO ĐỔI</p>
-        <h1>Hộp thư</h1>
-        <p className="muted">Các cuộc trò chuyện về yêu cầu nấu ăn và đơn đặt nấu.</p>
+        <h2>Cuộc trò chuyện</h2>
+        <p className="muted">Tra cứu theo đầu bếp, mã yêu cầu hoặc đơn hàng.</p>
       </div>
       <button className="messages-refresh" type="button" onClick={() => setRefresh(value => value + 1)} disabled={loading}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 1-2.3-5.7M20 4v5h-5" /></svg>
@@ -114,5 +126,7 @@ export function MessagesPage() {
           })}
         </div> : null}
     </section>
+      </section>
+    </div>
   </div>;
 }

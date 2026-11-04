@@ -1,0 +1,1 @@
+DO NOT COPY/OVERWRITE HomePage.tsx. Apply the patch in patches/HomePage_KNN_only.patch or follow README.
