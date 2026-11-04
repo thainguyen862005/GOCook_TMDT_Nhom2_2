@@ -1,0 +1,8 @@
+{
+  "status": "OK_SYNTHETIC_OR_REAL_UNVERIFIED",
+  "catalog_size": 184,
+  "interaction_rows": 805,
+  "eligible_users": 134,
+  "k": 5,
+  "caution": "One held-out NEW menu/user; synthetic fixtures are NOT real-world accuracy."
+}

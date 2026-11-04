@@ -1,0 +1,921 @@
+﻿source_id,source_name,neighbor_id,neighbor_name,similarity
+1,A01 - Bữa cơm Văn phòng Healthy,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.667763
+1,A01 - Bữa cơm Văn phòng Healthy,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.659167
+1,A01 - Bữa cơm Văn phòng Healthy,99,SEED26 #093 • Chay healthy – Bữa trưa,0.641349
+1,A01 - Bữa cơm Văn phòng Healthy,175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,0.641318
+1,A01 - Bữa cơm Văn phòng Healthy,109,SEED26 #103 • Chay healthy – Bữa tối,0.640772
+2,A01 - Tiệc Gia Đình Món Bắc,56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,0.732378
+2,A01 - Tiệc Gia Đình Món Bắc,66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,0.727566
+2,A01 - Tiệc Gia Đình Món Bắc,46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,0.7201
+2,A01 - Tiệc Gia Đình Món Bắc,167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,0.717987
+2,A01 - Tiệc Gia Đình Món Bắc,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.715038
+3,A01 - Mâm cơm Sum Vầy Miền Nam,162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,0.794292
+3,A01 - Mâm cơm Sum Vầy Miền Nam,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.792013
+3,A01 - Mâm cơm Sum Vầy Miền Nam,160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,0.79002
+3,A01 - Mâm cơm Sum Vầy Miền Nam,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.789493
+3,A01 - Mâm cơm Sum Vầy Miền Nam,7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,0.78855
+4,A01 - Mâm chay Thanh Lành,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.888076
+4,A01 - Mâm chay Thanh Lành,97,SEED26 #091 • Mâm chay an lành – Bữa trưa,0.879728
+4,A01 - Mâm chay Thanh Lành,117,SEED26 #111 • Mâm chay an lành – Cuối tuần,0.866794
+4,A01 - Mâm chay Thanh Lành,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.82642
+4,A01 - Mâm chay Thanh Lành,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.82604
+7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,0.968587
+7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,0.939586
+7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.852944
+7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.832792
+7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.818653
+8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,0.96615
+8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,0.935644
+8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,0.720038
+8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,0.718469
+8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,3,A01 - Mâm cơm Sum Vầy Miền Nam,0.717587
+9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,0.96772
+9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,0.937407
+9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,0.751112
+9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,0.736225
+9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,0.725729
+10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,0.968114
+10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,0.939825
+10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,0.680344
+10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,0.655274
+10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,23,SEED26 #017 • Cá đồng dân dã – Bữa tối,0.643681
+11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,0.968141
+11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,0.938862
+11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,0.755609
+11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,0.727413
+11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,0.722525
+12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,0.967262
+12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,0.942892
+12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,0.69038
+12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,0.679685
+12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.669807
+13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,23,SEED26 #017 • Cá đồng dân dã – Bữa tối,0.963454
+13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,0.92933
+13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,0.73472
+13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.725897
+13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,0.725325
+14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,0.966787
+14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,0.936416
+14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,0.710445
+14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,0.697671
+14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,0.693142
+15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,0.964354
+15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,0.932536
+15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.711287
+15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.693086
+15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,0.6926
+16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,0.969152
+16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,0.940096
+16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,0.736225
+16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,0.724437
+16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,0.718469
+17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,0.968587
+17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,0.949385
+17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.848487
+17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.824304
+17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.819299
+18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,0.96615
+18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,0.945819
+18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,3,A01 - Mâm cơm Sum Vầy Miền Nam,0.716769
+18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,0.713276
+18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,0.710141
+19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,0.96772
+19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,0.946596
+19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,0.739848
+19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,0.729783
+19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,0.724437
+20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,0.968114
+20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,0.949855
+20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,23,SEED26 #017 • Cá đồng dân dã – Bữa tối,0.67937
+20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,0.665265
+20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,0.654703
+21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,0.968141
+21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,0.94863
+21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,0.751459
+21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,0.732573
+21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,23,SEED26 #017 • Cá đồng dân dã – Bữa tối,0.721522
+22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,0.967262
+22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,0.95284
+22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,0.687443
+22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,0.675252
+22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.669882
+23,SEED26 #017 • Cá đồng dân dã – Bữa tối,13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,0.963454
+23,SEED26 #017 • Cá đồng dân dã – Bữa tối,33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,0.941877
+23,SEED26 #017 • Cá đồng dân dã – Bữa tối,17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,0.734586
+23,SEED26 #017 • Cá đồng dân dã – Bữa tối,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.72602
+23,SEED26 #017 • Cá đồng dân dã – Bữa tối,21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,0.721522
+24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,0.966787
+24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,0.946385
+24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,0.703509
+24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,0.692061
+24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,0.685868
+25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,0.964354
+25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,0.943742
+25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.707884
+25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,0.688008
+25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,23,SEED26 #017 • Cá đồng dân dã – Bữa tối,0.682678
+26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,0.969152
+26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,0.949848
+26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,0.729783
+26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,0.713276
+26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,0.706058
+27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,17,SEED26 #011 • Cơm nhà kho tộ – Bữa tối,0.949385
+27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,7,SEED26 #001 • Cơm nhà kho tộ – Bữa trưa,0.939586
+27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.848814
+27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.809799
+27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,0.809035
+28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,0.945819
+28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,0.935644
+28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,0.721942
+28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,0.713727
+28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,0.702398
+29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,0.946596
+29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,0.937407
+29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,0.739776
+29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,0.724975
+29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,0.710489
+30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,0.949855
+30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,0.939825
+30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,0.68571
+30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,0.658621
+30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,0.645357
+31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,21,SEED26 #015 • Mâm cơm quê ngoại – Bữa tối,0.94863
+31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,11,SEED26 #005 • Mâm cơm quê ngoại – Bữa trưa,0.938862
+31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,0.752882
+31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,0.722338
+31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.71776
+32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,0.95284
+32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,0.942892
+32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,0.702398
+32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.701226
+32,SEED26 #026 • Tiệc cuối tuần miền Nam – Cuối tuần,126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,0.666826
+33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,23,SEED26 #017 • Cá đồng dân dã – Bữa tối,0.941877
+33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,13,SEED26 #007 • Cá đồng dân dã – Bữa trưa,0.92933
+33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,27,SEED26 #021 • Cơm nhà kho tộ – Cuối tuần,0.734436
+33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.725492
+33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,0.722338
+34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,24,SEED26 #018 • Cơm gia đình ấm áp – Bữa tối,0.946385
+34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,14,SEED26 #008 • Cơm gia đình ấm áp – Bữa trưa,0.936416
+34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,0.707131
+34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,0.690773
+34,SEED26 #028 • Cơm gia đình ấm áp – Cuối tuần,33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,0.68529
+35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,25,SEED26 #019 • Đậm vị đất phương Nam – Bữa tối,0.943742
+35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,15,SEED26 #009 • Đậm vị đất phương Nam – Bữa trưa,0.932536
+35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.71223
+35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,0.693801
+35,SEED26 #029 • Đậm vị đất phương Nam – Cuối tuần,33,SEED26 #027 • Cá đồng dân dã – Cuối tuần,0.687019
+36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,26,SEED26 #020 • Bữa cơm miền sông nước – Bữa tối,0.949848
+36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,16,SEED26 #010 • Bữa cơm miền sông nước – Bữa trưa,0.940096
+36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,0.724975
+36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,0.713727
+36,SEED26 #030 • Bữa cơm miền sông nước – Cuối tuần,31,SEED26 #025 • Mâm cơm quê ngoại – Cuối tuần,0.704141
+37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.955737
+37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,0.91602
+37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,0.721039
+37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,0.717859
+37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,0.712223
+38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,0.97141
+38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,0.945362
+38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.763325
+38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.738776
+38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,0.734585
+39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,0.965135
+39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,0.932084
+39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.736722
+39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,0.719172
+39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.705338
+40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,0.948932
+40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,0.903191
+40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.717859
+40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.67468
+40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.665842
+41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,0.966307
+41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,0.935793
+41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.698145
+41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.69178
+41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,0.679391
+42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,0.967612
+42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,0.939599
+42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.665362
+42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,2,A01 - Tiệc Gia Đình Món Bắc,0.652921
+42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.643688
+43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.968507
+43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,0.939819
+43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.763325
+43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,0.73769
+43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,0.736722
+44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,0.958002
+44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,0.916736
+44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,0.70769
+44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,0.684947
+44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,0.647031
+45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,0.959782
+45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,0.922782
+45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.734585
+45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,0.719172
+45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.712223
+46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,0.959496
+46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,0.922781
+46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,2,A01 - Tiệc Gia Đình Món Bắc,0.7201
+46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.702368
+46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.66162
+47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.955737
+47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,0.929562
+47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,2,A01 - Tiệc Gia Đình Món Bắc,0.715038
+47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,0.713042
+47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,0.710871
+48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.97141
+48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,0.954069
+48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.757771
+48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.73769
+48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,0.725315
+49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,0.965135
+49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,0.942477
+49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.732332
+49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.71442
+49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,0.710983
+50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,0.948932
+50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,0.918329
+50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.710871
+50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.683333
+50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.656748
+51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,0.966307
+51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,0.946093
+51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,0.691259
+51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.68482
+51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.669392
+52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,0.967612
+52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,0.949833
+52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.663855
+52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,2,A01 - Tiệc Gia Đình Món Bắc,0.650632
+52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,0.634682
+53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.968507
+53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,0.949398
+53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,0.757771
+53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.738776
+53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,0.732332
+54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,0.958002
+54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,0.931426
+54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,0.663759
+54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.629974
+54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,0.628019
+55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,0.959782
+55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,0.934769
+55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,0.725315
+55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,0.710983
+55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.707214
+56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,0.959496
+56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,0.934576
+56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,2,A01 - Tiệc Gia Đình Món Bắc,0.732378
+56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.692996
+56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.677342
+57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,47,SEED26 #041 • Mâm cơm Hà Nội – Bữa tối,0.929562
+57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.91602
+57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,0.726094
+57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,0.720223
+57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,0.713512
+58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,0.954069
+58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,38,SEED26 #032 • Cơm Bắc thanh vị – Bữa trưa,0.945362
+58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,0.762339
+58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,0.730247
+58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.720018
+59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,49,SEED26 #043 • Bữa cơm đồng bằng – Bữa tối,0.942477
+59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,39,SEED26 #033 • Bữa cơm đồng bằng – Bữa trưa,0.932084
+59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,0.73
+59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,0.706602
+59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.703321
+60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,50,SEED26 #044 • Mâm cỗ phố cổ – Bữa tối,0.918329
+60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,40,SEED26 #034 • Mâm cỗ phố cổ – Bữa trưa,0.903191
+60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,0.720223
+60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,0.664742
+60,SEED26 #054 • Mâm cỗ phố cổ – Cuối tuần,65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,0.655784
+61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,51,SEED26 #045 • Món quê Bắc Bộ – Bữa tối,0.946093
+61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,41,SEED26 #035 • Món quê Bắc Bộ – Bữa trưa,0.935793
+61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,0.697645
+61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,0.691362
+61,SEED26 #055 • Món quê Bắc Bộ – Cuối tuần,87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,0.676481
+62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,52,SEED26 #046 • Gà hấp chuẩn Bắc – Bữa tối,0.949833
+62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,42,SEED26 #036 • Gà hấp chuẩn Bắc – Bữa trưa,0.939599
+62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,0.679726
+62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,2,A01 - Tiệc Gia Đình Món Bắc,0.638882
+62,SEED26 #056 • Gà hấp chuẩn Bắc – Cuối tuần,66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,0.636953
+63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,53,SEED26 #047 • Cơm nhà ba miền vị Bắc – Bữa tối,0.949398
+63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,43,SEED26 #037 • Cơm nhà ba miền vị Bắc – Bữa trưa,0.939819
+63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,0.762339
+63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,0.73
+63,SEED26 #057 • Cơm nhà ba miền vị Bắc – Cuối tuần,48,SEED26 #042 • Cơm Bắc thanh vị – Bữa tối,0.719077
+64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,0.931426
+64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,0.916736
+64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,22,SEED26 #016 • Tiệc cuối tuần miền Nam – Bữa tối,0.646393
+64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,0.646276
+64,SEED26 #058 • Bữa tối xứ Kinh kỳ – Cuối tuần,12,SEED26 #006 • Tiệc cuối tuần miền Nam – Bữa trưa,0.628115
+65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,55,SEED26 #049 • Món ngon ngày mưa – Bữa tối,0.934769
+65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,45,SEED26 #039 • Món ngon ngày mưa – Bữa trưa,0.922782
+65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,58,SEED26 #052 • Cơm Bắc thanh vị – Cuối tuần,0.730247
+65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,0.713512
+65,SEED26 #059 • Món ngon ngày mưa – Cuối tuần,59,SEED26 #053 • Bữa cơm đồng bằng – Cuối tuần,0.706602
+66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,56,SEED26 #050 • Tiệc gia đình truyền thống – Bữa tối,0.934576
+66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,46,SEED26 #040 • Tiệc gia đình truyền thống – Bữa trưa,0.922781
+66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,2,A01 - Tiệc Gia Đình Món Bắc,0.727566
+66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,57,SEED26 #051 • Mâm cơm Hà Nội – Cuối tuần,0.701943
+66,SEED26 #060 • Tiệc gia đình truyền thống – Cuối tuần,37,SEED26 #031 • Mâm cơm Hà Nội – Bữa trưa,0.643502
+67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,0.961813
+67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,0.926865
+67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.774109
+67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,9,SEED26 #003 • Bữa cơm ngọt lành – Bữa trưa,0.751112
+67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.744128
+68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,0.967562
+68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,0.938915
+68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.744764
+68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.721746
+68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.72158
+69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.968648
+69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.938939
+69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,0.778695
+69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,0.778379
+69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,0.775114
+70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,0.963708
+70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,0.930706
+70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.775114
+70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.759534
+70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.746586
+71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,0.968093
+71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,0.938843
+71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.778695
+71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.753688
+71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.740505
+72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,0.975743
+72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,0.953479
+72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,0.714337
+72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.697618
+72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,0.692547
+73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,0.962509
+73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,0.925838
+73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,0.684947
+73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,0.675278
+73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.670724
+74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,84,SEED26 #078 • Món ngon đất Võ – Bữa tối,0.96764
+74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,0.938083
+74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,0.727609
+74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,0.699509
+74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,0.673798
+75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,0.964432
+75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,0.932077
+75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.778379
+75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.755849
+75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.745276
+76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,0.966189
+76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,0.936212
+76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,0.727609
+76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,8,SEED26 #002 • Mâm cơm miền Tây – Bữa trưa,0.720038
+76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,0.718755
+77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,0.961813
+77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,0.937605
+77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.759193
+77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,19,SEED26 #013 • Bữa cơm ngọt lành – Bữa tối,0.739848
+77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.738074
+78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,0.967562
+78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,0.948363
+78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.729586
+78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.717348
+78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.709498
+79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.968648
+79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.946745
+79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,0.76966
+79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,0.765712
+79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,0.760499
+80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,0.963708
+80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,0.940947
+80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.760499
+80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.744581
+80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.739232
+81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,0.968093
+81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,0.947962
+81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.765712
+81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.744004
+81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.738202
+82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,0.975743
+82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,0.960677
+82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,0.703065
+82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.684284
+82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,0.68332
+83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,0.962509
+83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,0.931354
+83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,44,SEED26 #038 • Bữa tối xứ Kinh kỳ – Bữa trưa,0.70769
+83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,0.664543
+83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,54,SEED26 #048 • Bữa tối xứ Kinh kỳ – Bữa tối,0.663759
+84,SEED26 #078 • Món ngon đất Võ – Bữa tối,74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,0.96764
+84,SEED26 #078 • Món ngon đất Võ – Bữa tối,94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,0.94751
+84,SEED26 #078 • Món ngon đất Võ – Bữa tối,86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,0.716446
+84,SEED26 #078 • Món ngon đất Võ – Bữa tối,76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,0.700587
+84,SEED26 #078 • Món ngon đất Võ – Bữa tối,96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,0.666687
+85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,0.964432
+85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,0.942144
+85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.76966
+85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.743981
+85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.74275
+86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,0.966189
+86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,0.946166
+86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,84,SEED26 #078 • Món ngon đất Võ – Bữa tối,0.716446
+86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,18,SEED26 #012 • Mâm cơm miền Tây – Bữa tối,0.710141
+86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,0.705532
+87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,77,SEED26 #071 • Cơm nhà xứ Huế – Bữa tối,0.937605
+87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,67,SEED26 #061 • Cơm nhà xứ Huế – Bữa trưa,0.926865
+87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.758854
+87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,29,SEED26 #023 • Bữa cơm ngọt lành – Cuối tuần,0.739776
+87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,0.727414
+88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,0.948363
+88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,0.938915
+88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.736644
+88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,0.711963
+88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,0.704185
+89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,79,SEED26 #073 • Bữa cơm xứ Quảng – Bữa tối,0.946745
+89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,69,SEED26 #063 • Bữa cơm xứ Quảng – Bữa trưa,0.938939
+89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,0.770767
+89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,0.766868
+89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,0.761516
+90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,80,SEED26 #074 • Mâm cơm Đà Nẵng – Bữa tối,0.940947
+90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,70,SEED26 #064 • Mâm cơm Đà Nẵng – Bữa trưa,0.930706
+90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.761516
+90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.746634
+90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,0.718345
+91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,81,SEED26 #075 • Vị cay xứ Nghệ – Bữa tối,0.947962
+91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,71,SEED26 #065 • Vị cay xứ Nghệ – Bữa trưa,0.938843
+91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.766868
+91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,0.709944
+91,SEED26 #085 • Vị cay xứ Nghệ – Cuối tuần,90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,0.706542
+92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,82,SEED26 #076 • Tiệc biển miền Trung – Bữa tối,0.960677
+92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,72,SEED26 #066 • Tiệc biển miền Trung – Bữa trưa,0.953479
+92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,0.711963
+92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.687164
+92,SEED26 #086 • Tiệc biển miền Trung – Cuối tuần,78,SEED26 #072 • Đặc sản miền Trung – Bữa tối,0.686298
+93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,83,SEED26 #077 • Bữa trưa Cố đô – Bữa tối,0.931354
+93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,73,SEED26 #067 • Bữa trưa Cố đô – Bữa trưa,0.925838
+93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,68,SEED26 #062 • Đặc sản miền Trung – Bữa trưa,0.677867
+93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,88,SEED26 #082 • Đặc sản miền Trung – Cuối tuần,0.65999
+93,SEED26 #087 • Bữa trưa Cố đô – Cuối tuần,74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,0.647731
+94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,84,SEED26 #078 • Món ngon đất Võ – Bữa tối,0.94751
+94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,74,SEED26 #068 • Món ngon đất Võ – Bữa trưa,0.938083
+94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,0.726685
+94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,0.692438
+94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,0.685892
+95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,85,SEED26 #079 • Cơm nhà nắng gió – Bữa tối,0.942144
+95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,75,SEED26 #069 • Cơm nhà nắng gió – Bữa trưa,0.932077
+95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,89,SEED26 #083 • Bữa cơm xứ Quảng – Cuối tuần,0.770767
+95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,87,SEED26 #081 • Cơm nhà xứ Huế – Cuối tuần,0.727414
+95,SEED26 #089 • Cơm nhà nắng gió – Cuối tuần,90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,0.7119
+96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,86,SEED26 #080 • Duyên hải đậm đà – Bữa tối,0.946166
+96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,76,SEED26 #070 • Duyên hải đậm đà – Bữa trưa,0.936212
+96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,94,SEED26 #088 • Món ngon đất Võ – Cuối tuần,0.726685
+96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,28,SEED26 #022 • Mâm cơm miền Tây – Cuối tuần,0.721942
+96,SEED26 #090 • Duyên hải đậm đà – Cuối tuần,90,SEED26 #084 • Mâm cơm Đà Nẵng – Cuối tuần,0.718345
+97,SEED26 #091 • Mâm chay an lành – Bữa trưa,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.960897
+97,SEED26 #091 • Mâm chay an lành – Bữa trưa,117,SEED26 #111 • Mâm chay an lành – Cuối tuần,0.926677
+97,SEED26 #091 • Mâm chay an lành – Bữa trưa,4,A01 - Mâm chay Thanh Lành,0.879728
+97,SEED26 #091 • Mâm chay an lành – Bữa trưa,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.807701
+97,SEED26 #091 • Mâm chay an lành – Bữa trưa,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.775646
+98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,0.962869
+98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,0.928243
+98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.768044
+98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,0.760314
+98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.739324
+99,SEED26 #093 • Chay healthy – Bữa trưa,109,SEED26 #103 • Chay healthy – Bữa tối,0.960413
+99,SEED26 #093 • Chay healthy – Bữa trưa,119,SEED26 #113 • Chay healthy – Cuối tuần,0.924697
+99,SEED26 #093 • Chay healthy – Bữa trưa,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.654738
+99,SEED26 #093 • Chay healthy – Bữa trưa,1,A01 - Bữa cơm Văn phòng Healthy,0.641349
+99,SEED26 #093 • Chay healthy – Bữa trưa,101,SEED26 #095 • Món chay gia đình – Bữa trưa,0.63959
+100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.966698
+100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.936533
+100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,0.768044
+100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,0.740902
+100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,101,SEED26 #095 • Món chay gia đình – Bữa trưa,0.739462
+101,SEED26 #095 • Món chay gia đình – Bữa trưa,111,SEED26 #105 • Món chay gia đình – Bữa tối,0.968426
+101,SEED26 #095 • Món chay gia đình – Bữa trưa,121,SEED26 #115 • Món chay gia đình – Cuối tuần,0.938787
+101,SEED26 #095 • Món chay gia đình – Bữa trưa,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.739462
+101,SEED26 #095 • Món chay gia đình – Bữa trưa,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.733324
+101,SEED26 #095 • Món chay gia đình – Bữa trưa,98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,0.723667
+102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,0.967597
+102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,0.93723
+102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,97,SEED26 #091 • Mâm chay an lành – Bữa trưa,0.704095
+102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.69198
+102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.668916
+103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.980985
+103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.965821
+103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,0.740797
+103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.735496
+103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,0.735305
+104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,114,SEED26 #108 • Chay phong vị Việt – Bữa tối,0.966464
+104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,0.936521
+104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.735305
+104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.716926
+104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.675363
+105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,0.963549
+105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,0.931451
+105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,0.593864
+105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,99,SEED26 #093 • Chay healthy – Bữa trưa,0.591236
+105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,101,SEED26 #095 • Món chay gia đình – Bữa trưa,0.577637
+106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,0.963973
+106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,0.932063
+106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,0.760314
+106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.740902
+106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,0.734303
+107,SEED26 #101 • Mâm chay an lành – Bữa tối,97,SEED26 #091 • Mâm chay an lành – Bữa trưa,0.960897
+107,SEED26 #101 • Mâm chay an lành – Bữa tối,117,SEED26 #111 • Mâm chay an lành – Cuối tuần,0.938706
+107,SEED26 #101 • Mâm chay an lành – Bữa tối,4,A01 - Mâm chay Thanh Lành,0.888076
+107,SEED26 #101 • Mâm chay an lành – Bữa tối,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.805527
+107,SEED26 #101 • Mâm chay an lành – Bữa tối,179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,0.786634
+108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,0.962869
+108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,0.939555
+108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.762986
+108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,0.754989
+108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.739384
+109,SEED26 #103 • Chay healthy – Bữa tối,99,SEED26 #093 • Chay healthy – Bữa trưa,0.960413
+109,SEED26 #103 • Chay healthy – Bữa tối,119,SEED26 #113 • Chay healthy – Cuối tuần,0.936673
+109,SEED26 #103 • Chay healthy – Bữa tối,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.654394
+109,SEED26 #103 • Chay healthy – Bữa tối,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.642083
+109,SEED26 #103 • Chay healthy – Bữa tối,111,SEED26 #105 • Món chay gia đình – Bữa tối,0.641323
+110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.966698
+110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.946719
+110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,0.762986
+110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,111,SEED26 #105 • Món chay gia đình – Bữa tối,0.739935
+110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,0.739324
+111,SEED26 #105 • Món chay gia đình – Bữa tối,101,SEED26 #095 • Món chay gia đình – Bữa trưa,0.968426
+111,SEED26 #105 • Món chay gia đình – Bữa tối,121,SEED26 #115 • Món chay gia đình – Cuối tuần,0.949604
+111,SEED26 #105 • Món chay gia đình – Bữa tối,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.739935
+111,SEED26 #105 • Món chay gia đình – Bữa tối,108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,0.725117
+111,SEED26 #105 • Món chay gia đình – Bữa tối,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.697982
+112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,0.967597
+112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,0.946948
+112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.697155
+112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.684577
+112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,97,SEED26 #091 • Mâm chay an lành – Bữa trưa,0.679395
+113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.980985
+113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.97172
+113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,0.749269
+113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.736084
+113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,114,SEED26 #108 • Chay phong vị Việt – Bữa tối,0.735402
+114,SEED26 #108 • Chay phong vị Việt – Bữa tối,104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,0.966464
+114,SEED26 #108 • Chay phong vị Việt – Bữa tối,124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,0.947222
+114,SEED26 #108 • Chay phong vị Việt – Bữa tối,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.735402
+114,SEED26 #108 • Chay phong vị Việt – Bữa tối,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.716166
+114,SEED26 #108 • Chay phong vị Việt – Bữa tối,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.682884
+115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,0.963549
+115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,0.942706
+115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,0.584986
+115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,109,SEED26 #103 • Chay healthy – Bữa tối,0.583171
+115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,111,SEED26 #105 • Món chay gia đình – Bữa tối,0.58
+116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,0.963973
+116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,0.943056
+116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,0.754989
+116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.73533
+116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,0.733912
+117,SEED26 #111 • Mâm chay an lành – Cuối tuần,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.938706
+117,SEED26 #111 • Mâm chay an lành – Cuối tuần,97,SEED26 #091 • Mâm chay an lành – Bữa trưa,0.926677
+117,SEED26 #111 • Mâm chay an lành – Cuối tuần,4,A01 - Mâm chay Thanh Lành,0.866794
+117,SEED26 #111 • Mâm chay an lành – Cuối tuần,175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,0.811661
+117,SEED26 #111 • Mâm chay an lành – Cuối tuần,179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,0.763952
+118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,108,SEED26 #102 • Bữa chay thanh đạm – Bữa tối,0.939555
+118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,98,SEED26 #092 • Bữa chay thanh đạm – Bữa trưa,0.928243
+118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.76581
+118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,0.759976
+118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,0.733912
+119,SEED26 #113 • Chay healthy – Cuối tuần,109,SEED26 #103 • Chay healthy – Bữa tối,0.936673
+119,SEED26 #113 • Chay healthy – Cuối tuần,99,SEED26 #093 • Chay healthy – Bữa trưa,0.924697
+119,SEED26 #113 • Chay healthy – Cuối tuần,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.688516
+119,SEED26 #113 • Chay healthy – Cuối tuần,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.672617
+119,SEED26 #113 • Chay healthy – Cuối tuần,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.671955
+120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.946719
+120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,100,SEED26 #094 • Cơm chay ngày rằm – Bữa trưa,0.936533
+120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,0.76581
+120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.745764
+120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,0.743618
+121,SEED26 #115 • Món chay gia đình – Cuối tuần,111,SEED26 #105 • Món chay gia đình – Bữa tối,0.949604
+121,SEED26 #115 • Món chay gia đình – Cuối tuần,101,SEED26 #095 • Món chay gia đình – Bữa trưa,0.938787
+121,SEED26 #115 • Món chay gia đình – Cuối tuần,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.740997
+121,SEED26 #115 • Món chay gia đình – Cuối tuần,118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,0.722298
+121,SEED26 #115 • Món chay gia đình – Cuối tuần,110,SEED26 #104 • Cơm chay ngày rằm – Bữa tối,0.711558
+122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,112,SEED26 #106 • Bữa chay năng lượng – Bữa tối,0.946948
+122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,102,SEED26 #096 • Bữa chay năng lượng – Bữa trưa,0.93723
+122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,117,SEED26 #111 • Mâm chay an lành – Cuối tuần,0.700331
+122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.686038
+122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.676779
+123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.97172
+123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.965821
+123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,0.760681
+123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.745764
+123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,0.728936
+124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,114,SEED26 #108 • Chay phong vị Việt – Bữa tối,0.947222
+124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,104,SEED26 #098 • Chay phong vị Việt – Bữa trưa,0.936521
+124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.760681
+124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,113,SEED26 #107 • Tiệc chay cuối tuần – Bữa tối,0.749269
+124,SEED26 #118 • Chay phong vị Việt – Cuối tuần,103,SEED26 #097 • Tiệc chay cuối tuần – Bữa trưa,0.740797
+125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,115,SEED26 #109 • Thực đơn thuần thực vật – Bữa tối,0.942706
+125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,105,SEED26 #099 • Thực đơn thuần thực vật – Bữa trưa,0.931451
+125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,119,SEED26 #113 • Chay healthy – Cuối tuần,0.598498
+125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,122,SEED26 #116 • Bữa chay năng lượng – Cuối tuần,0.590277
+125,SEED26 #119 • Thực đơn thuần thực vật – Cuối tuần,121,SEED26 #115 • Món chay gia đình – Cuối tuần,0.585206
+126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,116,SEED26 #110 • Bữa chay thanh xuân – Bữa tối,0.943056
+126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,106,SEED26 #100 • Bữa chay thanh xuân – Bữa trưa,0.932063
+126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,118,SEED26 #112 • Bữa chay thanh đạm – Cuối tuần,0.759976
+126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,120,SEED26 #114 • Cơm chay ngày rằm – Cuối tuần,0.743618
+126,SEED26 #120 • Bữa chay thanh xuân – Cuối tuần,123,SEED26 #117 • Tiệc chay cuối tuần – Cuối tuần,0.728936
+127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.953657
+127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.912023
+127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,0.642525
+127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,0.616026
+127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,0.606109
+128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,0.951842
+128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,0.908992
+128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,132,SEED26 #126 • Buffet đơn giản – Bữa trưa,0.602827
+128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.601767
+128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,0.600386
+129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,0.955524
+129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,0.9116
+129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,0.597763
+129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,0.590771
+129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,0.571356
+130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,0.947548
+130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,0.903201
+130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,0.619796
+130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.600015
+130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,10,SEED26 #004 • Hương vị Sài Gòn – Bữa trưa,0.595349
+131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,0.960053
+131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,0.924112
+131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,0.619796
+131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.606109
+131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,0.594504
+132,SEED26 #126 • Buffet đơn giản – Bữa trưa,142,SEED26 #136 • Buffet đơn giản – Bữa tối,0.941989
+132,SEED26 #126 • Buffet đơn giản – Bữa trưa,152,SEED26 #146 • Buffet đơn giản – Cuối tuần,0.890153
+132,SEED26 #126 • Buffet đơn giản – Bữa trưa,133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,0.611836
+132,SEED26 #126 • Buffet đơn giản – Bữa trưa,128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,0.602827
+132,SEED26 #126 • Buffet đơn giản – Bữa trưa,136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,0.585008
+133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,143,SEED26 #137 • Thực đơn cho bé – Bữa tối,0.947624
+133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,0.900591
+133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,0.628407
+133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,132,SEED26 #126 • Buffet đơn giản – Bữa trưa,0.611836
+133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,0.56535
+134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,0.945264
+134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,0.89447
+134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,0.628407
+134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,97,SEED26 #091 • Mâm chay an lành – Bữa trưa,0.620645
+134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,143,SEED26 #137 • Thực đơn cho bé – Bữa tối,0.59294
+135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,0.95028
+135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,0.906377
+135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.642525
+135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.606057
+135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,0.5856
+136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,0.95765
+136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.921581
+136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.616026
+136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,0.600386
+136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,0.594504
+137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.953657
+137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.925876
+137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,0.63336
+137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,0.606057
+137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,0.597418
+138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,0.951842
+138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,0.923243
+138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.595792
+138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,142,SEED26 #136 • Buffet đơn giản – Bữa tối,0.595193
+138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,0.586059
+139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,0.955524
+139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,0.928016
+139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,0.59935
+139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,142,SEED26 #136 • Buffet đơn giản – Bữa tối,0.562589
+139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,0.560373
+140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,0.947548
+140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,0.919003
+140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,0.612471
+140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,20,SEED26 #014 • Hương vị Sài Gòn – Bữa tối,0.59503
+140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.589246
+141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,0.960053
+141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,0.936433
+141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,0.612471
+141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.597418
+141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,0.586229
+142,SEED26 #136 • Buffet đơn giản – Bữa tối,132,SEED26 #126 • Buffet đơn giản – Bữa trưa,0.941989
+142,SEED26 #136 • Buffet đơn giản – Bữa tối,152,SEED26 #146 • Buffet đơn giản – Cuối tuần,0.906875
+142,SEED26 #136 • Buffet đơn giản – Bữa tối,138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,0.595193
+142,SEED26 #136 • Buffet đơn giản – Bữa tối,143,SEED26 #137 • Thực đơn cho bé – Bữa tối,0.589405
+142,SEED26 #136 • Buffet đơn giản – Bữa tối,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.563731
+143,SEED26 #137 • Thực đơn cho bé – Bữa tối,133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,0.947624
+143,SEED26 #137 • Thực đơn cho bé – Bữa tối,153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,0.914764
+143,SEED26 #137 • Thực đơn cho bé – Bữa tối,144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,0.609105
+143,SEED26 #137 • Thực đơn cho bé – Bữa tối,134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,0.59294
+143,SEED26 #137 • Thực đơn cho bé – Bữa tối,142,SEED26 #136 • Buffet đơn giản – Bữa tối,0.589405
+144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,0.945264
+144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,0.910641
+144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.612283
+144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,143,SEED26 #137 • Thực đơn cho bé – Bữa tối,0.609105
+144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,97,SEED26 #091 • Mâm chay an lành – Bữa trưa,0.589008
+145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,0.95028
+145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,0.921503
+145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.63336
+145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.598432
+145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.580493
+146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,0.95765
+146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.933737
+146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.597177
+146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.590456
+146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,0.586059
+147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,137,SEED26 #131 • Tiệc sinh nhật tại gia – Bữa tối,0.925876
+147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,127,SEED26 #121 • Tiệc sinh nhật tại gia – Bữa trưa,0.912023
+147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,0.647056
+147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.624047
+147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,0.610545
+148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,138,SEED26 #132 • Set ăn phong cách Âu – Bữa tối,0.923243
+148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,128,SEED26 #122 • Set ăn phong cách Âu – Bữa trưa,0.908992
+148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.615891
+148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,152,SEED26 #146 • Buffet đơn giản – Cuối tuần,0.61194
+148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.610545
+149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,139,SEED26 #133 • Bữa tối hẹn hò – Bữa tối,0.928016
+149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,129,SEED26 #123 • Bữa tối hẹn hò – Bữa trưa,0.9116
+149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,0.58405
+149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,0.573538
+149,SEED26 #143 • Bữa tối hẹn hò – Cuối tuần,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.5712
+150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,140,SEED26 #134 • Mâm tiệc giao lưu – Bữa tối,0.919003
+150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,130,SEED26 #124 • Mâm tiệc giao lưu – Bữa trưa,0.903201
+150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,0.629864
+150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,30,SEED26 #024 • Hương vị Sài Gòn – Cuối tuần,0.618098
+150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.610428
+151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,141,SEED26 #135 • Tiệc BBQ gia đình – Bữa tối,0.936433
+151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,131,SEED26 #125 • Tiệc BBQ gia đình – Bữa trưa,0.924112
+151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,150,SEED26 #144 • Mâm tiệc giao lưu – Cuối tuần,0.629864
+151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.609247
+151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.603401
+152,SEED26 #146 • Buffet đơn giản – Cuối tuần,142,SEED26 #136 • Buffet đơn giản – Bữa tối,0.906875
+152,SEED26 #146 • Buffet đơn giản – Cuối tuần,132,SEED26 #126 • Buffet đơn giản – Bữa trưa,0.890153
+152,SEED26 #146 • Buffet đơn giản – Cuối tuần,148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,0.61194
+152,SEED26 #146 • Buffet đơn giản – Cuối tuần,153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,0.607529
+152,SEED26 #146 • Buffet đơn giản – Cuối tuần,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.594913
+153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,143,SEED26 #137 • Thực đơn cho bé – Bữa tối,0.914764
+153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,133,SEED26 #127 • Thực đơn cho bé – Bữa trưa,0.900591
+153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,0.618854
+153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,152,SEED26 #146 • Buffet đơn giản – Cuối tuần,0.607529
+153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.568039
+154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,144,SEED26 #138 • Bữa ăn ít dầu – Bữa tối,0.910641
+154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,134,SEED26 #128 • Bữa ăn ít dầu – Bữa trưa,0.89447
+154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,117,SEED26 #111 • Mâm chay an lành – Cuối tuần,0.626877
+154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,153,SEED26 #147 • Thực đơn cho bé – Cuối tuần,0.618854
+154,SEED26 #148 • Bữa ăn ít dầu – Cuối tuần,107,SEED26 #101 • Mâm chay an lành – Bữa tối,0.582413
+155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,145,SEED26 #139 • Tiệc họp mặt công ty – Bữa tối,0.921503
+155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,135,SEED26 #129 • Tiệc họp mặt công ty – Bữa trưa,0.906377
+155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.647056
+155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,0.592253
+155,SEED26 #149 • Tiệc họp mặt công ty – Cuối tuần,156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,0.590645
+156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,146,SEED26 #140 • Bữa sáng cuối tuần – Bữa tối,0.933737
+156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,136,SEED26 #130 • Bữa sáng cuối tuần – Bữa trưa,0.921581
+156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,147,SEED26 #141 • Tiệc sinh nhật tại gia – Cuối tuần,0.624047
+156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,148,SEED26 #142 • Set ăn phong cách Âu – Cuối tuần,0.615891
+156,SEED26 #150 • Bữa sáng cuối tuần – Cuối tuần,151,SEED26 #145 • Tiệc BBQ gia đình – Cuối tuần,0.603401
+157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.95209
+157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,0.945971
+157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,0.945114
+157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.94219
+157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.939201
+158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.972398
+158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,0.954171
+158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.95209
+158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,0.951162
+158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.948314
+159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.948314
+159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,0.944383
+159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.941466
+159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,0.93993
+159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.939201
+160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.954171
+160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.947213
+160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,0.945547
+160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.945114
+160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.944383
+161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.972398
+161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,0.947213
+161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,0.943417
+161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.94219
+161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.941466
+162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,158,DEMO-KNN-M01-02 | Cơm nhà miền Nam - Bữa tối,0.951162
+162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,157,DEMO-KNN-M01-03 | Cơm nhà miền Nam - Cuối tuần,0.945971
+162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,160,DEMO-KNN-M01-05 | Cơm nhà miền Nam - Gia đình,0.945547
+162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,161,DEMO-KNN-M01-01 | Cơm nhà miền Nam - Bữa trưa,0.943417
+162,DEMO-KNN-M01-04 | Cơm nhà miền Nam - Liên hoan,159,DEMO-KNN-M01-06 | Cơm nhà miền Nam - Đãi khách,0.93993
+163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,0.941315
+163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,0.935322
+163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,0.934843
+163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,0.931633
+163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,0.927817
+164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,0.9657
+164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,0.944207
+164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,0.941409
+164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,0.941315
+164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,0.936384
+165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,0.9657
+165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,0.935442
+165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,0.931633
+165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,0.928981
+165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,0.927719
+166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,0.941409
+166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,0.935322
+166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,0.933687
+166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,0.928981
+166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,0.92597
+167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,0.944207
+167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,0.935442
+167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,0.934843
+167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,0.933687
+167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,0.932481
+168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,164,DEMO-KNN-M02-02 | Mâm cơm miền Bắc - Bữa tối,0.936384
+168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,167,DEMO-KNN-M02-05 | Mâm cơm miền Bắc - Gia đình,0.932481
+168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,163,DEMO-KNN-M02-04 | Mâm cơm miền Bắc - Liên hoan,0.927817
+168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,165,DEMO-KNN-M02-01 | Mâm cơm miền Bắc - Bữa trưa,0.927719
+168,DEMO-KNN-M02-06 | Mâm cơm miền Bắc - Đãi khách,166,DEMO-KNN-M02-03 | Mâm cơm miền Bắc - Cuối tuần,0.92597
+169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.953873
+169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,0.947852
+169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,0.946831
+169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.945745
+169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,0.941428
+170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.955531
+170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.950113
+170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,0.9472
+170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.946831
+170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,0.946037
+171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.952815
+171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.947852
+171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,0.9472
+171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.946356
+171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,0.941952
+172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.974303
+172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,0.950113
+172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,0.946356
+172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.945745
+172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,0.944936
+173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.974303
+173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,0.955531
+173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.953873
+173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,0.952815
+173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,0.95013
+174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,173,DEMO-KNN-M03-02 | Bữa cơm miền Trung - Bữa tối,0.95013
+174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,170,DEMO-KNN-M03-05 | Bữa cơm miền Trung - Gia đình,0.946037
+174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,172,DEMO-KNN-M03-01 | Bữa cơm miền Trung - Bữa trưa,0.944936
+174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,171,DEMO-KNN-M03-04 | Bữa cơm miền Trung - Liên hoan,0.941952
+174,DEMO-KNN-M03-06 | Bữa cơm miền Trung - Đãi khách,169,DEMO-KNN-M03-03 | Bữa cơm miền Trung - Cuối tuần,0.941428
+175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.944821
+175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,0.936738
+175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,0.936508
+175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.932688
+175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,0.930164
+176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.967592
+176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,0.938261
+176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,0.932717
+176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,0.932688
+176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,0.931652
+177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.940254
+177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,0.935709
+177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.931652
+177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,0.930164
+177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,0.929293
+178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.942215
+178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,0.936508
+178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,0.935845
+178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.932717
+178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,0.929293
+179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,0.946862
+179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.938261
+179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,0.936738
+179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,0.935845
+179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,0.935709
+180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,176,DEMO-KNN-M04-01 | Mâm chay thanh lành - Bữa trưa,0.967592
+180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,179,DEMO-KNN-M04-05 | Mâm chay thanh lành - Gia đình,0.946862
+180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,175,DEMO-KNN-M04-03 | Mâm chay thanh lành - Cuối tuần,0.944821
+180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,178,DEMO-KNN-M04-04 | Mâm chay thanh lành - Liên hoan,0.942215
+180,DEMO-KNN-M04-02 | Mâm chay thanh lành - Bữa tối,177,DEMO-KNN-M04-06 | Mâm chay thanh lành - Đãi khách,0.940254
+181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,0.93063
+181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,0.920974
+181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,0.920688
+181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,0.918239
+181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,0.916483
+182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,0.930881
+182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,0.924961
+182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,0.920907
+182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,0.918239
+182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,0.917729
+183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,0.934098
+183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,0.924961
+183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,0.924214
+183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,0.920983
+183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,0.920688
+184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,0.960308
+184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,0.934098
+184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,0.930881
+184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,0.93063
+184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,0.928857
+185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,0.928857
+185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,0.920983
+185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,0.920974
+185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,0.917934
+185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,0.917729
+186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,184,DEMO-KNN-M05-02 | Bữa ăn hiện đại - Bữa tối,0.960308
+186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,183,DEMO-KNN-M05-05 | Bữa ăn hiện đại - Gia đình,0.924214
+186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,182,DEMO-KNN-M05-06 | Bữa ăn hiện đại - Đãi khách,0.920907
+186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,185,DEMO-KNN-M05-04 | Bữa ăn hiện đại - Liên hoan,0.917934
+186,DEMO-KNN-M05-01 | Bữa ăn hiện đại - Bữa trưa,181,DEMO-KNN-M05-03 | Bữa ăn hiện đại - Cuối tuần,0.916483
