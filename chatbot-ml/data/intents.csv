@@ -1,0 +1,114 @@
+text,intent
+"Xin chào",GREETING
+"Hello chatbot",GREETING
+"Chào GO Cook",GREETING
+"Bạn có thể giúp tôi không",GREETING
+"Cho mình hỏi chút",GREETING
+"Tìm món chay cho 4 người",SEARCH_MENU
+"Có thực đơn hải sản dưới 800k không",SEARCH_MENU
+"Tìm bữa tối cho gia đình 5 người",SEARCH_MENU
+"Có món nào ít cay không",SEARCH_MENU
+"Cho xem thực đơn lẩu",SEARCH_MENU
+"Tìm đầu bếp ở Gia Lai",SEARCH_CHEF
+"Có chef nào nấu tiệc tại nhà không",SEARCH_CHEF
+"Tôi muốn thuê đầu bếp nấu món Việt",SEARCH_CHEF
+"Đầu bếp nào phục vụ ở Pleiku",SEARCH_CHEF
+"Tìm chef cho tiệc 10 người",SEARCH_CHEF
+"Gợi ý món ngon cho tôi",RECOMMEND_MENU
+"Tư vấn thực đơn hợp khẩu vị của tôi",RECOMMEND_MENU
+"Tôi thích lẩu nấm nên ăn món gì",RECOMMEND_MENU
+"Đề xuất món ăn dựa trên sở thích của tôi",RECOMMEND_MENU
+"Có món nào tương tự thực đơn tôi đã mua không",RECOMMEND_MENU
+"Làm sao thêm món vào giỏ hàng",CART_HELP
+"Tôi muốn xóa món trong giỏ",CART_HELP
+"Giỏ hàng nằm ở đâu",CART_HELP
+"Tại sao tôi không thêm được thực đơn",CART_HELP
+"Cách xem các món đã thêm vào giỏ",CART_HELP
+"Làm sao đặt đầu bếp",BOOKING_HELP
+"Cách đặt lịch nấu ăn",BOOKING_HELP
+"Tôi muốn đặt chef cho ngày mai",BOOKING_HELP
+"Quy trình đặt dịch vụ tại GO Cook",BOOKING_HELP
+"Đặt lịch phục vụ tại nhà như thế nào",BOOKING_HELP
+"Thanh toán bằng VNPay như thế nào",PAYMENT_HELP
+"GO Cook hỗ trợ phương thức thanh toán gì",PAYMENT_HELP
+"Tôi thanh toán không thành công",PAYMENT_HELP
+"Cách thanh toán đơn hàng",PAYMENT_HELP
+"Khi nào tiền được chuyển cho đầu bếp",PAYMENT_HELP
+"Tôi muốn xem đơn hàng",ORDER_HELP
+"Làm sao kiểm tra trạng thái đơn",ORDER_HELP
+"Đơn hàng của tôi đang ở đâu",ORDER_HELP
+"Cách xem lịch sử mua hàng",ORDER_HELP
+"Tôi cần kiểm tra đơn đã đặt",ORDER_HELP
+"GO Cook là gì",FAQ
+"Trang web này cung cấp dịch vụ gì",FAQ
+"Ai có thể đăng ký làm đầu bếp",FAQ
+"GO Cook hoạt động như thế nào",FAQ
+"Tôi có thể thuê đầu bếp tại nhà không",FAQ
+"Tôi muốn liên hệ admin",CONTACT_ADMIN
+"Cho tôi gặp nhân viên hỗ trợ",CONTACT_ADMIN
+"Cách gửi yêu cầu hỗ trợ",CONTACT_ADMIN
+"Tôi muốn báo lỗi cho quản trị viên",CONTACT_ADMIN
+"Làm sao liên hệ bộ phận chăm sóc khách hàng",CONTACT_ADMIN
+"Giải phương trình toán học giúp tôi",OUT_OF_SCOPE
+"Hôm nay thời tiết thế nào",OUT_OF_SCOPE
+"Viết một chương trình Java",OUT_OF_SCOPE
+"Ai vô địch bóng đá thế giới",OUT_OF_SCOPE
+"Tôi muốn mua vé máy bay",OUT_OF_SCOPE
+
+"Nhà mình có 6 người, có set ăn tối nào vừa túi tiền không?",SEARCH_MENU
+"Kiếm giúp mình mâm cơm gia đình không quá cay",SEARCH_MENU
+"Có menu nào phù hợp để đãi khách cuối tuần không?",SEARCH_MENU
+"Mình muốn xem những bữa ăn dành cho người lớn tuổi",SEARCH_MENU
+"Gia đình mình cần một người đến tận nhà nấu ăn",SEARCH_CHEF
+"Ở Pleiku có ai chuyên làm tiệc gia đình không?",SEARCH_CHEF
+"Mình muốn thuê đầu bếp nấu đồ miền Trung",SEARCH_CHEF
+"Có Chef nào nhận phục vụ nhóm đông người không?",SEARCH_CHEF
+"Mình thích món ít dầu mỡ, có gì đáng thử?",RECOMMEND_MENU
+"Dựa vào những món mình đã đặt, bạn đề xuất thêm món nào?",RECOMMEND_MENU
+"Có set nào hợp gu với những món mình từng chọn không?",RECOMMEND_MENU
+"Mình muốn đổi khẩu vị, tư vấn món khác giúp nhé",RECOMMEND_MENU
+"Món mình lưu trong giỏ có bị mất khi đăng xuất không?",CART_HELP
+"Để trong giỏ thì có phải thanh toán ngay không?",CART_HELP
+"Tại sao thực đơn không xuất hiện trong giỏ của mình?",CART_HELP
+"Mình muốn dọn bớt những món không cần mua",CART_HELP
+"Muốn Chef đến nấu vào cuối tuần thì bắt đầu từ đâu?",BOOKING_HELP
+"Mình chưa biết cách chọn ngày và giờ phục vụ",BOOKING_HELP
+"Sau khi gửi yêu cầu thì ai xác nhận lịch nấu?",BOOKING_HELP
+"Cần làm những bước gì để thuê đầu bếp?",BOOKING_HELP
+"Mình trả tiền rồi nhưng chưa thấy xác nhận",PAYMENT_HELP
+"Nếu thanh toán lỗi thì có bị trừ tiền không?",PAYMENT_HELP
+"Mình không quay lại website sau khi trả tiền được",PAYMENT_HELP
+"Tiền khách thanh toán được giữ như thế nào?",PAYMENT_HELP
+"Mình đặt hôm qua mà không thấy đơn đâu",ORDER_HELP
+"Không nhớ mã đơn thì có tra cứu được không?",ORDER_HELP
+"Đơn của mình đã được đầu bếp xác nhận chưa?",ORDER_HELP
+"Mình muốn xem lại những dịch vụ đã thuê",ORDER_HELP
+"GO Cook khác ứng dụng giao đồ ăn như thế nào?",FAQ
+"Người dùng có thể làm những gì trên nền tảng?",FAQ
+"Đầu bếp có cần được duyệt trước khi nhận khách không?",FAQ
+"GO Cook có phải dịch vụ thuê đầu bếp tại nhà không?",FAQ
+"Mình có chuyện cần phản ánh với quản trị viên",CONTACT_ADMIN
+"Tôi muốn trao đổi trực tiếp với bộ phận hỗ trợ",CONTACT_ADMIN
+"Có nơi nào để gửi góp ý về website không?",CONTACT_ADMIN
+"Mình cần người phụ trách giải quyết khiếu nại",CONTACT_ADMIN
+
+"Hey GO Cook, mình mới ghé trang đây",GREETING
+"Chúc bạn một ngày tốt lành",GREETING
+"Này trợ lý, bắt đầu nào",GREETING
+"Xin phép hỏi chatbot một chút nhé",GREETING
+"GO Cook đóng vai trò gì giữa khách và đầu bếp?",FAQ
+"Đầu bếp cần đáp ứng điều kiện nào để tham gia?",FAQ
+"Website có kiểm duyệt hồ sơ người nấu không?",FAQ
+"Nền tảng phục vụ khách muốn ăn tại nhà thế nào?",FAQ
+"Để mời đầu bếp đến nhà mình phải thao tác ra sao?",BOOKING_HELP
+"Khách cần hoàn thành những bước nào trước buổi nấu?",BOOKING_HELP
+"Tôi đã đặt lịch nhưng muốn dời sang tuần sau",BOOKING_HELP
+"Làm thế nào để chọn thời điểm Chef đến phục vụ?",BOOKING_HELP
+"Mình cần biết tiến độ xử lý của đơn đang đặt",ORDER_HELP
+"Sau khi gửi đơn tôi theo dõi quá trình xác nhận ở đâu?",ORDER_HELP
+"Có cách nào tra cứu các lần thuê đầu bếp trước đây?",ORDER_HELP
+"Vì sao đơn đặt dịch vụ chưa hiển thị trong tài khoản?",ORDER_HELP
+"Các thực đơn mình cất trong giỏ có thể xóa từng món không?",CART_HELP
+"Tôi muốn xem những thực đơn đang lưu để mua sau",CART_HELP
+"Tư vấn món hợp với các món trong danh sách yêu thích",RECOMMEND_MENU
+"Chọn thêm món ăn theo khẩu vị trước đây của mình",RECOMMEND_MENU

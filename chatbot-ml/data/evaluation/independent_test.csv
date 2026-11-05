@@ -1,0 +1,45 @@
+text,intent
+"Ê trợ lý, có ở đó không?",GREETING
+"Buổi tối vui vẻ nha",GREETING
+"Hi shop, mình cần tư vấn một chút",GREETING
+"Alo bot ơi",GREETING
+"Nhà có ba người lớn, tìm set không cay giúp mình",SEARCH_MENU
+"Có bữa ăn nào thiên về rau củ và đậu không?",SEARCH_MENU
+"Mình cần xem menu tiệc sinh nhật tầm 900 nghìn",SEARCH_MENU
+"Liệt kê những thực đơn phù hợp nhóm 7 khách",SEARCH_MENU
+"Ai nhận đến nhà nấu tiệc ở quận Hải Châu?",SEARCH_CHEF
+"Cho mình xem danh sách đầu bếp phục vụ gần Pleiku",SEARCH_CHEF
+"Mình cần người nấu đồ miền Trung tại nhà",SEARCH_CHEF
+"Có ai chuyên làm tiệc cưới quy mô nhỏ không?",SEARCH_CHEF
+"Mình mê các món thanh đạm, bạn đề xuất món gì?",RECOMMEND_MENU
+"Dựa vào giỏ đồ hiện tại thì nên chọn thêm set nào?",RECOMMEND_MENU
+"Mình đã từng mua menu nướng, thử gì kế tiếp?",RECOMMEND_MENU
+"Muốn đổi vị nhưng vẫn kiểu hải sản, tư vấn giúp",RECOMMEND_MENU
+"Món bỏ vào giỏ có tự đặt luôn chưa?",CART_HELP
+"Sao giỏ của mình báo đã đủ số lượng mục?",CART_HELP
+"Có thể để món trong giỏ rồi mua sau không?",CART_HELP
+"Mình muốn bỏ bớt một thực đơn đang lưu",CART_HELP
+"Muốn thuê đầu bếp tới nhà cần thực hiện các bước nào?",BOOKING_HELP
+"Đặt một buổi phục vụ trước mấy ngày thì hợp lệ?",BOOKING_HELP
+"Chọn giờ tổ chức tiệc trong quá trình đặt ở đâu?",BOOKING_HELP
+"Muốn thay đổi lịch hẹn sau khi gửi yêu cầu thì làm sao?",BOOKING_HELP
+"Tôi trả tiền rồi mà trang vẫn báo đang chờ",PAYMENT_HELP
+"Có cần thanh toán trước khi Chef nhận lịch không?",PAYMENT_HELP
+"Sau khi chuyển sang cổng thanh toán thì bị lỗi",PAYMENT_HELP
+"Hệ thống giữ tiền trước khi hoàn tất dịch vụ à?",PAYMENT_HELP
+"Đơn mình tạo tuần trước còn trong giai đoạn nào?",ORDER_HELP
+"Tại sao đơn đã đặt không thấy trong hồ sơ?",ORDER_HELP
+"Tôi xem lại mã giao dịch và tiến độ đơn ở chỗ nào?",ORDER_HELP
+"Đơn bị hủy có còn xem được chi tiết không?",ORDER_HELP
+"Website này kết nối những ai với nhau?",FAQ
+"Khách hàng cần đăng ký tài khoản để sử dụng dịch vụ gì?",FAQ
+"Đầu bếp mới tham gia có phải xác minh hồ sơ không?",FAQ
+"Nền tảng này có cung cấp người nấu đến tận nhà à?",FAQ
+"Tôi cần nói chuyện với bộ phận chăm sóc",CONTACT_ADMIN
+"Có đường dẫn gửi phản ánh không?",CONTACT_ADMIN
+"Cho mình gặp quản trị viên của hệ thống",CONTACT_ADMIN
+"Mình muốn khiếu nại, phải gửi tới ai?",CONTACT_ADMIN
+"Bài thơ Sóng của ai?",OUT_OF_SCOPE
+"Giá vàng thế giới hôm nay là bao nhiêu?",OUT_OF_SCOPE
+"Hãy dịch câu này sang tiếng Hàn",OUT_OF_SCOPE
+"Giúp mình giải bài tập hóa học",OUT_OF_SCOPE

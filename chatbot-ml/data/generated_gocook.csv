@@ -1,0 +1,226 @@
+﻿text,intent
+Cho xem món cơm gia đình phục vụ 2 người,SEARCH_MENU
+Cho xem món món Việt phục vụ 2 người,SEARCH_MENU
+Cho xem món món Việt phục vụ 4 người,SEARCH_MENU
+Cho xem món món chay phục vụ 4 người,SEARCH_MENU
+Có món cơm gia đình nào phù hợp 10 người?,SEARCH_MENU
+Có món lẩu nấm nào phù hợp 10 người?,SEARCH_MENU
+Có món món Việt nào phù hợp 2 người?,SEARCH_MENU
+Có món đồ nướng nào phù hợp 2 người?,SEARCH_MENU
+Có thực đơn lẩu nấm dưới 1 triệu không?,SEARCH_MENU
+Có thực đơn món chay dưới 500 nghìn không?,SEARCH_MENU
+Có thực đơn món chay dưới 800 nghìn không?,SEARCH_MENU
+Mình cần thực đơn hải sản giá khoảng 800 nghìn,SEARCH_MENU
+Mình cần thực đơn lẩu nấm giá khoảng 500 nghìn,SEARCH_MENU
+Mình cần thực đơn lẩu nấm giá khoảng 800 nghìn,SEARCH_MENU
+Mình cần thực đơn món Việt giá khoảng 1 triệu,SEARCH_MENU
+"Mình cần thực đơn đồ nướng giá khoảng 1,5 triệu",SEARCH_MENU
+Tìm các thực đơn cơm gia đình tầm 800 nghìn,SEARCH_MENU
+Tìm các thực đơn hải sản tầm 1 triệu,SEARCH_MENU
+Tìm các thực đơn hải sản tầm 800 nghìn,SEARCH_MENU
+Tìm các thực đơn món Việt tầm 500 nghìn,SEARCH_MENU
+Tìm các thực đơn món chay tầm 500 nghìn,SEARCH_MENU
+Tìm thực đơn cơm gia đình cho 4 người,SEARCH_MENU
+Tìm thực đơn món chay cho 10 người,SEARCH_MENU
+Tìm thực đơn món chay cho 2 người,SEARCH_MENU
+Tìm thực đơn món chay cho 4 người,SEARCH_MENU
+Có Chef nào tại Hà Nội phục vụ 6 người?,SEARCH_CHEF
+Có Chef nào tại Pleiku phục vụ 10 người?,SEARCH_CHEF
+Có Chef nào tại Pleiku phục vụ 2 người?,SEARCH_CHEF
+Có Chef nào tại Pleiku phục vụ 6 người?,SEARCH_CHEF
+Có Chef nào tại TP.HCM phục vụ 2 người?,SEARCH_CHEF
+Có Chef nào tại Đà Nẵng phục vụ 4 người?,SEARCH_CHEF
+Giới thiệu đầu bếp ở Gia Lai,SEARCH_CHEF
+Giới thiệu đầu bếp ở Pleiku,SEARCH_CHEF
+Giới thiệu đầu bếp ở TP.HCM,SEARCH_CHEF
+Giới thiệu đầu bếp ở Đà Nẵng,SEARCH_CHEF
+Tìm Chef chuyên món cơm gia đình ở Gia Lai,SEARCH_CHEF
+Tìm Chef chuyên món hải sản ở Đà Nẵng,SEARCH_CHEF
+Tìm Chef chuyên món món chay ở Gia Lai,SEARCH_CHEF
+Tìm Chef chuyên món đồ nướng ở Hà Nội,SEARCH_CHEF
+Tìm đầu bếp chuyên nấu hải sản,SEARCH_CHEF
+Tìm đầu bếp chuyên nấu món Việt,SEARCH_CHEF
+Tìm đầu bếp chuyên nấu món chay,SEARCH_CHEF
+Tìm đầu bếp chuyên nấu đồ nướng,SEARCH_CHEF
+Tìm đầu bếp ở Hà Nội nấu hải sản,SEARCH_CHEF
+Tìm đầu bếp ở Hà Nội nấu đồ nướng,SEARCH_CHEF
+Tìm đầu bếp ở Pleiku nấu món Việt,SEARCH_CHEF
+Tìm đầu bếp ở TP.HCM nấu hải sản,SEARCH_CHEF
+Tìm đầu bếp ở Đà Nẵng nấu món chay,SEARCH_CHEF
+Đầu bếp nào nhận nấu tiệc 2 người?,SEARCH_CHEF
+Đầu bếp nào nhận nấu tiệc 6 người?,SEARCH_CHEF
+Có thực đơn nào tương tự hải sản không?,RECOMMEND_MENU
+Có thực đơn nào tương tự lẩu nấm không?,RECOMMEND_MENU
+Có thực đơn nào tương tự món Việt không?,RECOMMEND_MENU
+Có thực đơn nào tương tự món chay không?,RECOMMEND_MENU
+Có thực đơn nào tương tự đồ nướng không?,RECOMMEND_MENU
+Gợi ý các món tương tự hải sản cho mình,RECOMMEND_MENU
+Gợi ý các món tương tự lẩu nấm cho mình,RECOMMEND_MENU
+Gợi ý các món tương tự món Việt cho mình,RECOMMEND_MENU
+Gợi ý các món tương tự đồ nướng cho mình,RECOMMEND_MENU
+"Mình thích cơm gia đình, gợi ý thêm món phù hợp",RECOMMEND_MENU
+"Mình thích món Việt, gợi ý thêm món phù hợp",RECOMMEND_MENU
+"Mình thích món chay, gợi ý thêm món phù hợp",RECOMMEND_MENU
+"Mình thích đồ nướng, gợi ý thêm món phù hợp",RECOMMEND_MENU
+"Mình từng ăn cơm gia đình, nên chọn món gì tiếp?",RECOMMEND_MENU
+"Mình từng ăn lẩu nấm, nên chọn món gì tiếp?",RECOMMEND_MENU
+Tư vấn món theo sở thích nếu mình thích cơm gia đình,RECOMMEND_MENU
+Tư vấn món theo sở thích nếu mình thích hải sản,RECOMMEND_MENU
+Tư vấn món theo sở thích nếu mình thích lẩu nấm,RECOMMEND_MENU
+Tư vấn món theo sở thích nếu mình thích món Việt,RECOMMEND_MENU
+Tư vấn món theo sở thích nếu mình thích món chay,RECOMMEND_MENU
+Tư vấn món theo sở thích nếu mình thích đồ nướng,RECOMMEND_MENU
+Đề xuất thực đơn giống cơm gia đình,RECOMMEND_MENU
+Đề xuất thực đơn giống hải sản,RECOMMEND_MENU
+Đề xuất thực đơn giống món Việt,RECOMMEND_MENU
+Đề xuất thực đơn giống đồ nướng,RECOMMEND_MENU
+Cách quản lý giỏ hàng có cơm gia đình?,CART_HELP
+Cách quản lý giỏ hàng có hải sản?,CART_HELP
+Cách quản lý giỏ hàng có lẩu nấm?,CART_HELP
+Cách quản lý giỏ hàng có món chay?,CART_HELP
+Cách quản lý giỏ hàng có đồ nướng?,CART_HELP
+Cách thêm cơm gia đình vào giỏ hàng?,CART_HELP
+Cách thêm hải sản vào giỏ hàng?,CART_HELP
+Cách thêm lẩu nấm vào giỏ hàng?,CART_HELP
+Làm sao xóa món Việt khỏi giỏ?,CART_HELP
+Làm sao xóa đồ nướng khỏi giỏ?,CART_HELP
+Tôi muốn bỏ hải sản khỏi giỏ hàng,CART_HELP
+Tôi muốn bỏ lẩu nấm khỏi giỏ hàng,CART_HELP
+Tôi muốn bỏ đồ nướng khỏi giỏ hàng,CART_HELP
+Tại sao món cơm gia đình không thêm vào giỏ được?,CART_HELP
+Tại sao món hải sản không thêm vào giỏ được?,CART_HELP
+Tại sao món lẩu nấm không thêm vào giỏ được?,CART_HELP
+Tại sao món món Việt không thêm vào giỏ được?,CART_HELP
+Tại sao món món chay không thêm vào giỏ được?,CART_HELP
+Tại sao món đồ nướng không thêm vào giỏ được?,CART_HELP
+Xem cơm gia đình trong giỏ hàng ở đâu?,CART_HELP
+Xem hải sản trong giỏ hàng ở đâu?,CART_HELP
+Xem lẩu nấm trong giỏ hàng ở đâu?,CART_HELP
+Xem món Việt trong giỏ hàng ở đâu?,CART_HELP
+Xem món chay trong giỏ hàng ở đâu?,CART_HELP
+Xem đồ nướng trong giỏ hàng ở đâu?,CART_HELP
+Cách chọn ngày phục vụ món cơm gia đình?,BOOKING_HELP
+Cách chọn ngày phục vụ món hải sản?,BOOKING_HELP
+Cách chọn ngày phục vụ món lẩu nấm?,BOOKING_HELP
+Cách chọn ngày phục vụ món đồ nướng?,BOOKING_HELP
+Hướng dẫn đặt đầu bếp nấu hải sản tại nhà,BOOKING_HELP
+Hướng dẫn đặt đầu bếp nấu lẩu nấm tại nhà,BOOKING_HELP
+Hướng dẫn đặt đầu bếp nấu món Việt tại nhà,BOOKING_HELP
+Hướng dẫn đặt đầu bếp nấu món chay tại nhà,BOOKING_HELP
+Hướng dẫn đặt đầu bếp nấu đồ nướng tại nhà,BOOKING_HELP
+Làm sao đặt lịch Chef cho 10 người?,BOOKING_HELP
+Làm sao đặt lịch Chef cho 2 người?,BOOKING_HELP
+Làm sao đặt lịch Chef cho 4 người?,BOOKING_HELP
+Làm sao đặt lịch Chef cho 6 người?,BOOKING_HELP
+Quy trình đặt đầu bếp cho 10 người?,BOOKING_HELP
+Quy trình đặt đầu bếp cho 2 người?,BOOKING_HELP
+Quy trình đặt đầu bếp cho 4 người?,BOOKING_HELP
+Tôi muốn đặt lịch Chef ở Gia Lai,BOOKING_HELP
+Tôi muốn đặt lịch Chef ở Hà Nội,BOOKING_HELP
+Tôi muốn đặt lịch Chef ở TP.HCM,BOOKING_HELP
+Tôi muốn đặt lịch Chef ở Đà Nẵng,BOOKING_HELP
+Đặt lịch nấu ăn ở Gia Lai như thế nào?,BOOKING_HELP
+Đặt lịch nấu ăn ở Hà Nội như thế nào?,BOOKING_HELP
+Đặt lịch nấu ăn ở Pleiku như thế nào?,BOOKING_HELP
+Đặt lịch nấu ăn ở TP.HCM như thế nào?,BOOKING_HELP
+Đặt lịch nấu ăn ở Đà Nẵng như thế nào?,BOOKING_HELP
+Cách thanh toán bằng VNPay?,PAYMENT_HELP
+Cách thanh toán bằng chuyển khoản?,PAYMENT_HELP
+Cách thanh toán bằng thanh toán trực tuyến?,PAYMENT_HELP
+Cách thanh toán bằng thẻ ngân hàng?,PAYMENT_HELP
+Cách thanh toán bằng ví điện tử?,PAYMENT_HELP
+GO Cook có chấp nhận VNPay không?,PAYMENT_HELP
+GO Cook có chấp nhận thanh toán trực tuyến không?,PAYMENT_HELP
+GO Cook có chấp nhận thẻ ngân hàng không?,PAYMENT_HELP
+Hướng dẫn trả tiền qua VNPay,PAYMENT_HELP
+Hướng dẫn trả tiền qua chuyển khoản,PAYMENT_HELP
+Hướng dẫn trả tiền qua thẻ ngân hàng,PAYMENT_HELP
+Hướng dẫn trả tiền qua ví điện tử,PAYMENT_HELP
+Làm sao biết giao dịch VNPay thành công?,PAYMENT_HELP
+Làm sao biết giao dịch thanh toán trực tuyến thành công?,PAYMENT_HELP
+Làm sao biết giao dịch thẻ ngân hàng thành công?,PAYMENT_HELP
+Làm sao biết giao dịch ví điện tử thành công?,PAYMENT_HELP
+Thanh toán VNPay thất bại thì sao?,PAYMENT_HELP
+Thanh toán chuyển khoản thất bại thì sao?,PAYMENT_HELP
+Thanh toán thanh toán trực tuyến thất bại thì sao?,PAYMENT_HELP
+Thanh toán thẻ ngân hàng thất bại thì sao?,PAYMENT_HELP
+Thanh toán ví điện tử thất bại thì sao?,PAYMENT_HELP
+Vì sao tôi không thanh toán được bằng VNPay?,PAYMENT_HELP
+Vì sao tôi không thanh toán được bằng chuyển khoản?,PAYMENT_HELP
+Vì sao tôi không thanh toán được bằng thanh toán trực tuyến?,PAYMENT_HELP
+Vì sao tôi không thanh toán được bằng ví điện tử?,PAYMENT_HELP
+Cách tra cứu đơn hàng của tôi,ORDER_HELP
+Cách tra cứu đơn hàng vừa đặt,ORDER_HELP
+Cách tra cứu đơn hàng đang xử lý,ORDER_HELP
+Cách tra cứu đơn hàng đã hoàn thành,ORDER_HELP
+Cách tra cứu đơn hàng đã thanh toán,ORDER_HELP
+Làm sao xem chi tiết đơn đã hoàn thành?,ORDER_HELP
+Làm sao xem chi tiết đơn đã thanh toán?,ORDER_HELP
+Lịch sử đơn hàng của tôi nằm chỗ nào?,ORDER_HELP
+Lịch sử đơn hàng đang xử lý nằm chỗ nào?,ORDER_HELP
+Lịch sử đơn hàng đã hoàn thành nằm chỗ nào?,ORDER_HELP
+Lịch sử đơn hàng đã thanh toán nằm chỗ nào?,ORDER_HELP
+Tôi muốn kiểm tra đơn hàng của tôi,ORDER_HELP
+Tôi muốn kiểm tra đơn hàng vừa đặt,ORDER_HELP
+Tôi muốn kiểm tra đơn hàng đang xử lý,ORDER_HELP
+Tôi muốn kiểm tra đơn hàng đã hoàn thành,ORDER_HELP
+Tôi muốn kiểm tra đơn hàng đã thanh toán,ORDER_HELP
+Xem trạng thái đơn hàng của tôi ở đâu?,ORDER_HELP
+Xem trạng thái đơn hàng đang xử lý ở đâu?,ORDER_HELP
+Xem trạng thái đơn hàng đã hoàn thành ở đâu?,ORDER_HELP
+Xem trạng thái đơn hàng đã thanh toán ở đâu?,ORDER_HELP
+Đơn hàng của tôi xem ở đâu?,ORDER_HELP
+Đơn hàng vừa đặt xem ở đâu?,ORDER_HELP
+Đơn hàng đang xử lý xem ở đâu?,ORDER_HELP
+Đơn hàng đã hoàn thành xem ở đâu?,ORDER_HELP
+Đơn hàng đã thanh toán xem ở đâu?,ORDER_HELP
+Cho tôi hỏi chính sách về chính sách bảo mật,FAQ
+Cho tôi hỏi chính sách về phạm vi dịch vụ,FAQ
+Cho tôi hỏi chính sách về quyền lợi khách hàng,FAQ
+Cho tôi hỏi chính sách về đăng ký làm Chef,FAQ
+Cho tôi hỏi chính sách về đăng ký tài khoản,FAQ
+GO Cook có quy định gì về chính sách bảo mật?,FAQ
+GO Cook có quy định gì về phạm vi dịch vụ?,FAQ
+GO Cook có quy định gì về quyền lợi khách hàng?,FAQ
+GO Cook có quy định gì về đăng ký làm Chef?,FAQ
+GO Cook có quy định gì về đăng ký tài khoản?,FAQ
+Thông tin về chính sách bảo mật trên GO Cook là gì?,FAQ
+Thông tin về phạm vi dịch vụ trên GO Cook là gì?,FAQ
+Thông tin về quyền lợi khách hàng trên GO Cook là gì?,FAQ
+Thông tin về đăng ký làm Chef trên GO Cook là gì?,FAQ
+Thông tin về đăng ký tài khoản trên GO Cook là gì?,FAQ
+Tìm thông tin chính sách bảo mật ở đâu?,FAQ
+Tìm thông tin phạm vi dịch vụ ở đâu?,FAQ
+Tìm thông tin quyền lợi khách hàng ở đâu?,FAQ
+Tìm thông tin đăng ký làm Chef ở đâu?,FAQ
+Tìm thông tin đăng ký tài khoản ở đâu?,FAQ
+Tôi muốn biết thêm về chính sách bảo mật,FAQ
+Tôi muốn biết thêm về phạm vi dịch vụ,FAQ
+Tôi muốn biết thêm về quyền lợi khách hàng,FAQ
+Tôi muốn biết thêm về đăng ký làm Chef,FAQ
+Tôi muốn biết thêm về đăng ký tài khoản,FAQ
+Chuyển đến trang liên hệ để báo lỗi hiển thị,CONTACT_ADMIN
+Chuyển đến trang liên hệ để báo lỗi đăng nhập,CONTACT_ADMIN
+Chuyển đến trang liên hệ để báo phản hồi dịch vụ,CONTACT_ADMIN
+Chuyển đến trang liên hệ để báo sự cố website,CONTACT_ADMIN
+Chuyển đến trang liên hệ để báo vấn đề thanh toán,CONTACT_ADMIN
+Làm sao liên hệ Admin khi gặp lỗi hiển thị?,CONTACT_ADMIN
+Làm sao liên hệ Admin khi gặp lỗi đăng nhập?,CONTACT_ADMIN
+Làm sao liên hệ Admin khi gặp phản hồi dịch vụ?,CONTACT_ADMIN
+Làm sao liên hệ Admin khi gặp sự cố website?,CONTACT_ADMIN
+Làm sao liên hệ Admin khi gặp vấn đề thanh toán?,CONTACT_ADMIN
+Tôi cần nhân viên xử lý lỗi hiển thị,CONTACT_ADMIN
+Tôi cần nhân viên xử lý lỗi đăng nhập,CONTACT_ADMIN
+Tôi cần nhân viên xử lý phản hồi dịch vụ,CONTACT_ADMIN
+Tôi cần nhân viên xử lý sự cố website,CONTACT_ADMIN
+Tôi cần nhân viên xử lý vấn đề thanh toán,CONTACT_ADMIN
+Tôi muốn gửi ticket về lỗi hiển thị,CONTACT_ADMIN
+Tôi muốn gửi ticket về lỗi đăng nhập,CONTACT_ADMIN
+Tôi muốn gửi ticket về phản hồi dịch vụ,CONTACT_ADMIN
+Tôi muốn gửi ticket về sự cố website,CONTACT_ADMIN
+Tôi muốn gửi ticket về vấn đề thanh toán,CONTACT_ADMIN
+Tôi muốn gửi yêu cầu hỗ trợ về lỗi hiển thị,CONTACT_ADMIN
+Tôi muốn gửi yêu cầu hỗ trợ về lỗi đăng nhập,CONTACT_ADMIN
+Tôi muốn gửi yêu cầu hỗ trợ về phản hồi dịch vụ,CONTACT_ADMIN
+Tôi muốn gửi yêu cầu hỗ trợ về sự cố website,CONTACT_ADMIN
+Tôi muốn gửi yêu cầu hỗ trợ về vấn đề thanh toán,CONTACT_ADMIN
