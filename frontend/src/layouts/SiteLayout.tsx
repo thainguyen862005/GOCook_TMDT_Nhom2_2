@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ChatbotWidget } from "../components/chatbot/ChatbotWidget";
 import { SiteSettingsProvider, useSiteSettings } from "../contexts/SiteSettingsContext";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Brand } from "../components/common/Brand";
@@ -135,12 +136,6 @@ function SiteFooter() {
           </div>
         </div>
       </footer>
-      {profile && !isAdmin && <Link className="help-float" to={ROUTES.MESSAGES} aria-label="Mở hộp thư và tin nhắn">
-        <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 15a3 3 0 0 1-3 3H9l-6 3V6a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3z" />
-          <path d="M7 8h9M7 12h6" />
-        </svg>
-      </Link>}
     </>
   );
 }
@@ -166,6 +161,7 @@ function SiteLayoutInner({ children }: { children?: ReactNode }) {
         </main>
       )}
       <SiteFooter />
+      <ChatbotWidget />
     </>
   );
 }

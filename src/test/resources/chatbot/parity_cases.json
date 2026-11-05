@@ -1,0 +1,290 @@
+[
+  {
+    "text": "Ê trợ lý, có ở đó không?",
+    "intent": "GREETING",
+    "confidence": 0.1794632812919966,
+    "margin": 0.055987815156047754
+  },
+  {
+    "text": "Buổi tối vui vẻ nha",
+    "intent": "OUT_OF_SCOPE",
+    "confidence": 0.19007422280419561,
+    "margin": 0.016109660104216605
+  },
+  {
+    "text": "Hi shop, mình cần tư vấn một chút",
+    "intent": "RECOMMEND_MENU",
+    "confidence": 0.17944906529366714,
+    "margin": 0.026352373335134488
+  },
+  {
+    "text": "Alo bot ơi",
+    "intent": "GREETING",
+    "confidence": 0.2238353100736666,
+    "margin": 0.048060390182151635
+  },
+  {
+    "text": "Nhà có ba người lớn, tìm set không cay giúp mình",
+    "intent": "SEARCH_MENU",
+    "confidence": 0.19348355694089459,
+    "margin": 0.0412193639452062
+  },
+  {
+    "text": "Có bữa ăn nào thiên về rau củ và đậu không?",
+    "intent": "FAQ",
+    "confidence": 0.12911651247056502,
+    "margin": 0.004645765225477286
+  },
+  {
+    "text": "Mình cần xem menu tiệc sinh nhật tầm 900 nghìn",
+    "intent": "SEARCH_MENU",
+    "confidence": 0.26708544654922634,
+    "margin": 0.1594976860832652
+  },
+  {
+    "text": "Liệt kê những thực đơn phù hợp nhóm 7 khách",
+    "intent": "SEARCH_MENU",
+    "confidence": 0.24813822626854076,
+    "margin": 0.07844525089393362
+  },
+  {
+    "text": "Ai nhận đến nhà nấu tiệc ở quận Hải Châu?",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.24545925201889407,
+    "margin": 0.11551589553976269
+  },
+  {
+    "text": "Cho mình xem danh sách đầu bếp phục vụ gần Pleiku",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.25524502996384246,
+    "margin": 0.11833056718995821
+  },
+  {
+    "text": "Mình cần người nấu đồ miền Trung tại nhà",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.18123044549391615,
+    "margin": 0.048700282322407834
+  },
+  {
+    "text": "Có ai chuyên làm tiệc cưới quy mô nhỏ không?",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.17990834766296676,
+    "margin": 0.061665826128050855
+  },
+  {
+    "text": "Mình mê các món thanh đạm, bạn đề xuất món gì?",
+    "intent": "RECOMMEND_MENU",
+    "confidence": 0.3647542393591231,
+    "margin": 0.27353541279850657
+  },
+  {
+    "text": "Dựa vào giỏ đồ hiện tại thì nên chọn thêm set nào?",
+    "intent": "CART_HELP",
+    "confidence": 0.22890868624501554,
+    "margin": 0.10643598292996855
+  },
+  {
+    "text": "Mình đã từng mua menu nướng, thử gì kế tiếp?",
+    "intent": "RECOMMEND_MENU",
+    "confidence": 0.172385032651123,
+    "margin": 0.042979855113221804
+  },
+  {
+    "text": "Muốn đổi vị nhưng vẫn kiểu hải sản, tư vấn giúp",
+    "intent": "RECOMMEND_MENU",
+    "confidence": 0.17947418623015568,
+    "margin": 0.06833369926744166
+  },
+  {
+    "text": "Món bỏ vào giỏ có tự đặt luôn chưa?",
+    "intent": "CART_HELP",
+    "confidence": 0.2770323802528839,
+    "margin": 0.15053124016824232
+  },
+  {
+    "text": "Sao giỏ của mình báo đã đủ số lượng mục?",
+    "intent": "CART_HELP",
+    "confidence": 0.25292062331687426,
+    "margin": 0.1362260044555028
+  },
+  {
+    "text": "Có thể để món trong giỏ rồi mua sau không?",
+    "intent": "CART_HELP",
+    "confidence": 0.374783887448946,
+    "margin": 0.27734231141157206
+  },
+  {
+    "text": "Mình muốn bỏ bớt một thực đơn đang lưu",
+    "intent": "CART_HELP",
+    "confidence": 0.12808383287896122,
+    "margin": 0.0021914245187583947
+  },
+  {
+    "text": "Muốn thuê đầu bếp tới nhà cần thực hiện các bước nào?",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.15942170111926515,
+    "margin": 0.005306970053520793
+  },
+  {
+    "text": "Đặt một buổi phục vụ trước mấy ngày thì hợp lệ?",
+    "intent": "BOOKING_HELP",
+    "confidence": 0.21448677484894146,
+    "margin": 0.044681042526968834
+  },
+  {
+    "text": "Chọn giờ tổ chức tiệc trong quá trình đặt ở đâu?",
+    "intent": "BOOKING_HELP",
+    "confidence": 0.17707649891953517,
+    "margin": 0.05257883392284843
+  },
+  {
+    "text": "Muốn thay đổi lịch hẹn sau khi gửi yêu cầu thì làm sao?",
+    "intent": "CONTACT_ADMIN",
+    "confidence": 0.22104234025935052,
+    "margin": 0.04681071623404681
+  },
+  {
+    "text": "Tôi trả tiền rồi mà trang vẫn báo đang chờ",
+    "intent": "PAYMENT_HELP",
+    "confidence": 0.18915069327067757,
+    "margin": 0.05248689463505696
+  },
+  {
+    "text": "Có cần thanh toán trước khi Chef nhận lịch không?",
+    "intent": "PAYMENT_HELP",
+    "confidence": 0.2811856192015874,
+    "margin": 0.1713619529038683
+  },
+  {
+    "text": "Sau khi chuyển sang cổng thanh toán thì bị lỗi",
+    "intent": "PAYMENT_HELP",
+    "confidence": 0.40171669392221193,
+    "margin": 0.2972487654467586
+  },
+  {
+    "text": "Hệ thống giữ tiền trước khi hoàn tất dịch vụ à?",
+    "intent": "FAQ",
+    "confidence": 0.1374038870017311,
+    "margin": 0.0022387956512426865
+  },
+  {
+    "text": "Đơn mình tạo tuần trước còn trong giai đoạn nào?",
+    "intent": "CART_HELP",
+    "confidence": 0.12827446652433916,
+    "margin": 0.00253799762738649
+  },
+  {
+    "text": "Tại sao đơn đã đặt không thấy trong hồ sơ?",
+    "intent": "ORDER_HELP",
+    "confidence": 0.17600911404723646,
+    "margin": 8.929978654945159e-05
+  },
+  {
+    "text": "Tôi xem lại mã giao dịch và tiến độ đơn ở chỗ nào?",
+    "intent": "ORDER_HELP",
+    "confidence": 0.23646360073595932,
+    "margin": 0.1327737117984621
+  },
+  {
+    "text": "Đơn bị hủy có còn xem được chi tiết không?",
+    "intent": "ORDER_HELP",
+    "confidence": 0.16320240431388858,
+    "margin": 0.012155823890798917
+  },
+  {
+    "text": "Website này kết nối những ai với nhau?",
+    "intent": "OUT_OF_SCOPE",
+    "confidence": 0.19840276847782262,
+    "margin": 0.07519353046226185
+  },
+  {
+    "text": "Khách hàng cần đăng ký tài khoản để sử dụng dịch vụ gì?",
+    "intent": "FAQ",
+    "confidence": 0.41951853235272907,
+    "margin": 0.32924370531152813
+  },
+  {
+    "text": "Đầu bếp mới tham gia có phải xác minh hồ sơ không?",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.1376061271998022,
+    "margin": 0.012229163696595102
+  },
+  {
+    "text": "Nền tảng này có cung cấp người nấu đến tận nhà à?",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.1577583159955602,
+    "margin": 0.023416318486894072
+  },
+  {
+    "text": "Tôi cần nói chuyện với bộ phận chăm sóc",
+    "intent": "CONTACT_ADMIN",
+    "confidence": 0.21781289334026274,
+    "margin": 0.06927054892429715
+  },
+  {
+    "text": "Có đường dẫn gửi phản ánh không?",
+    "intent": "CONTACT_ADMIN",
+    "confidence": 0.16797446876211003,
+    "margin": 0.05329126020968929
+  },
+  {
+    "text": "Cho mình gặp quản trị viên của hệ thống",
+    "intent": "CONTACT_ADMIN",
+    "confidence": 0.285563433585235,
+    "margin": 0.1820366531629617
+  },
+  {
+    "text": "Mình muốn khiếu nại, phải gửi tới ai?",
+    "intent": "CONTACT_ADMIN",
+    "confidence": 0.20517347415258588,
+    "margin": 0.08506133269613608
+  },
+  {
+    "text": "Bài thơ Sóng của ai?",
+    "intent": "OUT_OF_SCOPE",
+    "confidence": 0.2059847920413737,
+    "margin": 0.08965588375531156
+  },
+  {
+    "text": "Giá vàng thế giới hôm nay là bao nhiêu?",
+    "intent": "OUT_OF_SCOPE",
+    "confidence": 0.24258618539551352,
+    "margin": 0.0467799236789217
+  },
+  {
+    "text": "Hãy dịch câu này sang tiếng Hàn",
+    "intent": "OUT_OF_SCOPE",
+    "confidence": 0.123820084359346,
+    "margin": 0.0025160646220333677
+  },
+  {
+    "text": "Giúp mình giải bài tập hóa học",
+    "intent": "OUT_OF_SCOPE",
+    "confidence": 0.1941134991746533,
+    "margin": 0.06580817909045264
+  },
+  {
+    "text": "Xin chào",
+    "intent": "GREETING",
+    "confidence": 0.49596713634544737,
+    "margin": 0.4176637309516087
+  },
+  {
+    "text": "Tìm đầu bếp ở Gia Lai",
+    "intent": "SEARCH_CHEF",
+    "confidence": 0.6314134102160512,
+    "margin": 0.5638306534693339
+  },
+  {
+    "text": "Thanh toán bằng VNPay như thế nào",
+    "intent": "PAYMENT_HELP",
+    "confidence": 0.5978062622090259,
+    "margin": 0.5238813918012325
+  },
+  {
+    "text": "Gợi ý món ăn phù hợp với tôi",
+    "intent": "RECOMMEND_MENU",
+    "confidence": 0.3274686813844685,
+    "margin": 0.2138161593771625
+  }
+]

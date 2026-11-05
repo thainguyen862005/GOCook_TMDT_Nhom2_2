@@ -51,6 +51,7 @@ public class PublicEndpointsValidatorUtil {
                   "/api/public/chefs",
                   "/api/public/offers",
                   "/api/public/faqs",
+                  "/api/public/chatbot/message",
                   "/api/public/featured-menus",
                   "/api/public/site-settings",
                   "/api/products");

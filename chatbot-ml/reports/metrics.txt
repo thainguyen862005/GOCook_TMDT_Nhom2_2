@@ -1,0 +1,25 @@
+GO Cook Chatbot - Evaluation
+Train samples: 387
+Test samples: 44
+Accuracy: 0.7500
+Macro Precision: 0.7989
+Macro Recall: 0.7500
+Macro F1: 0.7415
+
+                precision    recall  f1-score   support
+
+  BOOKING_HELP       1.00      0.50      0.67         4
+     CART_HELP       0.67      1.00      0.80         4
+ CONTACT_ADMIN       0.80      1.00      0.89         4
+           FAQ       0.33      0.25      0.29         4
+      GREETING       1.00      0.50      0.67         4
+    ORDER_HELP       1.00      0.75      0.86         4
+  OUT_OF_SCOPE       0.67      1.00      0.80         4
+  PAYMENT_HELP       1.00      0.75      0.86         4
+RECOMMEND_MENU       0.75      0.75      0.75         4
+   SEARCH_CHEF       0.57      1.00      0.73         4
+   SEARCH_MENU       1.00      0.75      0.86         4
+
+      accuracy                           0.75        44
+     macro avg       0.80      0.75      0.74        44
+  weighted avg       0.80      0.75      0.74        44

@@ -1,0 +1,169 @@
+﻿source_id,source_intent,text,suggested_intent,go_cook_intent,decision
+1957,general_greet,olly nói cho tôi báo thức của tôi,GREETING,GREETING,KEEP
+786,general_greet,này bạn có khỏe không,GREETING,GREETING,KEEP
+3596,general_greet,mọi thứ sao rồi,GREETING,GREETING,KEEP
+13264,general_greet,hôm nay thế nào,GREETING,GREETING,KEEP
+1921,general_greet,chào buổi tối,GREETING,GREETING,KEEP
+1392,general_greet,ê vũ đang làm gì đó,GREETING,GREETING,KEEP
+2942,general_greet,hôm nay ngày mấy,GREETING,GREETING,KEEP
+1792,general_greet,chào buổi chiều bạn khỏe không,GREETING,GREETING,KEEP
+1956,general_greet,xin chào hôm nay bạn thế nào,GREETING,GREETING,KEEP
+2011,general_greet,xn chào bạn khỏe không,GREETING,GREETING,KEEP
+166,general_greet,bạn khỏe không,GREETING,GREETING,KEEP
+1829,general_greet,xin chào bạn đang định làm gì vậy,GREETING,GREETING,KEEP
+6197,general_greet,mày là ai,GREETING,GREETING,KEEP
+1100,general_greet,bạn hôm nay thế nào,GREETING,GREETING,KEEP
+1103,general_greet,chào buổi chiều,GREETING,GREETING,KEEP
+304,general_greet,chào buổi sáng,GREETING,GREETING,KEEP
+6211,general_greet,ngày tốt lành,GREETING,GREETING,KEEP
+720,general_greet,xin chào,GREETING,GREETING,KEEP
+4804,general_greet,chào vũ bạn khỏe không,GREETING,GREETING,KEEP
+1101,general_greet,chào buổi sáng vũ,GREETING,GREETING,KEEP
+1102,general_greet,chào buổi sáng,GREETING,GREETING,KEEP
+45,general_greet,xin chào,GREETING,GREETING,KEEP
+719,general_greet,chào,GREETING,GREETING,KEEP
+4805,general_greet,xin chào bạn khỏe không,GREETING,GREETING,KEEP
+2254,takeaway_query,pizza hut có bán mang về không,,,SKIP
+1025,takeaway_query,cho tôi biết liệu olive garden có cho phép bán mang đi hay không,,,SKIP
+4460,takeaway_query,fongs có giao hàng hay không,,,SKIP
+2771,takeaway_query,sẽ tốn bao lâu cho đơn đặt hàng của tôi,,,SKIP
+2988,takeaway_query,tôi có được giao hàng từ dominoes,,,SKIP
+3017,takeaway_query,quán trung có giao hàng không,,,SKIP
+3952,takeaway_query,olive garden ở đâu có bán mang đi,,,SKIP
+3272,takeaway_query,tìm chỗ đặt mua kfc mang về,,,SKIP
+5835,takeaway_query,khi nào đơn mang đi củ tôi tới đây,,,SKIP
+2089,takeaway_query,khi nào đồ ăn trung của tôi tới,,,SKIP
+5403,takeaway_query,nhà hàng sẽ giao hàng đơn đặt hàng chứ,,,SKIP
+3274,takeaway_query,olly nhà hàng trung quốc mới đó có giao hàng hay không,,,SKIP
+3275,takeaway_query,shibaru sushi có giao hàng không,,,SKIP
+2273,takeaway_query,nhà hàng có giao hàng tận nhà hay không,,,SKIP
+92,takeaway_query,byron có khuyến khích việc bán mang đi hay không,,,SKIP
+1539,takeaway_query,khi nào tôi có thể tới lấy đồ ăn,,,SKIP
+1024,takeaway_query,tôi muốn biết liệu olive garden có bán mang đi hay không,,,SKIP
+3457,takeaway_query,brick grill có giao hàng hay không,,,SKIP
+4124,takeaway_query,địa điểm nào gần đây nhất để mua đồ ăn mang đi,,,SKIP
+2036,takeaway_query,mất bao lâu để tôi nhận đồ ăn của tôi,,,SKIP
+2609,takeaway_query,nên nhớ là tôi đã đặt một cái bánh cho tiệc sinh nhật tối nay làm ơn cho tôi biết tiến độ,,,SKIP
+52,takeaway_query,lựa chọn giao hàng được đáng giá cao nhất cho đồ ăn trung quốc,,,SKIP
+3617,takeaway_query,ở đây có nơi bán mang đi nào hay không,,,SKIP
+4599,takeaway_query,kiểm tra xem nhà hàng này có cho gọi món mang về không,,,SKIP
+1727,takeaway_query,làm bạn có thể cho tôi biết tôi có thể mua mang đi từ nhà hàng george geek hay không,,,SKIP
+2907,takeaway_query,khi nào thì đơn đặt hàng của tôi tại taco bell sẽ được giao,,,SKIP
+133,takeaway_query,khi nào đơn đặt hàng của tôi tới,,,SKIP
+4828,takeaway_query,có nhà hàng nào có thể mang về,,,SKIP
+13325,takeaway_query,cho tôi biết món súp trong ngày của nhà hàng bánh mì panera,,,SKIP
+695,takeaway_query,gọi nhà hàng kiểm tra xem đơn hàng có đang giao hay không,,,SKIP
+2268,takeaway_order,đặt món đậu hủ thường có giá tốt nhất ở nyack,,,SKIP
+200,takeaway_order,tôi có thể đặt mang đi tại nhà hàng tây ban nha hay không,,,SKIP
+2479,takeaway_order,mở thực đơn mang đi,,,SKIP
+3069,takeaway_order,đặt cho tôi một vài món trung quốc,,,SKIP
+1044,takeaway_order,cửa hàng nào gần tôi bán pizza ngon nhất mà có giao hàng,,,SKIP
+2100,takeaway_order,general tsos chicken giá bao nhiêu tại peking garden,,,SKIP
+5595,takeaway_order,mở grubhub,,,SKIP
+307,takeaway_order,alexa tôi muốn ăn sushi bạn có thể đặt bữa trưa dùm tôi hay không,,,SKIP
+231,takeaway_order,bạn có thể vui lòng giúp tôi đặt phở gà từ grabfood,,,SKIP
+3066,takeaway_order,đặt cho tôi một vài cái chipotle,,,SKIP
+4038,takeaway_order,đặt pizza của dominos,,,SKIP
+6256,takeaway_order,chào tôi muốn đặt gà chiên với sốt trắng,,,SKIP
+1232,takeaway_order,gợi ý các quán có đồ ăn ấn độ mang về giá rẻ,,,SKIP
+1231,takeaway_order,bạn có thể chỉ cho tôi quán trung nào có bán mang đi được đáng giá tốt nhất gần đây không,,,SKIP
+3048,takeaway_order,olly phim gì đang chiếu ở rạp carmike,,,SKIP
+5415,takeaway_order,đặt một pizza thường cỡ lớn của mino cho tôi,,,SKIP
+3844,takeaway_order,đặt cho tôi một hộp pizza,,,SKIP
+4866,takeaway_order,gọi cửa hàng pizza gần nhất có buffalo pizza,,,SKIP
+5961,takeaway_order,có món nào ngon giá thấp không,,,SKIP
+1461,takeaway_order,đặt đơn mang đi một bơ gơ phó mát và khoai tây chiên tại burger king,,,SKIP
+4626,takeaway_order,nhà hàng mêhicô nào gần đây có bán mang đi,,,SKIP
+2766,takeaway_order,đặt cho tôi một suất mang về,,,SKIP
+5828,takeaway_order,đặt một đơn hai cái pizza từ dominoes,,,SKIP
+2415,takeaway_order,gọi nhà hàng trung china king,,,SKIP
+3887,takeaway_order,gọi china wok,,,SKIP
+3067,takeaway_order,đặt cho tôi postmates của mcdonald,,,SKIP
+669,takeaway_order,đặt hai cái hăm bơ gơ cho tôi,,,SKIP
+3251,takeaway_order,tôi đói bụng chỉ cho tôi một vài chỗ bán đồ ăn mang đi,,,SKIP
+4340,takeaway_order,cho tôi biết nơi bán đồ ăn trung quốc gần tôi,,,SKIP
+5489,takeaway_order,đặt món trung mang đi,,,SKIP
+12041,recommendation_locations,hỏi một quán rượu trong vùng,,,SKIP
+11992,recommendation_locations,hiện cho tôi các cửa hàng trong vùng,,,SKIP
+11620,recommendation_locations,nhà hàng gần đây cho bữa tối,,,SKIP
+12113,recommendation_locations,bất cứ chợ nông sản với sản phẩm địa phương quanh đây,,,SKIP
+11618,recommendation_locations,kiếm cho tôi một nhà hàng địa phương,,,SKIP
+12361,recommendation_locations,nhà hàng gần đây nhất,,,SKIP
+11673,recommendation_locations,tìm các nhà hàng trong vòng một dặm,,,SKIP
+11709,recommendation_locations,nhà hàng ngon nhất ở địa phương,,,SKIP
+11632,recommendation_locations,vui lòng cho tôi biết địa điểm tôi có thể mua đồ uống gần đây sau nửa đêm,,,SKIP
+11835,recommendation_locations,một vài nhà hàng ngon gần đây là gì,,,SKIP
+11888,recommendation_locations,giới thiệu cho tôi một vài cửa hàng để mua sắm ở hội an,,,SKIP
+12094,recommendation_locations,có nhà hàng nào ở shivaji nagar,,,SKIP
+12049,recommendation_locations,địa điểm tôi có thể mua cái gì đó để ăn ở bảo tàng nghệ thuật là gì,,,SKIP
+11941,recommendation_locations,các nhà hàng mở cửa gần đây,,,SKIP
+11837,recommendation_locations,chỉ tôi vài nhà hàng chay gần đây,,,SKIP
+11779,recommendation_locations,nơi tốt nhất để mua đồ dùng cho bữa tiệc trong thành phố,,,SKIP
+11887,recommendation_locations,nhà hàng cửa hàng tốt nhất xung quanh hội an là gì,,,SKIP
+11777,recommendation_locations,tìm cửa hàng tạp hóa với quầy thức ăn hữu cơ gần tôi,,,SKIP
+11710,recommendation_locations,cửa hàng xe đạp tốt nhất ở địa phương,,,SKIP
+11661,recommendation_locations,olly bạn có thể tìm nhà hàng ngon ở trung tâm thành phố không,,,SKIP
+6471,recommendation_locations,nhà hàng ý ngon nhất quanh đây,,,SKIP
+11750,recommendation_locations,giới thiệu một nhà hàng bít tết địa phương,,,SKIP
+11626,recommendation_locations,thợ máy lành nghề nhất ở đâu trong hà nội,,,SKIP
+11569,recommendation_locations,cho tôi biết các nhà hàng trung quốc trong khu vực,,,SKIP
+11822,recommendation_locations,olly kể tên các cửa hàng có phát nhạc trong vòng bán kính mười lăm ki lô mét,,,SKIP
+11963,recommendation_locations,olly quán bar gần nhất ở đâu,,,SKIP
+11753,recommendation_locations,olly giới thiệu một nhà hàng với chi phí vừa phải,,,SKIP
+11996,recommendation_locations,vui lòng cho tôi biết tất cả các tên cửa hàng trong vòng bán kính hai dặm,,,SKIP
+11799,recommendation_locations,cửa hàng quần áo nào ở đây bạn muốn giờ thiệu,,,SKIP
+12060,recommendation_locations,tôi muốn đi mua sắm giá rẻ có cửa hàng đồng giá nào gần đây không,,,SKIP
+13488,cooking_query,olly tôi có thể dùng đường nâu thay vì đường trắng trong bánh quy bơ đậu phộng được không,,,SKIP
+13479,cooking_query,tôi cần một công thức nấu đùi gà trong nồi áp suất,,,SKIP
+6637,cooking_query,cái gì để nấu bữa trưa,,,SKIP
+14736,cooking_query,đâu là cách nấu gà tây nhanh nhất và ngon nhất,,,SKIP
+10235,cooking_recipe,mở bếp ga điều chỉnh ngọn lửa nấu món ăn rồi cho tất cả nguyên liệu nấu vào nồi áp suất đun chín nguyên liệu giữ nguyên trên bếp đợi nguyên liệu chín.,,,SKIP
+10040,cooking_recipe,công thức làm bánh quy là gì,,,SKIP
+10183,cooking_recipe,bánh cuốn là gì,,,SKIP
+10203,cooking_recipe,các bước tôi cần để làm món tôm rim,,,SKIP
+10083,cooking_recipe,tìm công thức làm bánh sô cô la đức,,,SKIP
+9954,cooking_recipe,nên làm món gà nướng ở nhiệt độ bao nhiêu,,,SKIP
+10212,cooking_recipe,thức ăn ngon,,,SKIP
+10222,cooking_recipe,tờ thông tin này cung cấp những cân nhắc về cách thiết lập cơ sở kinh doanh chế biến thực phẩm của bạn,,,SKIP
+10148,cooking_recipe,tìm công thức được đánh giá cao nhất trên daubepgiadinh.vn cho món trứng xào mướp đắng,,,SKIP
+10113,cooking_recipe,cách bạn làm bánh mì ngon olly,,,SKIP
+10103,cooking_recipe,cho tôi xem một video cách nấu mì ý,,,SKIP
+10108,cooking_recipe,cách nấu trứng ngon là gì,,,SKIP
+9963,cooking_recipe,những điều kỳ lạ mọi người muốn biết,,,SKIP
+10142,cooking_recipe,tìm nhiệt độ chính xác để chiên nguyên con gà tây,,,SKIP
+9988,cooking_recipe,bốc hơi,,,SKIP
+9945,cooking_recipe,tìm công thức phổ biến nhất để làm món bánh cuốn,,,SKIP
+10160,cooking_recipe,cơm chiên dương châu ăn với cái gì,,,SKIP
+10145,cooking_recipe,tìm đúng lượng quế cho món phở bò,,,SKIP
+10111,cooking_recipe,olly làm thế nào để tôi nấu món thịt bằm,,,SKIP
+9997,cooking_recipe,người ta phải làm hỏng cái gì trong kem để làm bơ,,,SKIP
+13765,qa_maths,kết quả của hai nhân hai là gì,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+13334,qa_maths,mười cộng với y.,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+13368,qa_maths,trả lời phương trình tám lần bảy,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+13309,qa_maths,hai nhân bốn ra bao nhiêu,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+13034,qa_maths,hai mươi phần trăm của một trăm năm mươi là bao nhiêu,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+13235,qa_maths,tìm và tổng của mười ba và mười bốn,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+3918,play_music,tôi muốn nghe cái bài hit hay nhất của mỹ tâm,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+3778,play_music,bật spotify danh sách phát blank,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+3687,play_music,tôi muốn nghe một vài nhạc rap ngay bây giờ,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+2138,play_music,chơi nhạc jazz,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+2952,play_music,alexa phát nhạc liên quan đến bài nhạc tôi đã nghe sáng nay,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+4920,play_music,phát bài hát mỹ tâm,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+5075,weather_query,thời tiết tuần này như thế nào,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+5588,weather_query,tôi có cần mũ không,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+4915,weather_query,nhiệt độ ở augusta ga,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+1780,weather_query,tôi hy vọng ở đó thời tiết nắng ấm,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+96,weather_query,trời đang mưa phải không,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+5178,weather_query,kiểm tra xem tôi có cần dù hay không,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+5559,iot_hue_lightoff,tắt đèn bàn trong phòng ngủ,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+5560,iot_hue_lightoff,tắt đèn bàn của tôi,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+1502,iot_hue_lightoff,tắt đèn bên trái,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+1974,iot_hue_lightoff,tắt đèn ga ra,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+1972,iot_hue_lightoff,tắt đèn chính,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+3991,iot_hue_lightoff,bạn có thể tắt các đèn được không,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+12272,transport_ticket,đặt vé tàu hỏa của ngày mai đi hội an trên bất kỳ tàu hỏa nào,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+6453,transport_ticket,các chuyến bay giá rẻ nhất đến thành phố hà nội đến đà lạt,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+12500,transport_ticket,bạn có thể giúp tôi mua một vé tàu cho chuyến đi đến hồ chí minh vào thứ bảy tới không,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+12914,transport_ticket,tôi cần đặt một vé tàu hỏa đi hà nội,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+12762,transport_ticket,vui lòng đặt một vé tàu hỏa tới,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
+12241,transport_ticket,vui lòng tới ticketbox chấm com để mua vé,OUT_OF_SCOPE,OUT_OF_SCOPE,KEEP
