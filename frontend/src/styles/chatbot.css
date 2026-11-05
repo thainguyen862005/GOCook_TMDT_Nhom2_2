@@ -1,0 +1,27 @@
+.gocook-chatbot-root{position:fixed;right:22px;bottom:22px;z-index:30;font-family:var(--font,Arial,sans-serif)}
+.gocook-chatbot-launcher{display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:var(--brand,#376412);color:white;border-radius:50%;padding:0;box-shadow:0 6px 22px #0002;border:3px solid white;cursor:pointer}
+.gocook-chatbot-launcher:hover{background:var(--brand-hover,#294d0c)}
+.gocook-chatbot-panel{position:absolute;right:0;bottom:66px;display:flex;flex-direction:column;width:min(375px,calc(100vw - 24px));max-height:min(600px,calc(100dvh - 110px));background:var(--surface,#fff);border:1px solid var(--line,#ddd);border-radius:20px;box-shadow:0 18px 55px #18290e37;overflow:hidden}
+.gocook-chatbot-header{background:#376412;color:white;padding:12px 15px;display:flex;align-items:center;justify-content:space-between}
+.gocook-chatbot-header strong{display:block;font-size:15px}.gocook-chatbot-header span{display:block;color:#e0f2cf;font-size:11px}
+.gocook-chatbot-header button{background:transparent;color:white;font-size:26px;border:0;line-height:1;cursor:pointer}
+.gocook-chatbot-feed{display:flex;flex-direction:column;gap:10px;padding:14px;overflow-y:auto;min-height:190px;max-height:390px;background:#fbfcf7}
+.gocook-chatbot-line{max-width:93%;padding:10px 12px;border:1px solid #e4eadc;border-radius:14px;background:white;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.gocook-chatbot-line.user{align-self:flex-end;background:#eaf4de;border-color:#cde4b7}
+.gocook-chatbot-line.bot{align-self:flex-start}
+.gocook-chatbot-line p{margin:0;white-space:pre-wrap}
+.gocook-chatbot-card{display:flex;flex-direction:column;gap:3px;background:#f5f8ef;border:1px solid #e0e8d5;border-radius:10px;padding:8px;margin-top:8px}
+.gocook-chatbot-card b{font-size:13px}.gocook-chatbot-card span,.gocook-chatbot-card small{font-size:11px;color:#596150}
+.gocook-chatbot-card a,.gocook-chatbot-help,.gocook-chatbot-line a{color:#315d0e;font-weight:700;text-decoration:underline;font-size:12px}
+.gocook-chatbot-help{display:block;margin-top:8px}
+.gocook-chatbot-busy{margin:0;color:#5b6a52;font-size:12px;font-style:italic}
+.gocook-chatbot-prompts{padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid #edf0e8}
+.gocook-chatbot-prompts button{background:#edf5e7;color:#32551c;border:1px solid #d7e7c6;border-radius:12px;padding:4px 8px;font-size:11px;cursor:pointer}
+.gocook-chatbot-form{display:flex;gap:6px;padding:9px;border-top:1px solid var(--line,#ddd)}
+.gocook-chatbot-form input{flex:1;min-width:0;padding:10px;border:1px solid #d0d9c6;border-radius:12px;background:white}
+.gocook-chatbot-form button{padding:9px 12px;color:white;background:#376412;border-radius:12px;font-weight:700}
+.gocook-chatbot-disclaimer{margin:0;padding:0 10px 8px;font-size:10px;color:#63705b;text-align:center}
+@media(max-width:640px){.gocook-chatbot-root{right:14px;bottom:22px}.gocook-chatbot-panel{bottom:66px;max-height:calc(100dvh - 110px)}}
+
+.gocook-chatbot-launcher .icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.gocook-chatbot-close{font-size:30px;line-height:1}
