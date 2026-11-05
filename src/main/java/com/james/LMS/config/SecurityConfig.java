@@ -90,6 +90,7 @@ public class SecurityConfig implements WebMvcConfigurer {
       "/api/public/chefs/**",
       "/api/public/offers",
       "/api/public/faqs",
+      "/api/public/chatbot/message",
       "/api/public/menus/**",
       "/api/public/featured-menus"
   };
